@@ -1,8 +1,8 @@
+import { Slide } from '@/component-transition/Slide'
 import GithubLoginButton from '@/components/_guest-book/GithubLoginButton'
 import GithubLogoutButton from '@/components/_guest-book/GithubLogoutButton'
 import { createClient as createClientClient } from '@/lib/supabase/client'
 import { createClient as createClientServer } from '@/lib/supabase/server'
-import { Slide } from '@/page-transition/Slide'
 import { redirect } from 'next/navigation'
 
 interface ResGuestBook {

@@ -1,8 +1,8 @@
+import { Slide } from '@/component-transition/Slide'
 import ContentBlogs from '@/page-module/blog/Content.blogs'
 import HeaderBlogs from '@/page-module/blog/Header.blogs'
 import NotfoundBlogs from '@/page-module/blog/Notfound.blogs'
 import TagsBlogs from '@/page-module/blog/Tags.blogs'
-import { Slide } from '@/page-transition/Slide'
 import { allPosts } from 'contentlayer/generated'
 import { Metadata } from 'next'
 
@@ -25,9 +25,9 @@ const Blog = () => {
 
     return (
         <section className="mx-auto mb-10 mt-6 min-h-screen w-full justify-center space-y-8 md:mt-10 lg:max-w-5xl">
-            <Slide>
+            <div>
                 <HeaderBlogs />
-            </Slide>
+            </div>
             <Slide delay={0.1}>
                 <TagsBlogs tags={tags} />
             </Slide>

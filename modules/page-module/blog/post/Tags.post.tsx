@@ -1,6 +1,5 @@
 import { slug } from 'github-slugger'
 import Link from 'next/link'
-import React from 'react'
 
 const TagsPost = ({ tags }: { tags: string[] }) => (
     <ul className="mb-4 flex select-none flex-wrap">

@@ -1,5 +1,4 @@
 import dynamic from 'next/dynamic'
-import React from 'react'
 
 const FormatDate = dynamic(() => import('@/components/_blog/FormatDate'), { ssr: false })
 

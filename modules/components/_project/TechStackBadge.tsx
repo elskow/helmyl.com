@@ -7,7 +7,7 @@ const TechStack = ({ tech, ...props }: { tech: string[] }) => {
                 {processedTech.map((item) => (
                     <span
                         key={item}
-                        className="mb-2 mr-2 rounded bg-gray-200 px-2 py-1 text-sm text-gray-700 transition hover:bg-gray-300 hover:bg-opacity-80 dark:bg-gray-700 dark:text-gray-50 dark:hover:bg-gray-800 dark:hover:bg-opacity-80 select-none"
+                        className="mb-2 mr-2 rounded bg-gray-200 px-2 py-1 text-sm text-gray-700 transition hover:bg-gray-300 hover:bg-opacity-80 dark:bg-gray-700 dark:text-gray-50 dark:hover:bg-gray-800 dark:hover:bg-opacity-80 select-none border border-gray-600 dark:border-gray-100"
                         unselectable="on"
                         draggable="false"
                     >

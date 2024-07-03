@@ -1,8 +1,8 @@
-import { Slide } from '@/page-transition/Slide'
+import { Slide } from '@/component-transition/Slide'
 import { allPosts, Post } from 'contentlayer/generated'
 import { slug } from 'github-slugger'
 import type { Metadata } from 'next'
-import React, { lazy } from 'react'
+import { lazy } from 'react'
 
 const PostCard = lazy(() => import('@/components/_blog/PostCard'))
 

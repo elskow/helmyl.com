@@ -1,4 +1,4 @@
-import { Slide } from '@/page-transition/Slide'
+import { Slide } from '@/component-transition/Slide'
 import Link from 'next/link'
 import SocialMedia from '../../../const/SocialMedias'
 

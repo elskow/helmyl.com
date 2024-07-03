@@ -1,7 +1,7 @@
 'use client'
 
+import { Slide } from '@/component-transition/Slide'
 import getBase64ImageLocal from '@/hook/get-base64-image-local'
-import { Slide } from '@/page-transition/Slide'
 import Image from 'next/image'
 import HelmyAvatar from 'public/helmy-avatar-bw.webp'
 import { useEffect, useState } from 'react'

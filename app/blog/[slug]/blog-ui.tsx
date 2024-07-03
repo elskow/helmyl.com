@@ -1,8 +1,8 @@
 'use client'
 
+import { Slide } from '@/component-transition/Slide'
 import ContentPost from '@/page-module/blog/post/Content.post'
 import HeaderPost from '@/page-module/blog/post/Header.post'
-import { Slide } from '@/page-transition/Slide'
 import { allPosts } from 'contentlayer/generated'
 import { domAnimation, LazyMotion, m, useAnimation, useScroll } from 'framer-motion'
 import { useTheme } from 'next-themes'
