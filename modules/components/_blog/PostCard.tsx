@@ -1,80 +1,53 @@
-'use client'
+"use client"
 
-import FormatDate from '@/components/_blog/FormatDate'
-import { LazyMotion, domAnimation, m, useAnimation, useInView } from 'framer-motion'
+import { motion } from 'framer-motion'
+import { useInView } from 'react-intersection-observer'
 import Link from 'next/link'
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
+import FormatDate from '@/components/_blog/FormatDate'
 
-const PostCard = ({ ...props }) => {
-    const { href, title, summary, date, readingTime, index } = props
+const PostCard = ({ href, title, summary, date, readingTime, index }) => {
+    const { ref, inView } = useInView({
+        triggerOnce: true,
+        threshold: 0.1,
+    });
 
-    const variants = {
-        hidden: { opacity: 0, scale: 0.95, y: 100 },
-        visible: {
-            opacity: 1,
-            scale: 1,
-            y: 0,
-            transition: {
+    return (
+        <motion.div
+            ref={ref}
+            initial={{ opacity: 0, scale: 0.95, y: 100 }}
+            animate={inView ? { opacity: 1, scale: 1, y: 0 } : {}}
+            transition={{
                 type: 'spring',
                 stiffness: 100,
                 damping: 15,
                 delay: 0.2 * index,
                 duration: 1.5,
                 ease: 'easeInOut',
-            },
-        },
-        exit: {
-            opacity: 0,
-            scale: 0.95,
-            y: -100,
-            transition: {
-                type: 'spring',
-                stiffness: 100,
-                damping: 15,
-                duration: 1.5,
-                ease: 'easeInOut',
-            },
-        },
-    }
-
-    const controls = useAnimation()
-    const ref = useRef(null)
-    const isInView = useInView(ref, { once: true })
-
-    useEffect(() => {
-        if (isInView) {
-            controls.start('visible')
-        } else {
-            controls.start('hidden')
-        }
-    }, [isInView, controls])
-
-    return (
-        <LazyMotion features={domAnimation}>
-            <m.div ref={ref} initial="hidden" animate={controls} exit="exit" variants={variants}>
-                <div className="flex w-full flex-col md:flex-row">
-                    <Link
-                        href={href}
-                        className="group flex w-full flex-col"
-                        draggable={false}
-                        unselectable={'on'}
-                        prefetch={false}
-                    >
-                        <m.h1 className="flex cursor-pointer items-center font-newsreader text-lg font-semibold transition-colors duration-300 group-hover:text-slate-900 group-hover:underline dark:group-hover:text-gray-300 lg:text-2xl">
-                            {title}
-                            <span className="text-gray dark:text-slate ml-3 hidden font-sans text-sm font-light sm:inline-block">
-                                ({readingTime})
-                            </span>
-                        </m.h1>
-                        <m.p className="mt-1 hidden text-sm text-primary dark:text-primary md:flex lg:text-base">
-                            {summary}
-                        </m.p>
-                    </Link>
-                    <FormatDate dateString={date} />
-                </div>
-                <m.div className="my-4 border-b border-gray-200 dark:border-gray-700" />
-            </m.div>
-        </LazyMotion>
+            }}
+        >
+            <div className="flex w-full flex-col md:flex-row">
+                <Link
+                    href={href}
+                    className="group flex w-full flex-col"
+                    draggable={false}
+                    unselectable={'on'}
+                    prefetch={false}
+                >
+                    <motion.h1 className="flex cursor-pointer items-center font-newsreader text-lg font-semibold transition-colors duration-300 group-hover:text-slate-900 group-hover:underline dark:group-hover:text-gray-300 lg:text-2xl">
+                        {title}
+                        <span className="text-gray dark:text-slate ml-3 hidden font-sans text-sm font-light sm:inline-block">
+                            ({readingTime})
+                        </span>
+                    </motion.h1>
+                    <motion.p className="mt-1 hidden text-sm text-primary dark:text-primary md:flex lg:text-base">
+                        {summary}
+                    </motion.p>
+                </Link>
+                <FormatDate dateString={date} />
+            </div>
+            <motion.div className="my-4 border-b border-gray-200 dark:border-gray-700" />
+        </motion.div>
     )
 }
 

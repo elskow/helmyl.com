@@ -28,10 +28,10 @@ const Blog = () => {
             <div>
                 <HeaderBlogs />
             </div>
-            <Slide delay={0.1}>
+            <div>
                 <TagsBlogs tags={tags} />
-            </Slide>
-            <Slide delay={0.12}>
+            </div>
+            <Slide delay={0.4}>
                 <ContentBlogs posts={posts} />
             </Slide>
         </section>
