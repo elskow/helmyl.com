@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, useAnimation } from 'framer-motion'
+import { motion, useAnimation, useInView } from 'framer-motion'
 import React, { useEffect, useRef } from 'react'
 
 type SlideProps = {
@@ -12,10 +12,13 @@ type SlideProps = {
 export const Slide = ({ children, className, delay = 0 }: SlideProps) => {
     const ref = useRef(null)
     const controls = useAnimation()
+    const isInView = useInView(ref, { once: true })
 
     useEffect(() => {
-        controls.start('stop')
-    }, [controls])
+        if (isInView) {
+            controls.start('stop')
+        }
+    }, [isInView, controls])
 
     return (
         <motion.div

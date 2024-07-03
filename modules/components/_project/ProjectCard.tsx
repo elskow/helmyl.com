@@ -2,8 +2,9 @@
 
 import ProjectLinkIcon from '@/components/_project/ProjectLinkIcon'
 import TechStack from '@/components/_project/TechStackBadge'
-import { LazyMotion, domAnimation, m } from 'framer-motion'
+import { LazyMotion, domAnimation, m, useAnimation, useInView } from 'framer-motion'
 import Link from 'next/link'
+import React, { useEffect, useRef } from 'react'
 
 const ProjectCard = ({ title, description, href, tech, date, ...props }) => {
     const textVariant = {
@@ -17,16 +18,29 @@ const ProjectCard = ({ title, description, href, tech, date, ...props }) => {
         }),
     }
 
+    const controls = useAnimation()
+    const ref = useRef(null)
+    const isInView = useInView(ref, { once: true })
+
+    useEffect(() => {
+        if (isInView) {
+            controls.start('visible')
+        } else {
+            controls.start('hidden')
+        }
+    }, [isInView, controls])
+
     return (
         <LazyMotion features={domAnimation}>
             <div
                 {...props}
+                ref={ref}
                 className="group relative items-start rounded-lg bg-neutral-200 dark:bg-slate-800 border dark:border-gray-700 border-gray-500 max-h-[30rem] w-full mx-auto max-w-[30rem] transition-all duration-300 ease-in-out hover:shadow-lg flex flex-grow flex-col p-6"
             >
                 <m.p
                     custom={1}
                     initial="hidden"
-                    animate="visible"
+                    animate={controls}
                     variants={textVariant}
                     className="mt-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300"
                 >
@@ -37,14 +51,14 @@ const ProjectCard = ({ title, description, href, tech, date, ...props }) => {
                     aria-label={`Learn more about ${title}`}
                     className="mt-2 text-base font-bold text-zinc-800 dark:text-zinc-50 hover:underline"
                 >
-                    <m.a custom={2} initial="hidden" animate="visible" variants={textVariant}>
+                    <m.a custom={2} initial="hidden" animate={controls} variants={textVariant}>
                         {title}
                     </m.a>
                 </Link>
                 <m.p
                     custom={3}
                     initial="hidden"
-                    animate="visible"
+                    animate={controls}
                     variants={textVariant}
                     className="mt-2 flex-grow text-sm text-zinc-600 dark:text-zinc-300"
                 >

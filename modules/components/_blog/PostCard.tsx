@@ -1,10 +1,11 @@
 'use client'
 
 import FormatDate from '@/components/_blog/FormatDate'
-import { LazyMotion, domAnimation, m } from 'framer-motion'
+import { LazyMotion, domAnimation, m, useAnimation, useInView } from 'framer-motion'
 import Link from 'next/link'
+import React, { useEffect, useRef } from 'react'
 
-const Card = ({ ...props }) => {
+const PostCard = ({ ...props }) => {
     const { href, title, summary, date, readingTime, index } = props
 
     const variants = {
@@ -36,9 +37,21 @@ const Card = ({ ...props }) => {
         },
     }
 
+    const controls = useAnimation()
+    const ref = useRef(null)
+    const isInView = useInView(ref, { once: true })
+
+    useEffect(() => {
+        if (isInView) {
+            controls.start('visible')
+        } else {
+            controls.start('hidden')
+        }
+    }, [isInView, controls])
+
     return (
         <LazyMotion features={domAnimation}>
-            <m.div initial="hidden" animate="visible" exit="exit" variants={variants}>
+            <m.div ref={ref} initial="hidden" animate={controls} exit="exit" variants={variants}>
                 <div className="flex w-full flex-col md:flex-row">
                     <Link
                         href={href}
@@ -65,4 +78,4 @@ const Card = ({ ...props }) => {
     )
 }
 
-export default Card
+export default PostCard

@@ -1,37 +1,42 @@
 'use client'
 
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, motion, useInView } from 'framer-motion'
 import { slug } from 'github-slugger'
 import Link from 'next/link'
+import { useRef } from 'react'
+
+const variants = {
+    hidden: { opacity: 0, x: -10 },
+    visible: (i) => ({
+        opacity: 1,
+        x: 0,
+        transition: {
+            delay: i * 0.1,
+            type: 'linear',
+        },
+    }),
+    moreVisible: {
+        opacity: 1,
+        x: 0,
+        transition: {
+            delay: 0.5,
+            type: 'linear',
+        },
+    },
+}
 
 const TagsBlogs = ({ tags }) => {
-    const variants = {
-        hidden: { opacity: 0, x: -10 },
-        visible: (i) => ({
-            opacity: 1,
-            x: 0,
-            transition: {
-                delay: i * 0.1,
-                type: 'linear',
-            },
-        }),
-        moreVisible: {
-            opacity: 1,
-            x: 0,
-            transition: {
-                delay: 0.5,
-                type: 'linear',
-            },
-        },
-    }
+    const ref = useRef(null)
+    const isInView = useInView(ref, { once: true })
 
     return (
         <AnimatePresence>
             <div
+                ref={ref}
                 className="mb-4 flex select-none flex-wrap border-b border-gray-200 pb-5 dark:border-gray-700"
                 style={{ position: 'relative', overflow: 'clip' }}
             >
-                {tags.slice(0, 2).map((tag, index) => (
+                {isInView && tags.slice(0, 2).map((tag, index) => (
                     <motion.ul
                         key={tag}
                         custom={index}
@@ -51,7 +56,7 @@ const TagsBlogs = ({ tags }) => {
                         </Link>
                     </motion.ul>
                 ))}
-                {tags.length > 2 && (
+                {isInView && tags.length > 2 && (
                     <motion.ul
                         variants={variants}
                         initial="hidden"

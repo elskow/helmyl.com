@@ -1,16 +1,16 @@
-'use client'
+"use client"
 
+import { motion, useAnimation, useInView, AnimatePresence } from 'framer-motion'
+import React, { useEffect, useRef } from 'react'
 import { cn } from '@/lib/utils'
-import { AnimatePresence, motion, Variants } from 'framer-motion'
-import { ReactNode } from 'react'
 
 interface GradualSpacingProps {
     text: string
     duration?: number
     delayMultiple?: number
-    framerProps?: Variants
+    framerProps?: any
     className?: string
-    children?: ReactNode
+    children?: React.ReactNode
 }
 
 export function GradualSpacing({
@@ -22,23 +22,35 @@ export function GradualSpacing({
         visible: { opacity: 1, x: 0 },
     },
     className,
-    children, // Destructure children from props
+    children,
 }: GradualSpacingProps) {
+    const controls = useAnimation()
+    const ref = useRef(null)
+    const isInView = useInView(ref, { once: true })
+
+    useEffect(() => {
+        if (isInView) {
+            controls.start('visible')
+        } else {
+            controls.start('hidden')
+        }
+    }, [isInView, controls])
+
     return (
-        <span className="flex" style={{ position: 'relative', overflow: 'clip' }}>
+        <span ref={ref} className="flex" style={{ position: 'relative', overflow: 'clip' }} suppressHydrationWarning={false}>
             <AnimatePresence>
                 {text.split('').map((char, i) => (
-                    <motion.h1
+                    <motion.span
                         key={i}
                         initial="hidden"
-                        animate="visible"
+                        animate={controls}
                         exit="hidden"
                         variants={framerProps}
                         transition={{ duration, delay: i * delayMultiple }}
                         className={cn('drop-shadow-sm ', className)}
                     >
                         {char === ' ' ? <span>&nbsp;</span> : char}
-                    </motion.h1>
+                    </motion.span>
                 ))}
             </AnimatePresence>
             {children}
