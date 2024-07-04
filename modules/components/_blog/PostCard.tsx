@@ -1,16 +1,15 @@
-"use client"
+'use client'
 
-import { motion } from 'framer-motion'
-import { useInView } from 'react-intersection-observer'
-import Link from 'next/link'
-import React from 'react'
 import FormatDate from '@/components/_blog/FormatDate'
+import { motion } from 'framer-motion'
+import Link from 'next/link'
+import { useInView } from 'react-intersection-observer'
 
 const PostCard = ({ href, title, summary, date, readingTime, index }) => {
     const { ref, inView } = useInView({
         triggerOnce: true,
         threshold: 0.1,
-    });
+    })
 
     return (
         <motion.div
@@ -23,7 +22,7 @@ const PostCard = ({ href, title, summary, date, readingTime, index }) => {
                 damping: 15,
                 delay: 0.2 * index,
                 duration: 1.5,
-                ease: 'easeInOut',
+                ease: [0.17, 0.67, 0.83, 0.67],
             }}
         >
             <div className="flex w-full flex-col md:flex-row">
