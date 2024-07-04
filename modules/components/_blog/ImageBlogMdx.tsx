@@ -1,15 +1,23 @@
 import { LazyMotion, domAnimation, m, useAnimation } from 'framer-motion'
 import Image from 'next/image'
-import { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { FiX, FiZoomIn, FiZoomOut } from 'react-icons/fi'
 
-const Images = ({ src, alt }) => {
+interface ImageProps {
+    src: string
+    alt: string
+}
+
+const Images: React.FC<ImageProps> = ({ src, alt }) => {
     const [isLoaded, setIsLoaded] = useState(false)
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [zoomLevel, setZoomLevel] = useState(1)
+    const [pan, setPan] = useState({ x: 0, y: 0 })
+    const [isDragging, setIsDragging] = useState(false)
+    const [startDragPosition, setStartDragPosition] = useState({ x: 0, y: 0 })
     const controls = useAnimation()
 
-    const srcSet = src.startsWith('/blog') ? src : '/blog/' + src
+    const srcSet = src.startsWith('/blog') ? src : `/blog/${src}`
 
     useEffect(() => {
         if (isLoaded) {
@@ -21,22 +29,20 @@ const Images = ({ src, alt }) => {
         }
     }, [isLoaded, controls])
 
-    const handleImageClick = () => {
-        setIsModalOpen(true)
-    }
+    const handleImageClick = () => setIsModalOpen(true)
 
     const closeModal = useCallback(() => {
         setIsModalOpen(false)
         setZoomLevel(1)
+        setPan({ x: 0, y: 0 })
     }, [])
 
-    const zoomIn = useCallback(() => {
-        setZoomLevel((zoomLevel) => zoomLevel * 1.1)
-    }, [])
+    const zoomIn = useCallback(() => setZoomLevel((zoomLevel) => zoomLevel * 1.1), [])
 
-    const zoomOut = useCallback(() => {
-        setZoomLevel((prevZoomLevel) => Math.max(prevZoomLevel / 1.1, 1))
-    }, [])
+    const zoomOut = useCallback(
+        () => setZoomLevel((prevZoomLevel) => Math.max(prevZoomLevel / 1.1, 1)),
+        []
+    )
 
     const handleClickOutside = useCallback(
         (event) => {
@@ -48,7 +54,7 @@ const Images = ({ src, alt }) => {
     )
 
     useEffect(() => {
-        const handleKeyDown = (event) => {
+        const handleKeyDown = (event: KeyboardEvent) => {
             if (event.key === '+' || event.key === '=') {
                 zoomIn()
             } else if (event.key === '-') {
@@ -60,12 +66,65 @@ const Images = ({ src, alt }) => {
 
         if (isModalOpen) {
             window.addEventListener('keydown', handleKeyDown)
+            document.body.style.overflow = 'hidden'
         }
 
         return () => {
             window.removeEventListener('keydown', handleKeyDown)
+            document.body.style.overflow = 'auto'
         }
     }, [isModalOpen, zoomIn, zoomOut, closeModal])
+
+    const handleMouseDown = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        setIsDragging(true)
+        setStartDragPosition({ x: event.clientX, y: event.clientY })
+    }
+
+    const sensitivityFactor = 0.5
+
+    const handleMouseMove = useCallback(
+        (event: MouseEvent) => {
+            if (isDragging) {
+                const dx = (event.clientX - startDragPosition.x) * sensitivityFactor
+                const dy = (event.clientY - startDragPosition.y) * sensitivityFactor
+                setPan((prevPan) => ({ x: prevPan.x + dx, y: prevPan.y + dy }))
+                setStartDragPosition({ x: event.clientX, y: event.clientY })
+            }
+        },
+        [isDragging, startDragPosition, sensitivityFactor]
+    )
+
+    const handleMouseUp = useCallback(() => {
+        setIsDragging(false)
+    }, [])
+
+    useEffect(() => {
+        if (isDragging) {
+            document.addEventListener('mousemove', handleMouseMove)
+            document.addEventListener('mouseup', handleMouseUp)
+        } else {
+            document.removeEventListener('mousemove', handleMouseMove)
+            document.removeEventListener('mouseup', handleMouseUp)
+        }
+
+        return () => {
+            document.removeEventListener('mousemove', handleMouseMove)
+            document.removeEventListener('mouseup', handleMouseUp)
+        }
+    }, [isDragging, handleMouseMove, handleMouseUp])
+
+    const resetZoomAndPan = useCallback(() => {
+        setZoomLevel(1);
+        setPan({ x: 0, y: 0 });
+    }, []);
+
+    const handleWheel = useCallback((event: React.WheelEvent) => {
+        event.preventDefault();
+        setZoomLevel(zoomLevel => {
+            const newZoomLevel = event.deltaY < 0 ? zoomLevel * 1.1 : zoomLevel / 1.1;
+            return Math.max(newZoomLevel, 1);
+        });
+    }, []);
 
     return (
         <>
@@ -104,6 +163,7 @@ const Images = ({ src, alt }) => {
                     id="modalBackdrop"
                     className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80"
                     onClick={handleClickOutside}
+                    onWheel={handleWheel}
                 >
                     <LazyMotion features={domAnimation}>
                         <m.div
@@ -153,17 +213,27 @@ const Images = ({ src, alt }) => {
                                     />
                                 </button>
                             </div>
-                            <Image
-                                src={srcSet}
-                                alt={alt}
-                                width={1600 * zoomLevel}
-                                height={1600 * zoomLevel}
-                                quality={100}
-                                loading="lazy"
-                                className="object-contain rounded-lg"
-                                style={{ transform: `scale(${zoomLevel})` }}
-                                onClick={(event) => event.stopPropagation()}
-                            />
+                            <div
+                                onMouseDown={handleMouseDown}
+                                onDoubleClick={resetZoomAndPan}
+                                style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
+                            >
+                                <Image
+                                    src={srcSet}
+                                    alt={alt}
+                                    width={1600 * zoomLevel}
+                                    height={1600 * zoomLevel}
+                                    quality={100}
+                                    loading="lazy"
+                                    className="object-contain rounded-lg"
+                                    style={{
+                                        transform: `scale(${zoomLevel}) translate(${pan.x}px, ${pan.y}px)`,
+                                        transition: 'transform',
+                                    }}
+                                    onClick={(event) => event.stopPropagation()}
+                                    draggable={false}
+                                />
+                            </div>
                         </m.div>
                     </LazyMotion>
                 </div>
