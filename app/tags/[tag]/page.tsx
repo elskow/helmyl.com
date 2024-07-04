@@ -21,7 +21,7 @@ const Tag = ({ params }) => {
                 </h1>
             </Slide>
             <Slide delay={0.1}>
-                {filteredPosts.map((post, index) => (
+                {filteredPosts.map((post) => (
                     <ul key={post.slug}>
                         <PostCard
                             readingTime={post.readingTime.text}
@@ -29,7 +29,6 @@ const Tag = ({ params }) => {
                             title={post.title}
                             summary={post.summary}
                             date={post.date}
-                            index={index}
                         />
                     </ul>
                 ))}
