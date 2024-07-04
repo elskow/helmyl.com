@@ -1,4 +1,4 @@
-import { GradualSpacing } from '@/component-transition/GradualSpacing'
+import GradualSpacing from '@/component-transition/GradualSpacing'
 
 const HeaderTags = () => {
     return (

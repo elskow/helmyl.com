@@ -1,4 +1,4 @@
-import { BoxReveal } from '@/component-transition/BoxReveal'
+import BoxReveal from '@/component-transition/BoxReveal'
 import Link from 'next/link'
 import { RxChevronDown } from 'react-icons/rx'
 

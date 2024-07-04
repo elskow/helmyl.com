@@ -1,6 +1,6 @@
 'use client'
 
-import { Slide } from '@/component-transition/Slide'
+import Slide from '@/component-transition/Slide'
 import ContentPost from '@/page-module/blog/post/Content.post'
 import HeaderPost from '@/page-module/blog/post/Header.post'
 import { allPosts } from 'contentlayer/generated'

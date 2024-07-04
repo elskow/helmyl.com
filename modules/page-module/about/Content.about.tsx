@@ -1,4 +1,4 @@
-import { Slide } from '@/component-transition/Slide'
+import Slide from '@/component-transition/Slide'
 import LoadingAnimation from '@/components/LoadingAnimation'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'

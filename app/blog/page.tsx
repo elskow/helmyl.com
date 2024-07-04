@@ -1,4 +1,4 @@
-import { Slide } from '@/component-transition/Slide'
+import Slide from '@/component-transition/Slide'
 import ContentBlogs from '@/page-module/blog/Content.blogs'
 import HeaderBlogs from '@/page-module/blog/Header.blogs'
 import NotfoundBlogs from '@/page-module/blog/Notfound.blogs'

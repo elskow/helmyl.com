@@ -1,4 +1,4 @@
-import { GradualSpacing } from '@/component-transition/GradualSpacing'
+import GradualSpacing from '@/component-transition/GradualSpacing'
 import Link from 'next/link'
 import { HiMiniRss } from 'react-icons/hi2'
 

@@ -4,7 +4,7 @@ import ProjectLinkIcon from '@/components/_project/ProjectLinkIcon'
 import TechStack from '@/components/_project/TechStackBadge'
 import { LazyMotion, domAnimation, m, useAnimation } from 'framer-motion'
 import Link from 'next/link'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 
 const ProjectCard = ({ title, description, href, tech, date, ...props }) => {
     const cardVariant = {
@@ -34,9 +34,7 @@ const ProjectCard = ({ title, description, href, tech, date, ...props }) => {
                 variants={cardVariant}
                 className="group relative items-start rounded-lg bg-neutral-200 dark:bg-slate-800 border dark:border-gray-700 border-gray-500 max-h-[30rem] w-full mx-auto max-w-[30rem] transition-all duration-300 ease-in-out hover:shadow-lg flex flex-grow flex-col p-6"
             >
-                <p
-                    className="mt-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300"
-                >
+                <p className="mt-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300">
                     {date}
                 </p>
                 <Link
@@ -46,9 +44,7 @@ const ProjectCard = ({ title, description, href, tech, date, ...props }) => {
                 >
                     {title}
                 </Link>
-                <p
-                    className="mt-2 flex-grow text-sm text-zinc-600 dark:text-zinc-300"
-                >
+                <p className="mt-2 flex-grow text-sm text-zinc-600 dark:text-zinc-300">
                     {description}
                 </p>
                 <div className="hidden md:flex mt-4 space-x-2">

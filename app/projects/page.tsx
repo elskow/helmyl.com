@@ -1,4 +1,4 @@
-import { Slide } from '@/component-transition/Slide'
+import Slide from '@/component-transition/Slide'
 import ContentProjects from '@/page-module/projects/Content.projects'
 import HeaderProjects from '@/page-module/projects/Header.projects'
 import project from 'content/project.json'

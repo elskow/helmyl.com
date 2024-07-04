@@ -1,6 +1,6 @@
 'use client'
 
-import { Slide } from '@/component-transition/Slide'
+import Slide from '@/component-transition/Slide'
 import getBase64ImageLocal from '@/hook/get-base64-image-local'
 import Image from 'next/image'
 import HelmyAvatar from 'public/helmy-avatar-bw.webp'

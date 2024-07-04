@@ -1,4 +1,4 @@
-import { Slide } from '@/component-transition/Slide'
+import Slide from '@/component-transition/Slide'
 import { allPosts, Post } from 'contentlayer/generated'
 import { slug } from 'github-slugger'
 import type { Metadata } from 'next'

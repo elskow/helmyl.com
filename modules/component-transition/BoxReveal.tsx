@@ -4,14 +4,14 @@ import { motion, useAnimation, useInView } from 'framer-motion'
 import React, { Fragment, useEffect, useRef } from 'react'
 
 interface BoxRevealProps {
-    children: React.JSX.Element | React.JSX.Element[]
+    children: React.ReactNode
     width?: 'fit-content' | '100%'
     boxColor?: string
     duration?: number
     className?: string
 }
 
-export const BoxReveal = ({
+const BoxReveal = ({
     children,
     width = 'fit-content',
     boxColor,
@@ -21,7 +21,7 @@ export const BoxReveal = ({
     const mainControls = useAnimation()
     const slideControls = useAnimation()
 
-    const ref = useRef(null)
+    const ref = useRef<HTMLDivElement>(null)
     const isInView = useInView(ref, { once: true })
 
     useEffect(() => {
@@ -47,7 +47,7 @@ export const BoxReveal = ({
                 }}
                 initial="hidden"
                 animate={mainControls}
-                transition={{ duration: duration ? duration : 0.5, delay: 0.25 }}
+                transition={{ duration: duration ?? 0.5, delay: 0.25 }}
             >
                 <Fragment>{children}</Fragment>
             </motion.div>
@@ -59,7 +59,7 @@ export const BoxReveal = ({
                 }}
                 initial="hidden"
                 animate={slideControls}
-                transition={{ duration: duration ? duration : 0.5, ease: 'easeIn' }}
+                transition={{ duration: duration ?? 0.5, ease: 'easeIn' }}
                 style={{
                     position: 'absolute',
                     top: 4,
@@ -67,9 +67,11 @@ export const BoxReveal = ({
                     left: 0,
                     right: 0,
                     zIndex: 20,
-                    background: boxColor ? boxColor : '#5046e6',
+                    background: boxColor ?? '#5046e6',
                 }}
             />
         </div>
     )
 }
+
+export default BoxReveal

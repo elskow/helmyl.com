@@ -1,16 +1,16 @@
 'use client'
 
 import { motion, useAnimation } from 'framer-motion'
-import React, { useEffect, useRef } from 'react'
+import React, { FC, useEffect, useRef } from 'react'
 
-type SlideProps = {
+interface SlideProps {
     children: React.ReactNode
     className?: string
     delay?: number
 }
 
-export const Slide = ({ children, className, delay = 0 }: SlideProps) => {
-    const ref = useRef(null)
+const Slide: FC<SlideProps> = ({ children, className, delay = 0 }) => {
+    const ref = useRef<HTMLDivElement>(null)
     const controls = useAnimation()
 
     useEffect(() => {
@@ -35,7 +35,7 @@ export const Slide = ({ children, className, delay = 0 }: SlideProps) => {
             transition={{
                 ease: 'easeInOut',
                 duration: 0.2,
-                delay: delay,
+                delay,
                 stiffness: 0.5,
             }}
             animate={controls}
@@ -46,3 +46,5 @@ export const Slide = ({ children, className, delay = 0 }: SlideProps) => {
         </motion.div>
     )
 }
+
+export default Slide

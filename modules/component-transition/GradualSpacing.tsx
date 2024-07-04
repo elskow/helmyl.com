@@ -1,49 +1,61 @@
-"use client"
+'use client'
 
-import React, { useEffect, useRef, useMemo } from 'react'
-import { motion, useAnimation, useInView, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
+import {
+    AnimatePresence,
+    AnimationControls,
+    Variants,
+    motion,
+    useAnimation,
+    useInView,
+} from 'framer-motion'
+import React, { useEffect, useMemo, useRef } from 'react'
 
-interface GradualSpacingProps {
+interface GradualSpacingProps extends React.PropsWithChildren<{}> {
     text: string
     duration?: number
     delayMultiple?: number
-    framerProps?: any
+    framerProps?: Variants
     className?: string
-    children?: React.ReactNode
 }
 
-const CharComponent = React.memo(({ char, index, controls, duration, delayMultiple, framerProps, className }: {
-    char: string,
-    index: number,
-    controls: any,
-    duration: number,
-    delayMultiple: number,
-    framerProps: any,
-    className?: string
-}) => {
-    const transition = useMemo(() => ({
-        duration,
-        delay: index * delayMultiple,
-    }), [index, duration, delayMultiple]);
+interface CharComponentProps extends React.HTMLAttributes<HTMLSpanElement> {
+    char: string
+    index: number
+    controls: AnimationControls
+    duration: number
+    delayMultiple: number
+    framerProps: Variants
+}
 
-    return (
-        <motion.span
-            initial="hidden"
-            animate={controls}
-            exit="hidden"
-            variants={framerProps}
-            transition={transition}
-            className={cn('drop-shadow-sm ', className)}
-        >
-            {char === ' ' ? <span>&nbsp;</span> : char}
-        </motion.span>
-    );
-});
+const CharComponent: React.FC<CharComponentProps> = React.memo(
+    ({ char, index, controls, duration, delayMultiple, framerProps, className }) => {
+        const transition = useMemo(
+            () => ({
+                duration,
+                delay: index * delayMultiple,
+            }),
+            [index, duration, delayMultiple]
+        )
+
+        return (
+            <motion.span
+                initial="hidden"
+                animate={controls}
+                exit="hidden"
+                variants={framerProps}
+                transition={transition}
+                className={cn('drop-shadow-sm', className)}
+            >
+                {char === ' ' ? <span>&nbsp;</span> : char}
+            </motion.span>
+        )
+    }
+)
 
 CharComponent.displayName = 'CharComponent'
 
-export function GradualSpacing({
+const GradualSpacing: React.FC<GradualSpacingProps> = ({
     text,
     duration = 0.5,
     delayMultiple = 0.01,
@@ -53,9 +65,9 @@ export function GradualSpacing({
     },
     className,
     children,
-}: GradualSpacingProps) {
+}) => {
     const controls = useAnimation()
-    const ref = useRef(null)
+    const ref = useRef<HTMLSpanElement>(null)
     const isInView = useInView(ref, { once: true })
 
     useEffect(() => {
@@ -66,25 +78,31 @@ export function GradualSpacing({
         }
     }, [isInView, controls])
 
-    const charComponents = useMemo(() => text.split('').map((char, i) => (
-        <CharComponent
-            key={`${char}-${i}`}
-            char={char}
-            index={i}
-            controls={controls}
-            duration={duration}
-            delayMultiple={delayMultiple}
-            framerProps={framerProps}
-            className={className}
-        />
-    )), [text, controls, duration, delayMultiple, framerProps, className]);
+    const charComponents = useMemo(
+        () =>
+            text
+                .split('')
+                .map((char, i) => (
+                    <CharComponent
+                        key={`${char}-${i}`}
+                        char={char}
+                        index={i}
+                        controls={controls}
+                        duration={duration}
+                        delayMultiple={delayMultiple}
+                        framerProps={framerProps}
+                        className={className}
+                    />
+                )),
+        [text, controls, duration, delayMultiple, framerProps, className]
+    )
 
     return (
-        <span ref={ref} className="flex" style={{ position: 'relative', overflow: 'clip' }} suppressHydrationWarning={false}>
-            <AnimatePresence>
-                {charComponents}
-            </AnimatePresence>
+        <span ref={ref} className="flex" style={{ position: 'relative', overflow: 'clip' }}>
+            <AnimatePresence>{charComponents}</AnimatePresence>
             {children}
         </span>
     )
 }
+
+export default GradualSpacing

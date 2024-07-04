@@ -1,4 +1,4 @@
-import { Slide } from '@/component-transition/Slide'
+import Slide from '@/component-transition/Slide'
 import GithubLoginButton from '@/components/_guest-book/GithubLoginButton'
 import GithubLogoutButton from '@/components/_guest-book/GithubLogoutButton'
 import { createClient as createClientClient } from '@/lib/supabase/client'
