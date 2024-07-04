@@ -8,7 +8,6 @@ const ContentBlogs = ({ posts }) => {
             {posts.map((post) => (
                 <ul key={post.slug} className="mt-4">
                     <PostCard
-                        index={posts.indexOf(post)}
                         readingTime={post.readingTime.text}
                         href={`${post.url}`}
                         title={post.title}
