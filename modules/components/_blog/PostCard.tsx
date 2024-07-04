@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useInView } from 'react-intersection-observer'
 
-const PostCard = ({ href, title, summary, date, readingTime, index }) => {
+const PostCard = ({ href, title, summary, date, readingTime }) => {
     const { ref, inView } = useInView({
         triggerOnce: true,
         threshold: 0.1,
@@ -14,15 +14,10 @@ const PostCard = ({ href, title, summary, date, readingTime, index }) => {
     return (
         <motion.div
             ref={ref}
-            initial={{ opacity: 0, scale: 0.95, y: 100 }}
-            animate={inView ? { opacity: 1, scale: 1, y: 0 } : {}}
+            initial={{ opacity: 0.5 }}
+            animate={inView ? { opacity: 1 } : { opacity: 0.5 }}
             transition={{
-                type: 'spring',
-                stiffness: 100,
-                damping: 15,
-                delay: 0.2 * index,
-                duration: 1.5,
-                ease: [0.17, 0.67, 0.83, 0.67],
+                duration: 0.3,
             }}
         >
             <div className="flex w-full flex-col md:flex-row">
