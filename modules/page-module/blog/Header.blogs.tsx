@@ -6,7 +6,7 @@ const HeaderBlogs = () => {
     return (
         <div className="space-y-3">
             <h1 className="font-newsreader text-4xl font-bold lg:text-5xl">
-                <GradualSpacing text="Blog" duration={0.1}>
+                <GradualSpacing text="Blog" duration={0.2}>
                     <Link
                         href={`/rss.xml`}
                         className="text-base align-top ml-2 text-lime-800 hover:text-lime-500 hover:drop-shadow-lg dark:text-lime-100 dark:hover:text-lime-600 transition-all duration-300"

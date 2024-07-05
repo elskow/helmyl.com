@@ -8,7 +8,7 @@ const projects = project.projects.sort((a, b) => b.date - a.date)
 
 export const metadata: Metadata = {
     title: 'Projects',
-    description: 'A list of all projects I have worked on',
+    description: 'A list of all projects I have worked on.',
 }
 
 const Projects = () => {

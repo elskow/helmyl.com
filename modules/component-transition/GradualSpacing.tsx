@@ -1,53 +1,74 @@
 'use client'
 
-import { cn } from '@/lib/utils'
-import {
-    AnimatePresence,
-    AnimationControls,
-    Variants,
-    motion,
-    useAnimation,
-    useInView,
-} from 'framer-motion'
-import React, { useEffect, useMemo, useRef } from 'react'
+import React, { useEffect } from 'react'
+import { useInView } from 'react-intersection-observer'
+import { useMotionValue, motion } from 'framer-motion'
+
 
 interface GradualSpacingProps extends React.PropsWithChildren<{}> {
     text: string
     duration?: number
     delayMultiple?: number
-    framerProps?: Variants
     className?: string
 }
 
 interface CharComponentProps extends React.HTMLAttributes<HTMLSpanElement> {
     char: string
     index: number
-    controls: AnimationControls
     duration: number
     delayMultiple: number
-    framerProps: Variants
+    className?: string
+    isVisible: boolean
 }
 
 const CharComponent: React.FC<CharComponentProps> = React.memo(
-    ({ char, index, controls, duration, delayMultiple, framerProps, className }) => {
-        const transition = useMemo(
-            () => ({
-                duration,
-                delay: index * delayMultiple,
-            }),
-            [index, duration, delayMultiple]
-        )
+    ({ char, index, duration, delayMultiple, className, isVisible }) => {
+        const opacity = useMotionValue(0)
+
+        useEffect(() => {
+            let animationFrameId: number
+
+            const animate = () => {
+                const delay = index * delayMultiple
+                if (isVisible) {
+                    const startTime = performance.now() + delay * 1000
+                    const animateOpacity = (time: number) => {
+                        const elapsedTime = time - startTime
+                        if (elapsedTime > 0) {
+                            const progress = elapsedTime / (duration * 1000)
+                            opacity.set(Math.min(progress, 1))
+                            if (progress < 1) {
+                                animationFrameId = requestAnimationFrame(animateOpacity)
+                            }
+                        } else {
+                            animationFrameId = requestAnimationFrame(animateOpacity)
+                        }
+                    }
+                    animationFrameId = requestAnimationFrame(animateOpacity)
+                } else {
+                    opacity.set(0)
+                }
+            }
+
+            animate()
+
+            return () => {
+                cancelAnimationFrame(animationFrameId)
+            }
+        }, [isVisible, index, delayMultiple, opacity, duration])
+
+        const content = char === ' ' ? '\u00A0' : char
 
         return (
             <motion.span
-                initial="hidden"
-                animate={controls}
-                exit="hidden"
-                variants={framerProps}
-                transition={transition}
-                className={cn('drop-shadow-sm', className)}
+                style={{ opacity }}
+                className={className}
+                transition={{
+                    duration: duration,
+                    ease: 'easeIn',
+                }}
             >
-                {char === ' ' ? <span>&nbsp;</span> : char}
+                {content}
             </motion.span>
         )
     }
@@ -57,49 +78,34 @@ CharComponent.displayName = 'CharComponent'
 
 const GradualSpacing: React.FC<GradualSpacingProps> = ({
     text,
-    duration = 0.5,
-    delayMultiple = 0.01,
-    framerProps = {
-        hidden: { opacity: 0, x: -20 },
-        visible: { opacity: 1, x: 0 },
-    },
+    duration = 0.3,
+    delayMultiple = 0.005,
     className,
     children,
 }) => {
-    const controls = useAnimation()
-    const ref = useRef<HTMLSpanElement>(null)
-    const isInView = useInView(ref, { once: true })
+    const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 })
 
-    useEffect(() => {
-        if (isInView) {
-            controls.start('visible')
-        } else {
-            controls.start('hidden')
-        }
-    }, [isInView, controls])
-
-    const charComponents = useMemo(
-        () =>
-            text
-                .split('')
-                .map((char, i) => (
-                    <CharComponent
-                        key={`${char}-${i}`}
-                        char={char}
-                        index={i}
-                        controls={controls}
-                        duration={duration}
-                        delayMultiple={delayMultiple}
-                        framerProps={framerProps}
-                        className={className}
-                    />
-                )),
-        [text, controls, duration, delayMultiple, framerProps, className]
-    )
+    const charComponents = text
+        .split('')
+        .map((char, i) => (
+            <CharComponent
+                key={`${char}-${i}`}
+                char={char}
+                index={i}
+                duration={duration}
+                delayMultiple={delayMultiple}
+                className={className}
+                isVisible={inView}
+            />
+        ))
 
     return (
-        <span ref={ref} className="flex" style={{ position: 'relative', overflow: 'clip' }}>
-            <AnimatePresence>{charComponents}</AnimatePresence>
+        <span
+            ref={ref}
+            className={`flex ${className}`}
+            style={{ position: 'relative', overflow: 'clip', userSelect: 'none', MozUserSelect: 'none'}}
+        >
+            {charComponents}
             {children}
         </span>
     )
