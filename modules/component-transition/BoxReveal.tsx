@@ -1,10 +1,7 @@
 'use client'
 
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { motion, useAnimation, useInView } from 'framer-motion'
 import React, { Fragment, useEffect, useRef } from 'react'
-
-gsap.registerPlugin(ScrollTrigger)
 
 interface BoxRevealProps {
     children: React.ReactNode
@@ -18,58 +15,61 @@ const BoxReveal = ({
     children,
     width = 'fit-content',
     boxColor,
-    duration = 0.5,
+    duration,
     className,
 }: BoxRevealProps) => {
-    const boxRef = useRef<HTMLDivElement>(null)
-    const slideRef = useRef<HTMLDivElement>(null)
+    const mainControls = useAnimation()
+    const slideControls = useAnimation()
+
+    const ref = useRef<HTMLDivElement>(null)
+    const isInView = useInView(ref, { once: true })
 
     useEffect(() => {
-        const box = boxRef.current
-        const slide = slideRef.current
-
-        if (box && slide) {
-            gsap.timeline({
-                scrollTrigger: {
-                    trigger: box,
-                    start: 'top center+=100',
-                    toggleActions: 'play none none reverse',
-                },
-            })
-                .fromTo(
-                    box,
-                    { opacity: 0, x: -100 },
-                    { opacity: 1, x: 0, duration: duration, delay: 0.25, ease: 'power1.out' }
-                )
-                .fromTo(
-                    slide,
-                    { left: 0, duration: 0.1 },
-                    { left: '100%', duration: duration, ease: 'easeIn' },
-                    '<'
-                )
+        if (isInView) {
+            slideControls.start('visible')
+            mainControls.start('visible')
+        } else {
+            slideControls.start('hidden')
+            mainControls.start('hidden')
         }
-    }, [duration])
+    }, [isInView, mainControls, slideControls])
 
     return (
         <div
+            ref={ref}
             style={{ position: 'relative', width, overflow: 'clip' }}
             className={className}
         >
-            <div ref={boxRef}>
+            <motion.div
+                variants={{
+                    hidden: { opacity: 0, x: -100 },
+                    visible: { opacity: 1, x: 0 },
+                }}
+                initial="hidden"
+                animate={mainControls}
+                transition={{ duration: duration ?? 0.5, delay: 0.25 }}
+            >
                 <Fragment>{children}</Fragment>
-                <div
-                    ref={slideRef}
-                    style={{
-                        position: 'absolute',
-                        top: 0,
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        zIndex: 20,
-                        background: boxColor ?? '#5046e6',
-                    }}
-                />
-            </div>
+            </motion.div>
+
+            <motion.div
+                variants={{
+                    hidden: { left: 0 },
+                    visible: { left: '100%' },
+                }}
+                initial="hidden"
+                animate={slideControls}
+                transition={{ duration: duration ?? 0.5, ease: 'easeIn' }}
+                style={{
+                    position: 'absolute',
+                    top: 4,
+                    bottom: 4,
+                    left: 0,
+                    right: 0,
+                    zIndex: 20,
+                    background: boxColor ?? '#5046e6',
+                }}
+            />
         </div>
     )
 }

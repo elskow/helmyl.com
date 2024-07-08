@@ -1,25 +1,15 @@
 'use client'
 
-import { useRef, useEffect, useState } from 'react'
-import { gsap } from 'gsap'
 import Skills from 'const/Skills'
 import Link from 'next/link'
+import { useCallback, useEffect, useRef, useState } from 'react'
+
+import { LazyMotion, domAnimation, m } from 'framer-motion'
 
 const Skillset = ({ ...props }) => {
     const scrollRef = useRef<HTMLDivElement>(null)
     const intervalId = useRef<number | null>(null)
     const [hoveredLogo, setHoveredLogo] = useState<number | null>(null)
-
-    const animateLogo = (index: number, enter: boolean) => {
-        const logo = scrollRef.current?.querySelectorAll('.logo-item')[index]
-        if (logo) {
-            if (enter) {
-                gsap.to(logo, { scale: 1.1, color: '#38b2ac', duration: 0.3 })
-            } else {
-                gsap.to(logo, { scale: 1, color: '', duration: 0.3 })
-            }
-        }
-    }
 
     const startScroll = () => {
         if (intervalId.current !== null) {
@@ -47,17 +37,15 @@ const Skillset = ({ ...props }) => {
         return () => stopScroll()
     }, [])
 
-    const handleMouseEnter = (index: number) => {
+    const handleMouseEnter = useCallback((index: number) => {
         stopScroll()
         setHoveredLogo(index)
-        animateLogo(index, true)
-    }
+    }, [])
 
-    const handleMouseLeave = (index: number) => {
+    const handleMouseLeave = useCallback(() => {
         startScroll()
         setHoveredLogo(null)
-        animateLogo(index, false)
-    }
+    }, [])
 
     return (
         <div
@@ -76,15 +64,19 @@ const Skillset = ({ ...props }) => {
                         draggable={false}
                         unselectable={'on'}
                     >
-                        <li
-                            className={`logo-item mx-8 ${
-                                hoveredLogo === index ? 'cursor-pointer text-teal-500' : ''
-                            } ${hoveredLogo !== null && hoveredLogo !== index ? 'opacity-60' : ''}`}
-                            onMouseEnter={() => handleMouseEnter(index)}
-                            onMouseLeave={() => handleMouseLeave(index)}
-                        >
-                            <logo.Icon className="text-4xl md:text-5xl" />
-                        </li>
+                        <LazyMotion features={domAnimation}>
+                            <m.li
+                                className={`mx-8 ${
+                                    hoveredLogo === index ? 'cursor-pointer text-teal-500' : ''
+                                } ${hoveredLogo !== null && hoveredLogo !== index ? 'opacity-60' : ''}`}
+                                onMouseEnter={() => handleMouseEnter(index)}
+                                onMouseLeave={handleMouseLeave}
+                                animate={{ scale: 1 }}
+                                whileHover={{ scale: 1.1, color: '#38b2ac' }}
+                            >
+                                <logo.Icon className="text-4xl md:text-5xl" />
+                            </m.li>
+                        </LazyMotion>
                     </Link>
                 ))}
             </ul>

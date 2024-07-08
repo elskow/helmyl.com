@@ -18,7 +18,7 @@ const HeaderBlogs = () => {
             <p className="lg:text-lg">
                 <GradualSpacing
                     text="I write about software development, productivity, and other topics that interest me."
-                    duration={0.2}
+                    duration={0.5}
                 />
             </p>
         </div>
