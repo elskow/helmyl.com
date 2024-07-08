@@ -1,8 +1,8 @@
 'use client'
 
 import ThemeSwitcher from '@/components/ThemeSwitcher'
-
-import { useScroll } from 'framer-motion'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import dynamic from 'next/dynamic'
 import React, { useEffect } from 'react'
 import menuItems from '../../const/MenuItems'
@@ -16,19 +16,18 @@ import Unmount from '@/components/Unmount'
 type NavbarProps = React.ComponentProps<'div'>
 
 const Navbar = ({ className, ...props }: NavbarProps) => {
-    const { scrollY } = useScroll()
     const [hasScrolled, setHasScrolled] = React.useState(false)
 
     useEffect(() => {
-        const unsubscribe = scrollY.onChange(() => {
-            if (scrollY.get() > 100) {
-                setHasScrolled(true)
-            } else {
-                setHasScrolled(false)
-            }
+        gsap.registerPlugin(ScrollTrigger)
+
+        ScrollTrigger.create({
+            start: 100,
+            onToggle: (self) => setHasScrolled(self.isActive),
         })
-        return () => unsubscribe()
-    }, [scrollY])
+
+        return () => ScrollTrigger.getAll().forEach((trigger) => trigger.kill())
+    }, [])
 
     return (
         <Unmount>

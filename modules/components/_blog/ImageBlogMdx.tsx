@@ -1,7 +1,7 @@
-import { LazyMotion, domAnimation, m, useAnimation } from 'framer-motion'
 import Image from 'next/image'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState, useRef } from 'react'
 import { FiX, FiZoomIn, FiZoomOut } from 'react-icons/fi'
+import { gsap } from 'gsap'
 
 interface ImageProps {
     src: string
@@ -15,19 +15,35 @@ const Images: React.FC<ImageProps> = ({ src, alt }) => {
     const [pan, setPan] = useState({ x: 0, y: 0 })
     const [isDragging, setIsDragging] = useState(false)
     const [startDragPosition, setStartDragPosition] = useState({ x: 0, y: 0 })
-    const controls = useAnimation()
 
     const srcSet = src.startsWith('/blog') ? src : `/blog/${src}`
-
+    
+    const imageRef = useRef<HTMLDivElement>(null)
+    const imageModalRef = useRef<HTMLDivElement>(null)
     useEffect(() => {
         if (isLoaded) {
-            controls.start({
+            gsap.to('.image', {
                 filter: 'blur(0px) grayscale(0%) brightness(100%)',
                 opacity: 1,
-                transition: { duration: 1, ease: 'easeOut' },
+                duration: 1,
+                ease: 'easeOut',
             })
         }
-    }, [isLoaded, controls])
+
+        gsap.fromTo(
+            imageRef.current,
+            { filter: 'blur(10px) grayscale(100%) brightness(50%)', opacity: 0 },
+            { filter: 'blur(0px) grayscale(0%) brightness(100%)', opacity: 1, duration: 1, ease: 'easeOut' }
+        )
+
+        if (isModalOpen) {
+            gsap.fromTo(
+                imageModalRef.current,
+                { opacity: 0 },
+                { opacity: 1, duration: 0.2, ease: 'easeOut' }
+            )
+        }
+    }, [isLoaded, isModalOpen])
 
     const handleImageClick = () => setIsModalOpen(true)
 
@@ -131,13 +147,9 @@ const Images: React.FC<ImageProps> = ({ src, alt }) => {
             <figure className="flex justify-center">
                 <div className="mb:p-5 mb:px-10 relative z-0 w-fit rounded-lg bg-white p-2 dark:bg-slate-900">
                     <div className="flex w-full justify-center">
-                        <LazyMotion features={domAnimation}>
-                            <m.div
-                                animate={controls}
-                                initial={{
-                                    filter: 'blur(10px) grayscale(100%) brightness(50%)',
-                                    opacity: 0,
-                                }}
+                            <div
+                                ref={imageRef}
+                                className="image"
                             >
                                 <Image
                                     src={srcSet}
@@ -150,8 +162,7 @@ const Images: React.FC<ImageProps> = ({ src, alt }) => {
                                     quality={60}
                                     onClick={handleImageClick}
                                 />
-                            </m.div>
-                        </LazyMotion>
+                            </div>
                     </div>
                     <p className="py-5 text-center text-sm text-gray-500 dark:text-gray-400">
                         {alt}
@@ -165,12 +176,8 @@ const Images: React.FC<ImageProps> = ({ src, alt }) => {
                     onClick={handleClickOutside}
                     onWheel={handleWheel}
                 >
-                    <LazyMotion features={domAnimation}>
-                        <m.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 0.5 }}
+                        <div
+                            ref={imageModalRef}
                             className="w-[90vw] h-[90vh] lg:w-[80vh] lg:h-[80vh] flex items-center justify-center relative"
                             onClick={(event) => event.stopPropagation()}
                         >
@@ -234,8 +241,7 @@ const Images: React.FC<ImageProps> = ({ src, alt }) => {
                                     draggable={false}
                                 />
                             </div>
-                        </m.div>
-                    </LazyMotion>
+                        </div>
                 </div>
             )}
         </>

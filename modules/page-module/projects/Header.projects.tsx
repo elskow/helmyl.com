@@ -11,7 +11,7 @@ const HeaderProjects = () => {
                 />
             </h1>
             <p className="lg:text-lg">
-                <GradualSpacing text="A list of all my personal projects." duration={0.5} />
+                <GradualSpacing text="A list of all my personal projects." duration={0.2} />
             </p>
         </div>
     )
