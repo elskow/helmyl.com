@@ -1,8 +1,8 @@
 import Slide from '@/component-transition/Slide'
 import LoadingAnimation from '@/components/LoadingAnimation'
+import Experiences from 'const/Experiences'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
-import Experiences from '../../../const/Experiences'
 
 const Skillset = dynamic(() => import('@/components/_about/Skillset'), {
     ssr: false,
@@ -48,11 +48,14 @@ const ContentAbout = () => {
                                 <u>Universitas Negeri Surabaya</u>
                             </Link>
                             , I am actively seeking full-time remote or hybrid roles in software
-                            engineering or data analysis. My expertise lies in
-                            <b> web development</b> and <b>data-centric</b> technologies, including
-                            Classical Machine Learning, Data Visualization, and Data Streaming.
-                            Being a self-taught developer, I thrive on the thrill of exploring and
-                            mastering new technologies.
+                            engineering or data development. My expertise lies in
+                            <b> web development</b> and <b>data-centric</b> technologies, including{' '}
+                            Classical Machine Learning,{' '}
+                            <span title="I am powerBI certified, btw" className="underline">
+                                Data Visualization
+                            </span>
+                            , and Data Streaming. Being a self-taught developer, I thrive on the
+                            thrill of exploring and mastering new technologies.
                         </p>
                     </Slide>
                     <Slide delay={0.4}>

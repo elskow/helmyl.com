@@ -114,17 +114,17 @@ const Images: React.FC<ImageProps> = ({ src, alt }) => {
     }, [isDragging, handleMouseMove, handleMouseUp])
 
     const resetZoomAndPan = useCallback(() => {
-        setZoomLevel(1);
-        setPan({ x: 0, y: 0 });
-    }, []);
+        setZoomLevel(1)
+        setPan({ x: 0, y: 0 })
+    }, [])
 
     const handleWheel = useCallback((event: React.WheelEvent) => {
-        event.preventDefault();
-        setZoomLevel(zoomLevel => {
-            const newZoomLevel = event.deltaY < 0 ? zoomLevel * 1.1 : zoomLevel / 1.1;
-            return Math.max(newZoomLevel, 1);
-        });
-    }, []);
+        event.preventDefault()
+        setZoomLevel((zoomLevel) => {
+            const newZoomLevel = event.deltaY < 0 ? zoomLevel * 1.1 : zoomLevel / 1.1
+            return Math.max(newZoomLevel, 1)
+        })
+    }, [])
 
     return (
         <>

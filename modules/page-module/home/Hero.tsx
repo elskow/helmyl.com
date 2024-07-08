@@ -20,9 +20,12 @@ const Hero = () => {
             <BoxReveal duration={0.6} boxColor="#0f766e">
                 <p className="mb-6 tracking-tight text-slate-800 dark:text-slate-100 sm:text-xl md:max-w-2xl">
                     I&apos;ve been coding for over{' '}
-                    <span className="underline underline-offset-4">2 years</span>, working on
-                    projects from data science to web development. I&apos;m highly interested in
-                    exploring <b>computational mathematics</b> and <b>backend engineering</b>.
+                    <span className="underline underline-offset-4" title="2022 - now">
+                        {new Date().getFullYear() - 2022} years
+                    </span>
+                    , working on projects from data science to web development. I&apos;m highly
+                    interested in exploring <b>computational mathematics</b> and{' '}
+                    <b>backend engineering</b>.
                 </p>
             </BoxReveal>
             <BoxReveal

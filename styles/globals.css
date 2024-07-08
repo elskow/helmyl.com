@@ -68,12 +68,12 @@
 }
 
 ::-webkit-scrollbar-thumb {
-    background: hsl(var(--accent));
-    border-radius: 10px;
+    background: hsl(var(--accent-foreground) / 0.3);
 }
 
 ::-webkit-scrollbar-thumb:hover {
     background: hsl(var(--accent-foreground));
+    border-radius: 10px;
 }
 
 /***********************

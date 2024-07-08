@@ -1,9 +1,8 @@
 'use client'
 
+import { motion, useMotionValue } from 'framer-motion'
 import React, { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
-import { useMotionValue, motion } from 'framer-motion'
-
 
 interface GradualSpacingProps extends React.PropsWithChildren<{}> {
     text: string
@@ -103,7 +102,12 @@ const GradualSpacing: React.FC<GradualSpacingProps> = ({
         <span
             ref={ref}
             className={`flex ${className}`}
-            style={{ position: 'relative', overflow: 'clip', userSelect: 'none', MozUserSelect: 'none'}}
+            style={{
+                position: 'relative',
+                overflow: 'clip',
+                userSelect: 'none',
+                MozUserSelect: 'none',
+            }}
         >
             {charComponents}
             {children}

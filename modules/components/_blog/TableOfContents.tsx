@@ -5,6 +5,14 @@ export default function Toc({ ...props }) {
     const tocRef = useRef<HTMLDivElement | null>(null)
 
     useEffect(() => {
+        const handleScroll = () => {
+            const activeLink = tocRef.current?.querySelector('.is-active-link')
+            activeLink?.scrollIntoView({
+                behavior: 'instant',
+                block: 'nearest',
+            })
+        }
+
         try {
             tocbot.init({
                 tocSelector: '.js-toc',
@@ -15,20 +23,14 @@ export default function Toc({ ...props }) {
                 hasInnerContainers: true,
             })
 
-            document.addEventListener('scroll', () => {
-                const activeLink = tocRef.current?.querySelector('.is-active-link')
-                activeLink?.scrollIntoView({
-                    behavior: 'instant',
-                    block: 'nearest',
-                })
-            })
+            document.addEventListener('scroll', handleScroll)
         } catch (error) {
             console.error('Failed to initialize tocbot:', error)
         }
 
         return () => {
             tocbot.destroy()
-            document.removeEventListener('scroll', () => {})
+            document.removeEventListener('scroll', handleScroll)
         }
     }, [])
 
