@@ -8,7 +8,6 @@ const ModalImageBlogMdx = ({ srcSet, alt, closeModal, isModalOpen }) => {
     const [zoomLevel, setZoomLevel] = useState(1)
     const [pan, setPan] = useState({ x: 0, y: 0 })
     const [isDragging, setIsDragging] = useState(false)
-    const [touchPoints, setTouchPoints] = useState([])
     const [initialDistance, setInitialDistance] = useState<number | null>(null)
     const [startDragPosition, setStartDragPosition] = useState({ x: 0, y: 0 })
 

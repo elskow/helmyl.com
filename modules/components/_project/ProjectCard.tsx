@@ -50,13 +50,15 @@ const ProjectCard = ({ title, description, href, tech, date, ...props }) => {
                 <div className="hidden md:flex mt-4 space-x-2">
                     {tech && <TechStack tech={tech} />}
                 </div>
-                <Link
-                    href={href}
-                    aria-label="Project link"
-                    className="mt-6 flex items-center text-sm font-medium text-zinc-800 dark:text-zinc-50 hover:text-zinc-600"
-                >
-                    <ProjectLinkIcon />
-                </Link>
+                <div className="mt-6 w-full flex justify-end">
+                    <Link
+                        href={href}
+                        aria-label="Project link"
+                        className="flex items-center text-sm font-medium text-zinc-800 dark:text-zinc-50 hover:text-emerald-600 dark:hover:text-emerald-200 transition-colors duration-300 ease-in-out"
+                    >
+                        <ProjectLinkIcon />
+                    </Link>
+                </div>
             </m.div>
         </LazyMotion>
     )
