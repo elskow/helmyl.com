@@ -8,7 +8,6 @@ const ModalImageBlogMdx = ({ srcSet, alt, closeModal, isModalOpen }) => {
     const [zoomLevel, setZoomLevel] = useState(1)
     const [pan, setPan] = useState({ x: 0, y: 0 })
     const [isDragging, setIsDragging] = useState(false)
-    const [initialDistance, setInitialDistance] = useState<number | null>(null)
     const [startDragPosition, setStartDragPosition] = useState({ x: 0, y: 0 })
 
     const zoomIn = useCallback(() => setZoomLevel((zoomLevel) => Math.min(zoomLevel * 1.1, 10)), [])
@@ -85,36 +84,6 @@ const ModalImageBlogMdx = ({ srcSet, alt, closeModal, isModalOpen }) => {
         },
         [isDragging, startDragPosition, sensitivityFactor]
     )
-
-    const handleTouchMove = useCallback(
-        (event: React.TouchEvent<HTMLDivElement>) => {
-            if (event.touches.length === 2 && initialDistance !== null) {
-                const point1 = { x: event.touches[0].pageX, y: event.touches[0].pageY }
-                const point2 = { x: event.touches[1].pageX, y: event.touches[1].pageY }
-                const distance = Math.sqrt(
-                    Math.pow(point2.x - point1.x, 2) + Math.pow(point2.y - point1.y, 2)
-                )
-
-                if (distance > initialDistance) {
-                    zoomIn()
-                } else {
-                    zoomOut()
-                }
-            }
-        },
-        [initialDistance, zoomIn, zoomOut]
-    )
-
-    const handleTouchStart = useCallback((event: React.TouchEvent<HTMLDivElement>) => {
-        if (event.touches.length === 2) {
-            const point1 = { x: event.touches[0].pageX, y: event.touches[0].pageY }
-            const point2 = { x: event.touches[1].pageX, y: event.touches[1].pageY }
-            const distance = Math.sqrt(
-                Math.pow(point2.x - point1.x, 2) + Math.pow(point2.y - point1.y, 2)
-            )
-            setInitialDistance(distance)
-        }
-    }, [])
 
     const handleMouseUp = useCallback(() => {
         setIsDragging(false)
@@ -222,8 +191,6 @@ const ModalImageBlogMdx = ({ srcSet, alt, closeModal, isModalOpen }) => {
                     <div
                         onMouseDown={handleMouseDown}
                         onDoubleClick={resetZoomAndPan}
-                        onTouchMove={handleTouchMove}
-                        onTouchStart={handleTouchStart}
                         style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
                     >
                         <Image
