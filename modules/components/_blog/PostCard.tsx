@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 
 const PostCard = ({ index, href, title, summary, date, readingTime }) => {
-    const delay = index * 0.3
+    const delay = index * 0.1
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
