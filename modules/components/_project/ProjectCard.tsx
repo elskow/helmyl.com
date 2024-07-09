@@ -41,6 +41,7 @@ const ProjectCard = ({ title, description, href, tech, date, ...props }) => {
                     href={href}
                     aria-label={`Learn more about ${title}`}
                     className="mt-2 text-base font-bold text-zinc-800 dark:text-zinc-50 hover:underline"
+                    prefetch={false}
                 >
                     {title}
                 </Link>
@@ -55,6 +56,7 @@ const ProjectCard = ({ title, description, href, tech, date, ...props }) => {
                         href={href}
                         aria-label="Project link"
                         className="flex items-center text-sm font-medium text-zinc-800 dark:text-zinc-50 hover:text-emerald-600 dark:hover:text-emerald-200 transition-colors duration-300 ease-in-out"
+                        prefetch={false}
                     >
                         <ProjectLinkIcon />
                     </Link>

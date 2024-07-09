@@ -42,6 +42,7 @@ export default async function SpotifyNowPlaying({ ...props }) {
                         <Link
                             href={currentSong.is_playing ? currentSong.url : lastPlayed.url}
                             passHref
+                            prefetch={false}
                         >
                             <Image
                                 src={currentSong.is_playing ? currentSong.image : lastPlayed.image}

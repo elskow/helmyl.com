@@ -58,6 +58,7 @@ const TagsBlogs = ({ tags }) => {
                                 href={`/tags/${slug(tag)}`}
                                 draggable={false}
                                 unselectable={'on'}
+                                prefetch={false}
                             >
                                 {slug(tag)}
                             </Link>
@@ -70,7 +71,7 @@ const TagsBlogs = ({ tags }) => {
                         animate="moreVisible"
                         className="mb-2 mr-2 rounded bg-green-900 px-1 py-1 text-xs font-medium capitalize text-green-50 transition-all duration-300  dark:bg-gray-300 dark:text-gray-900"
                     >
-                        <Link href="/tags" draggable={false} unselectable={'on'}>
+                        <Link href="/tags" draggable={false} unselectable={'on'} prefetch={false}>
                             +{tags.length - 2} more
                         </Link>
                     </motion.ul>

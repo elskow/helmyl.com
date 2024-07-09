@@ -1,4 +1,3 @@
-import Slide from '@/component-transition/Slide'
 import ContentBlogs from '@/page-module/blog/Content.blogs'
 import HeaderBlogs from '@/page-module/blog/Header.blogs'
 import NotfoundBlogs from '@/page-module/blog/Notfound.blogs'
@@ -31,9 +30,9 @@ const Blog = () => {
             <div>
                 <TagsBlogs tags={tags} />
             </div>
-            <Slide delay={0.4}>
+            <div>
                 <ContentBlogs posts={posts} />
-            </Slide>
+            </div>
         </section>
     )
 }

@@ -10,6 +10,7 @@ const HeaderBlogs = () => {
                     <Link
                         href={`/rss.xml`}
                         className="text-base align-top ml-2 text-lime-800 hover:text-lime-500 hover:drop-shadow-lg dark:text-lime-100 dark:hover:text-lime-600 transition-all duration-300"
+                        prefetch={false}
                     >
                         <HiMiniRss className={`inline`} />
                     </Link>

@@ -9,6 +9,7 @@ interface GradualSpacingProps extends React.PropsWithChildren<{}> {
     duration?: number
     delayMultiple?: number
     className?: string
+    tag?: keyof React.ReactHTML
 }
 
 interface CharComponentProps extends React.HTMLAttributes<HTMLSpanElement> {
@@ -18,10 +19,11 @@ interface CharComponentProps extends React.HTMLAttributes<HTMLSpanElement> {
     delayMultiple: number
     className?: string
     isVisible: boolean
+    tag?: keyof React.ReactHTML
 }
 
 const CharComponent: React.FC<CharComponentProps> = React.memo(
-    ({ char, index, duration, delayMultiple, className, isVisible }) => {
+    ({ char, index, duration, delayMultiple, className, isVisible, tag = 'span' }) => {
         const opacity = useMotionValue(0)
 
         useEffect(() => {
@@ -58,17 +60,17 @@ const CharComponent: React.FC<CharComponentProps> = React.memo(
 
         const content = char === ' ' ? '\u00A0' : char
 
-        return (
-            <motion.span
-                style={{ opacity }}
-                className={className}
-                transition={{
+        return React.createElement(
+            motion[tag],
+            {
+                style: { opacity },
+                className,
+                transition: {
                     duration: duration,
                     ease: 'easeIn',
-                }}
-            >
-                {content}
-            </motion.span>
+                },
+            },
+            content
         )
     }
 )
@@ -81,6 +83,7 @@ const GradualSpacing: React.FC<GradualSpacingProps> = ({
     delayMultiple = 0.005,
     className,
     children,
+    tag = 'span',
 }) => {
     const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 })
 
@@ -95,23 +98,24 @@ const GradualSpacing: React.FC<GradualSpacingProps> = ({
                 delayMultiple={delayMultiple}
                 className={className}
                 isVisible={inView}
+                tag={tag}
             />
         ))
 
     return (
-        <span
+        <div
             ref={ref}
-            className={`flex ${className}`}
+            className={`inline-flex flex-wrap ${className}`}
             style={{
                 position: 'relative',
-                overflow: 'clip',
+                overflow: 'hidden',
                 userSelect: 'none',
                 MozUserSelect: 'none',
             }}
         >
             {charComponents}
             {children}
-        </span>
+        </div>
     )
 }
 

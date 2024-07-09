@@ -63,6 +63,7 @@ const Skillset = ({ ...props }) => {
                         rel="noopener noreferrer"
                         draggable={false}
                         unselectable={'on'}
+                        prefetch={false}
                     >
                         <LazyMotion features={domAnimation}>
                             <m.li

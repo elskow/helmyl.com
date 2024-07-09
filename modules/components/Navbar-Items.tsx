@@ -17,6 +17,7 @@ const MainHighlightNavbar = () => {
                 className="flex items-center lg:text-lg"
                 draggable={false}
                 unselectable={'on'}
+                prefetch={false}
             >
                 <h1
                     className={`item-menu-hover hidden sm:flex ${pathname === '/' ? 'font-bold' : ''}`}
@@ -35,6 +36,7 @@ const MainHighlightNavbar = () => {
                         className={`item-menu-hover ${
                             pathname.startsWith(item.href) ? 'font-bold' : ''
                         }`}
+                        prefetch={false}
                     >
                         {item.name}
                     </Link>
@@ -52,6 +54,7 @@ const SpecialSectionNavbar = () => {
             className={`hidden sm:flex ${pathname.startsWith('/guest-book') ? 'font-bold' : ''}`}
             draggable={false}
             unselectable={'on'}
+            prefetch={false}
         >
             <Tooltip tooltipText="Guest Book" position={'bottom'}>
                 <HiOutlineChatAlt2 className="self-center mr-2" />

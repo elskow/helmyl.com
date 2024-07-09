@@ -44,6 +44,7 @@ const ContentAbout = () => {
                                 target="_blank"
                                 draggable={false}
                                 unselectable={'on'}
+                                prefetch={false}
                             >
                                 <u>Universitas Negeri Surabaya</u>
                             </Link>

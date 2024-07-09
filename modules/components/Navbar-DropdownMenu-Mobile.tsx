@@ -102,8 +102,8 @@ const MobileNavbarDropdownMenu = ({ menuItems }: { menuItems: typeof typeMenuIte
                                             href="/guest-book"
                                             draggable={false}
                                             unselectable={'on'}
-                                            prefetch={false}
                                             className="block py-2 focus:outline-none"
+                                            prefetch={false}
                                         >
                                             <m.span whileTap={{ opacity: 0.5, scale: 0.95 }}>
                                                 Guest Book

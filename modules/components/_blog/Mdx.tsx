@@ -9,7 +9,7 @@ const CustomLink = (props: any) => {
 
     if (href.startsWith('/')) {
         return (
-            <Link href={href} {...props} draggable={false} unselectable={'on'}>
+            <Link href={href} {...props} draggable={false} unselectable={'on'} prefetch={false}>
                 {props.children}
             </Link>
         )

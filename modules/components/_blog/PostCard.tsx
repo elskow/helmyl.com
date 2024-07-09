@@ -3,21 +3,16 @@
 import FormatDate from '@/components/_blog/FormatDate'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { useInView } from 'react-intersection-observer'
 
-const PostCard = ({ href, title, summary, date, readingTime }) => {
-    const { ref, inView } = useInView({
-        triggerOnce: true,
-        threshold: 0.1,
-    })
-
+const PostCard = ({ index, href, title, summary, date, readingTime }) => {
+    const delay = index * 0.3
     return (
         <motion.div
-            ref={ref}
-            initial={{ opacity: 0.5 }}
-            animate={inView ? { opacity: 1 } : { opacity: 0.5 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{
-                duration: 0.3,
+                duration: 0.2,
+                delay: delay,
             }}
         >
             <div className="flex w-full flex-col md:flex-row">

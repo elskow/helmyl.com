@@ -17,6 +17,7 @@ const TagsPost = ({ tags }: { tags: string[] }) => (
                     href={`/tags/${slug(tag)}`}
                     unselectable={'on'}
                     draggable={'false'}
+                    prefetch={false}
                 >
                     {slug(tag)}
                 </Link>

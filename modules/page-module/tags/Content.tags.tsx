@@ -14,6 +14,7 @@ const ContentTags = ({ tags }) => {
                         href={`/tags/${slug(tag)}`}
                         draggable={false}
                         unselectable={'on'}
+                        prefetch={false}
                     >
                         {slug(tag)}
                     </Link>

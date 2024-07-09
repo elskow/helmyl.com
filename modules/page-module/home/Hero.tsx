@@ -38,6 +38,7 @@ const Hero = () => {
                     href="/about"
                     draggable={false}
                     unselectable={'on'}
+                    prefetch={false}
                 >
                     Learn More <RxChevronDown className={`ml-1`} />
                 </Link>
@@ -47,6 +48,7 @@ const Hero = () => {
                     draggable={false}
                     unselectable={'on'}
                     title={'Explore my projects'}
+                    prefetch={false}
                 >
                     Explore My Work <RxChevronDown className={`ml-1`} />
                 </Link>

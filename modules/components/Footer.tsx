@@ -22,6 +22,7 @@ const Footer = ({ ...props }) => {
                                 draggable={false}
                                 unselectable={'on'}
                                 title={'Learn more about me'}
+                                prefetch={false}
                             >
                                 About
                             </Link>
@@ -31,6 +32,7 @@ const Footer = ({ ...props }) => {
                                 draggable={false}
                                 unselectable={'on'}
                                 title={'Read my blog'}
+                                prefetch={false}
                             >
                                 Blog
                             </Link>
@@ -40,6 +42,7 @@ const Footer = ({ ...props }) => {
                                 draggable={false}
                                 unselectable={'on'}
                                 title={'Explore my projects'}
+                                prefetch={false}
                             >
                                 Projects
                             </Link>
@@ -53,6 +56,7 @@ const Footer = ({ ...props }) => {
                                 draggable={false}
                                 unselectable={'on'}
                                 suppressHydrationWarning
+                                prefetch={false}
                             >
                                 <Tooltip tooltipText="The source were open-sourced on GitHub">
                                     Helmy LuqmanulHakim
