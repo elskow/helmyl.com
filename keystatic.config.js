@@ -12,6 +12,9 @@ const remoteCnf = {
     repo: 'elskow/helmyl.com',
 }
 
+/**
+ * @type {import('@keystatic/core').KeystaticConfig}
+ * */
 export default config({
     storage: {
         ...(isProd ? remoteCnf : localCnf),
@@ -100,14 +103,7 @@ export default config({
                                     itemLabel: (props) => props.value,
                                 }
                             ),
-                            image: fields.image({
-                                label: 'Image',
-                                directory: 'public',
-                                publicPath: '/',
-                                description: 'The image of the project',
-                                validation: { isRequired: true },
-                            }),
-                            date: fields.integer({
+                            date: fields.date({
                                 label: 'Date',
                                 description: 'The date of the project',
                                 validation: { isRequired: true },

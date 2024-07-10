@@ -1,7 +1,6 @@
 'use client'
 
 import ProjectLinkIcon from '@/components/_project/ProjectLinkIcon'
-import TechStack from '@/components/_project/TechStackBadge'
 import { LazyMotion, domAnimation, m, useAnimation } from 'framer-motion'
 import Link from 'next/link'
 import { useEffect } from 'react'
@@ -48,9 +47,9 @@ const ProjectCard = ({ title, description, href, tech, date, ...props }) => {
                 <p className="mt-2 flex-grow text-sm text-zinc-600 dark:text-zinc-300">
                     {description}
                 </p>
-                <div className="hidden md:flex mt-4 space-x-2">
+                {/* <div className="hidden md:flex mt-4 space-x-2">
                     {tech && <TechStack tech={tech} />}
-                </div>
+                </div> */}
                 <div className="mt-6 w-full flex justify-end">
                     <Link
                         href={href}

@@ -4,7 +4,12 @@ import HeaderProjects from '@/page-module/projects/Header.projects'
 import project from 'content/project.json'
 import { Metadata } from 'next'
 
-const projects = project.projects.sort((a, b) => b.date - a.date)
+const projects = project.projects
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .map((project) => ({
+        ...project,
+        date: new Date(project.date).getFullYear(),
+    }))
 
 export const metadata: Metadata = {
     title: 'Projects',

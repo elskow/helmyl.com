@@ -1,28 +1,36 @@
 {
   "projects": [
     {
-      "name": "Code Plagiarism Detector",
-      "description": "Backend service for detecting code plagiarism. The service uses a combination of lexical and semantic analysis to detect similarities between code snippets.",
-      "link": "https://github.com/elskow/cpp-plagiarism-detector",
+      "name": "Puskesmas Satisfaction Analysis",
+      "description": "Analyze the citizen satisfaction of each puskesmas in Surabaya, based on Google Maps Review.",
+      "link": "https://github.com/elskow/PuskesmasSbyAnalysis",
       "stacks": [
-        "Pygments",
-        "NLTK",
-        "FastAPI"
+        "Selenium (python)",
+        "Bi-LSTM + Attention",
+        "Tableau"
       ],
-      "image": "/projects/Code Plagiarism Detector/image.png",
-      "date": 2023
+      "date": "2024-07-01"
     },
     {
-      "name": "OCR for Plate Numbers",
-      "description": "Training a model to recognize plate numbers from images. The model is trained using TROCR and be managed using ML-Ops tools such as Weights & Biases (Wandb).",
-      "link": "https://github.com/elskow/satria_data",
+      "name": "Http Server from Scratch",
+      "description": "Golang net/http like api, build from scratch, for codecrafters.io challenge.",
+      "link": "https://github.com/elskow/NetHttp",
       "stacks": [
-        "TROCR",
-        "OpenCV",
-        "Wandb"
+        "Go"
       ],
-      "image": "/projects/OCR for Plate Numbers/image.png",
-      "date": 2023
+      "date": "2024-07-06"
+    },
+    {
+      "name": "Microservices for Bank Loan Use Cases",
+      "description": "This project explores the microservices architecture for Account, Card, and Loan services. It is part of a self-paced learning module focused on understanding microservices principles.",
+      "link": "https://github.com/elskow/learn-microservice-k8s",
+      "stacks": [
+        "Java Springboot",
+        "Docker",
+        "Kubernetes",
+        "Helm"
+      ],
+      "date": "2024-05-10"
     },
     {
       "name": "Helmyl.com",
@@ -35,8 +43,52 @@
         "Hyper & Remark",
         "Umami-Analytics"
       ],
-      "image": "/projects/Helmyl.com/image.png",
-      "date": 2024
+      "date": "2024-01-01"
+    },
+    {
+      "name": "Multilang Paraphrasing SaaS",
+      "description": "Simple and easy to use tool for paraphasing text. It uses LLM to generate paraphrases of the input text. The tool is built using NextJs and FastAPI based on T5 model.",
+      "link": "https://github.com/elskow/MultiLang-SaaS-Paraphrasing-Tool",
+      "stacks": [
+        "Next.Js",
+        "FastAPI",
+        "Transformers"
+      ],
+      "date": "2024-04-10"
+    },
+    {
+      "name": "BFS Maze Solver",
+      "description": "A maze solver using Breadth-First Search (BFS) algorithm. The solver is implemented in Python and uses PyQT5 for visualization.",
+      "link": "https://github.com/elskow/BFSMazeSolver",
+      "stacks": [
+        "OpenCV",
+        "PyQT5"
+      ],
+      "date": "2023-12-10"
+    },
+    {
+      "name": "Code Plagiarism Detector",
+      "description": "Backend service for detecting code plagiarism. The service uses a combination of lexical and semantic analysis to detect similarities between code snippets.",
+      "link": "https://github.com/elskow/cpp-plagiarism-detector",
+      "stacks": [
+        "Pygments",
+        "NLTK",
+        "FastAPI",
+        "Lexical Analysis"
+      ],
+      "date": "2023-12-01"
+    },
+    {
+      "name": "PinjamLab",
+      "description": "A simple web app for borrowing and lending lab equipment. The app is built using Next.Js and TRPC for the backend.",
+      "link": "https://github.com/elskow/PinjamLab",
+      "stacks": [
+        "Next.Js",
+        "Tailwind CSS",
+        "TRPC",
+        "Prisma"
+      ],
+      "date": "2023-12-01"
     },
     {
       "name": "Digit Recognizer from Scratch",
@@ -46,10 +98,10 @@
         "Flask",
         "Pytorch",
         "Next.js",
-        "Tailwind CSS"
+        "Tailwind CSS",
+        "Convolutional Neural Network"
       ],
-      "image": "/projects/Digit Recognizer from Scratch/image.png",
-      "date": 2023
+      "date": "2023-10-01"
     },
     {
       "name": "Nesa-Judge",
@@ -60,32 +112,18 @@
         "Docker",
         "MariaDB"
       ],
-      "image": "/projects/Nesa-Judge/image.png",
-      "date": 2023
+      "date": "2023-08-01"
     },
     {
-      "name": "BFS Maze Solver",
-      "description": "A maze solver using Breadth-First Search (BFS) algorithm. The solver is implemented in Python and uses PyQT5 for visualization.",
-      "link": "https://github.com/elskow/BFSMazeSolver",
+      "name": "OCR for Plate Numbers",
+      "description": "Training a model to recognize plate numbers from images. The model is trained using TROCR and be managed using ML-Ops tools such as Weights & Biases (Wandb).",
+      "link": "https://github.com/elskow/satria_data",
       "stacks": [
+        "TROCR",
         "OpenCV",
-        "PyQT5"
+        "Wandb"
       ],
-      "image": "/projects/BFS Maze Solver/image.png",
-      "date": 2023
-    },
-    {
-      "name": "PinjamLab",
-      "description": "A simple web app for borrowing and lending lab equipment. The app is built using Next.Js and TRPC for the backend.",
-      "link": "https://pinjamlab.vercel.app/",
-      "stacks": [
-        "Next.Js",
-        "Tailwind CSS",
-        "TRPC",
-        "Prisma"
-      ],
-      "image": "/projects/PinjamLab/image.png",
-      "date": 2023
+      "date": "2023-07-01"
     }
   ]
 }

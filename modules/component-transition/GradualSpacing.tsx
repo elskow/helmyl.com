@@ -103,7 +103,7 @@ const GradualSpacing: React.FC<GradualSpacingProps> = ({
         ))
 
     return (
-        <div
+        <span
             ref={ref}
             className={`inline-flex flex-wrap ${className}`}
             style={{
@@ -115,7 +115,7 @@ const GradualSpacing: React.FC<GradualSpacingProps> = ({
         >
             {charComponents}
             {children}
-        </div>
+        </span>
     )
 }
 
