@@ -103,6 +103,12 @@ export default config({
                                     itemLabel: (props) => props.value,
                                 }
                             ),
+                            image: fields.image({
+                                label: 'Image',
+                                directory: 'public',
+                                publicPath: '/',
+                                description: 'The image of the project',
+                            }),
                             date: fields.date({
                                 label: 'Date',
                                 description: 'The date of the project',

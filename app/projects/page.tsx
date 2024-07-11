@@ -8,7 +8,10 @@ const projects = project.projects
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .map((project) => ({
         ...project,
-        date: new Date(project.date).getFullYear(),
+        date: new Date(project.date).toLocaleDateString('default', {
+            year: 'numeric',
+            month: 'long',
+        }),
     }))
 
 export const metadata: Metadata = {

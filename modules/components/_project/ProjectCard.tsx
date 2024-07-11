@@ -1,11 +1,11 @@
 'use client'
 
-import ProjectLinkIcon from '@/components/_project/ProjectLinkIcon'
 import { LazyMotion, domAnimation, m, useAnimation } from 'framer-motion'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect } from 'react'
 
-const ProjectCard = ({ title, description, href, tech, date, ...props }) => {
+const ProjectCard = ({ title, description, href, image, tech, date, ...props }) => {
     const cardVariant = {
         hidden: { scale: 0.95, opacity: 0 },
         visible: {
@@ -27,39 +27,44 @@ const ProjectCard = ({ title, description, href, tech, date, ...props }) => {
     return (
         <LazyMotion features={domAnimation}>
             <m.div
-                {...props}
                 initial="hidden"
                 animate={controls}
                 variants={cardVariant}
-                className="group relative items-start rounded-lg bg-neutral-200 dark:bg-slate-800 border dark:border-gray-700 border-gray-500 max-h-[30rem] w-full mx-auto max-w-[30rem] transition-all duration-300 ease-in-out hover:shadow-lg flex flex-grow flex-col p-6"
+                className="overflow-hidden border border-neutral-500/50 dark:border-neutral-200/10 rounded-sm shadow-sm rounded-t-lg"
             >
-                <p className="mt-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300">
-                    {date}
-                </p>
-                <Link
-                    href={href}
-                    aria-label={`Learn more about ${title}`}
-                    className="mt-2 text-base font-bold text-zinc-800 dark:text-zinc-50 hover:underline"
-                    prefetch={false}
-                >
-                    {title}
+                <Link href={href}>
+                    <figure className="group relative aspect-video rounded-t-lg overflow-hidden">
+                        <Image
+                            alt={title}
+                            loading="lazy"
+                            className="object-cover object-center grayscale-[60%] transition-all duration-500 group-hover:grayscale-0"
+                            sizes="100%"
+                            src={image || 'https://via.placeholder.com/800x450'}
+                            layout="fill"
+                        />
+                        <div className="absolute inset-0 grid place-items-center bg-gradient-to-t from-neutral-900/80 via-neutral-600/50 via-60% to-neutral-200/20 transition-opacity duration-500 group-hover:opacity-0">
+                            <p className="text-center text-base md:text-lg font-semibold font-code px-2 py-1 text-white stroke-2">
+                                {title}
+                            </p>
+                        </div>
+                    </figure>
+                    <div className="p-4">
+                        <p className="text-sm text-neutral-500 dark:text-neutral-400">{date}</p>
+                        <p className="line-clamp-3 text-sm mb-2 text-neutral-800 dark:text-neutral-200">
+                            {description}
+                        </p>
+                        <div className="flex flex-wrap gap-2 pt-2 justify-end pb-2">
+                            {tech.map((tech) => (
+                                <span
+                                    key={tech}
+                                    className="text-xs px-2 py-1 bg-neutral-100/50 dark:bg-emerald-100/10 rounded-sm"
+                                >
+                                    {tech}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
                 </Link>
-                <p className="mt-2 flex-grow text-sm text-zinc-600 dark:text-zinc-300">
-                    {description}
-                </p>
-                {/* <div className="hidden md:flex mt-4 space-x-2">
-                    {tech && <TechStack tech={tech} />}
-                </div> */}
-                <div className="mt-6 w-full flex justify-end">
-                    <Link
-                        href={href}
-                        aria-label="Project link"
-                        className="flex items-center text-sm font-medium text-zinc-800 dark:text-zinc-50 hover:text-emerald-600 dark:hover:text-emerald-200 transition-colors duration-300 ease-in-out"
-                        prefetch={false}
-                    >
-                        <ProjectLinkIcon />
-                    </Link>
-                </div>
             </m.div>
         </LazyMotion>
     )

@@ -9,6 +9,7 @@
         "Bi-LSTM + Attention",
         "Tableau"
       ],
+      "image": "/projects/Puskesmas Satisfaction Analysis/image.png",
       "date": "2024-07-01"
     },
     {
@@ -18,6 +19,7 @@
       "stacks": [
         "Go"
       ],
+      "image": "/projects/Http Server from Scratch/image.png",
       "date": "2024-07-06"
     },
     {
@@ -43,6 +45,7 @@
         "Hyper & Remark",
         "Umami-Analytics"
       ],
+      "image": "/projects/Helmyl.com/image.png",
       "date": "2024-01-01"
     },
     {
@@ -64,6 +67,7 @@
         "OpenCV",
         "PyQT5"
       ],
+      "image": "/projects/BFS Maze Solver/image.png",
       "date": "2023-12-10"
     },
     {
@@ -76,6 +80,7 @@
         "FastAPI",
         "Lexical Analysis"
       ],
+      "image": "/projects/Code Plagiarism Detector/image.png",
       "date": "2023-12-01"
     },
     {
@@ -88,6 +93,7 @@
         "TRPC",
         "Prisma"
       ],
+      "image": "/projects/PinjamLab/image.png",
       "date": "2023-12-01"
     },
     {
@@ -101,6 +107,7 @@
         "Tailwind CSS",
         "Convolutional Neural Network"
       ],
+      "image": "/projects/Digit Recognizer from Scratch/image.png",
       "date": "2023-10-01"
     },
     {
@@ -112,6 +119,7 @@
         "Docker",
         "MariaDB"
       ],
+      "image": "/projects/Nesa-Judge/image.png",
       "date": "2023-08-01"
     },
     {
@@ -123,6 +131,7 @@
         "OpenCV",
         "Wandb"
       ],
+      "image": "/projects/OCR for Plate Numbers/image.png",
       "date": "2023-07-01"
     }
   ]

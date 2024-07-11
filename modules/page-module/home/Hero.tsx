@@ -34,13 +34,14 @@ const Hero = () => {
                 boxColor="#0f766e"
             >
                 <Link
-                    className="inline-flex items-center rounded-md font-semibold hover:font-bold hover:underline transition-all duration-300"
+                    className="inline-flex items-center rounded-md font-semibold hover:font-bold hover:underline transition-all duration-300 pr-3"
                     href="/about"
                     draggable={false}
                     unselectable={'on'}
                     prefetch={false}
                 >
-                    Learn More <RxChevronDown className={`ml-1`} />
+                    Learn More
+                    <RxChevronDown className={`ml-1`} />
                 </Link>
                 <Link
                     className="mt-2 inline-flex items-center rounded-md font-semibold hover:font-bold hover:underline sm:mt-0 sm:pl-4 transition-all duration-300"
@@ -50,7 +51,8 @@ const Hero = () => {
                     title={'Explore my projects'}
                     prefetch={false}
                 >
-                    Explore My Work <RxChevronDown className={`ml-1`} />
+                    Explore My Work
+                    <RxChevronDown className={`ml-1`} />
                 </Link>
             </BoxReveal>
         </section>
