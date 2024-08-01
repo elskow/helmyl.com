@@ -4,7 +4,6 @@ import 'styles/prism.css'
 import { assistant, jetBrainsMono, newsreader } from '@/lib/fonts'
 import { Providers } from './providers'
 
-import FakeTechnologies from '@/components/FakeTechnologies'
 import Footer from '@/components/Footer'
 import Navbar from '@/components/Navbar'
 import type { Metadata } from 'next'
@@ -42,7 +41,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 async
             />
             <body suppressHydrationWarning={true}>
-                <FakeTechnologies />
+                {/*<FakeTechnologies />*/}
                 <Providers>
                     <div className="min-h-screen bg-neutral-200 px-4 sm:px-8 lg:py-2 justify-between flex flex-col dark:bg-slate-800">
                         <Navbar

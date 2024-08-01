@@ -1,6 +1,6 @@
 'use client'
 
-import { LazyMotion, domAnimation, m, useAnimation } from 'framer-motion'
+import { domAnimation, LazyMotion, m, useAnimation } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect } from 'react'
@@ -30,7 +30,7 @@ const ProjectCard = ({ title, description, href, image, tech, date, ...props }) 
                 initial="hidden"
                 animate={controls}
                 variants={cardVariant}
-                className="overflow-hidden border border-neutral-500/50 dark:border-neutral-200/10 rounded-sm shadow-sm rounded-t-lg"
+                className="overflow-hidden border-2 border-neutral-500/50 dark:border-neutral-200/10 rounded-sm shadow-sm rounded-t-lg"
             >
                 <Link href={href}>
                     <figure className="group relative aspect-video rounded-t-lg overflow-hidden">
@@ -42,8 +42,9 @@ const ProjectCard = ({ title, description, href, image, tech, date, ...props }) 
                             src={image || 'https://via.placeholder.com/800x450'}
                             layout="fill"
                         />
-                        <div className="absolute inset-0 grid place-items-center bg-gradient-to-t from-neutral-900/80 via-neutral-600/50 via-60% to-neutral-200/20 transition-opacity duration-500 group-hover:opacity-0">
-                            <p className="text-center text-base md:text-lg font-semibold font-code px-2 py-1 text-white stroke-2">
+                        <div
+                            className="absolute inset-0 grid place-items-center bg-gradient-to-t from-yellow-900/20 via-emerald-600/5 via-60% to-neutral-200/20 transition-opacity duration-500 group-hover:opacity-0">
+                            <p className="text-center text-base font-semibold px-2 py-1 text-emerald-900 stroke-2 bg-invert">
                                 {title}
                             </p>
                         </div>

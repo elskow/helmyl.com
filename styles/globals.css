@@ -128,3 +128,10 @@
     width: 100%;
     transition: width 0.3s ease-in-out;
 }
+
+.bg-invert {
+    background-color: black;
+    color: white;
+    background-blend-mode: difference;
+    opacity: 0.5;
+}

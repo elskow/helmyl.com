@@ -1,7 +1,14 @@
 import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa'
 import { MdOutlineAttachEmail } from 'react-icons/md'
 
-const socialMedias = [
+type SocialMedia = {
+    name: string
+    href: string
+    icon: React.FC
+    text: string
+}
+
+const socialMedias: SocialMedia[] = [
     {
         name: 'LinkedIn',
         href: 'https://www.linkedin.com/in/helmyluqman/',

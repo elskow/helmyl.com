@@ -111,6 +111,18 @@
       "date": "2023-10-01"
     },
     {
+      "name": "OCR for Plate Numbers",
+      "description": "Training a model to recognize plate numbers from images. The model is trained using TROCR and be managed using ML-Ops tools such as Weights & Biases (Wandb).",
+      "link": "https://github.com/elskow/satria_data",
+      "stacks": [
+        "TROCR",
+        "OpenCV",
+        "Wandb"
+      ],
+      "image": "/projects/OCR for Plate Numbers/image.png",
+      "date": "2023-07-01"
+    },
+    {
       "name": "Nesa-Judge",
       "description": "Online Judge system for basic programming assignments, built on top of DOMjudge. The system is containerized using Docker.",
       "link": "https://hub.docker.com/r/elskow/domserver-rpl",
@@ -123,16 +135,26 @@
       "date": "2023-08-01"
     },
     {
-      "name": "OCR for Plate Numbers",
-      "description": "Training a model to recognize plate numbers from images. The model is trained using TROCR and be managed using ML-Ops tools such as Weights & Biases (Wandb).",
-      "link": "https://github.com/elskow/satria_data",
+      "name": "Chronodir",
+      "description": "Simple cross-compiled CLI tool that creates directories with timestamp prefixes.",
+      "link": "https://github.com/elskow/Chronodir",
       "stacks": [
-        "TROCR",
-        "OpenCV",
-        "Wandb"
+        "C",
+        "Cmake"
       ],
-      "image": "/projects/OCR for Plate Numbers/image.png",
-      "date": "2023-07-01"
+      "image": "/projects/Chronodir/image.png",
+      "date": "2024-07-21"
+    },
+    {
+      "name": "Cryptarithm Solver",
+      "description": "a lightweight solver for cryptarithm puzzle that running fully on client.",
+      "link": "https://cryptarithm.helmyl.com/",
+      "stacks": [
+        "Svelte",
+        "Tailwind CSS"
+      ],
+      "image": "/projects/Cryptarithm Solver/image.png",
+      "date": "2024-07-25"
     }
   ]
 }
