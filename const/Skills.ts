@@ -15,7 +15,7 @@ import {
 } from 'react-icons/si'
 
 type Skill = {
-    Icon: React.FC
+    Icon: React.ElementType
     link: string
     text: string
 }

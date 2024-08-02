@@ -17,6 +17,7 @@ const SocialAbout = () => {
                             prefetch={false}
                         >
                             <item.icon
+                                // @ts-ignore
                                 className="h-5 w-5 flex-none fill-zinc-800 transition group-hover:fill-teal-500 dark:fill-zinc-200 dark:group-hover:fill-teal-500 lg:h-6 lg:w-6"
                                 aria-hidden="true"
                             />
