@@ -27,40 +27,46 @@
 	const roman: string = romanYear(year);
 </script>
 
-<footer class="flex py-4 text-center sm:mt-10 mt-5">
-	<div class="w-7/12 mx-auto font-semibold">
-		<div class="text-sm mb-10">
+<footer class="max-w-4xl mx-auto md:p-8 p-4">
+	<div
+		class={`flex flex-col items-center justify-between gap-6 pt-6`}
+	>
+		<div class="flex gap-6 text-xs sm:text-sm font-medium text-zinc-800">
 			<a
-				class="sm:mx-4 mb-1 sm:inline block hover:opacity-70 hover:cursor-alias"
+				class="transition-all duration-300 hover:font-bold hover:text-gray-400"
 				href="https://github.com/elskow"
-				rel="noopener noreferrer"
-				target="_blank"
+				draggable={false}
+				title={'Follow me on GitHub'}
 			>
 				GitHub
 			</a>
 			<a
-				class="sm:mx-4 mb-1 sm:inline block hover:opacity-70 hover:cursor-alias"
+				class="transition-all duration-300 hover:font-bold hover:text-gray-400"
 				href="https://linkedin.com/in/helmyluqman"
-				rel="noopener noreferrer"
-				target="_blank"
+				draggable={false}
+				title={'Connect with me on LinkedIn'}
 			>
 				LinkedIn
 			</a>
 			<a
-				class="sm:mx-4 mb-1 sm:inline block hover:opacity-70 hover:cursor-alias"
+				class="transition-all duration-300 hover:font-bold hover:text-gray-400"
 				href="https://twitter.com/helmy_lh"
-				rel="noopener noreferrer"
-				target="_blank"
+				draggable={false}
+				title={'Follow me on Twitter'}
 			>
 				Twitter
 			</a>
 		</div>
-
-		<div class="text-sm font-normal text-neutral-400">
-			<p>
-				© {roman}
-				helmyl
-			</p>
-		</div>
+		<p class="text-xs text-zinc-600 md:text-sm">
+			© {roman}
+			<a
+				href="https://github.com/elskow/helmyl.com"
+				class="transition-all duration-300-all duration-300 hover:text-gray-400 hover:underline"
+				target="_blank"
+				draggable={false}
+			>
+					Helmy Luqmanulhakim
+			</a>
+		</p>
 	</div>
 </footer>

@@ -45,7 +45,8 @@
 				{#each technologies as { name, icons: Icon, link }}
 					<a href={link} target="_blank"
 						 class="flex items-center space-x-2 group hover:text-blue-600 transition-colors duration:200 ease-in-out cursor-alias sm:py-4"
-						 aria-label={name} rel="noopener noreferrer" title={name}>
+						 aria-label={name} rel="noopener noreferrer" title={name}
+						 draggable="false">
 						<Icon class="w-6 h-6 grayscale filter group-hover:grayscale-0" />
 						<span class="block">
               {name}
@@ -70,8 +71,8 @@
 			</h2>
 			<div class="mt-4">
 				{#each limitedPosts as post}
-					<article class="py-4 border-b border-gray-200">
-						<h3 class="text-lg font-medium text-gray-800">
+					<article class="text-sm sm:text-base py-4 border-b border-gray-200">
+						<h3 class="font-medium text-gray-800">
 							<a href={`/writings/${post.slug}`} class="hover:text-blue-600 transition-colors duration-200 ease-in-out">
 								{post.title}
 							</a>

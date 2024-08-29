@@ -3,6 +3,8 @@ node_modules
 # Output
 .output
 .vercel
+.content-collections
+.idea
 /.svelte-kit
 /build
 
