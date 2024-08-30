@@ -4,11 +4,27 @@ import rehypeExpressiveCode from 'rehype-expressive-code';
 import rehypeKatex from 'rehype-katex';
 import remarkGfm from 'remark-gfm';
 import readingTime from 'reading-time';
-import rehypeImgSize from 'rehype-img-size';
 import rehypePresetMinify from 'rehype-preset-minify';
+import type { Pluggable } from 'unified';
 
 const rehypeExpressiveCodeOptions = {
 	themes: ['dracula', 'catppuccin-latte']
+};
+
+type Options = {
+	allowDangerousHtml?: boolean;
+	remarkPlugins?: Pluggable[];
+	rehypePlugins?: Pluggable[];
+};
+
+const markdownOptions: Options = {
+	rehypePlugins: [
+		[rehypeKatex, { output: 'html' }],
+		[rehypeExpressiveCode, rehypeExpressiveCodeOptions],
+		rehypePresetMinify
+	],
+	remarkPlugins: [remarkGfm],
+	allowDangerousHtml: true
 };
 
 const posts = defineCollection({
@@ -20,16 +36,7 @@ const posts = defineCollection({
 		date: z.string()
 	}),
 	transform: async (document, context) => {
-		const html = await compileMarkdown(context, document, {
-			rehypePlugins: [
-				[rehypeKatex, { output: 'mathml' }],
-				[rehypeExpressiveCode, rehypeExpressiveCodeOptions],
-				[rehypeImgSize, { dir: 'contents/posts/' }],
-				rehypePresetMinify
-			],
-			remarkPlugins: [remarkGfm],
-			allowDangerousHtml: true
-		});
+		const html = await compileMarkdown(context, document, markdownOptions);
 
 		return {
 			...document,
@@ -40,6 +47,21 @@ const posts = defineCollection({
 	}
 });
 
+const uses = defineCollection({
+	name: 'uses',
+	directory: 'contents/',
+	schema: () => ({}),
+	include: 'uses.md',
+	transform: async (document, context) => {
+		const html = await compileMarkdown(context, document, markdownOptions);
+
+		return {
+			...document,
+			html: html.replace(/\/static/g, '')
+		};
+	}
+});
+
 export default defineConfig({
-	collections: [posts]
+	collections: [posts, uses]
 });

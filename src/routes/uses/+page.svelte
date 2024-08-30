@@ -1,6 +1,45 @@
-<div class="container mx-auto px-4 sm:px-6 lg:px-8">
-	<p class="text-center text-2xl font-semibold mt-10">
-		Coming soon...
-	</p>
-</div>
+<script>
+	import { allUses } from 'content-collections';
+	import Footer from '$lib/components/Footer.svelte';
 
+	const use = allUses[0];
+
+	function getBreadcrumbs() {
+		if (typeof window === 'undefined') return [];
+		const path = window.location.pathname;
+		const segments = path.split('/').filter(Boolean);
+		return segments.map((segment, index) => {
+			const url = '/' + segments.slice(0, index + 1).join('/');
+			return { name: segment, url, isCurrent: index === segments.length - 1 };
+		});
+	}
+</script>
+
+<main class="max-w-4xl mx-auto md:p-8 p-4 mt-4">
+	<nav class="text-gray-600 font-medium text-xs sm:text-sm line-clamp-1 pr-4">
+		<a class="hover:text-gray-500 hover:underline cursor-pointer"
+			 href="/" title="home">home</a>
+		<span class="mx-0.5 sm:mx-1">/</span>
+		{#each getBreadcrumbs() as breadcrumb, index}
+			{#if !breadcrumb.isCurrent}
+				<a href={breadcrumb.url} class="hover:text-gray-500 hover:underline cursor-pointer"
+					 title={breadcrumb.url}>
+					{breadcrumb.name}
+				</a>
+			{:else}
+				<span>{breadcrumb.name}</span>
+			{/if}
+			{#if index < getBreadcrumbs().length - 1}
+				<span class="mx-1">/</span>
+			{/if}
+		{/each}
+	</nav>
+	<article class="pt-8 space-y-4 text-sm sm:text-base">
+		<div
+			class="prose prose-base space-y-5 md:space-y-8 prose-h1:prose-base prose-h2:prose-base prose-h3:prose-base prose-h4:prose-base prose-h5:prose-base prose-h6:prose-base prose-lg:prose-base prose-xl:prose-base prose-headings:prose-base min-w-full pr-2 text-gray-600 pt-4 pb-8">
+			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+			{@html use.html}
+		</div>
+	</article>
+</main>
+<Footer />
