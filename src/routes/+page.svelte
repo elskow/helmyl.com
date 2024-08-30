@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { fly } from 'svelte/transition';
 	import SelfDescription from '$lib/components/SelfDescription.svelte';
 	import { allPosts } from 'content-collections';
 	import { technologies } from '$lib/technologies';
@@ -20,11 +21,11 @@
 		<header class="sm:flex sm:justify-between items-center pt-8">
 			<h1 class="text-lg sm:text-2xl font-semibold text-gray-800">Helmy Luqmanulhakim</h1>
 			<nav class="space-x-4 pt-8 sm:pt-0">
-				<a class="text-blue-600 font-medium hover:underline" href="/writings">Writings</a>
-				<a class="text-blue-600 font-medium hover:underline" href="/uses">Uses</a>
+				<a class="text-blue-600 font-medium hover:underline text-sm sm:text-base" href="/writings">Writings</a>
+				<a class="text-blue-600 font-medium hover:underline text-sm sm:text-base" href="/uses">Uses</a>
 			</nav>
 		</header>
-		<article class="pt-10 text-lg text-gray-600 space-y-4">
+		<article class="pt-10 text-sm sm:text-base text-gray-600 space-y-4">
 			<p>
 				Welcome to my personal corner of the web. Here, I share my journey and insights from my
 				experiences in software development and data development.
@@ -35,7 +36,7 @@
 			</p>
 		</article>
 		<section class="pt-10 relative">
-			<h2 class="text-lg sm:text-xl font-medium text-gray-800 no-gradient">
+			<h2 class="text-base sm:text-lg font-medium text-gray-800 no-gradient">
 				Technologies that I use :
 			</h2>
 			<div class="gradient-overlay-left sm:hidden" />
@@ -48,7 +49,7 @@
 						 aria-label={name} rel="noopener noreferrer" title={name}
 						 draggable="false">
 						<Icon class="w-6 h-6 grayscale filter group-hover:grayscale-0" />
-						<span class="block">
+						<span class="block text-xs sm:text-sm">
               {name}
             </span>
 					</a>
@@ -56,7 +57,7 @@
 			</div>
 		</section>
 		<section>
-			<h2 class="text-lg sm:text-xl font-medium text-gray-800 pt-10 no-gradient">
+			<h2 class="text-base sm:text-lg font-medium text-gray-800 pt-10 no-gradient">
 				Some Stuff That I've Built
 			</h2>
 			<div class="mt-4 sm:grid-cols-3 grid gap-2 grid-cols-2">
@@ -66,20 +67,26 @@
 			</div>
 		</section>
 		<section>
-			<h2 class="text-lg sm:text-xl font-medium text-gray-800 pt-10 no-gradient">
+			<h2 class="text-base sm:text-lg font-medium text-gray-800 pt-10 no-gradient">
 				Recent Writings
 			</h2>
 			<div class="mt-4">
 				{#each limitedPosts as post}
 					<article class="text-sm sm:text-base py-4 border-b border-gray-200">
 						<h3 class="font-medium text-gray-800">
-							<a href={`/writings/${post.slug}`} class="hover:text-blue-600 transition-colors duration-200 ease-in-out">
+							<a href={`/writings/${post.slug}`} class="hover:text-blue-600 transition-colors duration-200 ease-in-out"
+								 in:fly={{ y: 20, duration: 500 }} out:fly={{ y: -20, duration: 500 }}>
 								{post.title}
 							</a>
 						</h3>
-						<p class="text-gray-600 mt-2">
-							{post.date}
-						</p>
+						<div class="flex items-center justify-between text-sm ">
+							<p class="text-gray-400 mt-2">
+								{post.date}
+							</p>
+							<p class="text-gray-400 mt-2">
+								{post.readTime}
+							</p>
+						</div>
 					</article>
 				{/each}
 			</div>
