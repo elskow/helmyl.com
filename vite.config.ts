@@ -1,8 +1,8 @@
 import { sveltekit } from '@sveltejs/kit/vite';
+import utwm from 'unplugin-tailwindcss-mangle/vite';
 import { defineConfig } from 'vite';
 import Icons from 'unplugin-icons/vite';
 import contentCollections from '@content-collections/vite';
-
 
 export default defineConfig({
 	plugins: [
@@ -11,6 +11,7 @@ export default defineConfig({
 		Icons({
 			compiler: 'svelte',
 			autoInstall: true
-		})
+		}),
+		utwm({})
 	]
 });
