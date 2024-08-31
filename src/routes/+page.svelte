@@ -1,14 +1,16 @@
 <script lang="ts">
 	import { blur } from 'svelte/transition';
 	import SelfDescription from '$lib/components/SelfDescription.svelte';
-	import { allPosts } from 'content-collections';
 	import { technologies } from '$lib/technologies';
 	import { projects } from '$lib/projects';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 
 	const limitedProjects = projects.slice(0, 6);
-	const limitedPosts = allPosts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, 3);
+
+	/** @type {import('./$types').PageData} */
+	export let data;
+	const posts = data.posts;
 	const qualities = ['secure', 'scalable', 'fast', 'reliable'];
 </script>
 
@@ -74,7 +76,7 @@
 				Recent Writings
 			</h2>
 			<div class="mt-4">
-				{#each limitedPosts as post}
+				{#each posts as post}
 					<article class="text-sm sm:text-base py-4 border-b border-gray-200">
 						<h3 class="font-medium text-gray-800">
 							<a href={`/writings/${post.slug}`} class="hover:text-blue-600 transition-colors duration-200 ease-in-out"
