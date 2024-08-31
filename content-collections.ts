@@ -62,14 +62,22 @@ const posts = defineCollection({
 			return new Date().toISOString();
 		});
 
-		const html = await compileMarkdown(context, data, markdownOptions);
+		let html = await compileMarkdown(context, data, markdownOptions);
+
+		html = html.replace(/\/static/g, '');
+		if (`${process.env.NODE_ENV}` === 'production') {
+			html = html
+				.replace(/.jpg/g, '.jpg.avif')
+				.replace(/.png/g, '.png.avif')
+				.replace(/.jpeg/g, '.jpeg.avif');
+		}
 
 		return {
 			...data,
 			slug: data.title.toLowerCase().replace(/ /g, '-'),
 			readTime: readingTime(data.content).text,
 			lastModified,
-			html: html.replace(/\/static/g, '')
+			html: html
 		};
 	}
 });
@@ -97,12 +105,20 @@ const uses = defineCollection({
 			return new Date().toISOString();
 		});
 
-		const html = await compileMarkdown(context, data, markdownOptions);
+		let html = await compileMarkdown(context, data, markdownOptions);
+
+		html = html.replace(/\/static/g, '');
+		if (`${process.env.NODE_ENV}` === 'production') {
+			html = html
+				.replace(/.jpg/g, '.jpg.avif')
+				.replace(/.png/g, '.png.avif')
+				.replace(/.jpeg/g, '.jpeg.avif');
+		}
 
 		return {
 			...data,
 			lastModified,
-			html: html.replace(/\/static/g, '')
+			html: html
 		};
 	}
 });
