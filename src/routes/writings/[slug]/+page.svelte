@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { fly } from 'svelte/transition';
+	import { blur } from 'svelte/transition';
 	import Footer from '$lib/components/Footer.svelte';
 	import { getBreadcrumbs } from '$lib/utils/breadcrumbs';
 
@@ -12,7 +12,7 @@
 	<title>{post.title}</title>
 </svelte:head>
 
-<main class="max-w-4xl mx-auto md:p-8 p-4 mt-4" in:fly={{ duration: 300 }} out:fly={{ duration: 300 }}>
+<main class="max-w-4xl mx-auto md:p-8 p-4 mt-4" in:blur={{ duration: 500 }} out:blur={{ duration: 500 }}>
 	<nav class="text-gray-600 font-medium text-sm line-clamp-1 pr-4">
 		<a class="hover:text-gray-500 hover:underline cursor-pointer"
 			 href="/" title="home">home</a>

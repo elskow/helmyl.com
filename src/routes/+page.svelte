@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { fly } from 'svelte/transition';
+	import { blur } from 'svelte/transition';
 	import SelfDescription from '$lib/components/SelfDescription.svelte';
 	import { allPosts } from 'content-collections';
 	import { technologies } from '$lib/technologies';
@@ -16,7 +16,7 @@
 	<title>Hi, I'm Helmyl</title>
 </svelte:head>
 
-<main class="max-w-4xl mx-auto md:p-8 p-4">
+<main class="max-w-4xl mx-auto md:p-8 p-4" in:blur={{ duration: 500 }}>
 	<section>
 		<header class="sm:flex sm:justify-between items-center pt-8">
 			<h1 class="text-lg sm:text-2xl font-semibold text-gray-800">Helmy Luqmanulhakim</h1>
@@ -75,7 +75,7 @@
 					<article class="text-sm sm:text-base py-4 border-b border-gray-200">
 						<h3 class="font-medium text-gray-800">
 							<a href={`/writings/${post.slug}`} class="hover:text-blue-600 transition-colors duration-200 ease-in-out"
-								 in:fly={{ y: 20, duration: 500 }} out:fly={{ y: -20, duration: 500 }}>
+								 in:blur={{ y: 20, duration: 500 }} out:blur={{ y: -20, duration: 500 }}>
 								{post.title}
 							</a>
 						</h3>
