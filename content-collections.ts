@@ -5,6 +5,7 @@ import rehypeKatex from 'rehype-katex';
 import remarkGfm from 'remark-gfm';
 import readingTime from 'reading-time';
 import rehypePresetMinify from 'rehype-preset-minify';
+import rehypeExternalLinks from 'rehype-external-links';
 import type { Pluggable } from 'unified';
 import { exec as execCallback } from 'child_process';
 import { promisify } from 'util';
@@ -25,6 +26,7 @@ const markdownOptions: Options = {
 	rehypePlugins: [
 		[rehypeKatex, { output: 'html' }],
 		[rehypeExpressiveCode, rehypeExpressiveCodeOptions],
+		[rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] }],
 		rehypePresetMinify
 	],
 	remarkPlugins: [remarkGfm],
