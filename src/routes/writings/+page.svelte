@@ -1,20 +1,11 @@
 <script>
-  import { allPosts } from 'content-collections';
-  import Footer from '$lib/components/Footer.svelte';
-
-  function getBreadcrumbs() {
-		if (typeof window === 'undefined') return [];
-		const path = window.location.pathname;
-		const segments = path.split('/').filter(Boolean);
-		return segments.map((segment, index) => {
-			const url = '/' + segments.slice(0, index + 1).join('/');
-			return { name: segment, url, isCurrent: index === segments.length - 1 };
-		});
-	}
+	import { allPosts } from 'content-collections';
+	import Footer from '$lib/components/Footer.svelte';
+	import { getBreadcrumbs } from '$lib/utils/breadcrumbs.js';
 </script>
 
 <main class="max-w-4xl mx-auto md:p-8 p-4 mt-4">
-	<nav class="text-gray-600 font-medium text-xs sm:text-sm line-clamp-1 pr-4">
+	<nav class="text-gray-600 font-medium text-sm line-clamp-1 pr-4">
 		<a class="hover:text-gray-500 hover:underline cursor-pointer" href="/" title="home">home</a>
 		<span class="mx-0.5 sm:mx-1">/</span>
 		{#each getBreadcrumbs() as breadcrumb, index}

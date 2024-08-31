@@ -33,15 +33,7 @@
 	>
 		<p class="text-xs text-zinc-600 md:text-sm text-center">
 			© {roman}
-			<a
-				class="transition-all duration-300 hover:text-gray-400 hover:underline"
-				draggable={false}
-				href="https://github.com/elskow/helmyl.com"
-				target="_blank"
-			>
-				Helmy Luqmanulhakim.
-			</a>
-			All rights reserved.
+			Helmy Luqmanulhakim. All rights reserved.
 		</p>
 		<div class="flex gap-6 text-xs sm:text-sm font-medium text-zinc-800">
 			<a
