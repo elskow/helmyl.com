@@ -40,6 +40,7 @@
 				class="transition-all duration-300 hover:font-bold hover:text-gray-400"
 				draggable={false}
 				href="https://github.com/elskow"
+				target="_blank"
 				title={'Follow me on GitHub'}
 			>
 				GitHub
@@ -48,6 +49,7 @@
 				class="transition-all duration-300 hover:font-bold hover:text-gray-400"
 				draggable={false}
 				href="https://linkedin.com/in/helmyluqman"
+				target="_blank"
 				title={'Connect with me on LinkedIn'}
 			>
 				LinkedIn
@@ -56,6 +58,7 @@
 				class="transition-all duration-300 hover:font-bold hover:text-gray-400"
 				draggable={false}
 				href="https://twitter.com/helmy_lh"
+				target="_blank"
 				title={'Follow me on Twitter'}
 			>
 				Twitter

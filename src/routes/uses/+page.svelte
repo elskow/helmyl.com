@@ -28,12 +28,12 @@
 	</nav>
 	<article class="pt-8 space-y-4 text-sm sm:text-base">
 		<div
-			class="prose prose-sm sm:prose-base space-y-4 md:space-y-6 prose-headings:prose-base sm:prose-headings:prose-base min-w-full pr-2 prose-p:text-gray-600 pt-4 pb-8 prose-img:drop-shadow-2xl">
+			class="prose prose-sm sm:prose-base space-y-4 md:space-y-6 prose-headings:prose-base sm:prose-headings:prose-base min-w-full pr-2 prose-p:text-gray-800 pt-4 pb-8 prose-img:drop-shadow-2xl">
 			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 			{@html use.html}
 		</div>
 		{#if use.lastModified}
-			<p class="text-xs sm:text-sm text-gray-400 text-right font-light">
+			<p class="text-xs sm:text-sm text-gray-600 text-right font-light">
 				Last modified on {new Date(use.lastModified).toLocaleDateString('en-US', {
 				year: 'numeric',
 				month: 'long',

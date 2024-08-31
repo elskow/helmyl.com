@@ -78,11 +78,11 @@
 					<article class="text-sm sm:text-base py-4 border-b border-gray-200">
 						<h3 class="font-medium text-gray-800">
 							<a href={`/writings/${post.slug}`} class="hover:text-blue-600 transition-colors duration-200 ease-in-out"
-								 in:blur={{ y: 20, duration: 500 }} out:blur={{ y: -20, duration: 500 }}>
+								 in:blur={{ duration: 500 }} out:blur={{ duration: 500 }}>
 								{post.title}
 							</a>
 						</h3>
-						<div class="flex items-center justify-between text-sm ">
+						<div class="flex items-center justify-between text-xs sm:text-sm ">
 							<p class="text-gray-400 mt-2">
 								{post.date}
 							</p>

@@ -9,7 +9,7 @@ export const GET: RequestHandler = async () => {
 	const posts = allPosts.map((post) => post.slug);
 
 	return await sitemap.response({
-		origin: `${import.meta.env.VITE_APP_URL ?? `${import.meta.env.DEV ? 'http://localhost:5173' : 'https://localhost:4173'}`}`,
+		origin: `${import.meta.env.DEV ? 'http://localhost:5173' : 'https://helmyl.com'}`,
 		excludeRoutePatterns: [
 			'^/writings$'
 		],
