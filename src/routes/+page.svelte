@@ -14,6 +14,9 @@
 
 <svelte:head>
 	<title>Hi, I'm Helmyl</title>
+	<meta content="Helmy Luqmanulhakim's personal website" name="description" />
+	<meta content="helmy luqmanulhakim, helmyl, software development, data development" name="keywords" />
+	<meta content="Helmy Luqmanulhakim" name="author" />
 </svelte:head>
 
 <main class="max-w-4xl mx-auto md:p-8 p-4" in:blur={{ duration: 500 }}>
