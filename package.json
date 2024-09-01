@@ -45,6 +45,7 @@
     "rehype-katex": "^7.0.1",
     "rehype-preset-minify": "^7.0.0",
     "remark-gfm": "^4.0.0",
+    "remark-unwrap-images": "^4.0.0",
     "super-sitemap": "^0.15.1",
     "svelte": "^4.2.7",
     "svelte-check": "^3.6.0",

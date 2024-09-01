@@ -1,9 +1,12 @@
 <script>
-	import { allPosts } from 'content-collections';
 	import { blur } from 'svelte/transition';
 	import Footer from '$lib/components/Footer.svelte';
 	import { getBreadcrumbs } from '$lib/utils/breadcrumbs.js';
 	import SEO from '$lib/components/SEO/index.svelte';
+
+	/** @type {import('./$types').PageData} */
+	export let data;
+	const posts = data.posts;
 </script>
 
 <SEO
@@ -30,7 +33,7 @@
 	</nav>
 
 	<article class="pt-8 space-y-4 text-sm sm:text-base">
-		{#each allPosts as post}
+		{#each posts as post}
 			<section class="text-sm sm:text-base py-4 border-b border-gray-200">
 				<h3 class="font-medium text-gray-800">
 					<a href={`/writings/${post.slug}`} class="hover:text-blue-600 transition-colors duration-200 ease-in-out">

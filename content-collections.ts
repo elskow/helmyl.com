@@ -3,6 +3,7 @@ import { compileMarkdown } from '@content-collections/markdown';
 import rehypeExpressiveCode from 'rehype-expressive-code';
 import rehypeKatex from 'rehype-katex';
 import remarkGfm from 'remark-gfm';
+import remarkUnwrapImages from 'remark-unwrap-images';
 import readingTime from 'reading-time';
 import rehypePresetMinify from 'rehype-preset-minify';
 import rehypeExternalLinks from 'rehype-external-links';
@@ -22,6 +23,7 @@ type Options = {
 	rehypePlugins?: Pluggable[];
 };
 
+
 const markdownOptions: Options = {
 	rehypePlugins: [
 		[rehypeKatex, { output: 'html' }],
@@ -29,7 +31,7 @@ const markdownOptions: Options = {
 		[rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] }],
 		rehypePresetMinify
 	],
-	remarkPlugins: [remarkGfm],
+	remarkPlugins: [remarkGfm, remarkUnwrapImages],
 	allowDangerousHtml: true
 };
 

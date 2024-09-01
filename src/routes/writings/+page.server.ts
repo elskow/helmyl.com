@@ -1,9 +1,9 @@
 import { allPosts } from 'content-collections';
 
+/** @type {import('./$types').PageServerLoad} */
 export async function load() {
-	const limitedPosts = allPosts
+	const posts = allPosts
 		.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-		.slice(0, 3)
 		.map(post => ({
 			title: post.title,
 			slug: post.slug,
@@ -11,7 +11,5 @@ export async function load() {
 			readTime: post.readTime
 		}));
 
-	return {
-		posts: limitedPosts
-	};
+	return { posts };
 }
