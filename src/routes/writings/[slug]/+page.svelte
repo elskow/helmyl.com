@@ -2,6 +2,7 @@
 	import { blur } from 'svelte/transition';
 	import Footer from '$lib/components/Footer.svelte';
 	import { getBreadcrumbs } from '$lib/utils/breadcrumbs';
+	import SEO from '$lib/components/SEO/index.svelte';
 
 	/** @type {import('./$types').PageData} */
 	export let data;
@@ -11,6 +12,11 @@
 <svelte:head>
 	<title>{post.title}</title>
 </svelte:head>
+
+<SEO
+	metadescription={post.excerpt}
+	title={post.title}
+/>
 
 <main class="max-w-4xl mx-auto md:p-8 p-4 mt-4" in:blur={{ duration: 500 }} out:blur={{ duration: 500 }}>
 	<nav class="text-gray-600 font-medium text-sm line-clamp-1 pr-4">

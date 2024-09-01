@@ -5,6 +5,7 @@
 	import { projects } from '$lib/projects';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import Footer from '$lib/components/Footer.svelte';
+	import SEO from '$lib/components/SEO/index.svelte';
 
 	const limitedProjects = projects.slice(0, 6);
 
@@ -20,6 +21,12 @@
 	<meta content="helmy luqmanulhakim, helmyl, software development, data development" name="keywords" />
 	<meta content="Helmy Luqmanulhakim" name="author" />
 </svelte:head>
+
+<SEO
+	metadescription="Here, I share my journey and insights from my experiences in software development and data development."
+	slug="/"
+	title="Home"
+/>
 
 <main class="max-w-4xl mx-auto md:p-8 p-4" in:blur={{ duration: 500 }}>
 	<section>

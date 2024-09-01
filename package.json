@@ -27,6 +27,7 @@
     "@types/eslint": "^9.6.0",
     "@types/imagemin-svgo": "^10.0.5",
     "@types/node": "^22.5.1",
+    "@types/object-hash": "^3.0.6",
     "@vheemstra/vite-plugin-imagemin": "^2.0.0",
     "autoprefixer": "^10.4.20",
     "eslint": "^9.0.0",
@@ -58,6 +59,7 @@
   },
   "type": "module",
   "dependencies": {
+    "object-hash": "^3.0.0",
     "sharp": "^0.33.5"
   }
 }
