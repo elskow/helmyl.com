@@ -30,11 +30,15 @@ export default defineConfig(({ mode }) => {
 				},
 				makeAvif: {
 					plugins: {
-						jpg: imageminAVIF({ lossless: true }),
-						jpeg: imageminAVIF({ loseless: true }),
-						png: imageminAVIF({ loseless: true })
+						jpg: imageminAVIF(),
+						jpeg: imageminAVIF(),
+						png: imageminAVIF()
 					}
-				}
+				},
+				formatFilePath: (filePath) => {
+					return filePath.replace(/\.\w+$/, ''); // Remove file extension
+				},
+				cache: false
 			}),
 			Icons({
 				compiler: 'svelte',

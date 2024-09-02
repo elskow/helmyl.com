@@ -10,6 +10,8 @@ import rehypeExternalLinks from 'rehype-external-links';
 import type { Pluggable } from 'unified';
 import { exec as execCallback } from 'child_process';
 import { promisify } from 'util';
+import rehypePicture from 'rehype-picture';
+import path from 'path';
 
 const exec = promisify(execCallback);
 
@@ -29,6 +31,7 @@ const markdownOptions: Options = {
 		[rehypeKatex, { output: 'html' }],
 		[rehypeExpressiveCode, rehypeExpressiveCodeOptions],
 		[rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] }],
+		[rehypePicture, { jpg: { avif: 'image/avif' }, png: { avif: 'image/avif' }, jpeg: { avif: 'image/avif' } }],
 		rehypePresetMinify
 	],
 	remarkPlugins: [remarkGfm, remarkUnwrapImages],
@@ -55,24 +58,22 @@ const posts = defineCollection({
 		date: z.string()
 	}),
 	transform: async (data: PostData, context: Context) => {
-		const { cache } = context;
-		const lastModified = await cache(data._meta.filePath, async (filePath: string) => {
-			const { stdout } = await exec(`git log -1 --format=%ai -- ${filePath}`);
-			if (stdout) {
-				return new Date(stdout.trim()).toISOString();
-			}
-			return new Date().toISOString();
-		});
+		const { cache, collection } = context;
+		const root = collection.directory;
+		const lastModified = await cache(data._meta.filePath,
+			async (filePath: string) => {
+				const absoluteFilePath = path.resolve(root, filePath);
+				const { stdout } = await exec(`git log -1 --format=%ai -- ${absoluteFilePath}`);
+				if (stdout) {
+					return new Date(stdout.trim()).toISOString();
+				}
+
+				return new Date().toISOString();
+			});
 
 		let html = await compileMarkdown(context, data, markdownOptions);
 
 		html = html.replace(/\/static/g, '');
-		if (`${process.env.NODE_ENV}` === 'production') {
-			html = html
-				.replace(/.jpg/g, '.jpg.avif')
-				.replace(/.png/g, '.png.avif')
-				.replace(/.jpeg/g, '.jpeg.avif');
-		}
 
 		return {
 			...data,
@@ -98,24 +99,23 @@ const uses = defineCollection({
 	schema: () => ({}),
 	include: 'uses.md',
 	transform: async (data: UsesData, context: Context) => {
-		const { cache } = context;
-		const lastModified = await cache(data._meta.filePath, async (filePath: string) => {
-			const { stdout } = await exec(`git log -1 --format=%ai -- ${filePath}`);
-			if (stdout) {
-				return new Date(stdout.trim()).toISOString();
-			}
-			return new Date().toISOString();
-		});
+		const { cache, collection } = context;
+		const root = collection.directory;
+
+		const lastModified = await cache(data._meta.filePath,
+			async (filePath: string) => {
+				const absoluteFilePath = path.resolve(root, filePath);
+
+				const { stdout } = await exec(`git log -1 --format=%ai -- ${absoluteFilePath}`);
+				if (stdout) {
+					return new Date(stdout.trim()).toISOString();
+				}
+				return new Date().toISOString();
+			});
 
 		let html = await compileMarkdown(context, data, markdownOptions);
 
 		html = html.replace(/\/static/g, '');
-		if (`${process.env.NODE_ENV}` === 'production') {
-			html = html
-				.replace(/.jpg/g, '.jpg.avif')
-				.replace(/.png/g, '.png.avif')
-				.replace(/.jpeg/g, '.jpeg.avif');
-		}
 
 		return {
 			...data,
