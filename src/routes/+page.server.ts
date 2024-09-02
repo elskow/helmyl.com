@@ -1,4 +1,4 @@
-import { allPosts } from 'content-collections';
+import { allPosts, allProjects } from 'content-collections';
 
 export async function load() {
 	const limitedPosts = allPosts
@@ -11,7 +11,17 @@ export async function load() {
 			readTime: post.readTime
 		}));
 
+	const limitedProjects = allProjects
+		.sort((a, b) => {
+			if (a.priority && b.priority) return b.priority - a.priority;
+			if (a.priority) return -1;
+			if (b.priority) return 1;
+			return new Date(b.date).getTime() - new Date(a.date).getTime();
+		})
+		.slice(0, 6);
+
 	return {
-		posts: limitedPosts
+		posts: limitedPosts,
+		projects: limitedProjects
 	};
 }

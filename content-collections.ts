@@ -86,6 +86,58 @@ const posts = defineCollection({
 });
 
 /**
+ * Collection for projects
+ */
+type ProjectsData = {
+	name: string;
+	date: string;
+	description: string;
+	github: string;
+	stacks: string[];
+	priority: number;
+	content: string;
+	_meta: Meta;
+};
+const projects = defineCollection({
+	name: 'projects',
+	directory: 'contents/projects/',
+	schema: (z) => ({
+		name: z.string(),
+		description: z.string(),
+		github: z.string(),
+		stacks: z.array(z.string()).optional(),
+		date: z.string(),
+		priority: z.number().optional()
+	}),
+	include: '*.md',
+	transform: async (data: ProjectsData, context: Context) => {
+		const { cache, collection } = context;
+		const root = collection.directory;
+		const lastModified = await cache(data._meta.filePath,
+			async (filePath: string) => {
+				const absoluteFilePath = root + filePath;
+				const { stdout } = await exec(`curl "https://api.github.com/repos/elskow/v2.helmyl.com/commits?path=${absoluteFilePath}"`);
+				if (stdout && JSON.parse(stdout).length > 0) {
+					const lastCommit = JSON.parse(stdout)[0].commit.author.date;
+					return new Date(lastCommit).toISOString();
+				}
+				return new Date().toISOString();
+			});
+
+		let html = await compileMarkdown(context, data, markdownOptions);
+
+		html = html.replace(/\/static/g, '');
+
+		return {
+			...data,
+			slug: data.name.toLowerCase().replace(/ /g, '-'),
+			lastModified,
+			html: html
+		};
+	}
+});
+
+/**
  * Collection for uses
  */
 type UsesData = {
@@ -106,7 +158,7 @@ const uses = defineCollection({
 			async (filePath: string) => {
 				const absoluteFilePath = root + filePath;
 				const { stdout } = await exec(`curl "https://api.github.com/repos/elskow/v2.helmyl.com/commits?path=${absoluteFilePath}"`);
-				if (stdout) {
+				if (stdout && JSON.parse(stdout).length > 0) {
 					const lastCommit = JSON.parse(stdout)[0].commit.author.date;
 					return new Date(lastCommit).toISOString();
 				}
@@ -126,5 +178,5 @@ const uses = defineCollection({
 });
 
 export default defineConfig({
-	collections: [posts, uses]
+	collections: [posts, projects, uses]
 });
