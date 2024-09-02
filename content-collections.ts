@@ -11,7 +11,6 @@ import type { Pluggable } from 'unified';
 import { exec as execCallback } from 'child_process';
 import { promisify } from 'util';
 import rehypePicture from 'rehype-picture';
-import path from 'path';
 
 const exec = promisify(execCallback);
 
@@ -62,10 +61,11 @@ const posts = defineCollection({
 		const root = collection.directory;
 		const lastModified = await cache(data._meta.filePath,
 			async (filePath: string) => {
-				const absoluteFilePath = path.resolve(root, filePath);
-				const { stdout } = await exec(`git log -1 --format=%ai -- ${absoluteFilePath}`);
-				if (stdout) {
-					return new Date(stdout.trim()).toISOString();
+				const absoluteFilePath = root + filePath;
+				const { stdout } = await exec(`curl "https://api.github.com/repos/elskow/v2.helmyl.com/commits?path=${absoluteFilePath}"`);
+				if (stdout && JSON.parse(stdout).length > 0) {
+					const lastCommit = JSON.parse(stdout)[0].commit.author.date;
+					return new Date(lastCommit).toISOString();
 				}
 
 				return new Date().toISOString();
@@ -104,11 +104,11 @@ const uses = defineCollection({
 
 		const lastModified = await cache(data._meta.filePath,
 			async (filePath: string) => {
-				const absoluteFilePath = path.resolve(root, filePath);
-
-				const { stdout } = await exec(`git log -1 --format=%ai -- ${absoluteFilePath}`);
+				const absoluteFilePath = root + filePath;
+				const { stdout } = await exec(`curl "https://api.github.com/repos/elskow/v2.helmyl.com/commits?path=${absoluteFilePath}"`);
 				if (stdout) {
-					return new Date(stdout.trim()).toISOString();
+					const lastCommit = JSON.parse(stdout)[0].commit.author.date;
+					return new Date(lastCommit).toISOString();
 				}
 				return new Date().toISOString();
 			});

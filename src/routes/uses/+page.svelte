@@ -13,7 +13,7 @@
 	title="Uses"
 />
 
-<main class="max-w-4xl mx-auto md:p-8 p-4 mt-4" in:blur={{ duration: 500 }} out:blur={{ duration: 500 }}>
+<main class="max-w-4xl mx-auto md:p-8 p-4 mt-4" in:blur={{ duration: 100 }} out:blur={{ duration: 100 }}>
 	<nav class="text-gray-600 font-medium text-sm line-clamp-1 pr-4">
 		<a class="hover:text-gray-500 hover:underline cursor-pointer"
 			 href="/" title="home">home</a>
