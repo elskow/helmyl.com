@@ -19,23 +19,19 @@
     "@iconify-json/bxl": "^1.1.11",
     "@iconify-json/devicon": "^1.1.51",
     "@iconify-json/vscode-icons": "^1.1.37",
-    "@sveltejs/adapter-cloudflare": "^4.7.2",
+    "@sveltejs/adapter-static": "^3.0.4",
     "@sveltejs/enhanced-img": "^0.3.4",
     "@sveltejs/kit": "^2.0.0",
     "@sveltejs/vite-plugin-svelte": "^3.0.0",
     "@tailwindcss/typography": "^0.5.15",
     "@types/eslint": "^9.6.0",
-    "@types/imagemin-svgo": "^10.0.5",
     "@types/node": "^22.5.1",
     "@types/object-hash": "^3.0.6",
-    "@vheemstra/vite-plugin-imagemin": "^2.0.0",
     "autoprefixer": "^10.4.20",
     "eslint": "^9.0.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-svelte": "^2.36.0",
     "globals": "^15.0.0",
-    "imagemin-avif": "^0.1.6",
-    "imagemin-svgo": "^11.0.1",
     "postcss": "^8.4.41",
     "prettier": "^3.1.1",
     "prettier-plugin-svelte": "^3.1.2",
@@ -43,7 +39,6 @@
     "rehype-expressive-code": "^0.36.0",
     "rehype-external-links": "^3.0.0",
     "rehype-katex": "^7.0.1",
-    "rehype-picture": "^5.0.0",
     "rehype-preset-minify": "^7.0.0",
     "remark-gfm": "^4.0.0",
     "remark-unwrap-images": "^4.0.0",
@@ -61,7 +56,6 @@
   },
   "type": "module",
   "dependencies": {
-    "object-hash": "^3.0.0",
-    "sharp": "^0.33.5"
+    "object-hash": "^3.0.0"
   }
 }
