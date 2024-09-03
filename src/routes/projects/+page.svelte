@@ -1,6 +1,5 @@
 <script lang="ts">
     import SEO from "$lib/components/SEO/index.svelte";
-    import {blur} from "svelte/transition";
     import {getBreadcrumbs} from "$lib/utils/breadcrumbs";
     import ProjectCard from "$lib/components/ProjectCard.svelte";
     import Footer from "$lib/components/Footer.svelte";
@@ -16,7 +15,7 @@
         title="Projects"
 />
 
-<main class="max-w-4xl mx-auto md:p-8 p-4 mt-4" in:blur={{ duration: 100 }}>
+<main class="max-w-4xl mx-auto md:p-8 p-4 mt-4">
     <nav class="text-gray-600 font-medium text-sm line-clamp-1 pr-4">
         <a class="hover:text-gray-500 hover:underline cursor-pointer" href="/" title="home">home</a>
         <span class="mx-0.5 sm:mx-1">/</span>
