@@ -84,9 +84,8 @@ const projects = defineCollection({
     include: '*.md',
     transform: async (data, context: Context) => {
         const {collection} = context;
-        const root = collection.directory;
+        const root = collection.directory
         const lastModified = await calcLastModified(data._meta.filePath, root);
-
 
         const html = await compileMarkdown(context, data, markdownOptions);
 
@@ -107,9 +106,7 @@ const uses = defineCollection({
     transform: async (data, context: Context) => {
         const {collection} = context;
         const root = collection.directory;
-
         const lastModified = await calcLastModified(data._meta.filePath, root);
-
 
         const html = await compileMarkdown(context, data, markdownOptions);
 
@@ -129,9 +126,7 @@ const about = defineCollection({
     transform: async (data, context: Context) => {
         const {collection} = context;
         const root = collection.directory;
-
         const lastModified = await calcLastModified(data._meta.filePath, root);
-
 
         const html = await compileMarkdown(context, data, markdownOptions);
 
