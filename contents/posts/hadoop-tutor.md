@@ -1,5 +1,5 @@
 ---
-title: 'Instalasi Apache Hadoop dalam 3 Langkah'
+title: 'Instalasi Apache Hadoop dalam 2 Langkah'
 date: 2024-04-02
 ---
 
@@ -34,34 +34,11 @@ Sebelum kita mulai, pastikan Anda telah memenuhi persyaratan berikut:
 - Ruang penyimpanan yang cukup untuk menginstal Hadoop (minimal 10 GB).
 - Koneksi internet untuk mengunduh paket Hadoop.
 
-# Langkah 1: Melakukan _Cloning_ Repositori Skrip
-
-Pertama, kita akan melakukan _cloning_ repositori GitHub yang berisi skrip shell otomatis untuk menginstal dan
-mengkonfigurasi Apache Hadoop. Skrip ini akan memudahkan proses instalasi dan konfigurasi Hadoop.
-
-```bash
-git clone https://github.com/elskow/hadoop-provision-single-node hadoop-provision
-cd hadoop-provision
-```
-
-Setelah melakukan _cloning_ repositori, kita akan melihat struktur direktori berikut:
-
-```markdown
-.
-├── README
-├── setup.sh
-.
-```
-
-# Langkah 2: Menjalankan Skrip Instalasi
-
-Selanjutnya, kita akan menjalankan skrip `setup.sh` untuk menginstal dan mengkonfigurasi Apache Hadoop. Skrip ini akan
-mengunduh paket Hadoop, mengatur variabel lingkungan, dan mengonfigurasi Hadoop untuk menjalankan _single node cluster_.
-
+# Langkah 1: Menjalankan Skrip Instalasi
 Lakukan perintah berikut untuk menjalankan skrip instalasi:
 
 ```bash
-bash setup.sh
+curl https://gist.githubusercontent.com/elskow/dc000726916b87a0bd38ba1c522a68a5/raw/3a5d1057d5ef0978c13a6e93d306523d098c543c/hadoop-single-node-provision.sh | bash
 ```
 
 Skrip ini akan meminta Anda untuk memasukkan akses _sudo_ untuk menginstal paket yang diperlukan. Pastikan untuk
@@ -96,7 +73,7 @@ su - hadoop
 
 ![Switch User Hadoop](../../static/images/Hadoop-Tutor/switch-user-hadoop.png)
 
-# Langkah 3: Menjalankan Hadoop
+# Langkah 2: Menjalankan Hadoop
 
 Setelah instalasi selesai, Anda perlu untuk memformat HDFS sebelum menjalankan Hadoop. Anda dapat melakukannya dengan
 perintah berikut:
