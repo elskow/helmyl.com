@@ -8,8 +8,8 @@
 </script>
 
 <SEO
-        metadescription="Things I use to building something and daily life."
-        title="Uses"
+        metadescription="What I think about myself"
+        title="About me"
 />
 
 <main class="max-w-4xl mx-auto md:p-8 p-4 mt-4">

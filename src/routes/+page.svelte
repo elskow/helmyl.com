@@ -51,7 +51,7 @@
                 <SelfDescription attributes={qualities} cycleDelay={1500} initialDelay={200}/>
             </p>
             <p>
-                <a class="text-blue-900 font-medium hover:underline" href="/about">Get to know me</a>
+                <a class="text-blue-600 font-medium hover:underline" href="/about">Get to know me</a>
             </p>
         </article>
         <section class="pt-10 relative">
@@ -91,7 +91,7 @@
                 {/each}
             </div>
             <a
-                    class="text-blue-900 font-medium hover:underline text-sm mt-4 block text-right pr-2"
+                    class="text-blue-600 font-medium hover:underline text-sm mt-4 block text-right pr-2"
                     href="/projects"
             >
                 View more projects
