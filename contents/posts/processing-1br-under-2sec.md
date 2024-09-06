@@ -81,6 +81,6 @@ After implementing my solution in C++, I ran the program on a machine with 8 Cor
  </p>&mdash; el (@helmy_lh) 
  <a href="https://twitter.com/helmy_lh/status/1825151101471273339?ref_src=twsrc%5Etfw">August 18, 2024</a>
 </blockquote> 
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 Overall code can be found on my [GitHub repository](https://github.com/elskow/1brc-cpp-under-2s).

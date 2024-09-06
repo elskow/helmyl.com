@@ -1,11 +1,28 @@
 <script lang="ts">
-	import Footer from '$lib/components/Footer.svelte';
-	import {getBreadcrumbs} from '$lib/utils/breadcrumbs';
-	import SEO from '$lib/components/SEO/index.svelte';
+    import Footer from '$lib/components/Footer.svelte';
+    import {getBreadcrumbs} from '$lib/utils/breadcrumbs';
+    import SEO from '$lib/components/SEO/index.svelte';
+    import {afterUpdate, onMount} from "svelte";
 
-	/** @type {import('./$types').PageData} */
+    /** @type {import('./$types').PageData} */
     export let data;
     const post = data.post;
+
+    function executePostScripts() {
+        const scripts = document.querySelectorAll('.post-content script');
+        scripts.forEach((script) => {
+            const newScript = document.createElement('script');
+            newScript.textContent = script.textContent;
+            script.replaceWith(newScript);
+        });
+    }
+
+    onMount(() => {
+        executePostScripts();
+    });
+    afterUpdate(() => {
+        executePostScripts();
+    });
 </script>
 
 <svelte:head>
@@ -48,7 +65,7 @@
             </p>
         </div>
         <div
-                class="prose prose-sm sm:prose-base space-y-4 md:space-y-6 prose-headings:prose-base sm:prose-headings:prose-base min-w-full pr-2 prose-p:text-gray-800 pt-4 pb-8 prose-img:drop-shadow-2xl">
+                class="prose prose-sm sm:prose-base space-y-4 md:space-y-6 prose-headings:prose-base sm:prose-headings:prose-base min-w-full pr-2 prose-p:text-gray-800 pt-4 pb-8 prose-img:drop-shadow-2xl post-content">
             <!-- eslint-disable-next-line svelte/no-at-html-tags -->
             {@html post.html}
         </div>
