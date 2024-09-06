@@ -3,6 +3,7 @@ import {compileMarkdown} from '@content-collections/markdown';
 import rehypeExpressiveCode from 'rehype-expressive-code';
 import rehypeKatex from 'rehype-katex';
 import remarkGfm from 'remark-gfm';
+import rehypeMermaid from "rehype-mermaid";
 import remarkUnwrapImages from 'remark-unwrap-images';
 import readingTime from 'reading-time';
 import rehypePresetMinify from 'rehype-preset-minify';
@@ -37,6 +38,7 @@ type Options = {
 const markdownOptions: Options = {
     rehypePlugins: [
         [rehypeKatex, {output: 'html'}],
+        [rehypeMermaid, {strategy: 'img-png'}],
         [rehypeExpressiveCode, rehypeExpressiveCodeOptions],
         [rehypeExternalLinks, {target: '_blank', rel: ['noopener', 'noreferrer']}],
         rehypePresetMinify
@@ -62,7 +64,7 @@ const posts = defineCollection({
 
         return {
             ...data,
-            slug: data.title.toLowerCase().replace(/ /g, '-'),
+            slug: data._meta.filePath.replace('.md', ''),
             readTime: readingTime(data.content).text,
             lastModified,
             html: html.replace(/\/static/g, '')

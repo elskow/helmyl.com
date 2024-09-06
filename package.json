@@ -39,6 +39,7 @@
     "rehype-expressive-code": "^0.36.0",
     "rehype-external-links": "^3.0.0",
     "rehype-katex": "^7.0.1",
+    "rehype-mermaid": "^2.1.0",
     "rehype-preset-minify": "^7.0.0",
     "remark-gfm": "^4.0.0",
     "remark-unwrap-images": "^4.0.0",
