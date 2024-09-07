@@ -1,6 +1,7 @@
 import {type Context, defineCollection, defineConfig} from '@content-collections/core';
 import {compileMarkdown} from '@content-collections/markdown';
 import rehypeExpressiveCode from 'rehype-expressive-code';
+import {pluginCollapsibleSections} from '@expressive-code/plugin-collapsible-sections'
 import rehypeKatex from 'rehype-katex';
 import remarkGfm from 'remark-gfm';
 import rehypeMermaid from "rehype-mermaid";
@@ -25,7 +26,8 @@ const calcLastModified = async (filePath: string, root: string) => {
 }
 
 const rehypeExpressiveCodeOptions = {
-    themes: ['dracula', 'catppuccin-latte']
+    themes: ['dracula', 'catppuccin-latte'],
+    plugins: [pluginCollapsibleSections()]
 };
 
 type Options = {
@@ -53,7 +55,8 @@ const posts = defineCollection({
     include: '*.md',
     schema: (z) => ({
         title: z.string(),
-        date: z.string()
+        date: z.string(),
+        image: z.string().optional(),
     }),
     transform: async (data, context: Context) => {
         const {collection} = context;

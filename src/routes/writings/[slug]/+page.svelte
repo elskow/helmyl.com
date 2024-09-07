@@ -2,7 +2,10 @@
     import Footer from '$lib/components/Footer.svelte';
     import {getBreadcrumbs} from '$lib/utils/breadcrumbs';
     import SEO from '$lib/components/SEO/index.svelte';
+    import website from "$lib/website";
     import {afterUpdate, onMount} from "svelte";
+
+    const siteUrl = website.siteUrl;
 
     /** @type {import('./$types').PageData} */
     export let data;
@@ -23,6 +26,24 @@
     afterUpdate(() => {
         executePostScripts();
     });
+
+    const defaultAlt = 'Default alt text';
+    const defaultWidth = 672;
+    const defaultHeight = 448;
+    const defaultCaption = 'Default caption';
+
+    const featuredImage = typeof post?.image === 'string' ? {
+        url: `${siteUrl}${post.image}`,
+        alt: defaultAlt,
+        width: defaultWidth,
+        height: defaultHeight,
+        caption: defaultCaption
+    } : post?.image;
+
+    const ogImage = typeof post?.image === 'string' ? {
+        url: `${siteUrl}${post.image}`,
+        alt: defaultAlt
+    } : post?.image;
 </script>
 
 <svelte:head>
@@ -30,8 +51,12 @@
 </svelte:head>
 
 <SEO
+        featuredImage={featuredImage}
         metadescription={post.excerpt}
+        ogImage={ogImage}
+        ogSquareImage={ogImage}
         title={post.title}
+        twitterImage={ogImage}
 />
 
 <main class="max-w-4xl mx-auto md:p-8 p-4 mt-4">
