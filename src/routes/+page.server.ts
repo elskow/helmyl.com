@@ -13,10 +13,13 @@ export async function load() {
 
 	const limitedProjects = allProjects
 		.sort((a, b) => {
+			return new Date(b.date).getTime() - new Date(a.date).getTime();
+		})
+		.sort((a, b) => {
 			if (a.priority && b.priority) return b.priority - a.priority;
 			if (a.priority) return -1;
 			if (b.priority) return 1;
-			return new Date(b.date).getTime() - new Date(a.date).getTime();
+			return 0;
 		})
 		.slice(0, 6);
 

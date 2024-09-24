@@ -16,10 +16,10 @@ My journey in software engineering has been driven by a fascination with algorit
 
 ### Experience
 
-| Date                | Role                                 | Company                                            |
-|---------------------|--------------------------------------|----------------------------------------------------|
-| Sept 2024 - ...     | Bangkit Machine Learning Path Cohort | [Google](https://grow.google/intl/id_id/bangkit/)  |
-| Apr 2024 - May 2024 | FGA PowerBI Data Analyst Cohort      | [Biji-biji Initiative](https://www.biji-biji.com/) |
+| Date                | Role                                 | Company                                                                           |
+| ------------------- | ------------------------------------ | --------------------------------------------------------------------------------- |
+| Sept 2024 - ...     | Bangkit Machine Learning Path Cohort | [Google, GoTo, Tokopedia, and Traveloka](https://grow.google/intl/id_id/bangkit/) |
+| Apr 2024 - May 2024 | FGA PowerBI Data Analyst Cohort      | [Biji-biji Initiative](https://www.biji-biji.com/)                                |
 
 ### Honors & Certifications
 
