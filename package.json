@@ -58,6 +58,7 @@
   },
   "type": "module",
   "dependencies": {
+    "@playwright/test": "^1.48.1",
     "object-hash": "^3.0.0"
   }
 }
