@@ -1,5 +1,5 @@
 <script lang="ts">
-	import hash from 'object-hash';
+	import { simpleHash } from '$lib/utils/hash';
 
 	export let article = false, author,
 		/**
@@ -14,7 +14,7 @@
 		entityMeta = null;
 
 
-	const entityHash = hash({ author }, { algorithm: 'md5' });
+	const entityHash = simpleHash({ author });
 
 	const schemaOrgEntity =
 		entityMeta !== null

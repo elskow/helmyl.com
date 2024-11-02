@@ -1,15 +1,18 @@
 <script lang="ts">
 	import Footer from '$lib/components/Footer.svelte';
-	import { getBreadcrumbs } from '$lib/utils/breadcrumbs';
+	import { getBreadcrumbs } from '$lib/utils/breadcrumbs.ts';
 	import SEO from '$lib/components/SEO/index.svelte';
 	import website from '$lib/website';
 	import { afterUpdate, onMount } from 'svelte';
+	import { afterNavigate } from '$app/navigation';
 
 	const siteUrl = website.siteUrl;
 
 	/** @type {import('./$types').PageData} */
 	export let data;
 	const post = data.post;
+
+	const breadcrumbs = getBreadcrumbs(`writings/${post.slug}`);
 
 	function executePostScripts() {
 		const scripts = document.querySelectorAll('.post-content script');
@@ -50,6 +53,27 @@
 					alt: defaultAlt
 				}
 			: post?.image;
+
+	function initializeTwitterWidgets() {
+		// Check if Twitter widgets script is already loaded
+		if (window.twttr) {
+			window.twttr.widgets.load();
+		} else {
+			// Load Twitter widgets script if not present
+			const script = document.createElement('script');
+			script.src = 'https://platform.twitter.com/widgets.js';
+			script.async = true;
+			document.head.appendChild(script);
+		}
+	}
+
+	onMount(() => {
+		initializeTwitterWidgets();
+	});
+
+	afterNavigate(() => {
+		initializeTwitterWidgets();
+	});
 </script>
 
 <svelte:head>
@@ -70,10 +94,9 @@
 		<a
 			class="text-blue-800 hover:text-gray-800 hover:text-bold cursor-pointer transition-colors duration-200 ease-in-out"
 			href="/"
-			title="home">home</a
-		>
+			title="home">home</a>
 		<span class="mx-0.5 sm:mx-1">/</span>
-		{#each getBreadcrumbs() as breadcrumb, index}
+		{#each breadcrumbs as breadcrumb, index}
 			{#if !breadcrumb.isCurrent}
 				<a
 					href={breadcrumb.url}
@@ -85,7 +108,7 @@
 			{:else}
 				<span class="text-neutral-950">{breadcrumb.name}</span>
 			{/if}
-			{#if index < getBreadcrumbs().length - 1}
+			{#if index < breadcrumbs.length - 1}
 				<span class="mx-1">/</span>
 			{/if}
 		{/each}

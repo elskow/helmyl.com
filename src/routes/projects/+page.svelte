@@ -1,12 +1,13 @@
 <script lang="ts">
 	import SEO from '$lib/components/SEO/index.svelte';
-	import { getBreadcrumbs } from '$lib/utils/breadcrumbs';
+	import { getBreadcrumbs } from '$lib/utils/breadcrumbs.ts';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 
 	/** @type {import('./$types').PageData} */
 	export let data;
 	const projects = data.projects;
+	const breadcrumbs = getBreadcrumbs('projects');
 </script>
 
 <SEO metadescription="A collection of projects that I've worked on." slug="/" title="Projects" />
@@ -19,7 +20,7 @@
 			title="home">home</a
 		>
 		<span class="mx-0.5 sm:mx-1">/</span>
-		{#each getBreadcrumbs() as breadcrumb, index}
+		{#each breadcrumbs as breadcrumb, index}
 			{#if !breadcrumb.isCurrent}
 				<a
 					href={breadcrumb.url}
@@ -31,7 +32,7 @@
 			{:else}
 				<span class="text-neutral-950">{breadcrumb.name}</span>
 			{/if}
-			{#if index < getBreadcrumbs().length - 1}
+			{#if index < breadcrumbs.length - 1}
 				<span class="mx-1">/</span>
 			{/if}
 		{/each}

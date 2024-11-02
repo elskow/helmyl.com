@@ -1,10 +1,11 @@
 <script>
 	import { allAbouts } from 'content-collections';
 	import Footer from '$lib/components/Footer.svelte';
-	import { getBreadcrumbs } from '$lib/utils/breadcrumbs.js';
+	import { getBreadcrumbs } from '$lib/utils/breadcrumbs.ts';
 	import SEO from '$lib/components/SEO/index.svelte';
 
 	const abouts = allAbouts[0];
+	const breadcrumbs = getBreadcrumbs('about');
 </script>
 
 <SEO metadescription="What I think about myself" title="About me" />
@@ -14,10 +15,9 @@
 		<a
 			class="text-blue-800 hover:text-gray-800 hover:text-bold cursor-pointer transition-colors duration-200 ease-in-out"
 			href="/"
-			title="home">home</a
-		>
+			title="home">home</a>
 		<span class="mx-0.5 sm:mx-1">/</span>
-		{#each getBreadcrumbs() as breadcrumb, index}
+		{#each breadcrumbs as breadcrumb, index}
 			{#if !breadcrumb.isCurrent}
 				<a
 					href={breadcrumb.url}
@@ -29,7 +29,7 @@
 			{:else}
 				<span class="text-neutral-950">{breadcrumb.name}</span>
 			{/if}
-			{#if index < getBreadcrumbs().length - 1}
+			{#if index < breadcrumbs.length - 1}
 				<span class="mx-1">/</span>
 			{/if}
 		{/each}

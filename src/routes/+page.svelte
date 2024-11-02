@@ -25,7 +25,7 @@
 <SEO
         metadescription="Here, I share my journey and insights from my experiences in software development and data development."
         slug="/"
-        title="Home"
+        title="Hi, I'm Helmyl"
 />
 
 <main class="max-w-4xl mx-auto md:p-8 p-4">
