@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Footer from '$lib/components/Footer.svelte';
-	import { getBreadcrumbs } from '$lib/utils/breadcrumbs.ts';
+	import { getBreadcrumbs } from '$lib/utils/breadcrumbs';
 	import SEO from '$lib/components/SEO/index.svelte';
 
 	/** @type {import('./$types').PageData} */

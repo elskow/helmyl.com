@@ -1,6 +1,6 @@
 <script lang="ts">
 	import SEO from '$lib/components/SEO/index.svelte';
-	import { getBreadcrumbs } from '$lib/utils/breadcrumbs.ts';
+	import { getBreadcrumbs } from '$lib/utils/breadcrumbs';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 

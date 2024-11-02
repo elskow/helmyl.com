@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Footer from '$lib/components/Footer.svelte';
-	import { getBreadcrumbs } from '$lib/utils/breadcrumbs.ts';
+	import { getBreadcrumbs } from '$lib/utils/breadcrumbs';
 	import SEO from '$lib/components/SEO/index.svelte';
 	import website from '$lib/website';
 	import { afterUpdate, onMount } from 'svelte';
@@ -94,7 +94,8 @@
 		<a
 			class="text-blue-800 hover:text-gray-800 hover:text-bold cursor-pointer transition-colors duration-200 ease-in-out"
 			href="/"
-			title="home">home</a>
+			title="home">home</a
+		>
 		<span class="mx-0.5 sm:mx-1">/</span>
 		{#each breadcrumbs as breadcrumb, index}
 			{#if !breadcrumb.isCurrent}

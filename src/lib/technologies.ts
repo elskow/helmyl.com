@@ -17,21 +17,108 @@ import DeviconRedis from '~icons/devicon/redis';
 import DeviconSpring from '~icons/devicon/spring';
 import DeviconKubernetes from '~icons/devicon/kubernetes';
 
-export const technologies = [
-	{ name: 'Go', icons: VscodeIconsFileTypeGo, link: 'https://golang.org/' },
-	{ name: 'Java', icons: VscodeIconsFileTypeJava, link: 'https://www.java.com/' },
-	{ name: 'Python', icons: VscodeIconsFileTypePython, link: 'https://www.python.org/' },
-	{ name: 'TypeScript', icons: VscodeIconsFileTypeTypescriptOfficial, link: 'https://www.typescriptlang.org/' },
-	{ name: 'Docker', icons: VscodeIconsFileTypeDocker, link: 'https://www.docker.com/' },
-	{ name: 'Kubernetes', icons: DeviconKubernetes, link: 'https://kubernetes.io/' },
-	{ name: 'Azure', icons: VscodeIconsFileTypeAzure, link: 'https://azure.microsoft.com/' },
-	{ name: 'Prometheus', icons: VscodeIconsFileTypePrometheus, link: 'https://prometheus.io/' },
-	{ name: 'Grafana', icons: DeviconGrafana, link: 'https://grafana.com/' },
-	{ name: 'RabbitMQ', icons: DeviconRabbitmq, link: 'https://www.rabbitmq.com/' },
-	{ name: 'Redis', icons: DeviconRedis, link: 'https://redis.io/' },
-	{ name: 'Postgres', icons: VscodeIconsFileTypePgsql, link: 'https://www.postgresql.org/' },
-	{ name: 'React', icons: VscodeIconsFileTypeReactjs, link: 'https://reactjs.org/' },
-	{ name: 'Svelte', icons: VscodeIconsFileTypeSvelte, link: 'https://svelte.dev/' },
-	{ name: 'Spring', icons: DeviconSpring, link: 'https://spring.io/' },
-	{ name: 'Kafka', icons: DeviconApachekafka, link: 'https://kafka.apache.org/' }
+interface Technology {
+	name: string;
+	icons: any;
+	link: string;
+	accentColor: string;
+}
+
+export const technologies: Technology[] = [
+	{
+		name: 'Go',
+		icons: VscodeIconsFileTypeGo,
+		link: 'https://golang.org/',
+		accentColor: '#00ADD8'
+	},
+	{
+		name: 'Java',
+		icons: VscodeIconsFileTypeJava,
+		link: 'https://www.java.com/',
+		accentColor: '#ED8B00'
+	},
+	{
+		name: 'Python',
+		icons: VscodeIconsFileTypePython,
+		link: 'https://www.python.org/',
+		accentColor: '#3776AB'
+	},
+	{
+		name: 'TypeScript',
+		icons: VscodeIconsFileTypeTypescriptOfficial,
+		link: 'https://www.typescriptlang.org/',
+		accentColor: '#3178C6'
+	},
+	{
+		name: 'Docker',
+		icons: VscodeIconsFileTypeDocker,
+		link: 'https://www.docker.com/',
+		accentColor: '#2496ED'
+	},
+	{
+		name: 'Kubernetes',
+		icons: DeviconKubernetes,
+		link: 'https://kubernetes.io/',
+		accentColor: '#326CE5'
+	},
+	{
+		name: 'Azure',
+		icons: VscodeIconsFileTypeAzure,
+		link: 'https://azure.microsoft.com/',
+		accentColor: '#0078D4'
+	},
+	{
+		name: 'Prometheus',
+		icons: VscodeIconsFileTypePrometheus,
+		link: 'https://prometheus.io/',
+		accentColor: '#E6522C'
+	},
+	{
+		name: 'Grafana',
+		icons: DeviconGrafana,
+		link: 'https://grafana.com/',
+		accentColor: '#F46800'
+	},
+	{
+		name: 'RabbitMQ',
+		icons: DeviconRabbitmq,
+		link: 'https://www.rabbitmq.com/',
+		accentColor: '#FF6600'
+	},
+	{
+		name: 'Redis',
+		icons: DeviconRedis,
+		link: 'https://redis.io/',
+		accentColor: '#DC382D'
+	},
+	{
+		name: 'Postgres',
+		icons: VscodeIconsFileTypePgsql,
+		link: 'https://www.postgresql.org/',
+		accentColor: '#336791'
+	},
+	{
+		name: 'React',
+		icons: VscodeIconsFileTypeReactjs,
+		link: 'https://reactjs.org/',
+		accentColor: '#61DAFB'
+	},
+	{
+		name: 'Svelte',
+		icons: VscodeIconsFileTypeSvelte,
+		link: 'https://svelte.dev/',
+		accentColor: '#FF3E00'
+	},
+	{
+		name: 'Spring',
+		icons: DeviconSpring,
+		link: 'https://spring.io/',
+		accentColor: '#6DB33F'
+	},
+	{
+		name: 'Kafka',
+		icons: DeviconApachekafka,
+		link: 'https://kafka.apache.org/',
+		accentColor: '#231F20'
+	}
 ];
