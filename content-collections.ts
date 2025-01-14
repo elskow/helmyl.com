@@ -1,23 +1,23 @@
-import {type Context, defineCollection, defineConfig} from '@content-collections/core';
-import {compileMarkdown} from '@content-collections/markdown';
+import { type Context, defineCollection, defineConfig } from '@content-collections/core';
+import { compileMarkdown } from '@content-collections/markdown';
 import rehypeExpressiveCode from 'rehype-expressive-code';
-import {pluginCollapsibleSections} from '@expressive-code/plugin-collapsible-sections'
+import { pluginCollapsibleSections } from '@expressive-code/plugin-collapsible-sections'
 import rehypeKatex from 'rehype-katex';
 import remarkGfm from 'remark-gfm';
 import rehypeMermaid from "rehype-mermaid";
-import remarkUnwrapImages from 'remark-unwrap-images';
+import rehypeUnwrapImages from 'rehype-unwrap-images';
 import readingTime from 'reading-time';
 import rehypePresetMinify from 'rehype-preset-minify';
 import rehypeExternalLinks from 'rehype-external-links';
-import type {Pluggable} from 'unified';
-import {exec as execCallback} from 'child_process';
-import {promisify} from 'util';
+import type { Pluggable } from 'unified';
+import { exec as execCallback } from 'child_process';
+import { promisify } from 'util';
 
 const exec = promisify(execCallback);
 
 const calcLastModified = async (filePath: string, root: string) => {
     const absoluteFilePath = root + filePath;
-    const {stdout} = await exec(`curl "https://api.github.com/repos/elskow/v2.helmyl.com/commits?path=${absoluteFilePath}"`);
+    const { stdout } = await exec(`curl "https://api.github.com/repos/elskow/helmyl.com/commits?path=${absoluteFilePath}"`);
     if (stdout && JSON.parse(stdout).length > 0) {
         const lastCommit = JSON.parse(stdout)[0].commit.author.date;
         return new Date(lastCommit).toISOString();
@@ -39,13 +39,14 @@ type Options = {
 
 const markdownOptions: Options = {
     rehypePlugins: [
-        [rehypeKatex, {output: 'html'}],
-        [rehypeMermaid, {strategy: 'img-png'}],
+        [rehypeKatex, { output: 'html' }],
+        rehypeUnwrapImages,
+        [rehypeMermaid, { strategy: 'img-png' }],
         [rehypeExpressiveCode, rehypeExpressiveCodeOptions],
-        [rehypeExternalLinks, {target: '_blank', rel: ['noopener', 'noreferrer']}],
+        [rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] }],
         rehypePresetMinify
     ],
-    remarkPlugins: [remarkGfm, remarkUnwrapImages],
+    remarkPlugins: [remarkGfm],
     allowDangerousHtml: true
 };
 
@@ -59,7 +60,7 @@ const posts = defineCollection({
         image: z.string().optional(),
     }),
     transform: async (data, context: Context) => {
-        const {collection} = context;
+        const { collection } = context;
         const root = collection.directory;
         const lastModified = await calcLastModified(data._meta.filePath, root);
 
@@ -88,7 +89,7 @@ const projects = defineCollection({
     }),
     include: '*.md',
     transform: async (data, context: Context) => {
-        const {collection} = context;
+        const { collection } = context;
         const root = collection.directory
         const lastModified = await calcLastModified(data._meta.filePath, root);
 
@@ -109,7 +110,7 @@ const uses = defineCollection({
     schema: () => ({}),
     include: 'uses.md',
     transform: async (data, context: Context) => {
-        const {collection} = context;
+        const { collection } = context;
         const root = collection.directory;
         const lastModified = await calcLastModified(data._meta.filePath, root);
 
@@ -129,7 +130,7 @@ const about = defineCollection({
     schema: () => ({}),
     include: 'about.md',
     transform: async (data, context: Context) => {
-        const {collection} = context;
+        const { collection } = context;
         const root = collection.directory;
         const lastModified = await calcLastModified(data._meta.filePath, root);
 

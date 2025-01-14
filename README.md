@@ -1,1 +1,0 @@
-Project Powered by DevEnv (https://devenv.sh/)

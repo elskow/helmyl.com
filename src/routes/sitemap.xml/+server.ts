@@ -1,4 +1,3 @@
-// /src/routes/sitemap.xml/+server.ts
 import type { RequestHandler } from '@sveltejs/kit';
 import * as sitemap from 'super-sitemap';
 import { allPosts } from 'content-collections';
@@ -22,8 +21,8 @@ export const GET: RequestHandler = async () => {
 		additionalPaths: [
 			// '/foo.pdf' // e.g. to a file in your static dir
 		],
-		changefreq: 'daily', // excluded by default b/c ignored by modern search engines
-		priority: 1, // default is 0.5
+		defaultChangefreq: 'always', // excluded by default b/c ignored by modern search engines
+		defaultPriority: 1,
 		sort: 'alpha' // default is false; 'alpha' sorts all paths alphabetically.
 	});
 };
