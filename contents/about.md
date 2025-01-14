@@ -18,11 +18,12 @@ My journey in software engineering has been driven by a fascination with algorit
 
 | Date                | Role                                 | Company                                                                           |
 | ------------------- | ------------------------------------ | --------------------------------------------------------------------------------- |
-| Sept 2024 - ...     | Bangkit Machine Learning Path Cohort | [Google, GoTo, Tokopedia, and Traveloka](https://grow.google/intl/id_id/bangkit/) |
+| Sept 2024 - Jan 2025| Bangkit Machine Learning Path Cohort | [Google, GoTo, Tokopedia, and Traveloka](https://grow.google/intl/id_id/bangkit/) |
 | Apr 2024 - May 2024 | FGA PowerBI Data Analyst Cohort      | [Biji-biji Initiative](https://www.biji-biji.com/)                                |
 
 ### Honors & Certifications
 
+- Graduated with Distinction (Top 10%) from the [Bangkit Machine Learning Path](https://drive.google.com/file/d/16-DJ4HaEAjrZfc3ZxnpFdzNnvZkxlDgW/view)
 - Microsoft PL-300 [PowerBI Data Analyst](https://learn.microsoft.com/en-us/users/helmyl/credentials/d711d303f0fd18d7?ref=https%3A%2F%2Fwww.helmyl.com%2F)
 - Finalist of [Hology Competitive Programming](https://drive.google.com/file/d/1skrbdOx0ZJyIEr7JBwW9PSMVRgjykd8L/view)
 
