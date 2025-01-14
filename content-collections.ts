@@ -1,4 +1,4 @@
-import { type Context, defineCollection, defineConfig } from '@content-collections/core';
+import { type Context, defineCollection, defineConfig, type Document } from '@content-collections/core';
 import { compileMarkdown } from '@content-collections/markdown';
 import rehypeExpressiveCode from 'rehype-expressive-code';
 import { pluginCollapsibleSections } from '@expressive-code/plugin-collapsible-sections'
@@ -36,7 +36,6 @@ type Options = {
     rehypePlugins?: Pluggable[];
 };
 
-
 const markdownOptions: Options = {
     rehypePlugins: [
         [rehypeKatex, { output: 'html' }],
@@ -50,6 +49,13 @@ const markdownOptions: Options = {
     allowDangerousHtml: true
 };
 
+interface PostData extends Document {
+    title: string;
+    date: string;
+    image?: string;
+    content: string;
+}
+
 const posts = defineCollection({
     name: 'posts',
     directory: 'contents/posts/',
@@ -59,7 +65,7 @@ const posts = defineCollection({
         date: z.string(),
         image: z.string().optional(),
     }),
-    transform: async (data, context: Context) => {
+    transform: async (data: PostData, context: Context) => {
         const { collection } = context;
         const root = collection.directory;
         const lastModified = await calcLastModified(data._meta.filePath, root);
@@ -76,6 +82,16 @@ const posts = defineCollection({
     }
 });
 
+interface ProjectData extends Document {
+    name: string;
+    description: string;
+    github: string;
+    stacks?: string[];
+    date: string;
+    priority?: number;
+    content: string;
+}
+
 const projects = defineCollection({
     name: 'projects',
     directory: 'contents/projects/',
@@ -88,9 +104,9 @@ const projects = defineCollection({
         priority: z.number().optional()
     }),
     include: '*.md',
-    transform: async (data, context: Context) => {
+    transform: async (data: ProjectData, context: Context) => {
         const { collection } = context;
-        const root = collection.directory
+        const root = collection.directory;
         const lastModified = await calcLastModified(data._meta.filePath, root);
 
         const html = await compileMarkdown(context, data, markdownOptions);
@@ -104,12 +120,16 @@ const projects = defineCollection({
     }
 });
 
+interface UsesData extends Document {
+    content: string;
+}
+
 const uses = defineCollection({
     name: 'uses',
     directory: 'contents/',
     schema: () => ({}),
     include: 'uses.md',
-    transform: async (data, context: Context) => {
+    transform: async (data: UsesData, context: Context) => {
         const { collection } = context;
         const root = collection.directory;
         const lastModified = await calcLastModified(data._meta.filePath, root);
@@ -124,12 +144,16 @@ const uses = defineCollection({
     }
 });
 
+interface AboutData extends Document {
+    content: string;
+}
+
 const about = defineCollection({
     name: 'about',
     directory: 'contents/',
     schema: () => ({}),
     include: 'about.md',
-    transform: async (data, context: Context) => {
+    transform: async (data: AboutData, context: Context) => {
         const { collection } = context;
         const root = collection.directory;
         const lastModified = await calcLastModified(data._meta.filePath, root);
