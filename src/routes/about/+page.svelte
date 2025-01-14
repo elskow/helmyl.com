@@ -8,7 +8,7 @@
 	const breadcrumbs = getBreadcrumbs('about');
 </script>
 
-<SEO metadescription="What I think about myself" title="About me" />
+<SEO metadescription="What I think about myself" title="Get to Know Me!" />
 
 <main class="max-w-4xl mx-auto md:p-8 p-4 mt-4">
 	<nav class="text-gray-600 font-medium text-sm line-clamp-1 pr-4">

@@ -8,7 +8,10 @@
 	const breadcrumbs = getBreadcrumbs('uses');
 </script>
 
-<SEO metadescription="Things I use to building something and daily life." title="Uses" />
+<SEO
+	metadescription="Things I use to building something and daily life."
+	title="Tools & Technologies I Use"
+/>
 
 <main class="max-w-4xl mx-auto md:p-8 p-4 mt-4">
 	<nav class="text-gray-600 font-medium text-sm line-clamp-1 pr-4">

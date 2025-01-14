@@ -10,7 +10,7 @@
 	const breadcrumbs = getBreadcrumbs('writings');
 </script>
 
-<SEO metadescription="List of writings that I've written." title="Writings" />
+<SEO metadescription="List of writings that I've written." title="Thoughts & Insights" />
 
 <main class="max-w-4xl mx-auto md:p-8 p-4 mt-4">
 	<nav class="text-gray-600 font-medium text-sm line-clamp-1 pr-4">
