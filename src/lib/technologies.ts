@@ -16,6 +16,7 @@ import DeviconRabbitmq from '~icons/devicon/rabbitmq';
 import DeviconRedis from '~icons/devicon/redis';
 import DeviconSpring from '~icons/devicon/spring';
 import DeviconKubernetes from '~icons/devicon/kubernetes';
+import SkillIconsKafka from '~icons/skill-icons/kafka';
 
 interface Technology {
 	name: string;
@@ -117,8 +118,8 @@ export const technologies: Technology[] = [
 	},
 	{
 		name: 'Kafka',
-		icons: DeviconApachekafka,
+		icons: SkillIconsKafka,
 		link: 'https://kafka.apache.org/',
-		accentColor: '#231F20'
+		accentColor: '#FF6600'
 	}
 ];

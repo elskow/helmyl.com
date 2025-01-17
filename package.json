@@ -19,6 +19,7 @@
     "@expressive-code/plugin-collapsible-sections": "0.40.0",
     "@iconify-json/bxl": "1.1.11",
     "@iconify-json/devicon": "1.1.51",
+    "@iconify-json/skill-icons": "^1.2.0",
     "@iconify-json/vscode-icons": "1.1.37",
     "@sveltejs/adapter-static": "3.0.4",
     "@sveltejs/kit": "2.0.0",

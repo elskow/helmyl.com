@@ -32,7 +32,7 @@
 </script>
 
 {#if $visible}
-	<span class="text-blue-600" transition:fly={{ y: 20, duration: 500 }}>
+	<span class="text-blue-600 dark:text-blue-400" transition:fly={{ y: 20, duration: 500 }}>
 		{$currentIndex < attributes.length ? attributes[$currentIndex] : ''}.
 	</span>
 {/if}

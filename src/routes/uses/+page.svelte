@@ -14,9 +14,9 @@
 />
 
 <main class="max-w-4xl mx-auto md:p-8 p-4 mt-4">
-	<nav class="text-gray-600 font-medium text-sm line-clamp-1 pr-4">
+	<nav class="text-gray-600 dark:text-gray-400 font-medium text-sm line-clamp-1 pr-4">
 		<a
-			class="text-blue-800 hover:text-gray-800 hover:text-bold cursor-pointer transition-colors duration-200 ease-in-out"
+			class="text-blue-800 dark:text-blue-400 hover:text-gray-800 dark:hover:text-gray-200 hover:text-bold cursor-pointer transition-colors duration-200 ease-in-out"
 			href="/"
 			title="home">home</a
 		>
@@ -25,13 +25,13 @@
 			{#if !breadcrumb.isCurrent}
 				<a
 					href={breadcrumb.url}
-					class="text-blue-800 hover:text-gray-800 hover:text-bold cursor-pointer transition-colors duration-200 ease-in-out"
+					class="text-blue-800 dark:text-blue-400 hover:text-gray-800 dark:hover:text-gray-200 hover:text-bold cursor-pointer transition-colors duration-200 ease-in-out"
 					title={breadcrumb.url}
 				>
 					{breadcrumb.name}
 				</a>
 			{:else}
-				<span class="text-neutral-950">{breadcrumb.name}</span>
+				<span class="text-neutral-950 dark:text-neutral-200">{breadcrumb.name}</span>
 			{/if}
 			{#if index < breadcrumbs.length - 1}
 				<span class="mx-1">/</span>
@@ -41,7 +41,7 @@
 
 	<article class="pt-8 space-y-4 text-sm sm:text-base">
 		<div
-			class="prose prose-sm sm:prose-base space-y-4 md:space-y-6 prose-headings:prose-base sm:prose-headings:prose-base min-w-full pr-2 prose-p:text-gray-800 pt-4 pb-8 prose-img:drop-shadow-2xl"
+			class="prose prose-sm sm:prose-base space-y-4 md:space-y-6 prose-headings:prose-base sm:prose-headings:prose-base min-w-full pr-2 pt-4 pb-8 prose-img:drop-shadow-2xl dark:prose-invert"
 		>
 			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 			{@html use.html}

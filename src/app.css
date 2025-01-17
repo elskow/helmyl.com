@@ -2,8 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
-/*for id started with mermaid-* center horizontally*/
+/*for id started with mermaid-* center horizontally and add background in dark mode*/
 [id^="mermaid-"] {
     margin-left: auto;
     margin-right: auto;
+}
+
+@media (prefers-color-scheme: light) {
+    [id^="mermaid-"] {
+        background-color: rgba(0, 0, 0, 0.9);
+        padding: 1rem;
+        border-radius: 0.4rem;
+    }
+}
+
+/* Global styles for dark mode */
+body {
+    @apply bg-white text-gray-900 transition-colors duration-300;
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        @apply bg-slate-950 text-gray-100;
+    }
 }
