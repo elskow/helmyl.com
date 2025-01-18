@@ -9,6 +9,7 @@ import rehypeUnwrapImages from 'rehype-unwrap-images';
 import readingTime from 'reading-time';
 import rehypePresetMinify from 'rehype-preset-minify';
 import rehypeExternalLinks from 'rehype-external-links';
+import remarkOembed from 'remark-oembed';
 import type { Pluggable } from 'unified';
 import { exec as execCallback } from 'child_process';
 import { promisify } from 'util';
@@ -170,7 +171,8 @@ const markdownOptions: Options = {
         [rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] }],
         rehypePresetMinify
     ],
-    remarkPlugins: [remarkGfm],
+    // @ts-ignore
+    remarkPlugins: [remarkGfm, [remarkOembed]],
     allowDangerousHtml: true
 };
 
