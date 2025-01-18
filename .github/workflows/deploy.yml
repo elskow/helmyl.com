@@ -44,7 +44,12 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install Dependencies
-        run: pnpm install --frozen-lockfile
+        run: |
+          if [ ! -f pnpm-lock.yaml ]; then
+            pnpm install
+          else
+            pnpm install --frozen-lockfile
+          fi
 
       - name: Cache Playwright browsers
         id: playwright-cache
