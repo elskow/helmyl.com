@@ -29,34 +29,10 @@ jobs:
           version: 8
           run_install: false
 
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
-
-      - name: Setup pnpm cache
-        uses: actions/cache@v3
-        with:
-          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-
       - name: Install Dependencies
         run: pnpm install --no-frozen-lockfile
 
-      - name: Cache Playwright browsers
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cache/ms-playwright
-            **/node_modules/playwright
-            **/node_modules/@playwright
-          key: ${{ runner.os }}-playwright-${{ hashFiles('**/pnpm-lock.yaml') }}
-
-      - name: Install Playwright browsers
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
+      - name: Install Playwright
         run: pnpm exec playwright install --with-deps chromium
 
       - name: Build
