@@ -40,4 +40,4 @@ jobs:
           projectName: helmyl-com
           directory: build
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          production: ${{ github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/master' }}
+          branch: main
