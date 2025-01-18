@@ -41,8 +41,12 @@
 				>
 				<a
 					class="text-blue-600 dark:text-blue-400 font-medium hover:underline text-sm sm:text-base"
-					href="/uses">Uses</a
+					href="/labs">Labs</a
 				>
+				<!-- <a
+					class="text-blue-600 dark:text-blue-400 font-medium hover:underline text-sm sm:text-base"
+					href="/uses">Uses</a
+				> -->
 			</nav>
 		</header>
 		<article class="pt-10 text-sm sm:text-base text-gray-600 dark:text-gray-400 space-y-4">

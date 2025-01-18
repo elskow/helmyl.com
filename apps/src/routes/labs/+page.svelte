@@ -9,7 +9,10 @@
 	const breadcrumbs = getBreadcrumbs('labs');
 </script>
 
-<SEO title="Labs" metadescription="Interactive experiments and demonstrations" />
+<SEO
+	title="Interactive Labs & Experiments"
+	metadescription="Explore hands-on experiments and interactive demos showcasing various technologies and concepts in action. From WebGL visualizations to practical implementations."
+/>
 
 <main class="max-w-4xl mx-auto md:p-8 p-4 mt-4">
 	<nav class="text-gray-600 dark:text-gray-400 font-medium text-sm line-clamp-1 pr-4">
