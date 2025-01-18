@@ -11,13 +11,5 @@ export const load: PageServerLoad = async ({ params }) => {
 		throw error(404, `Lab project "${slug}" not found`);
 	}
 
-	if (dev) {
-		// In development mode, redirect to the static file
-		throw redirect(307, `/labs/${slug}/index.html`);
-	}
-
-	// In production, stay on the current route
-	return {
-		project
-	};
+	throw redirect(307, `/labs/${slug}/index.html`);
 };
