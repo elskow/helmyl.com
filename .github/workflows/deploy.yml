@@ -32,6 +32,9 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --no-frozen-lockfile
 
+      - name: Install tsx globally
+        run: pnpm add -g tsx
+
       - name: Install Playwright in apps workspace
         run: cd apps && pnpm exec playwright install --with-deps chromium
 
