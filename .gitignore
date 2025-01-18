@@ -6,8 +6,9 @@ node_modules
 .vercel
 .content-collections
 .idea
-/.svelte-kit
-/build
+.svelte-kit
+build
+.parcel-cache
 
 # OS
 .DS_Store
@@ -31,3 +32,5 @@ devenv.local.nix
 
 # pre-commit
 .pre-commit-config.yaml
+apps/static/labs/*
+!apps/static/labs/.gitkeep

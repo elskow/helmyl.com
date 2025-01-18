@@ -1,0 +1,13 @@
+{
+	"name": "@labs/sample-labs",
+	"version": "1.0.0",
+	"description": "Sample lab project",
+	"scripts": {
+		"dev": "parcel src/index.html",
+		"build": "node -e \"console.log('Current working directory:', process.cwd())\" && mkdir -p $(pwd)/../../apps/static/labs/sample-labs && parcel build src/index.html --dist-dir $(pwd)/../../apps/static/labs/sample-labs --public-url /labs/sample-labs/ --no-cache",
+		"clean": "rm -rf dist .parcel-cache $(pwd)/../../apps/static/labs/sample-labs"
+	},
+	"devDependencies": {
+		"parcel": "^2.11.0"
+	}
+}
