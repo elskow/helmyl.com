@@ -32,8 +32,8 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --no-frozen-lockfile
 
-      - name: Install Playwright
-        run: pnpm exec playwright install --with-deps chromium
+      - name: Install Playwright in apps workspace
+        run: cd apps && pnpm exec playwright install --with-deps chromium
 
       - name: Build
         run: pnpm build
@@ -44,6 +44,6 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: helmyl-com
-          directory: build
+          directory: apps/build
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           branch: main
