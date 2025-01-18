@@ -47,18 +47,17 @@ jobs:
         run: pnpm install --no-frozen-lockfile
 
       - name: Cache Playwright browsers
-        id: playwright-cache
         uses: actions/cache@v3
         with:
           path: |
             ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            playwright-${{ runner.os }}-
+            **/node_modules/playwright
+            **/node_modules/@playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('**/pnpm-lock.yaml') }}
 
-      - name: Install Playwright
+      - name: Install Playwright browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: pnpm exec playwright install --with-deps
+        run: pnpm exec playwright install --with-deps chromium
 
       - name: Build
         run: pnpm build
