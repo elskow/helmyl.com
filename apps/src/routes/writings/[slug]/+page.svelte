@@ -76,10 +76,6 @@
 	});
 </script>
 
-<svelte:head>
-	<title>{post.title}</title>
-</svelte:head>
-
 <SEO
 	{featuredImage}
 	metadescription={post.excerpt}

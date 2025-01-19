@@ -12,16 +12,6 @@
 	const qualities = ['secure', 'scalable', 'fast', 'reliable'];
 </script>
 
-<svelte:head>
-	<title>Hi, I'm Helmyl</title>
-	<meta content="Helmy Luqmanulhakim's personal website" name="description" />
-	<meta
-		content="helmy luqmanulhakim, helmyl, software development, data development"
-		name="keywords"
-	/>
-	<meta content="Helmy Luqmanulhakim" name="author" />
-</svelte:head>
-
 <SEO
 	metadescription="Here, I share my journey and insights from my experiences in software development and data development."
 	slug="/"

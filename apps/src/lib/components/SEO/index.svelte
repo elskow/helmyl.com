@@ -65,7 +65,7 @@
 
 	// const pageTitle = `${siteTitle || defaultSiteTitle} ${VERTICAL_LINE_ENTITY} ${title}`;
 
-	const pageTitle = siteTitle ? `${siteTitle} ${VERTICAL_LINE_ENTITY} ${title}` : title;
+	const pageTitle = title ? `${title}` : 'Helmy Luqmanulhakim | Software Engineer';
 	const url = `${siteUrl}/${slug}`;
 	const openGraphProps = {
 		article,
