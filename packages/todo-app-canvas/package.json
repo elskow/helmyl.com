@@ -1,0 +1,14 @@
+{
+	"name": "@labs/todo-app-canvas",
+	"version": "1.0.0",
+	"description": "Todo App Canvas project",
+	"scripts": {
+		"dev": "parcel src/index.html",
+		"build": "node -e \"console.log('Current working directory:', process.cwd())\" && mkdir -p $(pwd)/../../apps/static/labs/todo-app-canvas && parcel build src/index.html --dist-dir $(pwd)/../../apps/static/labs/todo-app-canvas --public-url /labs/todo-app-canvas/ --no-cache",
+		"clean": "rm -rf dist .parcel-cache $(pwd)/../../apps/static/labs/todo-app-canvas"
+	},
+	"devDependencies": {
+		"@parcel/transformer-sass": "^2.9.3",
+		"parcel": "^2.9.3"
+	}
+}

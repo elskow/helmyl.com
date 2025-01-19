@@ -2,13 +2,16 @@
 	"name": "helmyl-web-monorepo",
 	"private": true,
 	"scripts": {
-		"dev": "pnpm --filter apps run dev",
-		"clean": "pnpm --filter \"@labs/*-labs\" run clean && pnpm --filter apps run clean",
-		"clean:labs": "pnpm --filter \"@labs/*-labs\" run clean",
+		"clean": "pnpm --filter \"@labs/*\" run clean && pnpm --filter apps run clean",
+		"clean:labs": "pnpm --filter \"@labs/*\" run clean",
 		"clean:web": "pnpm --filter apps run clean",
-		"build:labs": "pnpm --filter \"@labs/*-labs\" run clean && pnpm --filter \"@labs/*-labs\" run build",
+		"build:labs": "pnpm --filter \"@labs/*\" run clean && pnpm --filter \"@labs/*\" run build",
 		"build:web": "pnpm --filter apps run build",
+		"dev": "pnpm build:labs && pnpm --filter apps run dev",
 		"build": "pnpm build:labs && pnpm build:web",
 		"preview": "pnpm --filter apps preview"
+	},
+	"devDependencies": {
+		"@parcel/transformer-sass": "2.13.3"
 	}
 }
