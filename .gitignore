@@ -34,3 +34,5 @@ devenv.local.nix
 .pre-commit-config.yaml
 apps/static/labs/*
 !apps/static/labs/.gitkeep
+dist
+labs-metadata.json

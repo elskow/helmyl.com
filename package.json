@@ -12,6 +12,7 @@
 		"preview": "pnpm --filter apps preview"
 	},
 	"devDependencies": {
+		"@parcel/transformer-glsl": "2.13.3",
 		"@parcel/transformer-sass": "2.13.3"
 	}
 }

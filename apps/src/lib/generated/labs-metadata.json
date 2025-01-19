@@ -1,18 +1,18 @@
 [
   {
-    "name": "sample-labs",
-    "description": "Sample lab project",
+    "name": "rotating-donut",
+    "description": "WebGL Rotating Donut",
     "version": "1.0.0",
-    "slug": "sample-labs",
+    "slug": "rotating-donut",
     "author": "",
     "homepage": "",
     "repository": ""
   },
   {
-    "name": "todo-app-canvas",
-    "description": "Todo App Canvas project",
+    "name": "space-shooter",
+    "description": "Space Shooter Game",
     "version": "1.0.0",
-    "slug": "todo-app-canvas",
+    "slug": "space-shooter",
     "author": "",
     "homepage": "",
     "repository": ""

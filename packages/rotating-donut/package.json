@@ -1,0 +1,13 @@
+{
+	"name": "@labs/rotating-donut",
+	"version": "1.0.0",
+	"description": "WebGL Rotating Donut",
+	"scripts": {
+		"dev": "parcel src/index.html",
+		"build": "node -e \"console.log('Current working directory:', process.cwd())\" && mkdir -p $(pwd)/../../apps/static/labs/rotating-donut && parcel build src/index.html --dist-dir $(pwd)/../../apps/static/labs/rotating-donut --public-url /labs/rotating-donut/ --no-cache",
+		"clean": "rm -rf dist .parcel-cache $(pwd)/../../apps/static/labs/rotating-donut"
+	},
+	"devDependencies": {
+		"parcel": "^2.11.0"
+	}
+}

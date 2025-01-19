@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Space Shooter</title>
+		<link rel="stylesheet" href="./main.scss" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap"
+			rel="stylesheet"
+		/>
+	</head>
+	<body>
+		<div class="game-container">
+			<canvas id="gameCanvas"></canvas>
+			<div class="hud">
+				<div class="hud-top">
+					<div class="score-container">
+						<div class="score">
+							<span class="label">SCORE</span>
+							<span id="scoreValue" class="value">0</span>
+						</div>
+						<div class="high-score">
+							<span class="label">HIGH</span>
+							<span id="highScoreValue" class="value">0</span>
+						</div>
+					</div>
+
+					<div class="status-container">
+						<div class="lives">
+							<span class="label">LIVES</span>
+							<div class="lives-icons">
+								<span id="livesValue">3</span>
+								<i class="fas fa-fighter-jet"></i>
+							</div>
+						</div>
+
+						<div class="bars-container">
+							<div class="bar-wrapper">
+								<span class="label">SHIELD</span>
+								<div class="shield-bar">
+									<div id="shieldValue" class="shield-value"></div>
+								</div>
+							</div>
+
+							<div class="bar-wrapper">
+								<span class="label">WEAPON HEAT</span>
+								<div class="heat-bar">
+									<div id="shootCooldown" class="heat-value"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="gameOver" class="game-over hidden">
+				<h2>GAME OVER</h2>
+				<div class="final-scores">
+					<div class="score-item">
+						<span class="label">SCORE</span>
+						<span id="finalScore" class="value">0</span>
+					</div>
+					<div class="score-item">
+						<span class="label">HIGH SCORE</span>
+						<span id="finalHighScore" class="value">0</span>
+					</div>
+				</div>
+				<button id="restartButton">Play Again</button>
+			</div>
+		</div>
+		<script type="module" src="./main.ts"></script>
+	</body>
+</html>
