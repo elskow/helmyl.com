@@ -4,7 +4,7 @@
 	"description": "Space Shooter Game",
 	"scripts": {
 		"dev": "parcel src/index.html",
-		"build": "node -e \"console.log('Current working directory:', process.cwd())\" && mkdir -p $(pwd)/../../apps/static/labs/space-shooter && parcel build src/index.html --dist-dir $(pwd)/../../apps/static/labs/space-shooter --public-url /labs/space-shooter/ --no-cache",
+		"build": "node -e \"console.log('Current working directory:', process.cwd())\" && mkdir -p $(pwd)/../../apps/static/labs/space-shooter && parcel build src/index.html --dist-dir $(pwd)/../../apps/static/labs/space-shooter --public-url /labs/space-shooter/ --no-cache --no-content-hash --no-source-maps",
 		"clean": "rm -rf dist .parcel-cache ../../apps/static/labs/space-shooter"
 	},
 	"devDependencies": {
