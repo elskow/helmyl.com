@@ -24,19 +24,42 @@ export class Game {
 	private highScore: number = 0;
 
 	constructor(canvas: HTMLCanvasElement) {
-		this.gl = canvas.getContext('webgl', {
-			alpha: false,
-			antialias: true,
-			depth: false
-		})!;
+		try {
+			this.gl = canvas.getContext('webgl', {
+				alpha: false,
+				antialias: true,
+				depth: false
+			})!;
 
-		if (!this.gl) {
-			throw new Error('WebGL not supported');
+			if (!this.gl) {
+				throw new Error('WebGL not supported');
+			}
+
+			this.gl.getExtension('WEBGL_lose_context');
+			this.gl.getExtension('WEBGL_debug_renderer_info');
+
+			console.log('WebGL Vendor:', this.gl.getParameter(this.gl.VENDOR));
+			console.log('WebGL Renderer:', this.gl.getParameter(this.gl.RENDERER));
+			console.log('WebGL Version:', this.gl.getParameter(this.gl.VERSION));
+
+			this.loadHighScore();
+			this.initGame();
+		} catch (error) {
+			console.error('Game initialization failed:', error);
+			this.showErrorMessage();
 		}
+	}
 
-		// Load high score from localStorage
-		this.loadHighScore();
-		this.initGame();
+	private showErrorMessage(): void {
+		const container = document.querySelector('.game-container');
+		if (container) {
+			container.innerHTML = `
+            <div class="error-message" style="text-align: center; padding: 20px;">
+                <h2>Oops! Something went wrong</h2>
+                <p>Unable to initialize the game. Please check if WebGL is supported in your browser.</p>
+            </div>
+        `;
+		}
 	}
 
 	private loadHighScore(): void {
