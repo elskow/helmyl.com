@@ -4,12 +4,34 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Space Shooter</title>
+		<link rel="modulepreload" href="./main.ts" as="script" crossorigin="anonymous" />
 		<link rel="stylesheet" href="./main.scss" crossorigin="anonymous" />
 		<link
+			rel="preload"
 			href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap"
-			rel="stylesheet"
+			as="style"
 			crossorigin="anonymous"
+			onload="this.onload=null;this.rel='stylesheet'"
 		/>
+		<link
+			rel="preload"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+			as="style"
+			crossorigin="anonymous"
+			onload="this.onload=null;this.rel='stylesheet'"
+		/>
+		<noscript>
+			<link
+				href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap"
+				rel="stylesheet"
+				crossorigin="anonymous"
+			/>
+			<link
+				href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+				rel="stylesheet"
+				crossorigin="anonymous"
+			/>
+		</noscript>
 	</head>
 	<body>
 		<div class="game-container">
