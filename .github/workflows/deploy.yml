@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Get full git history for last modified dates
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -38,8 +40,13 @@ jobs:
       - name: Install Playwright in apps workspace
         run: cd apps && pnpm exec playwright install --with-deps chromium
 
+      - name: Set GitHub token environment variable
+        run: echo "GITHUB_API_TOKEN=${{ secrets.GITHUB_TOKEN }}" >> $GITHUB_ENV
+
       - name: Build
         run: pnpm build
+        env:
+          GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish to Cloudflare Pages
         uses: cloudflare/pages-action@v1

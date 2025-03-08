@@ -5,16 +5,14 @@ date: 2024-10-24
 
 Building a video chat feature sounds like something you’d do over a weekend, right? Throw some **WebRTC**, sprinkle a little **WebSocket**, and voila—instant video conferencing! _Well, if only it were that simple_.
 
-
 <figure>
     <img src="../../static/images/realtime-videochat/pexels-shvetsa-4226140.jpg" style="display: block; margin: 0 auto; width: 100%;">
     <figcaption>Photo by Shvets Anna from Pexels</figcaption>
 </figure>
 
-
 What I discovered during my attempt to craft a smooth, real-time video chat solution is this: building the actual communication platform is like trying to herd a bunch of digital cats. The real **challenge**? _The network_.
 
-And it’s not just the network – the choice of *codecs* plays a huge role in delivering high-quality audio and video, and ensuring it doesn’t sound like a robot got stuck in a loop.
+And it’s not just the network – the choice of _codecs_ plays a huge role in delivering high-quality audio and video, and ensuring it doesn’t sound like a robot got stuck in a loop.
 
 # Understanding the Big Picture: Why Network is King
 
@@ -23,6 +21,7 @@ The key to a smooth video chat experience is not just **WebRTC** or some fancy U
 ---
 
 # Discovery 1: The Role of WebRTC
+
 Before we get into the nitty-gritty details of codecs and network traversal, let's start with the foundation: **WebRTC (Web Real-Time Communication)**.
 
 **WebRTC** is the heart of modern video chat applications. It handles peer-to-peer audio and video communication directly between clients, bypassing the server for actual media streaming (so no bottlenecks!). However, to make this magic happen, WebRTC needs to overcome certain obstacles:
@@ -30,7 +29,7 @@ Before we get into the nitty-gritty details of codecs and network traversal, let
 1. **Signaling** (to connect peers)
 2. **NAT traversal** (to punch through firewalls)
 3. **RTP & codecs** (to stream media)
-WebRTC uses **RTP (Real-Time Protocol)** to transmit media, and **STUN/TURN servers** to ensure connectivity across complex network environments.
+   WebRTC uses **RTP (Real-Time Protocol)** to transmit media, and **STUN/TURN servers** to ensure connectivity across complex network environments.
 
 Here's a high-level sequence diagram for WebRTC's peer connection establishment:
 
@@ -48,11 +47,12 @@ sequenceDiagram
 ```
 
 ## How WebRTC Uses Signaling
+
 Before peers can exchange media, they need to exchange details about their network configurations and media capabilities. This is where **SDP (Session Description Protocol)** comes into play. During the **signaling** phase, clients exchange SDP messages via a signaling server. These messages describe the media formats (codecs), transport methods, and network information they will use.
 
 1. **Offer**: Peer 1 sends an SDP offer describing its capabilities (e.g., video codec, resolution).
 2. **Answer**: Peer 2 responds with its capabilities.
-Signaling servers (usually implemented with **WebSockets** or **HTTP**) help facilitate this exchange, but the actual media stream happens directly between the clients via **RTP**.
+   Signaling servers (usually implemented with **WebSockets** or **HTTP**) help facilitate this exchange, but the actual media stream happens directly between the clients via **RTP**.
 
 or in high-level terms:
 
@@ -68,6 +68,7 @@ Once both parties are satisfied, the actual connection can begin. And that’s w
 Once signaling completes, WebRTC establishes a **peer-to-peer** connection, where **RTP (Real-Time Protocol)** becomes the hero. RTP is used to send the actual media data (video and audio) over the network.
 
 ### How RTP Works
+
 RTP breaks down the media (video/audio) into small packets, which are then sent over the network. Each RTP packet contains:
 
 - **Payload Type**: Indicates the codec (e.g., H.264, Opus)
@@ -134,16 +135,15 @@ If all clients lived on the same public network, life would be easy. But, in rea
 
 1. **STUN (Session Traversal Utilities for NAT)**
 
-    **STUN** servers help clients discover their public IP address and port, allowing them to tell each other: _"Hey, this is how I appear to the outside world."_ WebRTC clients use this information to try and establish a direct connection with the other peer.
+   **STUN** servers help clients discover their public IP address and port, allowing them to tell each other: _"Hey, this is how I appear to the outside world."_ WebRTC clients use this information to try and establish a direct connection with the other peer.
 
-    In some cases, STUN is enough to establish a direct connection, but when it fails, TURN servers act as a relay to ensure communication can still occur.
+   In some cases, STUN is enough to establish a direct connection, but when it fails, TURN servers act as a relay to ensure communication can still occur.
 
 2. **TURN (Traversal Using Relays around NAT)**
 
-    When a direct connection via STUN fails (e.g., if both clients are behind restrictive NATs), TURN servers step in to relay the media streams. This ensures the connection still works, though at the cost of increased latency and bandwidth.
+   When a direct connection via STUN fails (e.g., if both clients are behind restrictive NATs), TURN servers step in to relay the media streams. This ensures the connection still works, though at the cost of increased latency and bandwidth.
 
-    The TURN server acts as a middleman, relaying RTP packets between the peers. While it’s less efficient, it ensures that communication can still occur in challenging network environments.
-
+   The TURN server acts as a middleman, relaying RTP packets between the peers. While it’s less efficient, it ensures that communication can still occur in challenging network environments.
 
 ---
 
