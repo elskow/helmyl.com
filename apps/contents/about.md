@@ -17,7 +17,7 @@ My journey in software engineering has been driven by a fascination with algorit
 
 | Date                 | Role                                 | Company                                                                           |
 | -------------------- | ------------------------------------ | --------------------------------------------------------------------------------- |
-| Jan 2025 - Present   | Application Developer Intern         | [Bank Central Asia (BCA)](https://www.bca.co.id/)                                 |
+| Mar 2025 - Present   | Application Developer Intern         | [Bank Central Asia (BCA)](https://www.bca.co.id/)                                 |
 | Sept 2024 - Jan 2025 | Bangkit Machine Learning Path Cohort | [Google, GoTo, Tokopedia, and Traveloka](https://grow.google/intl/id_id/bangkit/) |
 | Apr 2024 - May 2024  | FGA PowerBI Data Analyst Cohort      | [Biji-biji Initiative](https://www.biji-biji.com/)                                |
 
