@@ -8,13 +8,36 @@
 </script>
 
 <svelte:head>
-	<title>Helmy Luqmanulhakim</title>
-	<meta name="description" content="Things I use to building something and daily life." />
-	<meta property="og:title" content="Tools & Technologies I Use" />
-	<meta property="og:description" content="Things I use to building something and daily life." />
-	<meta property="og:url" content="https://helmyl.com" />
+	<title>Tools & Tech I Use | Helmy Luqmanulhakim</title>
+	<meta
+		name="description"
+		content="Discover the tools, technologies, and equipment I use for software development and in my daily workflow."
+	/>
+	<meta
+		name="keywords"
+		content="developer tools, software stack, tech setup, coding environment, Helmy Luqmanulhakim"
+	/>
+
+	<!-- Open Graph / Facebook -->
 	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://helmyl.com/uses" />
+	<meta property="og:title" content="Tools & Tech I Use | Helmy Luqmanulhakim" />
+	<meta
+		property="og:description"
+		content="Discover the tools, technologies, and equipment I use for software development and in my daily workflow."
+	/>
 	<meta property="og:site_name" content="Helmy Luqmanulhakim" />
+
+	<!-- Twitter -->
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:url" content="https://helmyl.com/uses" />
+	<meta name="twitter:title" content="Tools & Tech I Use | Helmy Luqmanulhakim" />
+	<meta
+		name="twitter:description"
+		content="Discover the tools, technologies, and equipment I use for software development and in my daily workflow."
+	/>
+
+	<link rel="canonical" href="https://helmyl.com/uses" />
 </svelte:head>
 
 <main class="max-w-4xl mx-auto md:p-8 p-4 mt-4">

@@ -12,22 +12,44 @@
 	function goBack() {
 		window.location.href = '/labs';
 	}
+
+	const labUrl = `https://helmyl.com/labs/${data.project.slug}`;
 </script>
 
 <svelte:head>
-	<title>Helmy Luqmanulhakim</title>
+	<title>{data.project.name} | Lab Experiment | Helmy Luqmanulhakim</title>
 	<meta
 		name="description"
-		content={data.project.description || `Lab experiment: ${data.project.name}`}
+		content={data.project.description ||
+			`Interactive experiment demonstrating ${data.project.name} in action.`}
 	/>
-	<meta property="og:title" content={data.project.name} />
+	<meta
+		name="keywords"
+		content={`${data.project.name}, interactive experiment, tech demo, Helmy Luqmanulhakim`}
+	/>
+
+	<!-- Open Graph / Facebook -->
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content={labUrl} />
+	<meta property="og:title" content={`${data.project.name} | Lab Experiment`} />
 	<meta
 		property="og:description"
-		content={data.project.description || `Lab experiment: ${data.project.name}`}
+		content={data.project.description ||
+			`Interactive experiment demonstrating ${data.project.name} in action.`}
 	/>
-	<meta property="og:url" content="https://helmyl.com" />
-	<meta property="og:type" content="website" />
 	<meta property="og:site_name" content="Helmy Luqmanulhakim" />
+
+	<!-- Twitter -->
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:url" content={labUrl} />
+	<meta name="twitter:title" content={`${data.project.name} | Lab Experiment`} />
+	<meta
+		name="twitter:description"
+		content={data.project.description ||
+			`Interactive experiment demonstrating ${data.project.name} in action.`}
+	/>
+
+	<link rel="canonical" href={labUrl} />
 </svelte:head>
 
 <div class="fixed inset-0 bg-white dark:bg-slate-950">

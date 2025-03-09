@@ -8,13 +8,36 @@
 </script>
 
 <svelte:head>
-	<title>Helmy Luqmanulhakim</title>
-	<meta name="description" content="What I think about myself" />
-	<meta property="og:title" content="Get to Know Me!" />
-	<meta property="og:description" content="What I think about myself" />
-	<meta property="og:url" content="https://helmyl.com" />
+	<title>About Me | Helmy Luqmanulhakim</title>
+	<meta
+		name="description"
+		content="Learn more about Helmy Luqmanulhakim, my background, skills, and professional journey in software engineering."
+	/>
+	<meta
+		name="keywords"
+		content="about Helmy Luqmanulhakim, software engineer bio, developer profile"
+	/>
+
+	<!-- Open Graph / Facebook -->
 	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://helmyl.com/about" />
+	<meta property="og:title" content="About Me | Helmy Luqmanulhakim" />
+	<meta
+		property="og:description"
+		content="Learn more about Helmy Luqmanulhakim, my background, skills, and professional journey in software engineering."
+	/>
 	<meta property="og:site_name" content="Helmy Luqmanulhakim" />
+
+	<!-- Twitter -->
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:url" content="https://helmyl.com/about" />
+	<meta name="twitter:title" content="About Me | Helmy Luqmanulhakim" />
+	<meta
+		name="twitter:description"
+		content="Learn more about Helmy Luqmanulhakim, my background, skills, and professional journey in software engineering."
+	/>
+
+	<link rel="canonical" href="https://helmyl.com/about" />
 </svelte:head>
 
 <main class="max-w-4xl mx-auto md:p-8 p-4 mt-4">

@@ -46,16 +46,56 @@
 	afterNavigate(() => {
 		initializeTwitterWidgets();
 	});
+
+	const articleUrl = `https://helmyl.com/writings/${post.slug}`;
 </script>
 
 <svelte:head>
-	<title>Helmy Luqmanulhakim</title>
-	<meta name="description" content={post.excerpt} />
+	<title>{post.title} | Helmy Luqmanulhakim</title>
+	<meta
+		name="description"
+		content={post.excerpt || `Read my thoughts on ${post.title}. ${post.description || ''}`}
+	/>
+	<meta
+		name="keywords"
+		content={post.tags
+			? post.tags.join(', ') + ', Helmy Luqmanulhakim'
+			: 'article, blog post, software development, Helmy Luqmanulhakim'}
+	/>
+	<meta name="author" content="Helmy Luqmanulhakim" />
+
+	<!-- Open Graph / Facebook -->
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content={articleUrl} />
 	<meta property="og:title" content={post.title} />
-	<meta property="og:description" content={post.excerpt} />
-	<meta property="og:url" content="https://helmyl.com" />
-	<meta property="og:type" content="website" />
+	<meta
+		property="og:description"
+		content={post.excerpt || post.description || `Read my thoughts on ${post.title}.`}
+	/>
 	<meta property="og:site_name" content="Helmy Luqmanulhakim" />
+	{#if post.image}
+		<meta property="og:image" content={post.image} />
+	{/if}
+	{#if post.date}
+		<meta property="article:published_time" content={new Date(post.date).toISOString()} />
+	{/if}
+	{#if post.lastModified}
+		<meta property="article:modified_time" content={new Date(post.lastModified).toISOString()} />
+	{/if}
+
+	<!-- Twitter -->
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:url" content={articleUrl} />
+	<meta name="twitter:title" content={post.title} />
+	<meta
+		name="twitter:description"
+		content={post.excerpt || post.description || `Read my thoughts on ${post.title}.`}
+	/>
+	{#if post.image}
+		<meta name="twitter:image" content={post.image} />
+	{/if}
+
+	<link rel="canonical" href={articleUrl} />
 </svelte:head>
 
 <main class="max-w-4xl mx-auto md:p-8 p-4 mt-4">

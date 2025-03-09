@@ -10,13 +10,36 @@
 </script>
 
 <svelte:head>
-	<title>Helmy Luqmanulhakim</title>
-	<meta name="description" content="List of writings that I've written." />
-	<meta property="og:title" content="Thoughts & Insights" />
-	<meta property="og:description" content="List of writings that I've written." />
-	<meta property="og:url" content="https://helmyl.com" />
+	<title>Writings & Articles | Helmy Luqmanulhakim</title>
+	<meta
+		name="description"
+		content="Read my thoughts, insights, and articles on software development, technical solutions, and industry trends."
+	/>
+	<meta
+		name="keywords"
+		content="tech articles, software development blog, coding tutorials, Helmy Luqmanulhakim writings"
+	/>
+
+	<!-- Open Graph / Facebook -->
 	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://helmyl.com/writings" />
+	<meta property="og:title" content="Writings & Articles | Helmy Luqmanulhakim" />
+	<meta
+		property="og:description"
+		content="Read my thoughts, insights, and articles on software development, technical solutions, and industry trends."
+	/>
 	<meta property="og:site_name" content="Helmy Luqmanulhakim" />
+
+	<!-- Twitter -->
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:url" content="https://helmyl.com/writings" />
+	<meta name="twitter:title" content="Writings & Articles | Helmy Luqmanulhakim" />
+	<meta
+		name="twitter:description"
+		content="Read my thoughts, insights, and articles on software development, technical solutions, and industry trends."
+	/>
+
+	<link rel="canonical" href="https://helmyl.com/writings" />
 </svelte:head>
 
 <main class="max-w-4xl mx-auto md:p-8 p-4 mt-4">

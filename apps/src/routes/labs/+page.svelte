@@ -8,19 +8,36 @@
 </script>
 
 <svelte:head>
-	<title>Helmy Luqmanulhakim</title>
+	<title>Interactive Labs & Experiments | Helmy Luqmanulhakim</title>
 	<meta
 		name="description"
-		content="Explore hands-on experiments and interactive demos showcasing various technologies and concepts in action. From WebGL visualizations to practical implementations."
+		content="Explore my hands-on experiments, interactive demos, and technical labs showcasing various technologies in action."
 	/>
-	<meta property="og:title" content="Interactive Labs & Experiments" />
+	<meta
+		name="keywords"
+		content="web experiments, interactive demos, tech labs, code playground, Helmy Luqmanulhakim"
+	/>
+
+	<!-- Open Graph / Facebook -->
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://helmyl.com/labs" />
+	<meta property="og:title" content="Interactive Labs & Experiments | Helmy Luqmanulhakim" />
 	<meta
 		property="og:description"
-		content="Explore hands-on experiments and interactive demos showcasing various technologies and concepts in action. From WebGL visualizations to practical implementations."
+		content="Explore my hands-on experiments, interactive demos, and technical labs showcasing various technologies in action."
 	/>
-	<meta property="og:url" content="https://helmyl.com" />
-	<meta property="og:type" content="website" />
 	<meta property="og:site_name" content="Helmy Luqmanulhakim" />
+
+	<!-- Twitter -->
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:url" content="https://helmyl.com/labs" />
+	<meta name="twitter:title" content="Interactive Labs & Experiments | Helmy Luqmanulhakim" />
+	<meta
+		name="twitter:description"
+		content="Explore my hands-on experiments, interactive demos, and technical labs showcasing various technologies in action."
+	/>
+
+	<link rel="canonical" href="https://helmyl.com/labs" />
 </svelte:head>
 
 <main class="max-w-4xl mx-auto md:p-8 p-4 mt-4">

@@ -12,19 +12,36 @@
 </script>
 
 <svelte:head>
-	<title>Helmy Luqmanulhakim</title>
+	<title>Helmy Luqmanulhakim | Software Engineer</title>
 	<meta
 		name="description"
-		content="Here, I share my journey and insights from my experiences in software development and data development."
+		content="Software engineer exploring and sharing insights on development, data engineering, and tech solutions."
 	/>
-	<meta property="og:title" content="Helmy Luqmanulhakim" />
+	<meta
+		name="keywords"
+		content="Helmy Luqmanulhakim, software engineer, web development, data engineering, programming"
+	/>
+
+	<!-- Open Graph / Facebook -->
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://helmyl.com/" />
+	<meta property="og:title" content="Helmy Luqmanulhakim | Software Engineer" />
 	<meta
 		property="og:description"
-		content="Here, I share my journey and insights from my experiences in software development and data development."
+		content="Software engineer exploring and sharing insights on development, data engineering, and tech solutions."
 	/>
-	<meta property="og:url" content="https://helmyl.com" />
-	<meta property="og:type" content="website" />
 	<meta property="og:site_name" content="Helmy Luqmanulhakim" />
+
+	<!-- Twitter -->
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:url" content="https://helmyl.com/" />
+	<meta name="twitter:title" content="Helmy Luqmanulhakim | Software Engineer" />
+	<meta
+		name="twitter:description"
+		content="Software engineer exploring and sharing insights on development, data engineering, and tech solutions."
+	/>
+
+	<link rel="canonical" href="https://helmyl.com/" />
 </svelte:head>
 
 <main class="max-w-4xl mx-auto md:p-8 p-4">
