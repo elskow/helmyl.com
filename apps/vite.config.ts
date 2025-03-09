@@ -27,8 +27,10 @@ export default defineConfig(({ mode }) => {
 			rollupOptions: {
 				output: {
 					assetFileNames: (assetInfo) => {
-						if (assetInfo.name.endsWith('.html')) {
-							return 'labs/[name][extname]';
+						for (const name of assetInfo.names) {
+							if (name.endsWith('.html')) {
+								return 'labs/[name][extname]';
+							}
 						}
 						return '[name][extname]';
 					}

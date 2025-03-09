@@ -1,14 +1,16 @@
 <script lang="ts">
 	import Footer from '$lib/components/Footer.svelte';
-	import { getBreadcrumbs } from '$lib/utils/breadcrumbs';
-	import { afterUpdate, onMount } from 'svelte';
+	import Breadcrumbs from '$lib/components/Breadcrumbs.svelte';
+	import { onMount } from 'svelte';
 	import { afterNavigate } from '$app/navigation';
 
-	/** @type {import('./$types').PageData} */
-	export let data;
-	const post = data.post;
+	interface Props {
+		data: import('./$types').PageData;
+	}
 
-	const breadcrumbs = getBreadcrumbs(`writings/${post.slug}`);
+	let { data }: Props = $props();
+	const post = data.post;
+	const breadcrumbPath = `writings/${post.slug}`;
 
 	function executePostScripts() {
 		const scripts = document.querySelectorAll('.post-content script');
@@ -22,7 +24,8 @@
 	onMount(() => {
 		executePostScripts();
 	});
-	afterUpdate(() => {
+
+	$effect(() => {
 		executePostScripts();
 	});
 
@@ -99,30 +102,7 @@
 </svelte:head>
 
 <main class="max-w-4xl mx-auto md:p-8 p-4 mt-4">
-	<nav class="text-gray-600 dark:text-gray-400 font-medium text-sm line-clamp-1 pr-4">
-		<a
-			class="text-blue-800 dark:text-blue-400 hover:text-gray-800 dark:hover:text-gray-200 hover:text-bold cursor-pointer transition-colors duration-200 ease-in-out"
-			href="/"
-			title="home">home</a
-		>
-		<span class="mx-0.5 sm:mx-1">/</span>
-		{#each breadcrumbs as breadcrumb, index}
-			{#if !breadcrumb.isCurrent}
-				<a
-					href={breadcrumb.url}
-					class="text-blue-800 dark:text-blue-400 hover:text-gray-800 dark:hover:text-gray-200 hover:text-bold cursor-pointer transition-colors duration-200 ease-in-out"
-					title={breadcrumb.url}
-				>
-					{breadcrumb.name}
-				</a>
-			{:else}
-				<span class="text-neutral-950 dark:text-neutral-200">{breadcrumb.name}</span>
-			{/if}
-			{#if index < breadcrumbs.length - 1}
-				<span class="mx-1">/</span>
-			{/if}
-		{/each}
-	</nav>
+	<Breadcrumbs path={breadcrumbPath} />
 
 	<article class="pt-8 space-y-4 text-sm sm:text-base">
 		<h1 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">{post.title}</h1>

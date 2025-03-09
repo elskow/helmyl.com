@@ -16,7 +16,7 @@
 	{/if}
 	<button
 		class="mt-4 px-4 py-2 bg-gray-600 dark:bg-gray-700 text-white rounded transition duration-300 ease-in-out transform hover:bg-gray-700 dark:hover:bg-gray-600 hover:text-gray-100 active:scale-95"
-		on:click={goHome}
+		onclick={goHome}
 	>
 		Home
 	</button>

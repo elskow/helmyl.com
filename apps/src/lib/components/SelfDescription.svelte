@@ -1,5 +1,9 @@
 <script lang="ts">
-	export let attributes: string[] = [];
+	interface Props {
+		attributes?: string[];
+	}
+
+	let { attributes = [] }: Props = $props();
 	const longestAttribute = attributes.reduce((a, b) => (a.length > b.length ? a : b), '');
 </script>
 

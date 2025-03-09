@@ -1,9 +1,19 @@
 <script lang="ts">
-	export let name: string;
-	export let description: string;
-	export let github: string;
-	export let stacks: string[];
-	export let slug: string;
+	interface Props {
+		name: string;
+		description: string;
+		github: string;
+		stacks: string[];
+		slug: string;
+	}
+
+	let {
+		name,
+		description,
+		github,
+		stacks,
+		slug
+	}: Props = $props();
 </script>
 
 <div

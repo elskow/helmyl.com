@@ -4,8 +4,12 @@
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 
-	/** @type {import('./$types').PageData} */
-	export let data;
+	
+	interface Props {
+		data: import('./$types').PageData;
+	}
+
+	let { data }: Props = $props();
 	const posts = data.posts;
 	const projects = data.projects;
 	const qualities = ['secure', 'scalable', 'fast', 'reliable'];
@@ -80,8 +84,8 @@
 			<h2 class="text-base sm:text-lg font-medium text-gray-800 dark:text-gray-200 no-gradient">
 				Technologies that I use :
 			</h2>
-			<div class="gradient-overlay-left sm:hidden dark:hidden" />
-			<div class="gradient-overlay-right sm:hidden dark:hidden" />
+			<div class="gradient-overlay-left sm:hidden dark:hidden"></div>
+			<div class="gradient-overlay-right sm:hidden dark:hidden"></div>
 			<div
 				class="sm:grid sm:grid-cols-4 gap-7 sm:gap-4 mt-4 text-gray-600 dark:text-gray-400 overflow-x-auto flex sm:flex-none no-scrollbar py-4 sm:pl-3 px-3 pr-8 sm:pr-3"
 			>
