@@ -4,7 +4,6 @@ I am a language and framework-agnostic Software Engineer with a deep passion for
 
 My journey in software engineering has been driven by a fascination with algorithm design, system architecture, and performance optimization. I adapt my approach based on the specific needs of each project, ensuring that the solutions I create are both efficient and scalable.
 
-
 ### Skills & Expertise
 
 - **Languages**: Go, Python, Java, Typescript.
@@ -16,10 +15,11 @@ My journey in software engineering has been driven by a fascination with algorit
 
 ### Experience
 
-| Date                | Role                                 | Company                                                                           |
-| ------------------- | ------------------------------------ | --------------------------------------------------------------------------------- |
-| Sept 2024 - Jan 2025| Bangkit Machine Learning Path Cohort | [Google, GoTo, Tokopedia, and Traveloka](https://grow.google/intl/id_id/bangkit/) |
-| Apr 2024 - May 2024 | FGA PowerBI Data Analyst Cohort      | [Biji-biji Initiative](https://www.biji-biji.com/)                                |
+| Date                 | Role                                 | Company                                                                           |
+| -------------------- | ------------------------------------ | --------------------------------------------------------------------------------- |
+| Jan 2025 - Present   | Application Developer Intern         | [Bank Central Asia (BCA)](https://www.bca.co.id/)                                 |
+| Sept 2024 - Jan 2025 | Bangkit Machine Learning Path Cohort | [Google, GoTo, Tokopedia, and Traveloka](https://grow.google/intl/id_id/bangkit/) |
+| Apr 2024 - May 2024  | FGA PowerBI Data Analyst Cohort      | [Biji-biji Initiative](https://www.biji-biji.com/)                                |
 
 ### Honors & Certifications
 
@@ -29,4 +29,4 @@ My journey in software engineering has been driven by a fascination with algorit
 
 ### Online Presence
 
-[LinkedIn](https://www.linkedin.com/in/helmyluqman/)  /  [GitHub](https://github.com/elskow)  /  [Twitter](https://twitter.com/helmy_lh)  /  [Mail](mailto:helmyl.work@gmail.com)  /  [Credly](https://www.credly.com/users/helmy-luqmanulhakim)
+[LinkedIn](https://www.linkedin.com/in/helmyluqman/) / [GitHub](https://github.com/elskow) / [Twitter](https://twitter.com/helmy_lh) / [Mail](mailto:helmyl.work@gmail.com) / [Credly](https://www.credly.com/users/helmy-luqmanulhakim)
