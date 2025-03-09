@@ -1,17 +1,18 @@
 export const prerender = true;
 
 export async function GET(): Promise<Response> {
-    // prettier-ignore
-    const body = [
+	// prettier-ignore
+	const body = [
         'User-agent: *',
         'Allow: /',
         '',
-        `Sitemap: ${import.meta.env.DEV ? 'http://localhost:5173' : 'https://helmyl.com'}/sitemap.xml`
+        `Sitemap: ${import.meta.env.DEV ? 'http://localhost:5173' : 'https://helmyl.com'}/sitemap.xml`,
+        `RSS: ${import.meta.env.DEV ? 'http://localhost:5173' : 'https://helmyl.com'}/rss.xml`
     ].join('\n').trim();
 
-    const headers = {
-        'Content-Type': 'text/plain'
-    };
+	const headers = {
+		'Content-Type': 'text/plain'
+	};
 
-    return new Response(body, {headers});
+	return new Response(body, { headers });
 }
