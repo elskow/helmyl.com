@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Footer from '$lib/components/Footer.svelte';
 	import { getBreadcrumbs } from '$lib/utils/breadcrumbs';
-	import SEO from '$lib/components/SEO/index.svelte';
 
 	/** @type {import('./$types').PageData} */
 	export let data;
@@ -10,7 +9,15 @@
 	const breadcrumbs = getBreadcrumbs('writings');
 </script>
 
-<SEO metadescription="List of writings that I've written." title="Thoughts & Insights" />
+<svelte:head>
+	<title>Helmy Luqmanulhakim</title>
+	<meta name="description" content="List of writings that I've written." />
+	<meta property="og:title" content="Thoughts & Insights" />
+	<meta property="og:description" content="List of writings that I've written." />
+	<meta property="og:url" content="https://helmyl.com" />
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="Helmy Luqmanulhakim" />
+</svelte:head>
 
 <main class="max-w-4xl mx-auto md:p-8 p-4 mt-4">
 	<nav class="text-gray-600 dark:text-gray-400 font-medium text-sm line-clamp-1 pr-4">

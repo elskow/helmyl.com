@@ -1,12 +1,8 @@
 <script lang="ts">
 	import Footer from '$lib/components/Footer.svelte';
 	import { getBreadcrumbs } from '$lib/utils/breadcrumbs';
-	import SEO from '$lib/components/SEO/index.svelte';
-	import website from '$lib/website';
 	import { afterUpdate, onMount } from 'svelte';
 	import { afterNavigate } from '$app/navigation';
-
-	const siteUrl = website.siteUrl;
 
 	/** @type {import('./$types').PageData} */
 	export let data;
@@ -30,30 +26,6 @@
 		executePostScripts();
 	});
 
-	const defaultAlt = 'Default alt text';
-	const defaultWidth = 672;
-	const defaultHeight = 448;
-	const defaultCaption = 'Default caption';
-
-	const featuredImage =
-		typeof post?.image === 'string'
-			? {
-					url: `${siteUrl}${post.image}`,
-					alt: defaultAlt,
-					width: defaultWidth,
-					height: defaultHeight,
-					caption: defaultCaption
-				}
-			: post?.image;
-
-	const ogImage =
-		typeof post?.image === 'string'
-			? {
-					url: `${siteUrl}${post.image}`,
-					alt: defaultAlt
-				}
-			: post?.image;
-
 	function initializeTwitterWidgets() {
 		// Check if Twitter widgets script is already loaded
 		if (window.twttr) {
@@ -76,14 +48,15 @@
 	});
 </script>
 
-<SEO
-	{featuredImage}
-	metadescription={post.excerpt}
-	{ogImage}
-	ogSquareImage={ogImage}
-	title={post.title}
-	twitterImage={ogImage}
-/>
+<svelte:head>
+	<title>Helmy Luqmanulhakim</title>
+	<meta name="description" content={post.excerpt} />
+	<meta property="og:title" content={post.title} />
+	<meta property="og:description" content={post.excerpt} />
+	<meta property="og:url" content="https://helmyl.com" />
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="Helmy Luqmanulhakim" />
+</svelte:head>
 
 <main class="max-w-4xl mx-auto md:p-8 p-4 mt-4">
 	<nav class="text-gray-600 dark:text-gray-400 font-medium text-sm line-clamp-1 pr-4">

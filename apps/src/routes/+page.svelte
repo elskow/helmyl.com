@@ -3,7 +3,6 @@
 	import { technologies } from '$lib/technologies';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import Footer from '$lib/components/Footer.svelte';
-	import SEO from '$lib/components/SEO/index.svelte';
 
 	/** @type {import('./$types').PageData} */
 	export let data;
@@ -12,11 +11,21 @@
 	const qualities = ['secure', 'scalable', 'fast', 'reliable'];
 </script>
 
-<SEO
-	metadescription="Here, I share my journey and insights from my experiences in software development and data development."
-	slug="/"
-	title="Hi, I'm Helmyl"
-/>
+<svelte:head>
+	<title>Helmy Luqmanulhakim</title>
+	<meta
+		name="description"
+		content="Here, I share my journey and insights from my experiences in software development and data development."
+	/>
+	<meta property="og:title" content="Helmy Luqmanulhakim" />
+	<meta
+		property="og:description"
+		content="Here, I share my journey and insights from my experiences in software development and data development."
+	/>
+	<meta property="og:url" content="https://helmyl.com" />
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="Helmy Luqmanulhakim" />
+</svelte:head>
 
 <main class="max-w-4xl mx-auto md:p-8 p-4">
 	<section>

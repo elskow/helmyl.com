@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import SEO from '$lib/components/SEO/index.svelte';
 	import { getBreadcrumbs } from '$lib/utils/breadcrumbs';
 
 	export let data: PageData;
@@ -15,10 +14,21 @@
 	}
 </script>
 
-<SEO
-	title={data.project.name}
-	metadescription={data.project.description || `Lab experiment: ${data.project.name}`}
-/>
+<svelte:head>
+	<title>Helmy Luqmanulhakim</title>
+	<meta
+		name="description"
+		content={data.project.description || `Lab experiment: ${data.project.name}`}
+	/>
+	<meta property="og:title" content={data.project.name} />
+	<meta
+		property="og:description"
+		content={data.project.description || `Lab experiment: ${data.project.name}`}
+	/>
+	<meta property="og:url" content="https://helmyl.com" />
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="Helmy Luqmanulhakim" />
+</svelte:head>
 
 <div class="fixed inset-0 bg-white dark:bg-slate-950">
 	<nav class="text-gray-600 dark:text-gray-400 font-medium text-sm line-clamp-1 p-4">

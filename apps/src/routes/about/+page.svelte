@@ -2,13 +2,20 @@
 	import { allAbouts } from 'content-collections';
 	import Footer from '$lib/components/Footer.svelte';
 	import { getBreadcrumbs } from '$lib/utils/breadcrumbs';
-	import SEO from '$lib/components/SEO/index.svelte';
 
 	const abouts = allAbouts[0];
 	const breadcrumbs = getBreadcrumbs('about');
 </script>
 
-<SEO metadescription="What I think about myself" title="Get to Know Me!" />
+<svelte:head>
+	<title>Helmy Luqmanulhakim</title>
+	<meta name="description" content="What I think about myself" />
+	<meta property="og:title" content="Get to Know Me!" />
+	<meta property="og:description" content="What I think about myself" />
+	<meta property="og:url" content="https://helmyl.com" />
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="Helmy Luqmanulhakim" />
+</svelte:head>
 
 <main class="max-w-4xl mx-auto md:p-8 p-4 mt-4">
 	<nav class="text-gray-600 dark:text-gray-400 font-medium text-sm line-clamp-1 pr-4">

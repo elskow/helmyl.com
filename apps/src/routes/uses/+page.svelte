@@ -2,16 +2,20 @@
 	import { allUses } from 'content-collections';
 	import Footer from '$lib/components/Footer.svelte';
 	import { getBreadcrumbs } from '$lib/utils/breadcrumbs';
-	import SEO from '$lib/components/SEO/index.svelte';
 
 	const use = allUses[0];
 	const breadcrumbs = getBreadcrumbs('uses');
 </script>
 
-<SEO
-	metadescription="Things I use to building something and daily life."
-	title="Tools & Technologies I Use"
-/>
+<svelte:head>
+	<title>Helmy Luqmanulhakim</title>
+	<meta name="description" content="Things I use to building something and daily life." />
+	<meta property="og:title" content="Tools & Technologies I Use" />
+	<meta property="og:description" content="Things I use to building something and daily life." />
+	<meta property="og:url" content="https://helmyl.com" />
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="Helmy Luqmanulhakim" />
+</svelte:head>
 
 <main class="max-w-4xl mx-auto md:p-8 p-4 mt-4">
 	<nav class="text-gray-600 dark:text-gray-400 font-medium text-sm line-clamp-1 pr-4">

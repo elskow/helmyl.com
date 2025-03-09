@@ -1,18 +1,27 @@
 <script lang="ts">
 	import type { LabProject } from '$lib/types/labs';
-	import type { PageData } from './$types';
 	import Footer from '$lib/components/Footer.svelte';
 	import { getBreadcrumbs } from '$lib/utils/breadcrumbs';
-	import SEO from '$lib/components/SEO/index.svelte';
 
 	export let data: { projects: LabProject[] };
 	const breadcrumbs = getBreadcrumbs('labs');
 </script>
 
-<SEO
-	title="Interactive Labs & Experiments"
-	metadescription="Explore hands-on experiments and interactive demos showcasing various technologies and concepts in action. From WebGL visualizations to practical implementations."
-/>
+<svelte:head>
+	<title>Helmy Luqmanulhakim</title>
+	<meta
+		name="description"
+		content="Explore hands-on experiments and interactive demos showcasing various technologies and concepts in action. From WebGL visualizations to practical implementations."
+	/>
+	<meta property="og:title" content="Interactive Labs & Experiments" />
+	<meta
+		property="og:description"
+		content="Explore hands-on experiments and interactive demos showcasing various technologies and concepts in action. From WebGL visualizations to practical implementations."
+	/>
+	<meta property="og:url" content="https://helmyl.com" />
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="Helmy Luqmanulhakim" />
+</svelte:head>
 
 <main class="max-w-4xl mx-auto md:p-8 p-4 mt-4">
 	<nav class="text-gray-600 dark:text-gray-400 font-medium text-sm line-clamp-1 pr-4">

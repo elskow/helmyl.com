@@ -1,5 +1,4 @@
 <script lang="ts">
-	import SEO from '$lib/components/SEO/index.svelte';
 	import { getBreadcrumbs } from '$lib/utils/breadcrumbs';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import Footer from '$lib/components/Footer.svelte';
@@ -10,7 +9,15 @@
 	const breadcrumbs = getBreadcrumbs('projects');
 </script>
 
-<SEO metadescription="A collection of projects that I've worked on." slug="/" title="Projects" />
+<svelte:head>
+	<title>Helmy Luqmanulhakim</title>
+	<meta name="description" content="A collection of projects that I've worked on." />
+	<meta property="og:title" content="Projects" />
+	<meta property="og:description" content="A collection of projects that I've worked on." />
+	<meta property="og:url" content="https://helmyl.com" />
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="Helmy Luqmanulhakim" />
+</svelte:head>
 
 <main class="max-w-4xl mx-auto md:p-8 p-4 mt-4">
 	<nav class="text-gray-600 dark:text-gray-400 font-medium text-sm line-clamp-1 pr-4">
