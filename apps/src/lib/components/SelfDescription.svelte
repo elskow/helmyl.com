@@ -7,13 +7,17 @@
 	const longestAttribute = attributes.reduce((a, b) => (a.length > b.length ? a : b), '');
 </script>
 
-<span class="text-blue-600 dark:text-blue-400 animated-wrapper">
-	<span class="placeholder" aria-hidden="true">{longestAttribute}.</span>
+{#snippet renderDescription()}
+	<span class="text-azure-600 dark:text-azure-400 animated-wrapper">
+		<span class="placeholder" aria-hidden="true">{longestAttribute}.</span>
 
-	{#each attributes as attribute, i}
-		<span class="animated-word" style="animation-delay: {i * 1.5}s;">{attribute}.</span>
-	{/each}
-</span>
+		{#each attributes as attribute, i}
+			<span class="animated-word" style="animation-delay: {i * 1.5}s;">{attribute}.</span>
+		{/each}
+	</span>
+{/snippet}
+
+{@render renderDescription()}
 
 <style>
 	.animated-wrapper {

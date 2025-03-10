@@ -48,18 +48,28 @@
 
 	<article class="pt-8 space-y-4 text-sm sm:text-base">
 		{#each posts as post}
-			<section class="text-sm sm:text-base py-4 border-b border-gray-200 dark:border-gray-700">
-				<h3 class="font-medium text-gray-800 dark:text-gray-200">
+			<section
+				class="text-sm sm:text-base py-4 border-b border-dark-200 dark:border-midnight-700 transition-all duration-300 hover:border-azure-500/30 dark:hover:border-azure-500/20 group hover:bg-dark-50/50 dark:hover:bg-midnight-800/30 rounded-md px-3 hover:shadow-sm"
+			>
+				<h3 class="font-medium text-midnight-800 dark:text-dark-100">
 					<a
 						href={`/writings/${post.slug}`}
-						class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 ease-in-out"
+						class="hover:text-azure-600 dark:hover:text-azure-400 transition-colors duration-200 ease-in-out inline-flex items-center"
 					>
-						{post.title}
+						<span>{post.title}</span>
 					</a>
 				</h3>
 				<div class="flex items-center justify-between text-sm">
-					<p class="text-gray-400 dark:text-gray-500 mt-2">{post.date}</p>
-					<p class="text-gray-400 dark:text-gray-500 mt-2">{post.readTime}</p>
+					<p
+						class="text-dark-400 dark:text-dark-500 mt-2 transition-colors duration-300 group-hover:text-dark-500 dark:group-hover:text-dark-400"
+					>
+						{post.date}
+					</p>
+					<p
+						class="text-dark-400 dark:text-dark-500 mt-2 transition-colors duration-300 group-hover:text-dark-500 dark:group-hover:text-dark-400"
+					>
+						{post.readTime}
+					</p>
 				</div>
 			</section>
 		{/each}

@@ -71,17 +71,17 @@
 	<Breadcrumbs path={breadcrumbPath} />
 
 	<article class="pt-8 space-y-6 text-sm sm:text-base">
-		<header class="border-b border-gray-200 dark:border-gray-700 pb-6">
-			<h1 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">{project.name}</h1>
+		<header class="border-b border-dark-200 dark:border-midnight-700 pb-6">
+			<h1 class="text-2xl font-semibold text-midnight-800 dark:text-dark-100">{project.name}</h1>
 
-			<p class="mt-4 text-gray-700 dark:text-gray-300 leading-relaxed">{project.description}</p>
+			<p class="mt-4 text-dark-600 dark:text-dark-300 leading-relaxed">{project.description}</p>
 
 			<div class="mt-6 flex flex-col sm:flex-row sm:items-center gap-4 sm:justify-between">
 				<div class="flex flex-wrap gap-2">
 					{#if project.stacks && project.stacks.length > 0}
 						{#each project.stacks as stack}
 							<span
-								class="bg-neutral-100 dark:bg-neutral-800 text-xs px-3 py-1.5 rounded font-medium"
+								class="bg-dark-100 dark:bg-midnight-800 text-xs px-3 py-1.5 rounded font-medium"
 							>
 								{stack}
 							</span>
@@ -89,7 +89,7 @@
 					{/if}
 				</div>
 
-				<p class="text-sm text-gray-500 dark:text-gray-400">
+				<p class="text-sm text-dark-500 dark:text-dark-400">
 					{project.date
 						? new Date(project.date).toLocaleDateString('en-US', {
 								year: 'numeric',
@@ -105,7 +105,7 @@
 						href={project.github}
 						target="_blank"
 						rel="noopener noreferrer"
-						class="inline-flex items-center gap-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 px-4 py-2 rounded-md transition-colors duration-200"
+						class="inline-flex items-center gap-2 bg-dark-100 dark:bg-midnight-800 hover:bg-dark-200 dark:hover:bg-midnight-700 text-midnight-800 dark:text-dark-100 px-4 py-2 rounded-md transition-colors duration-200"
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -126,7 +126,7 @@
 						href={project.demo}
 						target="_blank"
 						rel="noopener noreferrer"
-						class="inline-flex items-center gap-2 bg-blue-100 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-900/50 text-blue-800 dark:text-blue-300 px-4 py-2 rounded-md transition-colors duration-200"
+						class="inline-flex items-center gap-2 bg-azure-100 dark:bg-azure-900/30 hover:bg-azure-200 dark:hover:bg-azure-900/50 text-azure-800 dark:text-azure-300 px-4 py-2 rounded-md transition-colors duration-200"
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -150,20 +150,20 @@
 
 		{#if project.html && project.html.trim() !== ''}
 			<div
-				class="prose prose-sm sm:prose-base space-y-4 md:space-y-6 prose-headings:prose-base sm:prose-headings:prose-base min-w-full pr-2 pt-6 pb-8 project-content dark:prose-invert prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-img:rounded-lg prose-img:shadow-md"
+				class="prose prose-sm sm:prose-base space-y-4 md:space-y-6 prose-headings:prose-base sm:prose-headings:prose-base min-w-full pr-2 pt-6 pb-8 project-content dark:prose-invert prose-a:text-azure-600 dark:prose-a:text-azure-400 prose-img:rounded-lg prose-img:shadow-md"
 			>
 				<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 				{@html project.html}
 			</div>
 		{:else}
-			<div class="pt-6 text-gray-600 dark:text-gray-400 italic">
+			<div class="pt-6 text-dark-600 dark:text-dark-400 italic">
 				No additional details available for this project.
 			</div>
 		{/if}
 
 		{#if project.lastModified}
 			<p
-				class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 text-right font-light border-t border-gray-200 dark:border-gray-700 pt-4"
+				class="text-xs sm:text-sm text-dark-500 dark:text-dark-400 text-right font-light border-t border-dark-200 dark:border-midnight-700 pt-4"
 			>
 				Last modified on {new Date(project.lastModified).toLocaleDateString('en-US', {
 					year: 'numeric',

@@ -16,13 +16,34 @@
     }
 }
 
-/* Global styles for dark mode */
+/* Global styles for light mode */
 body {
     @apply bg-white text-gray-900 transition-colors duration-300;
 }
 
+/* Enhanced dark mode styles */
 @media (prefers-color-scheme: dark) {
     body {
-        @apply bg-slate-950 text-gray-100;
+        @apply bg-zinc-900 text-zinc-100;
+    }
+
+    /* Improve link visibility in dark mode */
+    a:not([class]) {
+        @apply text-blue-400 hover:text-blue-300;
+    }
+
+    /* Soften borders in dark mode */
+    .border, [class*="border-"] {
+        @apply border-zinc-700;
+    }
+
+    /* Improve code block readability */
+    pre, code {
+        @apply bg-zinc-800 text-zinc-200;
+    }
+
+    /* Soften shadows for better depth perception */
+    .shadow, [class*="shadow-"] {
+        @apply shadow-zinc-950/50;
     }
 }

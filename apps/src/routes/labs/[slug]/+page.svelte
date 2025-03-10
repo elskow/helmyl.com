@@ -56,29 +56,29 @@
 	<link rel="canonical" href={labUrl} />
 </svelte:head>
 
-<div class="fixed inset-0 bg-white dark:bg-slate-950">
+<div class="fixed inset-0 bg-white dark:bg-midnight-950">
 	<div class="p-4">
 		<Breadcrumbs path={breadcrumbPath} />
 	</div>
 
 	<div class="flex items-center justify-center h-[calc(100vh-4rem)]">
 		<div class="text-center p-8 max-w-md">
-			<h1 class="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">
+			<h1 class="text-2xl font-bold mb-4 text-midnight-800 dark:text-dark-100">
 				{data.project.name}
 			</h1>
-			<p class="text-gray-600 dark:text-gray-400 mb-8">
+			<p class="text-dark-600 dark:text-dark-300 mb-8">
 				{data.project.description}
 			</p>
 			<div class="space-y-4">
 				<button
 					onclick={refreshPage}
-					class="w-full px-4 py-2 bg-gray-600 dark:bg-gray-700 text-white rounded transition duration-300 ease-in-out transform hover:bg-gray-700 dark:hover:bg-gray-600 hover:text-gray-100 active:scale-95"
+					class="w-full px-4 py-2 bg-azure-600 dark:bg-azure-700 text-white rounded transition duration-300 ease-in-out transform hover:bg-azure-700 dark:hover:bg-azure-600 hover:text-dark-50 active:scale-95"
 				>
 					Launch Lab
 				</button>
 				<button
 					onclick={goBack}
-					class="w-full px-4 py-2 border-2 border-gray-600 dark:border-gray-400 text-gray-600 dark:text-gray-400 rounded transition duration-300 ease-in-out transform hover:bg-gray-100 dark:hover:bg-gray-800 active:scale-95"
+					class="w-full px-4 py-2 border-2 border-dark-400 dark:border-dark-500 text-dark-600 dark:text-dark-300 rounded transition duration-300 ease-in-out transform hover:bg-dark-100 dark:hover:bg-midnight-800 active:scale-95"
 				>
 					Back to Labs
 				</button>

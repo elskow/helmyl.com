@@ -60,11 +60,15 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@expressive-code/plugin-frames": "^0.40.2",
 		"@playwright/test": "1.48.1",
 		"@types/remark-oembed": "^1.2.4",
 		"child_process": "^1.0.2",
 		"feed": "^4.2.2",
 		"playwright": "1.48.1",
+		"rehype-autolink-headings": "^7.1.0",
+		"rehype-slug": "^6.0.0",
+		"remark-toc": "^9.0.0",
 		"unified": "^11.0.5",
 		"util": "^0.12.5"
 	}

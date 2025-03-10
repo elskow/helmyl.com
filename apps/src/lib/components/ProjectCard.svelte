@@ -7,46 +7,43 @@
 		slug: string;
 	}
 
-	let {
-		name,
-		description,
-		github,
-		stacks,
-		slug
-	}: Props = $props();
+	let { name, description, github, stacks, slug }: Props = $props();
 </script>
 
 <div
-	class="relative overflow-hidden border-2 border-neutral-500/50 dark:border-neutral-400/50 rounded-sm shadow-sm rounded-t-lg p-4 pb-8"
+	class="relative overflow-hidden border-2 border-dark-300/50 dark:border-dark-500/50 rounded-sm shadow-sm hover:shadow-md rounded-t-lg p-4 pb-8 transition-all duration-300 hover:border-azure-500/50 dark:hover:border-azure-500/30 group"
 >
 	<a href={`/projects/${slug}`} class="block">
 		<h3
-			class="font-semibold text-gray-800 dark:text-gray-200 ease-in-out transition-colors duration-200 text-sm sm:text-base hover:text-blue-600 dark:hover:text-blue-400"
+			class="font-semibold text-midnight-800 dark:text-dark-100 ease-in-out transition-colors duration-200 text-sm sm:text-base group-hover:text-azure-600 dark:group-hover:text-azure-400"
 		>
 			{name}
 		</h3>
-		<p class="line-clamp-3 text-xs sm:text-sm mb-2 text-neutral-800 dark:text-neutral-400">
+		<p class="line-clamp-3 text-xs sm:text-sm mb-2 text-dark-600 dark:text-dark-300">
 			{description}
 		</p>
 	</a>
 	<div class="flex flex-wrap gap-2 pt-2 justify-end pb-2">
 		{#each stacks as tech}
-			<span class="text-xs px-2 py-1 bg-neutral-100/50 dark:bg-neutral-600/50 rounded-sm">
+			<span
+				class="text-xs px-2 py-1 bg-dark-100/50 dark:bg-midnight-700/50 rounded-sm transition-all duration-300 group-hover:bg-dark-200/70 dark:group-hover:bg-midnight-600/70"
+			>
 				{tech}
 			</span>
 		{/each}
 	</div>
 	<div class="absolute bottom-4 left-4 flex gap-3">
 		<a
-			class="cursor-alias group transition-opacity duration-200 ease-in-out hover:text-blue-600 dark:hover:text-blue-400"
+			class="cursor-alias transition-all duration-200 ease-in-out hover:text-azure-600 dark:hover:text-azure-400 hover:scale-110"
 			href={github}
 			rel="noopener noreferrer"
 			target="_blank"
 			title="View on GitHub"
+			aria-label={`View ${name} on GitHub`}
 		>
 			<svg
 				aria-hidden="true"
-				class="hover:text-info iconify iconify--akar-icons"
+				class="iconify iconify--akar-icons"
 				font-size="16"
 				height="1em"
 				preserveAspectRatio="xMidYMid meet"
@@ -66,9 +63,10 @@
 			</svg>
 		</a>
 		<a
-			class="cursor-pointer transition-opacity duration-200 ease-in-out hover:text-blue-600 dark:hover:text-blue-400"
+			class="cursor-pointer transition-all duration-200 ease-in-out hover:text-azure-600 dark:hover:text-azure-400 hover:scale-110"
 			href={`/projects/${slug}`}
 			title="View details"
+			aria-label={`View details for ${name} project`}
 		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
@@ -80,12 +78,18 @@
 				stroke-width="2"
 				stroke-linecap="round"
 				stroke-linejoin="round"
+				aria-hidden="true"
 			>
 				<circle cx="11" cy="11" r="8"></circle>
 				<line x1="21" y1="21" x2="16.65" y2="16.65"></line>
 			</svg>
 		</a>
 	</div>
+
+	<!-- Hover effect overlay -->
+	<div
+		class="absolute inset-0 bg-gradient-to-t from-azure-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+	></div>
 </div>
 
 <style>
@@ -98,7 +102,7 @@
 	}
 
 	a {
-		transition: opacity 0.2s ease-in-out;
+		transition: all 0.2s ease-in-out;
 	}
 
 	h3 {

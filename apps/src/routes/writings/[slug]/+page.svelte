@@ -105,9 +105,9 @@
 	<Breadcrumbs path={breadcrumbPath} />
 
 	<article class="pt-8 space-y-4 text-sm sm:text-base">
-		<h1 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">{post.title}</h1>
+		<h1 class="text-2xl font-semibold text-midnight-800 dark:text-dark-100">{post.title}</h1>
 		<div class="flex items-center gap-4 justify-between">
-			<p class="text-sm text-gray-500 dark:text-gray-400">
+			<p class="text-sm text-dark-500 dark:text-dark-400">
 				{post.date
 					? new Date(post.date).toLocaleDateString('en-US', {
 							year: 'numeric',
@@ -116,15 +116,18 @@
 						})
 					: 'Date not available'}
 			</p>
+			{#if post.readTime}
+				<p class="text-sm text-dark-500 dark:text-dark-400">{post.readTime}</p>
+			{/if}
 		</div>
 		<div
-			class="prose prose-sm sm:prose-base space-y-4 md:space-y-6 prose-headings:prose-base sm:prose-headings:prose-base min-w-full pr-2 pt-4 pb-8 post-content dark:prose-invert"
+			class="prose prose-sm sm:prose-base space-y-4 md:space-y-6 prose-headings:prose-base sm:prose-headings:prose-base min-w-full pr-2 pt-4 pb-8 post-content dark:prose-invert prose-a:text-azure-600 dark:prose-a:text-azure-400 prose-headings:group"
 		>
 			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 			{@html post.html}
 		</div>
 		{#if post.lastModified}
-			<p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 text-right font-light">
+			<p class="text-xs sm:text-sm text-dark-500 dark:text-dark-400 text-right font-light">
 				Last modified on {new Date(post.lastModified).toLocaleDateString('en-US', {
 					year: 'numeric',
 					month: 'long',
@@ -135,3 +138,43 @@
 	</article>
 </main>
 <Footer />
+
+<style>
+	/* Styling for table of contents */
+	:global(.post-content ul:has(li a[href^='#'])) {
+		@apply bg-gray-50 dark:bg-gray-800/50 p-4 rounded-lg my-6;
+	}
+
+	/* Styling for anchor links */
+	:global(.anchor-link) {
+		@apply ml-2 text-azure-500 dark:text-azure-400;
+	}
+
+	/* Styling for code blocks */
+	:global(.post-content pre) {
+		@apply my-6 rounded-lg shadow-md;
+	}
+
+	/* Styling for blockquotes */
+	:global(.post-content blockquote) {
+		@apply border-l-4 border-azure-500 dark:border-azure-400 pl-4 italic;
+	}
+
+	/* Styling for tables */
+	:global(.post-content table) {
+		@apply border-collapse w-full my-6;
+	}
+
+	:global(.post-content th) {
+		@apply bg-gray-100 dark:bg-gray-800 p-2 text-left;
+	}
+
+	:global(.post-content td) {
+		@apply border border-gray-200 dark:border-gray-700 p-2;
+	}
+
+	/* Styling for external link icons */
+	:global(.post-content a[target='_blank'] svg) {
+		@apply inline-block ml-1 text-azure-500 dark:text-azure-400;
+	}
+</style>
