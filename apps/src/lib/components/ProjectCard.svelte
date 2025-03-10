@@ -10,7 +10,7 @@
 	let { name, description, github, stacks, slug }: Props = $props();
 </script>
 
-<div
+<article
 	class="relative overflow-hidden border-2 border-dark-300/50 dark:border-dark-500/50 rounded-sm shadow-sm hover:shadow-md rounded-t-lg p-4 pb-8 transition-all duration-300 hover:border-azure-500/50 dark:hover:border-azure-500/30 group"
 >
 	<a href={`/projects/${slug}`} class="block">
@@ -23,16 +23,16 @@
 			{description}
 		</p>
 	</a>
-	<div class="flex flex-wrap gap-2 pt-2 justify-end pb-2">
+	<ul class="flex flex-wrap gap-2 pt-2 justify-end pb-2" aria-label="Technologies used">
 		{#each stacks as tech}
-			<span
+			<li
 				class="text-xs px-2 py-1 bg-dark-100/50 dark:bg-midnight-700/50 rounded-sm transition-all duration-300 group-hover:bg-dark-200/70 dark:group-hover:bg-midnight-600/70"
 			>
 				{tech}
-			</span>
+			</li>
 		{/each}
-	</div>
-	<div class="absolute bottom-4 left-4 flex gap-3">
+	</ul>
+	<footer class="absolute bottom-4 left-4 flex gap-3">
 		<a
 			class="cursor-alias transition-all duration-200 ease-in-out hover:text-azure-600 dark:hover:text-azure-400 hover:scale-110"
 			href={github}
@@ -84,13 +84,13 @@
 				<line x1="21" y1="21" x2="16.65" y2="16.65"></line>
 			</svg>
 		</a>
-	</div>
+	</footer>
 
 	<!-- Hover effect overlay -->
 	<div
 		class="absolute inset-0 bg-gradient-to-t from-azure-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
 	></div>
-</div>
+</article>
 
 <style>
 	.line-clamp-3 {

@@ -43,20 +43,28 @@
 	<Breadcrumbs path="uses" />
 
 	<article class="pt-8 space-y-4 text-sm sm:text-base">
-		<div
+		<header>
+			<h1 class="sr-only">Tools & Tech I Use</h1>
+		</header>
+
+		<section
 			class="prose prose-sm sm:prose-base space-y-4 md:space-y-6 prose-headings:prose-base sm:prose-headings:prose-base min-w-full pr-2 pt-4 pb-8 prose-img:drop-shadow-2xl dark:prose-invert prose-a:text-azure-600 dark:prose-a:text-azure-400"
+			aria-label="Tools and technologies"
 		>
 			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 			{@html use.html}
-		</div>
+		</section>
+
 		{#if use.lastModified}
-			<p class="text-xs sm:text-sm text-dark-500 dark:text-dark-400 text-right font-light">
-				Last modified on {new Date(use.lastModified).toLocaleDateString('en-US', {
-					year: 'numeric',
-					month: 'long',
-					day: 'numeric'
-				})}
-			</p>
+			<footer class="text-xs sm:text-sm text-dark-500 dark:text-dark-400 text-right font-light">
+				<time datetime={new Date(use.lastModified).toISOString()}>
+					Last modified on {new Date(use.lastModified).toLocaleDateString('en-US', {
+						year: 'numeric',
+						month: 'long',
+						day: 'numeric'
+					})}
+				</time>
+			</footer>
 		{/if}
 	</article>
 </main>

@@ -105,35 +105,50 @@
 	<Breadcrumbs path={breadcrumbPath} />
 
 	<article class="pt-8 space-y-4 text-sm sm:text-base">
-		<h1 class="text-2xl font-semibold text-midnight-800 dark:text-dark-100">{post.title}</h1>
-		<div class="flex items-center gap-4 justify-between">
-			<p class="text-sm text-dark-500 dark:text-dark-400">
-				{post.date
-					? new Date(post.date).toLocaleDateString('en-US', {
-							year: 'numeric',
-							month: 'long',
-							day: 'numeric'
-						})
-					: 'Date not available'}
-			</p>
-			{#if post.readTime}
-				<p class="text-sm text-dark-500 dark:text-dark-400">{post.readTime}</p>
-			{/if}
-		</div>
-		<div
+		<header class="space-y-4">
+			<h1 class="text-2xl font-semibold text-midnight-800 dark:text-dark-100">{post.title}</h1>
+			<div class="flex items-center gap-4 justify-between">
+				<time
+					datetime={post.date ? new Date(post.date).toISOString() : ''}
+					class="text-sm text-dark-500 dark:text-dark-400"
+				>
+					{post.date
+						? new Date(post.date).toLocaleDateString('en-US', {
+								year: 'numeric',
+								month: 'long',
+								day: 'numeric'
+							})
+						: 'Date not available'}
+				</time>
+				{#if post.readTime}
+					<data
+						value={post.readTime.replace(' ', '')}
+						class="text-sm text-dark-500 dark:text-dark-400"
+					>
+						{post.readTime}
+					</data>
+				{/if}
+			</div>
+		</header>
+
+		<section
 			class="prose prose-sm sm:prose-base space-y-4 md:space-y-6 prose-headings:prose-base sm:prose-headings:prose-base min-w-full pr-2 pt-4 pb-8 post-content dark:prose-invert prose-a:text-azure-600 dark:prose-a:text-azure-400 prose-headings:group"
+			aria-label="Article content"
 		>
 			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 			{@html post.html}
-		</div>
+		</section>
+
 		{#if post.lastModified}
-			<p class="text-xs sm:text-sm text-dark-500 dark:text-dark-400 text-right font-light">
-				Last modified on {new Date(post.lastModified).toLocaleDateString('en-US', {
-					year: 'numeric',
-					month: 'long',
-					day: 'numeric'
-				})}
-			</p>
+			<footer class="text-xs sm:text-sm text-dark-500 dark:text-dark-400 text-right font-light">
+				<time datetime={new Date(post.lastModified).toISOString()}>
+					Last modified on {new Date(post.lastModified).toLocaleDateString('en-US', {
+						year: 'numeric',
+						month: 'long',
+						day: 'numeric'
+					})}
+				</time>
+			</footer>
 		{/if}
 	</article>
 </main>

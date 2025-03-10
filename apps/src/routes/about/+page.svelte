@@ -43,20 +43,28 @@
 	<Breadcrumbs path="about" />
 
 	<article class="pt-8 space-y-4 text-sm sm:text-base">
-		<div
+		<header>
+			<h1 class="sr-only">About Helmy Luqmanulhakim</h1>
+		</header>
+
+		<section
 			class="prose prose-sm sm:prose-base space-y-4 md:space-y-6 prose-headings:prose-base sm:prose-headings:prose-base min-w-full pr-2 pt-4 pb-8 prose-img:drop-shadow-2xl dark:prose-invert prose-a:text-azure-600 dark:prose-a:text-azure-400"
+			aria-label="Biography and background"
 		>
 			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 			{@html abouts.html}
-		</div>
+		</section>
+
 		{#if abouts.lastModified}
-			<p class="text-xs sm:text-sm text-dark-500 dark:text-dark-300 text-right font-light">
-				Last modified on {new Date(abouts.lastModified).toLocaleDateString('en-US', {
-					year: 'numeric',
-					month: 'long',
-					day: 'numeric'
-				})}
-			</p>
+			<footer class="text-xs sm:text-sm text-dark-500 dark:text-dark-300 text-right font-light">
+				<time datetime={new Date(abouts.lastModified).toISOString()}>
+					Last modified on {new Date(abouts.lastModified).toLocaleDateString('en-US', {
+						year: 'numeric',
+						month: 'long',
+						day: 'numeric'
+					})}
+				</time>
+			</footer>
 		{/if}
 	</article>
 </main>

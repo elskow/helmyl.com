@@ -47,12 +47,14 @@
 <main class="max-w-4xl mx-auto md:p-8 p-4 mt-4">
 	<Breadcrumbs path="projects" />
 
-	<article class="pt-8 space-y-4 text-sm sm:text-base">
-		<div class="mt-4 sm:grid-cols-3 grid gap-2 grid-cols-2">
+	<section class="pt-8 space-y-4 text-sm sm:text-base">
+		<h1 class="sr-only">Projects Portfolio</h1>
+
+		<ul class="mt-4 sm:grid-cols-3 grid gap-2 grid-cols-2" aria-label="Project list">
 			{#each projects as project}
 				<ProjectCard {...project} />
 			{/each}
-		</div>
-	</article>
+		</ul>
+	</section>
 </main>
 <Footer />
