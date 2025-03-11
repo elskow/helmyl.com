@@ -1,5 +1,3 @@
-Hola World!
-
 I am a language and framework-agnostic Software Engineer with a deep passion for **building innovative web** and **data-driven solutions**. I strive to design and engineer software from the ground up to achieve optimal solutions and performance.
 
 My journey in software engineering has been driven by a fascination with algorithm design, system architecture, and performance optimization. I adapt my approach based on the specific needs of each project, ensuring that the solutions I create are both efficient and scalable.

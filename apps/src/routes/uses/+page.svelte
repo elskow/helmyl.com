@@ -42,6 +42,21 @@
 <main class="max-w-4xl mx-auto md:p-8 p-4 mt-4">
 	<Breadcrumbs path="uses" />
 
+	<!-- Decorative corner element -->
+	<div class="absolute top-0 right-0 w-24 h-24 pointer-events-none opacity-20 dark:opacity-30">
+		<svg
+			width="100"
+			height="100"
+			viewBox="0 0 100 100"
+			fill="none"
+			xmlns="http://www.w3.org/2000/svg"
+		>
+			<path d="M0 0L100 0L100 100" stroke="currentColor" stroke-width="1" stroke-dasharray="4 4" />
+			<circle cx="70" cy="30" r="4" fill="currentColor" opacity="0.5" />
+			<circle cx="30" cy="70" r="2" fill="currentColor" opacity="0.3" />
+		</svg>
+	</div>
+
 	<article class="pt-8 space-y-4 text-sm sm:text-base">
 		<header>
 			<h1 class="sr-only">Tools & Tech I Use</h1>

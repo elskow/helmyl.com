@@ -10,6 +10,7 @@
 	let { data }: Props = $props();
 	const project = data.project;
 	const breadcrumbPath = `projects/${project.slug}`;
+	let isPageLoaded = false;
 
 	function executePostScripts() {
 		const scripts = document.querySelectorAll('.project-content script');
@@ -22,6 +23,7 @@
 
 	onMount(() => {
 		executePostScripts();
+		isPageLoaded = true;
 	});
 
 	$effect(() => {
@@ -67,20 +69,44 @@
 	<link rel="canonical" href={projectUrl} />
 </svelte:head>
 
-<main class="max-w-4xl mx-auto md:p-8 p-4 mt-4">
+<main class="max-w-4xl mx-auto md:p-8 p-4 mt-4 relative">
 	<Breadcrumbs path={breadcrumbPath} />
 
-	<article class="pt-8 space-y-6 text-sm sm:text-base">
-		<header class="border-b border-dark-200 dark:border-midnight-700 pb-6">
-			<h1 class="text-2xl font-semibold text-midnight-800 dark:text-dark-100">{project.name}</h1>
+	<!-- Decorative corner element -->
+	<div class="absolute top-0 right-0 w-24 h-24 pointer-events-none opacity-20 dark:opacity-30">
+		<svg
+			width="100"
+			height="100"
+			viewBox="0 0 100 100"
+			fill="none"
+			xmlns="http://www.w3.org/2000/svg"
+		>
+			<path d="M0 0L100 0L100 100" stroke="currentColor" stroke-width="1" stroke-dasharray="4 4" />
+			<circle cx="70" cy="30" r="4" fill="currentColor" opacity="0.5" />
+			<circle cx="30" cy="70" r="2" fill="currentColor" opacity="0.3" />
+		</svg>
+	</div>
+
+	<article class="pt-8 space-y-6 text-sm sm:text-base {isPageLoaded ? 'animate-fade-in' : ''}">
+		<header class="border-b border-dark-200 dark:border-midnight-700 pb-6 relative">
+			<h1 class="text-2xl md:text-3xl font-semibold text-midnight-800 dark:text-dark-100">
+				{project.name}
+			</h1>
 
 			<p class="mt-4 text-dark-600 dark:text-dark-300 leading-relaxed">{project.description}</p>
+
+			<!-- Decorative accent line -->
+			<div
+				class="w-16 h-1 bg-gradient-to-r from-azure-500/70 dark:from-azure-400/70 to-transparent rounded-full mb-4"
+			></div>
 
 			<div class="mt-6 flex flex-col sm:flex-row sm:items-center gap-4 sm:justify-between">
 				<ul class="flex flex-wrap gap-2" aria-label="Technologies used">
 					{#if project.stacks && project.stacks.length > 0}
 						{#each project.stacks as stack}
-							<li class="bg-dark-100 dark:bg-midnight-800 text-xs px-3 py-1.5 rounded font-medium">
+							<li
+								class="bg-dark-100/70 dark:bg-azure-900/70 text-xs px-3 py-1.5 rounded-full font-medium text-dark-700 dark:text-dark-200 hover:bg-dark-200/70 dark:hover:bg-azure-950/70 transition-colors duration-200 cursor-pointer"
+							>
 								{stack}
 							</li>
 						{/each}
@@ -89,8 +115,23 @@
 
 				<time
 					datetime={project.date ? new Date(project.date).toISOString() : ''}
-					class="text-sm text-dark-500 dark:text-dark-400"
+					class="text-sm text-dark-500 dark:text-dark-400 flex items-center"
 				>
+					<svg
+						class="w-3.5 h-3.5 mr-1.5 opacity-70"
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
+						<rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+						<line x1="16" y1="2" x2="16" y2="6"></line>
+						<line x1="8" y1="2" x2="8" y2="6"></line>
+						<line x1="3" y1="10" x2="21" y2="10"></line>
+					</svg>
 					{project.date
 						? new Date(project.date).toLocaleDateString('en-US', {
 								year: 'numeric',
@@ -106,7 +147,7 @@
 						href={project.github}
 						target="_blank"
 						rel="noopener noreferrer"
-						class="inline-flex items-center gap-2 bg-dark-100 dark:bg-midnight-800 hover:bg-dark-200 dark:hover:bg-midnight-700 text-midnight-800 dark:text-dark-100 px-4 py-2 rounded-md transition-colors duration-200"
+						class="inline-flex items-center gap-2 bg-dark-100/80 dark:bg-azure-900/80 hover:bg-dark-200/80 dark:hover:bg-azure-950/80 text-midnight-800 dark:text-dark-100 px-4 py-2 rounded-md transition-all duration-200 hover:shadow-sm"
 						aria-label="View project source code on GitHub"
 					>
 						<svg
@@ -129,7 +170,7 @@
 						href={project.demo}
 						target="_blank"
 						rel="noopener noreferrer"
-						class="inline-flex items-center gap-2 bg-azure-100 dark:bg-azure-900/30 hover:bg-azure-200 dark:hover:bg-azure-900/50 text-azure-800 dark:text-azure-300 px-4 py-2 rounded-md transition-colors duration-200"
+						class="inline-flex items-center gap-2 bg-azure-100/80 dark:bg-azure-900/40 hover:bg-azure-200/80 dark:hover:bg-azure-900/60 text-azure-800 dark:text-azure-300 px-4 py-2 rounded-md transition-all duration-200 hover:shadow-sm"
 						aria-label="View live demo of the project"
 					>
 						<svg
@@ -155,7 +196,7 @@
 
 		{#if project.html && project.html.trim() !== ''}
 			<section
-				class="prose prose-sm sm:prose-base space-y-4 md:space-y-6 prose-headings:prose-base sm:prose-headings:prose-base min-w-full pr-2 pt-6 pb-8 project-content dark:prose-invert prose-a:text-azure-600 dark:prose-a:text-azure-400 prose-img:rounded-lg prose-img:shadow-md"
+				class="prose prose-sm sm:prose-base space-y-4 md:space-y-6 prose-headings:prose-base sm:prose-headings:prose-base min-w-full pr-2 pt-6 pb-8 project-content dark:prose-invert prose-a:text-azure-600 dark:prose-a:text-azure-400 prose-img:rounded-lg prose-img:shadow-md relative"
 				aria-label="Project details"
 			>
 				<!-- eslint-disable-next-line svelte/no-at-html-tags -->
@@ -183,3 +224,38 @@
 	</article>
 </main>
 <Footer />
+
+<style>
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+
+	.animate-fade-in {
+		animation: fadeIn 0.8s ease-out forwards;
+	}
+
+	:global(.project-content h2) {
+		position: relative;
+		display: inline-block;
+	}
+
+	:global(.project-content h2::after) {
+		content: '';
+		position: absolute;
+		bottom: -4px;
+		left: 0;
+		width: 40%;
+		height: 2px;
+		background: linear-gradient(to right, rgba(59, 130, 246, 0.5), transparent);
+		border-radius: 9999px;
+	}
+
+	:global(.dark .project-content h2::after) {
+		background: linear-gradient(to right, rgba(96, 165, 250, 0.5), transparent);
+	}
+</style>
