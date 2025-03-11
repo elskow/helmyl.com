@@ -3,7 +3,7 @@
 	import { technologies } from '$lib/technologies';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import Footer from '$lib/components/Footer.svelte';
-	import { onMount } from 'svelte';
+	import { onMount, tick } from 'svelte';
 
 	interface Props {
 		data: import('./$types').PageData;
@@ -13,10 +13,59 @@
 	const posts = data.posts;
 	const projects = data.projects;
 	const qualities = ['secure', 'scalable', 'fast', 'reliable'];
-	let isPageLoaded = false;
 
-	onMount(() => {
-		isPageLoaded = true;
+	// Define a type for the section keys to ensure type safety
+	type SectionKey = 'intro' | 'technologies' | 'projects' | 'writings';
+
+	// Use a more efficient approach with content visibility
+	let mounted = $state(false);
+
+	// Track which sections are in viewport for content-visibility optimization
+	let sectionsInView = {
+		intro: true,
+		technologies: false,
+		projects: false,
+		writings: false
+	};
+
+	// Optimize initial render by deferring non-critical operations
+	onMount(async () => {
+		mounted = true;
+
+		// Wait for first paint to complete
+		await tick();
+
+		// Set up lightweight scroll tracking for content-visibility
+		const observer = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					const id = entry.target.id || entry.target.getAttribute('data-section');
+					// Type guard to ensure id is a valid key of sectionsInView
+					if (id && isSectionKey(id) && sectionsInView.hasOwnProperty(id)) {
+						sectionsInView[id] = entry.isIntersecting;
+					}
+				});
+			},
+			{ rootMargin: '200px' }
+		);
+
+		// Type guard function to check if a string is a valid section key
+		function isSectionKey(key: string): key is SectionKey {
+			return key === 'intro' || key === 'technologies' || key === 'projects' || key === 'writings';
+		}
+
+		// Observe all main sections
+		document.querySelectorAll('[data-section]').forEach((section) => {
+			observer.observe(section);
+		});
+
+		// Pre-connect to external domains for technology links
+		technologies.forEach((tech) => {
+			const link = document.createElement('link');
+			link.rel = 'preconnect';
+			link.href = new URL(tech.link).origin;
+			document.head.appendChild(link);
+		});
 	});
 </script>
 
@@ -71,6 +120,7 @@
 	</div>
 
 	<section
+		data-section="intro"
 		class="pt-10 text-sm sm:text-base text-dark-600 dark:text-dark-300 space-y-4"
 		aria-label="Introduction"
 	>
@@ -89,7 +139,12 @@
 		</p>
 	</section>
 
-	<section class="pt-10 relative" aria-labelledby="technologies-heading">
+	<section
+		data-section="technologies"
+		class="pt-10 relative content-visibility-section"
+		aria-labelledby="technologies-heading"
+		class:cv-auto={!sectionsInView.technologies && mounted}
+	>
 		<h2
 			id="technologies-heading"
 			class="text-base sm:text-lg font-medium text-midnight-800 dark:text-dark-100 no-gradient"
@@ -106,22 +161,19 @@
 					<a
 						href={link}
 						target="_blank"
-						class="flex items-center space-x-2 group transition-all duration-300 ease-in-out cursor-alias sm:py-4"
+						class="tech-item flex items-center space-x-2 group sm:py-4"
 						aria-label={name}
 						rel="noopener noreferrer"
 						title={name}
-						draggable="false"
 						style="--tech-color: {accentColor}"
 					>
 						<div
-							class="flex items-center justify-center sm:bg-dark-100/80 sm:dark:bg-midnight-700/50 rounded-lg sm:p-2 backdrop-blur-sm transition-all duration-300 sm:group-hover:bg-dark-100 sm:dark:group-hover:bg-midnight-600/80 bg-none p-0"
+							class="flex items-center justify-center sm:bg-dark-100/80 sm:dark:bg-midnight-700/50 rounded-lg sm:p-2 sm:group-hover:bg-dark-100 sm:dark:group-hover:bg-midnight-600/80 bg-none p-0"
 						>
-							<Icon
-								class="w-5 h-5 grayscale filter group-hover:grayscale-0 transition-all duration-300"
-							/>
+							<Icon class="w-5 h-5 grayscale group-hover:grayscale-0" />
 						</div>
 						<span
-							class="block text-xs sm:text-sm text-dark-600 dark:text-dark-300 transition-colors duration-300 group-hover:text-[var(--tech-color)]"
+							class="block text-xs sm:text-sm text-dark-600 dark:text-dark-300 group-hover:text-[var(--tech-color)]"
 						>
 							{name}
 						</span>
@@ -131,7 +183,12 @@
 		</ul>
 	</section>
 
-	<section aria-labelledby="projects-heading">
+	<section
+		data-section="projects"
+		class="content-visibility-section"
+		aria-labelledby="projects-heading"
+		class:cv-auto={!sectionsInView.projects && mounted}
+	>
 		<h2
 			id="projects-heading"
 			class="text-base sm:text-lg font-medium text-midnight-800 dark:text-dark-100 pt-10 no-gradient"
@@ -151,7 +208,12 @@
 		</a>
 	</section>
 
-	<section aria-labelledby="writings-heading" class="relative">
+	<section
+		data-section="writings"
+		class="relative content-visibility-section"
+		aria-labelledby="writings-heading"
+		class:cv-auto={!sectionsInView.writings && mounted}
+	>
 		<h2
 			id="writings-heading"
 			class="text-base sm:text-lg font-medium text-midnight-800 dark:text-dark-100 pt-10 no-gradient relative inline-block"
@@ -164,23 +226,34 @@
 		<ul class="mt-4 space-y-3">
 			{#each posts as post, i}
 				<li
-					class="text-sm sm:text-base py-3 border-b border-dark-200 dark:border-midnight-700 transition-all duration-300 hover:border-azure-500/30 dark:hover:border-azure-500/20 group hover:bg-dark-50/50 dark:hover:bg-midnight-800/30 rounded-md px-3 hover:shadow-sm relative {isPageLoaded ? 'animate-slide-up' : ''}"
-					style="animation-delay: {i * 100}ms"
+					class="writing-item text-sm sm:text-base py-3 border-b border-dark-200 dark:border-midnight-700 hover:border-azure-500/30 dark:hover:border-azure-500/20 group hover:bg-dark-50/50 dark:hover:bg-midnight-800/30 rounded-md px-3 hover:shadow-sm relative"
 				>
 					<!-- Decorative dot -->
 					<div
-						class="absolute left-0 top-1/2 -translate-x-1 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-azure-500/40 dark:bg-azure-400/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+						class="absolute left-0 top-1/2 -translate-x-1 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-azure-500/40 dark:bg-azure-400/40 opacity-0 group-hover:opacity-100"
 					></div>
 
 					<article>
 						<h3 class="font-medium text-midnight-800 dark:text-dark-100">
 							<a
 								href={`/writings/${post.slug}`}
-								class="hover:text-azure-600 dark:hover:text-azure-400 transition-colors duration-200 ease-in-out inline-flex items-center"
+								class="hover:text-azure-600 dark:hover:text-azure-400 inline-flex items-center"
 							>
 								<span>{post.title}</span>
-								<span class="ml-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-azure-500 dark:text-azure-400">
-									<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<span
+									class="ml-1.5 opacity-0 group-hover:opacity-100 text-azure-500 dark:text-azure-400"
+								>
+									<svg
+										aria-hidden="true"
+										width="14"
+										height="14"
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									>
 										<path d="M5 12h14"></path>
 										<path d="m12 5 7 7-7 7"></path>
 									</svg>
@@ -190,9 +263,18 @@
 						<div class="flex items-center justify-between text-xs sm:text-sm">
 							<time
 								datetime={post.date ? new Date(post.date).toISOString() : ''}
-								class="text-dark-400 dark:text-dark-500 mt-2 transition-colors duration-300 group-hover:text-dark-500 dark:group-hover:text-dark-400 flex items-center"
+								class="text-dark-400 dark:text-dark-500 mt-2 group-hover:text-dark-500 dark:group-hover:text-dark-400 flex items-center"
 							>
-								<svg class="w-3.5 h-3.5 mr-1.5 opacity-70" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<svg
+									aria-hidden="true"
+									class="w-3.5 h-3.5 mr-1.5 opacity-70"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								>
 									<circle cx="12" cy="12" r="10"></circle>
 									<polyline points="12 6 12 12 16 14"></polyline>
 								</svg>
@@ -200,9 +282,18 @@
 							</time>
 							<data
 								value={post.readTime?.replace(/\s+/g, '')}
-								class="text-dark-400 dark:text-dark-500 mt-2 transition-colors duration-300 group-hover:text-dark-500 dark:group-hover:text-dark-400 flex items-center"
+								class="text-dark-400 dark:text-dark-500 mt-2 group-hover:text-dark-500 dark:group-hover:text-dark-400 flex items-center"
 							>
-								<svg class="w-3.5 h-3.5 mr-1.5 opacity-70" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<svg
+									aria-hidden="true"
+									class="w-3.5 h-3.5 mr-1.5 opacity-70"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								>
 									<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
 									<circle cx="12" cy="12" r="3"></circle>
 								</svg>
@@ -214,11 +305,20 @@
 			{/each}
 		</ul>
 		<a
-			class="text-azure-600 dark:text-azure-400 font-medium hover:underline text-sm mt-4 block text-right pr-2 flex items-center justify-end"
+			class="text-azure-600 dark:text-azure-400 font-medium hover:underline text-sm mt-4 text-right pr-2 flex items-center justify-end"
 			href="/writings"
 		>
 			View all writings
-			<svg class="w-3.5 h-3.5 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+			<svg
+				aria-hidden="true"
+				class="w-3.5 h-3.5 ml-1"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			>
 				<path d="M5 12h14"></path>
 				<path d="m12 5 7 7-7 7"></path>
 			</svg>
@@ -233,31 +333,46 @@
 	}
 
 	.no-scrollbar {
-		-ms-overflow-style: none; /* IE and Edge */
-		scrollbar-width: none; /* Firefox */
+		-ms-overflow-style: none;
+		scrollbar-width: none;
 	}
 
-	.gradient-overlay-left,
-	.gradient-overlay-right {
+	.tech-list-container {
+		position: relative;
+	}
+
+	.tech-list-container::before,
+	.tech-list-container::after {
+		content: '';
 		position: absolute;
 		top: 0;
 		bottom: 0;
 		width: 80px;
 		pointer-events: none;
+		z-index: 1;
 	}
 
-	.gradient-overlay-left {
+	.tech-list-container::before {
 		left: 0;
 		background: linear-gradient(to right, var(--gradient-from), var(--gradient-to));
+		display: none;
 	}
 
-	.gradient-overlay-right {
+	.tech-list-container::after {
 		right: 0;
 		background: linear-gradient(to left, var(--gradient-from), var(--gradient-to));
+		display: none;
+	}
+
+	@media (max-width: 640px) {
+		:not(.dark) .tech-list-container::before,
+		:not(.dark) .tech-list-container::after {
+			display: block;
+		}
 	}
 
 	:global(.dark) {
-		--gradient-from: rgba(15, 23, 42, 1); /* midnight-800 */
+		--gradient-from: rgba(15, 23, 42, 1);
 		--gradient-to: rgba(15, 23, 42, 0);
 	}
 
@@ -271,31 +386,34 @@
 		z-index: 1;
 	}
 
-	@keyframes fadeIn {
-		from {
-			opacity: 0;
-		}
-		to {
-			opacity: 1;
-		}
+	.content-visibility-section {
+		contain: content;
+		contain-intrinsic-size: 0 500px;
 	}
 
-	@keyframes slideUp {
-		from {
-			opacity: 0;
-			transform: translateY(10px);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
+	.cv-auto {
+		content-visibility: auto;
 	}
 
-	.animate-fade-in {
-		animation: fadeIn 0.8s ease-out forwards;
+	.tech-item {
+		transition-property: color, transform;
+		transition-duration: 300ms;
+		transition-timing-function: ease;
+		cursor: alias;
 	}
 
-	.animate-slide-up {
-		animation: slideUp 0.5s ease-out forwards;
+	.tech-item span {
+		transition: color 300ms ease;
+	}
+
+	.writing-item {
+		transition-property: background-color, border-color, box-shadow;
+		transition-duration: 300ms;
+		transition-timing-function: ease;
+		contain: content;
+	}
+
+	.writing-item div[class*='absolute'] {
+		transition: opacity 300ms ease;
 	}
 </style>
