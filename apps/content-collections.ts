@@ -66,7 +66,7 @@ const calcLastModified = async (filePath: string, root: string) => {
 };
 
 const rehypeExpressiveCodeOptions = {
-	themes: ['dracula', 'catppuccin-latte'],
+	themes: ['material-theme-ocean', 'catppuccin-latte'],
 	plugins: [
 		pluginCollapsibleSections(),
 		pluginFrames()
