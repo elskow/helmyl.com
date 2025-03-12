@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { ExternalLink, Search } from '@lucide/svelte';
+	import { browser } from '$app/environment';
 
 	interface Props {
 		name: string;
@@ -13,10 +14,18 @@
 
 	const visibleStacks = $derived(stacks.slice(0, 3));
 	const remainingCount = $derived(stacks.length > 3 ? stacks.length - 3 : 0);
+
+	let isTouchDevice = $state(false);
+
+	if (browser) {
+		isTouchDevice = window.matchMedia('(hover: none)').matches;
+	}
 </script>
 
 <article
-	class="project-card relative overflow-hidden border border-dark-300/50 dark:border-dark-500/60 rounded-lg shadow-sm p-5 transition-all duration-300 hover:border-azure-500/50 dark:hover:border-azure-400/40 group bg-white/50 dark:bg-midnight-900/10"
+	class="project-card relative overflow-hidden border border-dark-300/50 dark:border-dark-500/60 rounded-lg shadow-sm p-5 transition-all duration-300 hover:border-azure-500/50 dark:hover:border-azure-400/40 group bg-white/50 dark:bg-midnight-900/10 {isTouchDevice
+		? 'touch-device'
+		: ''}"
 >
 	<a href={`/projects/${slug}`} class="block relative z-10">
 		<h3
@@ -52,7 +61,9 @@
 
 	<footer class="absolute bottom-4 left-4 flex gap-3 z-10">
 		<a
-			class="cursor-alias transition-all duration-200 ease-in-out hover:text-azure-600 dark:hover:text-azure-400 hover:scale-110"
+			class="cursor-alias transition-all duration-200 ease-in-out hover:text-azure-600 dark:hover:text-azure-400 hover:scale-110 {isTouchDevice
+				? 'touch-link'
+				: ''}"
 			href={github}
 			rel="noopener noreferrer"
 			target="_blank"
@@ -62,7 +73,9 @@
 			<ExternalLink size="1em" />
 		</a>
 		<a
-			class="cursor-pointer transition-all duration-200 ease-in-out hover:text-azure-600 dark:hover:text-azure-400 hover:scale-110"
+			class="cursor-pointer transition-all duration-200 ease-in-out hover:text-azure-600 dark:hover:text-azure-400 hover:scale-110 {isTouchDevice
+				? 'touch-link'
+				: ''}"
 			href={`/projects/${slug}`}
 			title="View details"
 			aria-label={`View details for ${name} project`}
@@ -78,6 +91,7 @@
 	.line-clamp-3 {
 		display: -webkit-box;
 		-webkit-line-clamp: 3;
+		line-clamp: 3;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 	}
@@ -87,7 +101,7 @@
 		box-shadow:
 			0 4px 6px -1px rgba(0, 0, 0, 0.05),
 			0 2px 4px -1px rgba(0, 0, 0, 0.03);
-		will-change: transform, box-shadow; /* Hint for browser optimization */
+		will-change: transform, box-shadow;
 	}
 
 	.project-card:hover {
@@ -109,14 +123,12 @@
 			0 4px 6px -2px rgba(0, 0, 0, 0.15);
 	}
 
-	/* Combine all decorative effects into one element with pseudo-elements */
 	.card-effects {
 		position: absolute;
 		inset: 0;
 		pointer-events: none;
 	}
 
-	/* Gradient overlay */
 	.card-effects::before {
 		content: '';
 		position: absolute;
@@ -131,7 +143,6 @@
 		opacity: 1;
 	}
 
-	/* Animated border */
 	.card-effects::after {
 		content: '';
 		position: absolute;
@@ -155,9 +166,54 @@
 		background: rgba(96, 165, 250, 0.8);
 	}
 
-	/* Simplified transitions */
 	a,
 	h3 {
 		transition: all 0.2s ease-in-out;
+	}
+
+	.touch-device {
+		will-change: auto;
+	}
+
+	.touch-device:active {
+		background-color: rgba(59, 130, 246, 0.05);
+	}
+
+	.touch-device .card-effects::before {
+		opacity: 0.3;
+	}
+
+	.touch-device .card-effects::after {
+		width: 30%;
+	}
+
+	.touch-device:active .card-effects::after {
+		width: 100%;
+	}
+
+	.touch-link {
+		padding: 8px;
+		margin: -8px;
+	}
+
+	.touch-device * {
+		transition-duration: 0.1s;
+	}
+
+	.touch-device:hover {
+		transform: none;
+		box-shadow:
+			0 4px 6px -1px rgba(0, 0, 0, 0.05),
+			0 2px 4px -1px rgba(0, 0, 0, 0.03);
+	}
+
+	:global(.dark) .touch-device:hover {
+		box-shadow:
+			0 4px 6px -1px rgba(0, 0, 0, 0.1),
+			0 2px 4px -1px rgba(0, 0, 0, 0.06);
+	}
+
+	.touch-device:active {
+		transform: translateY(-1px);
 	}
 </style>

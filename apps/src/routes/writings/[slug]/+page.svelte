@@ -108,15 +108,18 @@
 	<Breadcrumbs path={breadcrumbPath} />
 
 	<!-- Decorative corner element -->
-	<div class="absolute top-0 right-0 w-24 h-24 pointer-events-none opacity-20 dark:opacity-30">
+	<div
+		class="absolute top-0 right-0 w-24 h-24 pointer-events-none opacity-20 dark:opacity-30 flex items-center justify-center"
+	>
 		<svg
-			width="100"
-			height="100"
+			width="90"
+			height="90"
 			viewBox="0 0 100 100"
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
+			class="transform -translate-x-1 -translate-y-1"
 		>
-			<path d="M0 0L100 0L100 100" stroke="currentColor" stroke-width="1" stroke-dasharray="4 4" />
+			<path d="M5 5L95 5L95 95" stroke="currentColor" stroke-width="1" stroke-dasharray="4 4" />
 			<circle cx="70" cy="30" r="4" fill="currentColor" opacity="0.5" />
 			<circle cx="30" cy="70" r="2" fill="currentColor" opacity="0.3" />
 		</svg>

@@ -74,19 +74,23 @@
 	<Breadcrumbs path={breadcrumbPath} />
 
 	<!-- Decorative corner element -->
-	<div class="absolute top-0 right-0 w-24 h-24 pointer-events-none opacity-20 dark:opacity-30">
+	<div
+		class="absolute top-0 right-0 w-24 h-24 pointer-events-none opacity-20 dark:opacity-30 flex items-center justify-center"
+	>
 		<svg
-			width="100"
-			height="100"
+			width="90"
+			height="90"
 			viewBox="0 0 100 100"
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
+			class="transform -translate-x-1 -translate-y-1"
 		>
-			<path d="M0 0L100 0L100 100" stroke="currentColor" stroke-width="1" stroke-dasharray="4 4" />
+			<path d="M5 5L95 5L95 95" stroke="currentColor" stroke-width="1" stroke-dasharray="4 4" />
 			<circle cx="70" cy="30" r="4" fill="currentColor" opacity="0.5" />
 			<circle cx="30" cy="70" r="2" fill="currentColor" opacity="0.3" />
 		</svg>
 	</div>
+
 	<article class="pt-8 space-y-6 text-sm sm:text-base {isPageLoaded ? 'animate-fade-in' : ''}">
 		<header class="border-b border-dark-200 dark:border-midnight-700 pb-6 relative">
 			<h1 class="text-2xl md:text-3xl font-semibold text-midnight-800 dark:text-dark-100">
@@ -104,7 +108,7 @@
 					{#if project.stacks && project.stacks.length > 0}
 						{#each project.stacks as stack}
 							<li
-								class="bg-dark-100/70 dark:bg-azure-900/70 text-xs px-3 py-1.5 rounded-full font-medium text-dark-700 dark:text-dark-200 hover:bg-dark-200/70 dark:hover:bg-azure-950/70 transition-colors duration-200 cursor-pointer"
+								class="bg-dark-100/70 text-xs px-3 py-1.5 rounded-full font-medium text-dark-700 dark:text-dark-900 hover:bg-dark-200/70 transition-colors duration-200 cursor-pointer"
 							>
 								{stack}
 							</li>
@@ -132,7 +136,7 @@
 						href={project.github}
 						target="_blank"
 						rel="noopener noreferrer"
-						class="inline-flex items-center gap-2 bg-dark-100/80 dark:bg-azure-900/80 hover:bg-dark-200/80 dark:hover:bg-azure-950/80 text-midnight-800 dark:text-dark-100 px-4 py-2 rounded-md transition-all duration-200 hover:shadow-sm"
+						class="inline-flex items-center gap-2 bg-dark-100/80 hover:bg-dark-200/80 text-midnight-800 px-4 py-2 rounded-md transition-all duration-200 hover:shadow-sm"
 						aria-label="View project source code on GitHub"
 					>
 						<Github size={16} />
@@ -144,7 +148,7 @@
 						href={project.demo}
 						target="_blank"
 						rel="noopener noreferrer"
-						class="inline-flex items-center gap-2 bg-azure-100/80 dark:bg-azure-900/40 hover:bg-azure-200/80 dark:hover:bg-azure-900/60 text-azure-800 dark:text-azure-300 px-4 py-2 rounded-md transition-all duration-200 hover:shadow-sm"
+						class="inline-flex items-center gap-2 bg-azure-100/80 hover:bg-azure-200/80 text-azure-800 px-4 py-2 rounded-md transition-all duration-200 hover:shadow-sm"
 						aria-label="View live demo of the project"
 					>
 						<Link2 size={16} />

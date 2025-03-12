@@ -3,6 +3,7 @@
 	import Breadcrumbs from '$lib/components/Breadcrumbs.svelte';
 	import { onMount } from 'svelte';
 	import { ArrowRight, Clock, Eye } from '@lucide/svelte';
+	import { browser } from '$app/environment';
 
 	interface Props {
 		data: import('./$types').PageData;
@@ -11,9 +12,14 @@
 	let { data }: Props = $props();
 	const posts = data.posts;
 	let isPageLoaded = $state(false);
+	let isTouchDevice = $state(false);
 
 	onMount(() => {
 		isPageLoaded = true;
+
+		if (browser) {
+			isTouchDevice = window.matchMedia('(hover: none)').matches;
+		}
 	});
 </script>
 
@@ -54,15 +60,18 @@
 	<Breadcrumbs path="writings" />
 
 	<!-- Decorative corner element -->
-	<div class="absolute top-0 right-0 w-24 h-24 pointer-events-none opacity-20 dark:opacity-30">
+	<div
+		class="absolute top-0 right-0 w-24 h-24 pointer-events-none opacity-20 dark:opacity-30 flex items-center justify-center"
+	>
 		<svg
-			width="100"
-			height="100"
+			width="90"
+			height="90"
 			viewBox="0 0 100 100"
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
+			class="transform -translate-x-1 -translate-y-1"
 		>
-			<path d="M0 0L100 0L100 100" stroke="currentColor" stroke-width="1" stroke-dasharray="4 4" />
+			<path d="M5 5L95 5L95 95" stroke="currentColor" stroke-width="1" stroke-dasharray="4 4" />
 			<circle cx="70" cy="30" r="4" fill="currentColor" opacity="0.5" />
 			<circle cx="30" cy="70" r="2" fill="currentColor" opacity="0.3" />
 		</svg>
@@ -85,12 +94,14 @@
 			<li
 				class="text-sm sm:text-base py-4 border-b border-dark-200 dark:border-midnight-700 transition-all duration-300 hover:border-azure-500/30 dark:hover:border-azure-500/20 group hover:bg-dark-50/50 dark:hover:bg-midnight-800/30 rounded-md px-3 hover:shadow-sm relative {isPageLoaded
 					? 'animate-slide-up'
-					: ''}"
+					: ''} {isTouchDevice ? 'touch-item' : ''}"
 				style="animation-delay: {i * 100}ms"
 			>
 				<!-- Decorative dot -->
 				<div
-					class="absolute left-0 top-1/2 -translate-x-1 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-azure-500/40 dark:bg-azure-400/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+					class="absolute left-0 top-1/2 -translate-x-1 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-azure-500/40 dark:bg-azure-400/40 {isTouchDevice
+						? 'opacity-30'
+						: 'opacity-0 group-hover:opacity-100'} transition-opacity duration-300"
 				></div>
 
 				<article>
@@ -101,7 +112,9 @@
 						>
 							<span>{post.title}</span>
 							<span
-								class="ml-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-azure-500 dark:text-azure-400"
+								class="ml-1.5 {isTouchDevice
+									? 'opacity-50'
+									: 'opacity-0 group-hover:opacity-100'} transition-opacity duration-300 text-azure-500 dark:text-azure-400"
 							>
 								<ArrowRight size="14" />
 							</span>
@@ -157,5 +170,31 @@
 
 	.animate-slide-up {
 		animation: slideUp 0.5s ease-out forwards;
+	}
+
+	.touch-item {
+		position: relative;
+	}
+
+	.touch-item:active {
+		background-color: rgba(59, 130, 246, 0.05);
+		border-color: rgba(59, 130, 246, 0.3);
+	}
+
+	.touch-item a {
+		display: block;
+		padding: 2px 0;
+	}
+
+	.touch-item * {
+		transition-duration: 0.15s;
+	}
+
+	.touch-item:active .absolute {
+		opacity: 1;
+	}
+
+	.touch-item:active a span:last-child {
+		opacity: 1;
 	}
 </style>

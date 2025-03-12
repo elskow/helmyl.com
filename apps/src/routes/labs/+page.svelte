@@ -4,6 +4,7 @@
 	import Breadcrumbs from '$lib/components/Breadcrumbs.svelte';
 	import { onMount } from 'svelte';
 	import { CornerRightUp, User, Tag, ArrowRight } from '@lucide/svelte';
+	import { browser } from '$app/environment';
 
 	interface Props {
 		data: { projects: LabProject[] };
@@ -11,9 +12,14 @@
 
 	let { data }: Props = $props();
 	let isPageLoaded = $state(false);
+	let isTouchDevice = $state(false);
 
 	onMount(() => {
 		isPageLoaded = true;
+
+		if (browser) {
+			isTouchDevice = window.matchMedia('(hover: none)').matches;
+		}
 	});
 </script>
 
@@ -54,15 +60,18 @@
 	<Breadcrumbs path="labs" />
 
 	<!-- Decorative corner element -->
-	<div class="absolute top-0 right-0 w-24 h-24 pointer-events-none opacity-20 dark:opacity-30">
+	<div
+		class="absolute top-0 right-0 w-24 h-24 pointer-events-none opacity-20 dark:opacity-30 flex items-center justify-center"
+	>
 		<svg
-			width="100"
-			height="100"
+			width="90"
+			height="90"
 			viewBox="0 0 100 100"
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
+			class="transform -translate-x-1 -translate-y-1"
 		>
-			<path d="M0 0L100 0L100 100" stroke="currentColor" stroke-width="1" stroke-dasharray="4 4" />
+			<path d="M5 5L95 5L95 95" stroke="currentColor" stroke-width="1" stroke-dasharray="4 4" />
 			<circle cx="70" cy="30" r="4" fill="currentColor" opacity="0.5" />
 			<circle cx="30" cy="70" r="2" fill="currentColor" opacity="0.3" />
 		</svg>
@@ -89,19 +98,23 @@
 				<li
 					class="border border-dark-200 dark:border-midnight-700 p-3 sm:p-4 md:p-5 rounded-lg transition-all duration-300 hover:border-azure-500/50 dark:hover:border-azure-500/30 hover:shadow-md group relative overflow-hidden bg-white/50 dark:bg-midnight-800/10 backdrop-blur-sm {isPageLoaded
 						? 'animate-slide-up'
-						: ''}"
+						: ''} {isTouchDevice ? 'touch-item' : ''}"
 					style="animation-delay: {i * 100}ms"
 				>
 					<div
 						class="absolute top-0 right-0 w-8 sm:w-10 md:w-12 h-8 sm:h-10 md:h-12 overflow-hidden"
 					>
 						<div
-							class="absolute transform rotate-45 bg-azure-500/20 dark:bg-azure-400/30 w-12 sm:w-14 md:w-16 h-3 sm:h-4 -top-2 -right-2 group-hover:bg-azure-500/40 dark:group-hover:bg-azure-400/50 transition-colors duration-300"
+							class="absolute transform rotate-45 bg-azure-500/20 dark:bg-azure-400/30 w-12 sm:w-14 md:w-16 h-3 sm:h-4 -top-2 -right-2 {isTouchDevice
+								? 'bg-azure-500/30 dark:bg-azure-400/40'
+								: 'group-hover:bg-azure-500/40 dark:group-hover:bg-azure-400/50'} transition-colors duration-300"
 						></div>
 					</div>
 
 					<div
-						class="absolute inset-0 bg-gradient-to-t from-azure-500/5 dark:from-azure-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+						class="absolute inset-0 bg-gradient-to-t from-azure-500/5 dark:from-azure-400/10 to-transparent {isTouchDevice
+							? 'opacity-30'
+							: 'opacity-0 group-hover:opacity-100'} transition-opacity duration-300 pointer-events-none"
 					></div>
 
 					<a
@@ -115,7 +128,9 @@
 					<article class="relative z-0">
 						<header>
 							<h2
-								class="text-base sm:text-lg font-semibold text-midnight-800 dark:text-dark-100 group-hover:text-azure-600 dark:group-hover:text-azure-400 transition-colors duration-200 flex items-center line-clamp-1"
+								class="text-base sm:text-lg font-semibold text-midnight-800 dark:text-dark-100 {isTouchDevice
+									? 'text-azure-600/80 dark:text-azure-400/80'
+									: 'group-hover:text-azure-600 dark:group-hover:text-azure-400'} transition-colors duration-200 flex items-center line-clamp-1"
 							>
 								{project.name}
 							</h2>
@@ -149,14 +164,18 @@
 						>
 							<span>View Project</span>
 							<ArrowRight
-								class="h-3 w-3 sm:h-4 sm:w-4 ml-1 transform group-hover:translate-x-1 transition-transform duration-200"
+								class="h-3 w-3 sm:h-4 sm:w-4 ml-1 transform {isTouchDevice
+									? 'translate-x-0.5'
+									: 'group-hover:translate-x-1'} transition-transform duration-200"
 							/>
 						</div>
 					</article>
 
 					<!-- Animated border highlight -->
 					<div
-						class="absolute bottom-0 left-0 w-0 h-0.5 bg-azure-500/70 dark:bg-azure-400/80 group-hover:w-full transition-all duration-700 ease-out"
+						class="absolute bottom-0 left-0 {isTouchDevice
+							? 'w-1/3'
+							: 'w-0 group-hover:w-full'} h-0.5 bg-azure-500/70 dark:bg-azure-400/80 transition-all duration-700 ease-out"
 					></div>
 				</li>
 			{/each}
@@ -208,5 +227,28 @@
 		line-clamp: 2;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
+	}
+
+	.touch-item {
+		border-color: rgba(59, 130, 246, 0.2);
+	}
+
+	.touch-item:active {
+		background-color: rgba(59, 130, 246, 0.05);
+		border-color: rgba(59, 130, 246, 0.4);
+		transform: translateY(-1px);
+		box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+	}
+
+	.touch-item .absolute.bottom-0.left-0 {
+		transition-duration: 0.3s;
+	}
+
+	.touch-item:active .absolute.bottom-0.left-0 {
+		width: 100%;
+	}
+
+	.touch-item * {
+		transition-duration: 0.15s;
 	}
 </style>

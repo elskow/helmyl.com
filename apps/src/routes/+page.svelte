@@ -5,6 +5,7 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import { onMount, tick } from 'svelte';
 	import { ArrowRight, Clock, Eye } from '@lucide/svelte';
+	import { browser } from '$app/environment';
 
 	interface Props {
 		data: import('./$types').PageData;
@@ -29,9 +30,16 @@
 		writings: false
 	};
 
+	let isTouchDevice = $state(false);
+
 	// Optimize initial render by deferring non-critical operations
 	onMount(async () => {
 		mounted = true;
+
+		// Detect if we're on a touch device
+		if (browser) {
+			isTouchDevice = window.matchMedia('(hover: none)').matches;
+		}
 
 		// Wait for first paint to complete
 		await tick();
@@ -227,11 +235,15 @@
 		<ul class="mt-4 space-y-3">
 			{#each posts as post, i}
 				<li
-					class="writing-item text-sm sm:text-base py-3 border-b border-dark-200 dark:border-midnight-700 hover:border-azure-500/30 dark:hover:border-azure-500/20 group hover:bg-dark-50/50 dark:hover:bg-midnight-800/30 rounded-md px-3 hover:shadow-sm relative"
+					class="writing-item text-sm sm:text-base py-3 border-b border-dark-200 dark:border-midnight-700 hover:border-azure-500/30 dark:hover:border-azure-500/20 group hover:bg-dark-50/50 dark:hover:bg-midnight-800/30 rounded-md px-3 hover:shadow-sm relative {isTouchDevice
+						? 'touch-item'
+						: ''}"
 				>
 					<!-- Decorative dot -->
 					<div
-						class="absolute left-0 top-1/2 -translate-x-1 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-azure-500/40 dark:bg-azure-400/40 opacity-0 group-hover:opacity-100"
+						class="absolute left-0 top-1/2 -translate-x-1 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-azure-500/40 dark:bg-azure-400/40 {isTouchDevice
+							? 'opacity-30'
+							: 'opacity-0 group-hover:opacity-100'}"
 					></div>
 
 					<article>
@@ -242,7 +254,9 @@
 							>
 								<span>{post.title}</span>
 								<span
-									class="ml-1.5 opacity-0 group-hover:opacity-100 text-azure-500 dark:text-azure-400"
+									class="ml-1.5 {isTouchDevice
+										? 'opacity-50'
+										: 'opacity-0 group-hover:opacity-100'} text-azure-500 dark:text-azure-400"
 								>
 									<ArrowRight size="14" />
 								</span>
@@ -322,6 +336,32 @@
 
 	.tech-item span {
 		transition: color 300ms ease;
+	}
+
+	.touch-item {
+		position: relative;
+	}
+
+	.touch-item:active {
+		background-color: rgba(59, 130, 246, 0.05);
+		border-color: rgba(59, 130, 246, 0.3);
+	}
+
+	.touch-item a {
+		display: block;
+		padding: 2px 0;
+	}
+
+	.touch-item * {
+		transition-duration: 0.15s;
+	}
+
+	.touch-item:active .absolute {
+		opacity: 1;
+	}
+
+	.touch-item:active a span:last-child {
+		opacity: 1;
 	}
 
 	.writing-item {
