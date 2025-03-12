@@ -3,6 +3,7 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import Breadcrumbs from '$lib/components/Breadcrumbs.svelte';
 	import { onMount } from 'svelte';
+	import { CornerRightUp } from '@lucide/svelte';
 
 	const abouts = allAbouts[0];
 	let isPageLoaded = false;

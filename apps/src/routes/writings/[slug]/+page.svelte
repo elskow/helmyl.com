@@ -3,6 +3,7 @@
 	import Breadcrumbs from '$lib/components/Breadcrumbs.svelte';
 	import { onMount } from 'svelte';
 	import { afterNavigate } from '$app/navigation';
+	import { Calendar, Eye } from '@lucide/svelte';
 
 	interface Props {
 		data: import('./$types').PageData;
@@ -11,7 +12,7 @@
 	let { data }: Props = $props();
 	const post = data.post;
 	const breadcrumbPath = `writings/${post.slug}`;
-	let isPageLoaded = false;
+	let isPageLoaded = $state(false);
 
 	function executePostScripts() {
 		const scripts = document.querySelectorAll('.post-content script');
@@ -135,21 +136,7 @@
 					datetime={post.date ? new Date(post.date).toISOString() : ''}
 					class="text-sm text-dark-500 dark:text-dark-400 flex items-center"
 				>
-					<svg
-						class="w-3.5 h-3.5 mr-1.5 opacity-70"
-						xmlns="http://www.w3.org/2000/svg"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-					>
-						<rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-						<line x1="16" y1="2" x2="16" y2="6"></line>
-						<line x1="8" y1="2" x2="8" y2="6"></line>
-						<line x1="3" y1="10" x2="21" y2="10"></line>
-					</svg>
+					<Calendar class="w-3.5 h-3.5 mr-1.5 opacity-70" />
 					{post.date
 						? new Date(post.date).toLocaleDateString('en-US', {
 								year: 'numeric',
@@ -163,19 +150,7 @@
 						value={post.readTime.replace(' ', '')}
 						class="text-sm text-dark-500 dark:text-dark-400 flex items-center"
 					>
-						<svg
-							class="w-3.5 h-3.5 mr-1.5 opacity-70"
-							xmlns="http://www.w3.org/2000/svg"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-						>
-							<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
-							<circle cx="12" cy="12" r="3"></circle>
-						</svg>
+						<Eye class="w-3.5 h-3.5 mr-1.5 opacity-70" />
 						{post.readTime}
 					</data>
 				{/if}

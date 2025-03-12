@@ -2,6 +2,7 @@
 	import { allUses } from 'content-collections';
 	import Footer from '$lib/components/Footer.svelte';
 	import Breadcrumbs from '$lib/components/Breadcrumbs.svelte';
+	import { CornerRightUp } from '@lucide/svelte';
 
 	const use = allUses[0];
 </script>

@@ -3,6 +3,7 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import Breadcrumbs from '$lib/components/Breadcrumbs.svelte';
 	import { onMount } from 'svelte';
+	import { CornerRightUp, User, Tag, ArrowRight } from '@lucide/svelte';
 
 	interface Props {
 		data: { projects: LabProject[] };
@@ -132,37 +133,13 @@
 							<div>
 								{#if project.author}
 									<address class="not-italic flex items-center">
-										<svg
-											class="w-3 h-3 sm:w-3.5 sm:h-3.5 mr-1 opacity-70"
-											xmlns="http://www.w3.org/2000/svg"
-											viewBox="0 0 24 24"
-											fill="none"
-											stroke="currentColor"
-											stroke-width="2"
-											stroke-linecap="round"
-											stroke-linejoin="round"
-										>
-											<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-											<circle cx="12" cy="7" r="4"></circle>
-										</svg>
+										<User class="w-3 h-3 sm:w-3.5 sm:h-3.5 mr-1 opacity-70" />
 										<span class="truncate max-w-[80px] sm:max-w-[120px]">{project.author}</span>
 									</address>
 								{/if}
 							</div>
 							<data value={project.version} class="flex items-center">
-								<svg
-									class="w-3 h-3 sm:w-3.5 sm:h-3.5 mr-1 opacity-70"
-									xmlns="http://www.w3.org/2000/svg"
-									viewBox="0 0 24 24"
-									fill="none"
-									stroke="currentColor"
-									stroke-width="2"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-								>
-									<path d="m12 8-9.04 9.06a2.82 2.82 0 1 0 3.98 3.98L16 12"></path>
-									<circle cx="17" cy="7" r="5"></circle>
-								</svg>
+								<Tag class="w-3 h-3 sm:w-3.5 sm:h-3.5 mr-1 opacity-70" />
 								{project.version}
 							</data>
 						</footer>
@@ -171,19 +148,9 @@
 							class="mt-2 sm:mt-3 inline-flex items-center text-azure-600 dark:text-azure-400 hover:underline transition-all duration-200 pointer-events-none text-xs sm:text-sm"
 						>
 							<span>View Project</span>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
+							<ArrowRight
 								class="h-3 w-3 sm:h-4 sm:w-4 ml-1 transform group-hover:translate-x-1 transition-transform duration-200"
-								viewBox="0 0 20 20"
-								fill="currentColor"
-								aria-hidden="true"
-							>
-								<path
-									fill-rule="evenodd"
-									d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
-									clip-rule="evenodd"
-								/>
-							</svg>
+							/>
 						</div>
 					</article>
 

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { ExternalLink, Search } from '@lucide/svelte';
+
 	interface Props {
 		name: string;
 		description: string;
@@ -57,26 +59,7 @@
 			title="View on GitHub"
 			aria-label={`View ${name} on GitHub`}
 		>
-			<svg
-				aria-hidden="true"
-				class="iconify iconify--akar-icons"
-				font-size="16"
-				height="1em"
-				preserveAspectRatio="xMidYMid meet"
-				role="img"
-				viewBox="0 0 24 24"
-				width="1em"
-				xmlns="http://www.w3.org/2000/svg"
-			>
-				<path
-					d="M13.5 10.5L21 3m-5 0h5v5m0 6v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"
-					fill="none"
-					stroke="currentColor"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					stroke-width="2"
-				></path>
-			</svg>
+			<ExternalLink size="1em" />
 		</a>
 		<a
 			class="cursor-pointer transition-all duration-200 ease-in-out hover:text-azure-600 dark:hover:text-azure-400 hover:scale-110"
@@ -84,21 +67,7 @@
 			title="View details"
 			aria-label={`View details for ${name} project`}
 		>
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				width="1em"
-				height="1em"
-				viewBox="0 0 24 24"
-				fill="none"
-				stroke="currentColor"
-				stroke-width="2"
-				stroke-linecap="round"
-				stroke-linejoin="round"
-				aria-hidden="true"
-			>
-				<circle cx="11" cy="11" r="8"></circle>
-				<line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-			</svg>
+			<Search size="1em" />
 		</a>
 	</footer>
 

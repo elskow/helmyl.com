@@ -4,6 +4,7 @@
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import { onMount, tick } from 'svelte';
+	import { ArrowRight, Clock, Eye } from '@lucide/svelte';
 
 	interface Props {
 		data: import('./$types').PageData;
@@ -243,20 +244,7 @@
 								<span
 									class="ml-1.5 opacity-0 group-hover:opacity-100 text-azure-500 dark:text-azure-400"
 								>
-									<svg
-										aria-hidden="true"
-										width="14"
-										height="14"
-										viewBox="0 0 24 24"
-										fill="none"
-										stroke="currentColor"
-										stroke-width="2"
-										stroke-linecap="round"
-										stroke-linejoin="round"
-									>
-										<path d="M5 12h14"></path>
-										<path d="m12 5 7 7-7 7"></path>
-									</svg>
+									<ArrowRight size="14" />
 								</span>
 							</a>
 						</h3>
@@ -265,38 +253,14 @@
 								datetime={post.date ? new Date(post.date).toISOString() : ''}
 								class="text-dark-400 dark:text-dark-500 mt-2 group-hover:text-dark-500 dark:group-hover:text-dark-400 flex items-center"
 							>
-								<svg
-									aria-hidden="true"
-									class="w-3.5 h-3.5 mr-1.5 opacity-70"
-									viewBox="0 0 24 24"
-									fill="none"
-									stroke="currentColor"
-									stroke-width="2"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-								>
-									<circle cx="12" cy="12" r="10"></circle>
-									<polyline points="12 6 12 12 16 14"></polyline>
-								</svg>
+								<Clock class="w-3.5 h-3.5 mr-1.5 opacity-70" />
 								{post.date}
 							</time>
 							<data
 								value={post.readTime?.replace(/\s+/g, '')}
 								class="text-dark-400 dark:text-dark-500 mt-2 group-hover:text-dark-500 dark:group-hover:text-dark-400 flex items-center"
 							>
-								<svg
-									aria-hidden="true"
-									class="w-3.5 h-3.5 mr-1.5 opacity-70"
-									viewBox="0 0 24 24"
-									fill="none"
-									stroke="currentColor"
-									stroke-width="2"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-								>
-									<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
-									<circle cx="12" cy="12" r="3"></circle>
-								</svg>
+								<Eye class="w-3.5 h-3.5 mr-1.5 opacity-70" />
 								{post.readTime}
 							</data>
 						</div>
@@ -309,19 +273,7 @@
 			href="/writings"
 		>
 			View all writings
-			<svg
-				aria-hidden="true"
-				class="w-3.5 h-3.5 ml-1"
-				viewBox="0 0 24 24"
-				fill="none"
-				stroke="currentColor"
-				stroke-width="2"
-				stroke-linecap="round"
-				stroke-linejoin="round"
-			>
-				<path d="M5 12h14"></path>
-				<path d="m12 5 7 7-7 7"></path>
-			</svg>
+			<ArrowRight class="w-3.5 h-3.5 ml-1" />
 		</a>
 	</section>
 </main>

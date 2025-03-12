@@ -3,6 +3,7 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import Breadcrumbs from '$lib/components/Breadcrumbs.svelte';
 	import { onMount } from 'svelte';
+	import { CornerRightUp } from '@lucide/svelte';
 
 	interface Props {
 		data: import('./$types').PageData;
@@ -135,7 +136,7 @@
 	</div>
 
 	<!-- Decorative corner element -->
-	<div class="absolute top-0 right-0 w-24 h-24 pointer-events-none opacity-30 dark:opacity-40">
+	<div class="absolute top-0 right-0 w-24 h-24 pointer-events-none opacity-20 dark:opacity-30">
 		<svg
 			width="100"
 			height="100"
