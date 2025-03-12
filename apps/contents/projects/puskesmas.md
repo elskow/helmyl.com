@@ -4,5 +4,5 @@ description: Analyze the citizen satisfaction of each puskesmas in Surabaya, bas
 github: https://github.com/elskow/PuskesmasSbyAnalysis
 stacks: [ Selenium (python), Bi-LSTM + Attention, Tableau ]
 date: 2024-07-01
-priority: 1
+priority: 0
 ---
