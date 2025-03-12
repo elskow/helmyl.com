@@ -3,7 +3,6 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import Breadcrumbs from '$lib/components/Breadcrumbs.svelte';
 	import { onMount } from 'svelte';
-	import { CornerRightUp } from '@lucide/svelte';
 
 	interface Props {
 		data: import('./$types').PageData;
@@ -23,7 +22,7 @@
 
 	let { data }: Props = $props();
 	const projects = data.projects as Project[];
-	let isPageLoaded = false;
+	let isPageLoaded = $state(false);
 
 	// Group projects by year
 	const projectsByYear = projects.reduce(
@@ -175,10 +174,6 @@
 
 	.animate-fade-in {
 		animation: fadeIn 0.6s ease-out forwards;
-	}
-
-	.animate-slide-up {
-		animation: slideUp 0.5s ease-out forwards;
 	}
 
 	:global(body) {

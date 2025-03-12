@@ -191,13 +191,6 @@
 			</footer>
 		{/if}
 	</article>
-
-	<!-- Decorative dots pattern -->
-	<div class="absolute bottom-10 right-10 grid grid-cols-3 gap-1 opacity-20 dark:opacity-30">
-		{#each Array(9) as _, i}
-			<div class="w-1 h-1 rounded-full bg-current"></div>
-		{/each}
-	</div>
 </main>
 <Footer />
 

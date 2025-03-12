@@ -11,7 +11,7 @@
 	let { data }: Props = $props();
 	const project = data.project;
 	const breadcrumbPath = `projects/${project.slug}`;
-	let isPageLoaded = false;
+	let isPageLoaded = $state(false);
 
 	function executePostScripts() {
 		const scripts = document.querySelectorAll('.project-content script');
@@ -92,13 +92,12 @@
 			<h1 class="text-2xl md:text-3xl font-semibold text-midnight-800 dark:text-dark-100">
 				{project.name}
 			</h1>
-
-			<p class="mt-4 text-dark-600 dark:text-dark-300 leading-relaxed">{project.description}</p>
-
 			<!-- Decorative accent line -->
 			<div
 				class="w-16 h-1 bg-gradient-to-r from-azure-500/70 dark:from-azure-400/70 to-transparent rounded-full mb-4"
 			></div>
+
+			<p class="mt-4 text-dark-600 dark:text-dark-300 leading-relaxed">{project.description}</p>
 
 			<div class="mt-6 flex flex-col sm:flex-row sm:items-center gap-4 sm:justify-between">
 				<ul class="flex flex-wrap gap-2" aria-label="Technologies used">
