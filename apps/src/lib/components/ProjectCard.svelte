@@ -23,13 +23,17 @@
 </script>
 
 <article
-	class="project-card relative overflow-hidden border border-dark-300/50 dark:border-dark-500/60 rounded-lg shadow-sm p-5 transition-all duration-300 hover:border-azure-500/50 dark:hover:border-azure-400/40 group bg-white/50 dark:bg-midnight-900/10 {isTouchDevice
+	class="project-card relative overflow-hidden border border-dark-300/50 dark:border-dark-500/60 rounded-lg shadow-sm p-4 sm:p-5 transition-all {isTouchDevice
+		? 'touch-duration'
+		: 'duration-300'} hover:border-azure-500/50 dark:hover:border-azure-400/40 group bg-white/50 dark:bg-midnight-900/10 {isTouchDevice
 		? 'touch-device'
 		: ''}"
 >
 	<a href={`/projects/${slug}`} class="block relative z-10">
 		<h3
-			class="font-semibold text-midnight-800 dark:text-dark-100 ease-in-out transition-colors duration-200 text-sm sm:text-base group-hover:text-azure-600 dark:group-hover:text-azure-400 flex items-center"
+			class="font-semibold text-midnight-800 dark:text-dark-100 ease-in-out transition-colors {isTouchDevice
+				? 'touch-duration'
+				: 'duration-200'} text-sm sm:text-base group-hover:text-azure-600 dark:group-hover:text-azure-400 flex items-center"
 		>
 			{name}
 		</h3>
@@ -39,19 +43,23 @@
 	</a>
 
 	<ul
-		class="flex flex-wrap gap-1.5 pt-2 justify-end pb-2 relative z-10 pl-10 text-right"
+		class="flex flex-wrap gap-1.5 pt-2 justify-end pb-2 relative z-10 pl-6 sm:pl-10 text-right"
 		aria-label="Technologies used"
 	>
 		{#each visibleStacks as tech}
 			<li
-				class="text-xs px-2 py-0.5 bg-dark-100/30 dark:bg-midnight-700/70 rounded-full transition-all duration-300 group-hover:bg-dark-200/50 dark:group-hover:bg-midnight-600/90 text-dark-700 dark:text-dark-200"
+				class="text-xs px-2 py-0.5 bg-dark-100/30 dark:bg-midnight-700/70 rounded-full transition-all {isTouchDevice
+					? 'touch-duration'
+					: 'duration-300'} group-hover:bg-dark-200/50 dark:group-hover:bg-midnight-600/90 text-dark-700 dark:text-dark-200"
 			>
 				{tech}
 			</li>
 		{/each}
 		{#if remainingCount > 0}
 			<li
-				class="text-xs px-2 py-0.5 bg-dark-200/40 dark:bg-midnight-600/80 rounded-full transition-all duration-300 group-hover:bg-dark-300/60 dark:group-hover:bg-midnight-500/90 text-dark-700 dark:text-dark-200"
+				class="text-xs px-2 py-0.5 bg-dark-200/40 dark:bg-midnight-600/80 rounded-full transition-all {isTouchDevice
+					? 'touch-duration'
+					: 'duration-300'} group-hover:bg-dark-300/60 dark:group-hover:bg-midnight-500/90 text-dark-700 dark:text-dark-200"
 				title={stacks.slice(3).join(', ')}
 			>
 				+{remainingCount}
@@ -59,11 +67,13 @@
 		{/if}
 	</ul>
 
-	<footer class="absolute bottom-4 left-4 flex gap-3 z-10">
+	<footer class="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 flex gap-3 z-10">
 		<a
-			class="cursor-alias transition-all duration-200 ease-in-out hover:text-azure-600 dark:hover:text-azure-400 hover:scale-110 {isTouchDevice
-				? 'touch-link'
-				: ''}"
+			class="cursor-alias transition-all {isTouchDevice
+				? 'touch-duration'
+				: 'duration-200'} ease-in-out hover:text-azure-600 dark:hover:text-azure-400 {isTouchDevice
+				? ''
+				: 'hover:scale-110'} {isTouchDevice ? 'touch-link' : ''}"
 			href={github}
 			rel="noopener noreferrer"
 			target="_blank"
@@ -73,9 +83,11 @@
 			<ExternalLink size="1em" />
 		</a>
 		<a
-			class="cursor-pointer transition-all duration-200 ease-in-out hover:text-azure-600 dark:hover:text-azure-400 hover:scale-110 {isTouchDevice
-				? 'touch-link'
-				: ''}"
+			class="cursor-pointer transition-all {isTouchDevice
+				? 'touch-duration'
+				: 'duration-200'} ease-in-out hover:text-azure-600 dark:hover:text-azure-400 {isTouchDevice
+				? ''
+				: 'hover:scale-110'} {isTouchDevice ? 'touch-link' : ''}"
 			href={`/projects/${slug}`}
 			title="View details"
 			aria-label={`View details for ${name} project`}
@@ -192,8 +204,12 @@
 	}
 
 	.touch-link {
-		padding: 8px;
-		margin: -8px;
+		padding: 10px;
+		margin: -10px;
+	}
+
+	.touch-duration {
+		transition-duration: 0.1s;
 	}
 
 	.touch-device * {
@@ -215,5 +231,17 @@
 
 	.touch-device:active {
 		transform: translateY(-1px);
+	}
+
+	@media (max-width: 640px) {
+		.project-card {
+			contain: content;
+			content-visibility: auto;
+		}
+
+		.touch-link {
+			padding: 12px;
+			margin: -12px;
+		}
 	}
 </style>
