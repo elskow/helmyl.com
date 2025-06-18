@@ -11,7 +11,13 @@ export class Matrix {
 		return mat4.create(); // Identity matrix for 2D
 	}
 
-	static createModel(x: number, y: number, rotation: number, scaleX: number, scaleY: number): mat4 {
+	static createModel(
+		x: number,
+		y: number,
+		rotation: number,
+		scaleX: number,
+		scaleY: number
+	): mat4 {
 		const model = mat4.create();
 		mat4.translate(model, model, [x, y, 0]);
 		mat4.rotate(model, model, rotation, [0, 0, 1]);

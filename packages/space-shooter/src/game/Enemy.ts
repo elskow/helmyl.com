@@ -154,7 +154,11 @@ export class Enemy extends Entity implements EnemyType {
 		mat4.rotate(modelMatrix, modelMatrix, this.rotation, [0, 0, 1]);
 		mat4.scale(modelMatrix, modelMatrix, [this.scale.x, this.scale.y, 1]);
 
-		gl.uniformMatrix4fv(this.shaderProgram.getUniformLocation('uModelMatrix'), false, modelMatrix);
+		gl.uniformMatrix4fv(
+			this.shaderProgram.getUniformLocation('uModelMatrix'),
+			false,
+			modelMatrix
+		);
 
 		// Enemy ship gradient colors
 		gl.uniform3f(

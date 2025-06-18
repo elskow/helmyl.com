@@ -1,0 +1,43 @@
+# EditorConfig is awesome: https://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+# Unix-style newlines with a newline ending every file
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = tab
+indent_size = 4
+
+# Matches multiple files with brace expansion notation
+# Set default charset
+[*.{js,jsx,ts,tsx,svelte,vue}]
+indent_style = tab
+indent_size = 4
+
+[*.{json,yml,yaml}]
+indent_style = space
+indent_size = 2
+
+[*.md]
+trim_trailing_whitespace = false
+
+[*.{css,scss,sass}]
+indent_style = tab
+indent_size = 4
+
+[*.html]
+indent_style = tab
+indent_size = 4
+
+# Package files
+[package.json]
+indent_style = tab
+indent_size = 4
+
+[pnpm-lock.yaml]
+indent_style = space
+indent_size = 2

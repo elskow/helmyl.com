@@ -49,7 +49,11 @@ export class Projectile extends Entity implements ProjectileType {
 		const modelMatrix = mat4.create();
 		mat4.translate(modelMatrix, modelMatrix, [this.position.x, this.position.y, 0]);
 
-		gl.uniformMatrix4fv(this.shaderProgram.getUniformLocation('uModelMatrix'), false, modelMatrix);
+		gl.uniformMatrix4fv(
+			this.shaderProgram.getUniformLocation('uModelMatrix'),
+			false,
+			modelMatrix
+		);
 
 		// Different color for enemy projectiles
 		if (this.velocity.y < 0) {

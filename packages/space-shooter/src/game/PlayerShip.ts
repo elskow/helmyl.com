@@ -36,7 +36,11 @@ export class PlayerShip {
 	draw(gl: WebGLRenderingContext, modelMatrix: mat4): void {
 		this.shaderProgram.use();
 
-		gl.uniformMatrix4fv(this.shaderProgram.getUniformLocation('uModelMatrix'), false, modelMatrix);
+		gl.uniformMatrix4fv(
+			this.shaderProgram.getUniformLocation('uModelMatrix'),
+			false,
+			modelMatrix
+		);
 
 		// Player ship gradient colors
 		gl.uniform3f(

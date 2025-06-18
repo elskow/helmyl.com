@@ -223,7 +223,12 @@ export class Game {
 
 		this.spawnInterval = window.setInterval(() => {
 			if (!this.gameOver && this.running) {
-				const enemy = new Enemy(Math.random() * 1.6 - 0.8, 1.2, this.gl, this.shaderProgram);
+				const enemy = new Enemy(
+					Math.random() * 1.6 - 0.8,
+					1.2,
+					this.gl,
+					this.shaderProgram
+				);
 				enemy.setTarget(this.player); // Set player as target
 				this.enemies.push(enemy);
 			}
