@@ -4,7 +4,7 @@
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import { onMount, tick } from 'svelte';
-	import { ArrowRight, Clock, Eye } from '@lucide/svelte';
+	import { ArrowRight, Clock, Eye, Briefcase } from '@lucide/svelte';
 	import { browser } from '$app/environment';
 
 	interface Props {
@@ -17,7 +17,7 @@
 	const qualities = ['secure', 'scalable', 'fast', 'reliable'];
 
 	// Define a type for the section keys to ensure type safety
-	type SectionKey = 'intro' | 'technologies' | 'projects' | 'writings';
+	type SectionKey = 'intro' | 'status' | 'technologies' | 'projects' | 'writings';
 
 	// Use a more efficient approach with content visibility
 	let mounted = $state(false);
@@ -25,6 +25,7 @@
 	// Track which sections are in viewport for content-visibility optimization
 	let sectionsInView = {
 		intro: true,
+		status: false,
 		technologies: false,
 		projects: false,
 		writings: false
@@ -60,7 +61,13 @@
 
 		// Type guard function to check if a string is a valid section key
 		function isSectionKey(key: string): key is SectionKey {
-			return key === 'intro' || key === 'technologies' || key === 'projects' || key === 'writings';
+			return (
+				key === 'intro' ||
+				key === 'status' ||
+				key === 'technologies' ||
+				key === 'projects' ||
+				key === 'writings'
+			);
 		}
 
 		// Observe all main sections
@@ -129,8 +136,33 @@
 	</div>
 
 	<section
+		data-section="status"
+		class="pt-6 content-visibility-section"
+		aria-labelledby="status-heading"
+		class:cv-auto={!sectionsInView.status && mounted}
+	>
+		<div class="flex items-start space-x-2 text-sm sm:text-base">
+			<p class="text-dark-600 dark:text-dark-300">
+				Currently working as <span class="font-medium text-midnight-800 dark:text-dark-100"
+					>Application Developer</span
+				>
+				at
+				<a
+					class="text-azure-600 dark:text-azure-400 font-medium"
+					href="https://www.bca.co.id/id"
+				>
+					Bank Central Asia
+				</a>
+			</p>
+			<div
+				class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse mt-1 sm:block hidden"
+			></div>
+		</div>
+	</section>
+
+	<section
 		data-section="intro"
-		class="pt-10 text-sm sm:text-base text-dark-600 dark:text-dark-300 space-y-4"
+		class="pt-6 text-sm sm:text-base text-dark-600 dark:text-dark-300 space-y-4"
 		aria-label="Introduction"
 	>
 		<p>
