@@ -67,10 +67,7 @@ const calcLastModified = async (filePath: string, root: string) => {
 
 const rehypeExpressiveCodeOptions = {
 	themes: ['material-theme-ocean', 'catppuccin-latte'],
-	plugins: [
-		pluginCollapsibleSections(),
-		pluginFrames()
-	],
+	plugins: [pluginCollapsibleSections(), pluginFrames()],
 	cssVariables: {
 		borderRadius: '0.5rem',
 		codePaddingInline: '1.5rem',
@@ -219,35 +216,41 @@ const markdownOptions: Options = {
 			}
 		],
 		[rehypeExpressiveCode, rehypeExpressiveCodeOptions],
-		[rehypeExternalLinks, {
-			target: '_blank',
-			rel: ['noopener', 'noreferrer'],
-			content: {
-				type: 'element',
-				tagName: 'svg',
-				properties: {
-					xmlns: 'http://www.w3.org/2000/svg',
-					width: 12,
-					height: 12,
-					fill: 'currentColor',
-					viewBox: '0 0 16 16',
-					className: ['ml-1 inline-block']
-				},
-				children: [{
+		[
+			rehypeExternalLinks,
+			{
+				target: '_blank',
+				rel: ['noopener', 'noreferrer'],
+				content: {
 					type: 'element',
-					tagName: 'path',
+					tagName: 'svg',
 					properties: {
-						d: 'M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z'
-					}
-				}, {
-					type: 'element',
-					tagName: 'path',
-					properties: {
-						d: 'M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z'
-					}
-				}]
+						xmlns: 'http://www.w3.org/2000/svg',
+						width: 12,
+						height: 12,
+						fill: 'currentColor',
+						viewBox: '0 0 16 16',
+						className: ['ml-1 inline-block']
+					},
+					children: [
+						{
+							type: 'element',
+							tagName: 'path',
+							properties: {
+								d: 'M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z'
+							}
+						},
+						{
+							type: 'element',
+							tagName: 'path',
+							properties: {
+								d: 'M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z'
+							}
+						}
+					]
+				}
 			}
-		}],
+		],
 		rehypePresetMinify
 	],
 	// @ts-ignore

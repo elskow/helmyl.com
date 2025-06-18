@@ -1,3 +1,5 @@
 packages:
+  # Main application
   - 'apps'
+  # Lab experiments and interactive demos
   - 'packages/*'

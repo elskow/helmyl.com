@@ -1,38 +1,73 @@
-node_modules
-.tw-patch
+# Dependencies
+node_modules/
+.pnpm-debug.log*
 
-# Output
-.output
-.vercel
-.content-collections
-.idea
-.svelte-kit
-build
-.parcel-cache
+# Build outputs
+build/
+dist/
+.output/
+.vercel/
+.svelte-kit/
+.parcel-cache/
 
-# OS
-.DS_Store
-Thumbs.db
+# Development
+.content-collections/
+.tw-patch/
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
 
-# Env
+# Environment variables
 .env
 .env.*
 !.env.example
 !.env.test
 
-# Vite
-vite.config.js.timestamp-*
-vite.config.ts.timestamp-*
-# Devenv
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Development environment
 .devenv*
 devenv.local.nix
+.direnv/
 
-# direnv
-.direnv
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# Temporary folders
+tmp/
+temp/
 
 # pre-commit
 .pre-commit-config.yaml
 apps/static/labs/*
 !apps/static/labs/.gitkeep
-dist
 labs-metadata.json

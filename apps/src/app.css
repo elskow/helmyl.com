@@ -3,47 +3,50 @@
 @tailwind utilities;
 
 /*for id started with mermaid-* center horizontally and add background in dark mode*/
-[id^="mermaid-"] {
-    margin-left: auto;
-    margin-right: auto;
+[id^='mermaid-'] {
+	margin-left: auto;
+	margin-right: auto;
 }
 
 @media (prefers-color-scheme: light) {
-    [id^="mermaid-"] {
-        background-color: rgba(0, 0, 0, 0.9);
-        padding: 1rem;
-        border-radius: 0.4rem;
-    }
+	[id^='mermaid-'] {
+		background-color: rgba(0, 0, 0, 0.9);
+		padding: 1rem;
+		border-radius: 0.4rem;
+	}
 }
 
 /* Global styles for light mode */
 body {
-    @apply bg-white text-gray-900 transition-colors duration-300;
+	@apply bg-white text-gray-900 transition-colors duration-300;
 }
 
 /* Enhanced dark mode styles */
 @media (prefers-color-scheme: dark) {
-    body {
-        @apply bg-zinc-900 text-zinc-100;
-    }
+	body {
+		@apply bg-zinc-900 text-zinc-100;
+	}
 
-    /* Improve link visibility in dark mode */
-    a:not([class]) {
-        @apply text-blue-400 hover:text-blue-300;
-    }
+	/* Improve link visibility in dark mode */
+	a:not([class]) {
+		@apply text-blue-400 hover:text-blue-300;
+	}
 
-    /* Soften borders in dark mode */
-    .border, [class*="border-"] {
-        @apply border-zinc-700;
-    }
+	/* Soften borders in dark mode */
+	.border,
+	[class*='border-'] {
+		@apply border-zinc-700;
+	}
 
-    /* Improve code block readability */
-    pre, code {
-        @apply bg-zinc-800 text-zinc-200;
-    }
+	/* Improve code block readability */
+	pre,
+	code {
+		@apply bg-zinc-800 text-zinc-200;
+	}
 
-    /* Soften shadows for better depth perception */
-    .shadow, [class*="shadow-"] {
-        @apply shadow-zinc-950/50;
-    }
+	/* Soften shadows for better depth perception */
+	.shadow,
+	[class*='shadow-'] {
+		@apply shadow-zinc-950/50;
+	}
 }

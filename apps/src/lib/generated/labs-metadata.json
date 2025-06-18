@@ -1,7 +1,7 @@
 [
   {
     "name": "rotating-donut",
-    "description": "WebGL Rotating Donut",
+    "description": "WebGL rotating donut visualization",
     "version": "1.0.0",
     "slug": "rotating-donut",
     "author": "",
@@ -10,7 +10,7 @@
   },
   {
     "name": "space-shooter",
-    "description": "Space Shooter Game",
+    "description": "Interactive space shooter game",
     "version": "1.0.0",
     "slug": "space-shooter",
     "author": "",

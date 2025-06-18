@@ -1,19 +1,29 @@
 {
-	"name": "helmyl-web-monorepo",
+	"name": "helmyl.com",
+	"version": "1.0.0",
+	"description": "Personal website and labs monorepo",
 	"private": true,
 	"scripts": {
-		"clean": "pnpm --filter \"@labs/*\" run clean && pnpm --filter apps run clean",
-		"clean:labs": "pnpm --filter \"@labs/*\" run clean",
-		"clean:web": "pnpm --filter apps run clean",
-		"build:labs": "pnpm --filter \"@labs/*\" run clean && pnpm --filter \"@labs/*\" run build",
-		"build:web": "pnpm --filter apps run build",
 		"dev": "pnpm build:labs && pnpm --filter apps run dev",
 		"build": "pnpm build:labs && pnpm build:web",
-		"preview": "pnpm --filter apps preview"
+		"preview": "pnpm --filter apps preview",
+		"build:labs": "pnpm --filter \"@labs/*\" run clean && pnpm --filter \"@labs/*\" run build",
+		"build:web": "pnpm --filter apps run build",
+		"clean": "pnpm clean:labs && pnpm clean:web",
+		"clean:labs": "pnpm --filter \"@labs/*\" run clean",
+		"clean:web": "pnpm --filter apps run clean",
+		"format": "prettier --write .",
+		"lint": "pnpm --filter apps run lint",
+		"check": "pnpm --filter apps run check"
 	},
 	"devDependencies": {
 		"@parcel/transformer-glsl": "2.13.3",
 		"@parcel/transformer-sass": "2.13.3",
+		"prettier": "^3.1.1",
 		"tsx": "^4.20.3"
+	},
+	"engines": {
+		"node": ">=20.18.0",
+		"pnpm": ">=8.0.0"
 	}
 }

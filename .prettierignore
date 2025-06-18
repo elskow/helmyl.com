@@ -1,4 +1,36 @@
-# Package Managers
-package-lock.json
+# Build outputs
+build/
+dist/
+.output/
+.vercel/
+.svelte-kit/
+.parcel-cache/
+
+# Dependencies
+node_modules/
 pnpm-lock.yaml
-yarn.lock
+
+# Generated files
+.content-collections/
+labs-metadata.json
+
+# Static assets
+static/
+public/
+
+# Configuration files
+*.config.js
+*.config.ts
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# Markdown files (preserve original formatting)
+*.md
+
+# Environment files
+.env*
+
+# IDE and OS files
+.DS_Store
+.idea/
+.vscode/

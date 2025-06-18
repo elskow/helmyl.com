@@ -1,10 +1,12 @@
 {
 	"name": "@labs/space-shooter",
 	"version": "1.0.0",
-	"description": "Space Shooter Game",
+	"description": "Interactive space shooter game",
+	"private": true,
+	"type": "module",
 	"scripts": {
-		"dev": "parcel src/index.html",
-		"build": "node -e \"console.log('Current working directory:', process.cwd())\" && mkdir -p $(pwd)/../../apps/static/labs/space-shooter && parcel build src/index.html --dist-dir $(pwd)/../../apps/static/labs/space-shooter --public-url /labs/space-shooter/ --no-cache --no-content-hash --no-source-maps && cp -r public/* $(pwd)/../../apps/static/labs/space-shooter/",
+		"dev": "parcel src/index.html --port 3002",
+		"build": "mkdir -p ../../apps/static/labs/space-shooter && parcel build src/index.html --dist-dir ../../apps/static/labs/space-shooter --public-url /labs/space-shooter/ --no-cache --no-content-hash --no-source-maps && cp -r public/* ../../apps/static/labs/space-shooter/",
 		"clean": "rm -rf dist .parcel-cache ../../apps/static/labs/space-shooter"
 	},
 	"devDependencies": {
