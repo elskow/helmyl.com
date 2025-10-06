@@ -30,12 +30,14 @@
 </script>
 
 {#snippet renderFooter()}
-	<footer class="max-w-4xl mx-auto md:p-8 p-4">
+	<footer class="max-w-4xl mx-auto md:p-8 p-4 relative z-50 bg-white dark:bg-zinc-900">
 		<div class="flex flex-col items-center justify-center gap-6 pt-6">
 			<p class="text-xs text-dark-500 dark:text-dark-300 md:text-sm text-center">
 				© {roman} Helmy Luqmanulhakim. All rights reserved.
 			</p>
-			<div class="flex gap-8 text-xs sm:text-sm font-medium text-midnight-700 dark:text-dark-200">
+			<div
+				class="flex gap-8 text-xs sm:text-sm font-medium text-midnight-700 dark:text-dark-200"
+			>
 				<a
 					class="transition-all duration-300 hover:text-azure-600 dark:hover:text-azure-400 cursor-alias relative group"
 					draggable={false}
