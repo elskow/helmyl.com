@@ -3,7 +3,6 @@
 	"version": "1.0.0",
 	"description": "Personal website built with SvelteKit",
 	"private": true,
-	"type": "module",
 	"scripts": {
 		"generate:labs": "tsx scripts/generate-labs-metadata.ts",
 		"dev": "pnpm generate:labs && vite dev",

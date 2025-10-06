@@ -1,5 +1,11 @@
 packages:
-  # Main application
-  - 'apps'
-  # Lab experiments and interactive demos
-  - 'packages/*'
+  - apps
+  - packages/*
+
+onlyBuiltDependencies:
+  - '@parcel/watcher'
+  - '@sveltejs/kit'
+  - '@swc/core'
+  - esbuild
+  - lmdb
+  - msgpackr-extract
