@@ -1,13 +1,14 @@
 import { error } from '@sveltejs/kit';
 import { allPosts } from 'content-collections';
+import type { PageServerLoad } from './$types';
+import type { Post } from 'content-collections';
 
-/** @type {import('./$types').PageServerLoad} */
-export async function load({ params }) {
+export const load: PageServerLoad = async ({ params }) => {
 	const { slug } = params;
-	const post = allPosts.find((post) => post.slug === slug);
+	const post = allPosts.find((item: Post) => item.slug === slug);
 	if (!post) {
-		error(404, { message: `/${slug} not found` });
+		throw error(404, { message: `/${slug} not found` });
 	}
 
 	return { post };
-}
+};

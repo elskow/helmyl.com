@@ -86,7 +86,10 @@
 		<meta property="article:published_time" content={new Date(post.date).toISOString()} />
 	{/if}
 	{#if post.lastModified}
-		<meta property="article:modified_time" content={new Date(post.lastModified).toISOString()} />
+		<meta
+			property="article:modified_time"
+			content={new Date(post.lastModified).toISOString()}
+		/>
 	{/if}
 
 	<!-- Twitter -->
@@ -119,7 +122,12 @@
 			xmlns="http://www.w3.org/2000/svg"
 			class="transform -translate-x-1 -translate-y-1"
 		>
-			<path d="M5 5L95 5L95 95" stroke="currentColor" stroke-width="1" stroke-dasharray="4 4" />
+			<path
+				d="M5 5L95 5L95 95"
+				stroke="currentColor"
+				stroke-width="1"
+				stroke-dasharray="4 4"
+			/>
 			<circle cx="70" cy="30" r="4" fill="currentColor" opacity="0.5" />
 			<circle cx="30" cy="70" r="2" fill="currentColor" opacity="0.3" />
 		</svg>
@@ -197,7 +205,7 @@
 </main>
 <Footer />
 
-<style>
+<style lang="postcss">
 	@keyframes fadeIn {
 		from {
 			opacity: 0;

@@ -94,7 +94,9 @@ const calcLastModified = async (filePath: string, root: string) => {
 			);
 
 			if (!response.ok) {
-				console.warn(`Failed to fetch commit history for ${relativePath}: ${response.status}`);
+				console.warn(
+					`Failed to fetch commit history for ${relativePath}: ${response.status}`
+				);
 				return new Date().toISOString();
 			}
 
@@ -104,7 +106,9 @@ const calcLastModified = async (filePath: string, root: string) => {
 			}
 		} else {
 			try {
-				const { stdout } = await exec(`git log -1 --format=%cd --date=iso "${root}${filePath}"`);
+				const { stdout } = await exec(
+					`git log -1 --format=%cd --date=iso "${root}${filePath}"`
+				);
 				if (stdout.trim()) {
 					return new Date(stdout.trim()).toISOString();
 				}

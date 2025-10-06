@@ -1,13 +1,15 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import * as sitemap from 'super-sitemap';
 import { allPosts } from 'content-collections';
+import type { Post } from 'content-collections';
 import labsMetadata from '$lib/generated/labs-metadata.json';
+import type { LabMetadata } from '$lib/generated/labs-metadata.json';
 
 export const prerender = true;
 
 export const GET: RequestHandler = async () => {
-	const posts = allPosts.map((post) => post.slug);
-	const labSlugs = labsMetadata.map((lab) => lab.slug);
+	const posts = allPosts.map((post: Post) => post.slug);
+	const labSlugs = labsMetadata.map((lab: LabMetadata) => lab.slug);
 
 	return await sitemap.response({
 		origin: `${import.meta.env.DEV ? 'http://localhost:5173' : 'https://helmyl.com'}`,

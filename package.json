@@ -7,10 +7,10 @@
 		"dev": "pnpm build:labs && pnpm --filter @helmyl/website run dev",
 		"build": "pnpm build:labs && pnpm build:web",
 		"preview": "pnpm --filter @helmyl/website preview",
-		"build:labs": "pnpm --filter \"@labs/*\" run clean && pnpm --filter \"@labs/*\" run build",
+		"build:labs": "pnpm --filter \"@labs/*\" run --if-present clean && pnpm --filter \"@labs/*\" run --if-present build",
 		"build:web": "pnpm --filter @helmyl/website run build",
 		"clean": "pnpm clean:labs && pnpm clean:web && pnpm clean:deps",
-		"clean:labs": "pnpm --filter \"@labs/*\" run clean",
+		"clean:labs": "pnpm --filter \"@labs/*\" run --if-present clean",
 		"clean:web": "pnpm --filter @helmyl/website run clean",
 		"clean:deps": "rm -rf node_modules apps/node_modules packages/*/node_modules",
 		"format": "prettier --write .",
@@ -21,6 +21,7 @@
 		"check:watch": "pnpm --filter @helmyl/website run check:watch",
 		"typecheck": "pnpm check",
 		"test": "echo \"No tests specified\" && exit 0",
+		"generate:labs": "pnpm --filter @helmyl/website run generate:labs",
 		"postinstall": "pnpm --filter @helmyl/website run prepare"
 	},
 	"devDependencies": {

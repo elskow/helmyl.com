@@ -9,15 +9,15 @@
 	let { data }: Props = $props();
 	const breadcrumbPath = `labs/${data.project.slug}`;
 
-	function refreshPage() {
-		window.location.reload();
+	function launchLab() {
+		window.location.href = data.launchUrl;
 	}
 
 	function goBack() {
 		window.location.href = '/labs';
 	}
 
-	const labUrl = `https://helmyl.com/labs/${data.project.slug}`;
+	const labUrl = `https://helmyl.com${data.launchUrl}`;
 </script>
 
 <svelte:head>
@@ -71,7 +71,7 @@
 			</p>
 			<div class="space-y-4">
 				<button
-					onclick={refreshPage}
+					onclick={launchLab}
 					class="w-full px-4 py-2 bg-azure-600 dark:bg-azure-700 text-white rounded transition duration-300 ease-in-out transform hover:bg-azure-700 dark:hover:bg-azure-600 hover:text-dark-50 active:scale-95"
 				>
 					Launch Lab
