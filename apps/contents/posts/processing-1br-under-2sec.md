@@ -1,13 +1,13 @@
 ---
 title: 'How can I process 1 billion records under 2 seconds?'
 date: 2024-09-06
-image: '/images/1brc-under-2sec/1brc-logo.png'
+image: './1brc-under-2sec/1brc-logo.png'
 ---
 
 Processing large datasets is a common challenge in data engineering and data science. When dealing with massive volumes
 of data, optimizing processing time becomes critical to avoid performance bottlenecks.
 
-<img src="../../static/images/1brc-under-2sec/1brc-logo.png" alt="1 Billion Row Challenge Logo" width="200" style="display: block; margin: 0 auto;">
+<img src="./1brc-under-2sec/1brc-logo.png" alt="1 Billion Row Challenge Logo" width="200" style="display: block; margin: 0 auto;">
 
 Recently, on the internet I found a fascinating challenge: ["One Billion Row Challenge"](https://1brc.dev/). This
 challenge went viral, especially on Twitter (now X). The task is straightforward: process 1 billion temperature records

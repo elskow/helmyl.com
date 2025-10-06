@@ -5,25 +5,79 @@ import {
 	type Document
 } from '@content-collections/core';
 import { compileMarkdown } from '@content-collections/markdown';
-import rehypeExpressiveCode from 'rehype-expressive-code';
 import { pluginCollapsibleSections } from '@expressive-code/plugin-collapsible-sections';
 import { pluginFrames } from '@expressive-code/plugin-frames';
-import rehypeKatex from 'rehype-katex';
-import remarkGfm from 'remark-gfm';
-import rehypeMermaid from 'rehype-mermaid';
-import rehypeUnwrapImages from 'rehype-unwrap-images';
-import readingTime from 'reading-time';
-import rehypePresetMinify from 'rehype-preset-minify';
-import rehypeExternalLinks from 'rehype-external-links';
-import remarkOembed from 'remark-oembed';
-import remarkToc from 'remark-toc';
-import rehypeSlug from 'rehype-slug';
-import rehypeAutolinkHeadings from 'rehype-autolink-headings';
-import type { Pluggable } from 'unified';
 import { exec as execCallback } from 'child_process';
+import { copyFile, mkdir } from 'fs/promises';
+import { dirname, join } from 'path';
+import readingTime from 'reading-time';
+import rehypeExpressiveCode from 'rehype-expressive-code';
+import rehypeExternalLinks from 'rehype-external-links';
+import rehypeKatex from 'rehype-katex';
+import rehypeMermaid from 'rehype-mermaid';
+import rehypePresetMinify from 'rehype-preset-minify';
+import rehypeSlug from 'rehype-slug';
+import rehypeUnwrapImages from 'rehype-unwrap-images';
+import remarkGfm from 'remark-gfm';
+import remarkOembed from 'remark-oembed';
+import type { Pluggable } from 'unified';
 import { promisify } from 'util';
 
 const exec = promisify(execCallback);
+
+// Store content directory for use in rehype plugin
+let currentContentDir = '';
+
+const copyImageToStatic = async (imagePath: string, contentDir: string) => {
+	try {
+		const sourceFile = join(contentDir, imagePath);
+		// Preserve the relative path structure
+		const relativePath = imagePath.startsWith('./') ? imagePath.slice(2) : imagePath;
+		const destFile = join('static/images', relativePath);
+		const destDir = dirname(destFile);
+
+		// Ensure destination directory exists
+		await mkdir(destDir, { recursive: true });
+
+		// Copy the file
+		await copyFile(sourceFile, destFile);
+
+		// Return the web path (absolute path for SvelteKit static assets)
+		return `/images/${relativePath}`;
+	} catch (error) {
+		console.warn(`Failed to copy image ${imagePath}: ${error}`);
+		return imagePath;
+	}
+};
+
+// Custom rehype plugin to process and copy images
+const rehypeImageCopy = () => {
+	return async (tree: any) => {
+		const { visit } = await import('unist-util-visit');
+		const promises: Promise<void>[] = [];
+
+		visit(tree, 'element', (node: any) => {
+			if (node.tagName === 'img' && node.properties?.src) {
+				const src = node.properties.src;
+
+				// Only process local images (not URLs or data URIs)
+				if (
+					!src.startsWith('http://') &&
+					!src.startsWith('https://') &&
+					!src.startsWith('/') &&
+					!src.startsWith('data:')
+				) {
+					const promise = copyImageToStatic(src, currentContentDir).then((newSrc) => {
+						node.properties.src = newSrc;
+					});
+					promises.push(promise);
+				}
+			}
+		});
+
+		await Promise.all(promises);
+	};
+};
 
 const calcLastModified = async (filePath: string, root: string) => {
 	try {
@@ -40,9 +94,7 @@ const calcLastModified = async (filePath: string, root: string) => {
 			);
 
 			if (!response.ok) {
-				console.warn(
-					`Failed to fetch commit history for ${relativePath}: ${response.status}`
-				);
+				console.warn(`Failed to fetch commit history for ${relativePath}: ${response.status}`);
 				return new Date().toISOString();
 			}
 
@@ -52,9 +104,7 @@ const calcLastModified = async (filePath: string, root: string) => {
 			}
 		} else {
 			try {
-				const { stdout } = await exec(
-					`git log -1 --format=%cd --date=iso "${root}${filePath}"`
-				);
+				const { stdout } = await exec(`git log -1 --format=%cd --date=iso "${root}${filePath}"`);
 				if (stdout.trim()) {
 					return new Date(stdout.trim()).toISOString();
 				}
@@ -89,6 +139,7 @@ const markdownOptions: Options = {
 	rehypePlugins: [
 		[rehypeKatex, { output: 'html' }],
 		rehypeUnwrapImages,
+		rehypeImageCopy,
 		rehypeSlug,
 		[
 			rehypeMermaid,
@@ -283,10 +334,25 @@ const posts = defineCollection({
 		const root = collection.directory;
 		const lastModified = await calcLastModified(data._meta.filePath, root);
 
-		const html = await compileMarkdown(context, data, markdownOptions);
+		// Set content directory for rehype plugin
+		currentContentDir = join(root, dirname(data._meta.filePath));
+
+		let html = await compileMarkdown(context, data, markdownOptions);
+
+		// Handle frontmatter image field
+		let processedImage = data.image;
+		if (
+			data.image &&
+			!data.image.startsWith('http://') &&
+			!data.image.startsWith('https://') &&
+			!data.image.startsWith('/')
+		) {
+			processedImage = await copyImageToStatic(data.image, currentContentDir);
+		}
 
 		return {
 			...data,
+			image: processedImage,
 			slug: data._meta.filePath.replace('.md', ''),
 			readTime: readingTime(data.content).text,
 			lastModified,
@@ -322,7 +388,10 @@ const projects = defineCollection({
 		const root = collection.directory;
 		const lastModified = await calcLastModified(data._meta.filePath, root);
 
-		const html = await compileMarkdown(context, data, markdownOptions);
+		// Set content directory for rehype plugin
+		currentContentDir = join(root, dirname(data._meta.filePath));
+
+		let html = await compileMarkdown(context, data, markdownOptions);
 
 		return {
 			...data,
@@ -347,7 +416,10 @@ const uses = defineCollection({
 		const root = collection.directory;
 		const lastModified = await calcLastModified(data._meta.filePath, root);
 
-		const html = await compileMarkdown(context, data, markdownOptions);
+		// Set content directory for rehype plugin
+		currentContentDir = join(root, dirname(data._meta.filePath));
+
+		let html = await compileMarkdown(context, data, markdownOptions);
 
 		return {
 			...data,
@@ -371,7 +443,10 @@ const about = defineCollection({
 		const root = collection.directory;
 		const lastModified = await calcLastModified(data._meta.filePath, root);
 
-		const html = await compileMarkdown(context, data, markdownOptions);
+		// Set content directory for rehype plugin
+		currentContentDir = join(root, dirname(data._meta.filePath));
+
+		let html = await compileMarkdown(context, data, markdownOptions);
 
 		return {
 			...data,

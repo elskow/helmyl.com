@@ -177,6 +177,9 @@ importers:
       typescript-eslint:
         specifier: 8.0.0
         version: 8.0.0(eslint@9.0.0)(typescript@5.9.3)
+      unist-util-visit:
+        specifier: ^5.0.0
+        version: 5.0.0
       unplugin-icons:
         specifier: 22.0.0
         version: 22.0.0(svelte@5.39.9)

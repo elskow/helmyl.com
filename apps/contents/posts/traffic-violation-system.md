@@ -144,7 +144,7 @@ func sendTicket(road uint16, ticket Ticket) bool {
 
 One of the key strengths of our system is its performance under load. We conducted a load test to measure how well it handles increasing numbers of speed checks. The results are impressive:
 
-![speed_check_load_test.png](../../static/images/traffic-violation-system/speed_check_load_test.png)
+![speed_check_load_test.png](./traffic-violation-system/speed_check_load_test.png)
 
 This graph shows the average latency (in milliseconds) as the number of speed checks increases. Here are some key observations:
 

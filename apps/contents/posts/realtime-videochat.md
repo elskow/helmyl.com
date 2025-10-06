@@ -6,7 +6,7 @@ date: 2024-10-24
 Building a video chat feature sounds like something you’d do over a weekend, right? Throw some **WebRTC**, sprinkle a little **WebSocket**, and voila—instant video conferencing! _Well, if only it were that simple_.
 
 <figure>
-    <img src="../../static/images/realtime-videochat/pexels-shvetsa-4226140.jpg" style="display: block; margin: 0 auto; width: 100%;">
+    <img src="./realtime-videochat/pexels-shvetsa-4226140.jpg" style="display: block; margin: 0 auto; width: 100%;">
     <figcaption>Photo by Shvets Anna from Pexels</figcaption>
 </figure>
 

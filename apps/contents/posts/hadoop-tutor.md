@@ -44,26 +44,26 @@ curl https://gist.githubusercontent.com/elskow/dc000726916b87a0bd38ba1c522a68a5/
 Skrip ini akan meminta Anda untuk memasukkan akses _sudo_ untuk menginstal paket yang diperlukan. Pastikan untuk
 memasukkan _password_ pengguna _sudo_ saat diminta.
 
-![Permintan Akses Sudo](../../static/images/Hadoop-Tutor/admin-access-bash.png)
+![Permintan Akses Sudo](./Hadoop-Tutor/admin-access-bash.png)
 
 Proses update dan upgrade paket akan dimulai. Tunggu hingga proses selesai sebelum melanjutkan. Kemudian akan dimint
 untuk melakukan konfirmasi restart service. Tak perlu khawatir, anda hanya perlu menekan tombol `Tab` dan
 kemudian `Enter` untuk melanjutkan.
 
-![Restart Service](../../static/images/Hadoop-Tutor/restart-services.png)
+![Restart Service](./Hadoop-Tutor/restart-services.png)
 
 Setelah proses selesai, Hadoop akan di-inisiasi dengan user baru. Anda dapat menentukan password, identitas user. Anda
 dapat membuat user tanpa identitas dengan menekan tombol `Enter`, namun password tetap harus diisi. Kemudian konfirmasi
 password yang telah diinput dengan menekan tombol `y` lalu `Enter`.
-![Pembuatan User Hadoop](../../static/images/Hadoop-Tutor/hadoop-user-creation.png)
+![Pembuatan User Hadoop](./Hadoop-Tutor/hadoop-user-creation.png)
 
 Kemudian, proses instalasi dan konfigurasi Hadoop akan dimulai. Tunggu hingga proses selesai sebelum melanjutkan.
 
-![Proses Download dan Instalasi Hadoop](../../static/images/Hadoop-Tutor/download-hadoop.png)
+![Proses Download dan Instalasi Hadoop](./Hadoop-Tutor/download-hadoop.png)
 
 Setelah proses selesai, Anda akan melihat pesan bahwa instalasi dan konfigurasi Hadoop telah selesai.
 
-![Instalasi Selesai](../../static/images/Hadoop-Tutor/finish-installation.png)
+![Instalasi Selesai](./Hadoop-Tutor/finish-installation.png)
 
 Anda dapat beralih ke user `hadoop` dengan perintah untuk menjalankan perintah Hadoop.
 
@@ -71,7 +71,7 @@ Anda dapat beralih ke user `hadoop` dengan perintah untuk menjalankan perintah H
 su - hadoop
 ```
 
-![Switch User Hadoop](../../static/images/Hadoop-Tutor/switch-user-hadoop.png)
+![Switch User Hadoop](./Hadoop-Tutor/switch-user-hadoop.png)
 
 # Langkah 2: Menjalankan Hadoop
 
@@ -82,7 +82,7 @@ perintah berikut:
 hdfs namenode -format
 ```
 
-![Format HDFS](../../static/images/Hadoop-Tutor/hdfs-format.png)
+![Format HDFS](./Hadoop-Tutor/hdfs-format.png)
 
 Setelah HDFS diformat, Anda dapat memulai Hadoop dengan perintah berikut:
 
@@ -90,12 +90,12 @@ Setelah HDFS diformat, Anda dapat memulai Hadoop dengan perintah berikut:
 start-all.sh
 ```
 
-![Start Hadoop](../../static/images/Hadoop-Tutor/start-all-hadoop.png)
+![Start Hadoop](./Hadoop-Tutor/start-all-hadoop.png)
 
 Perintah ini akan memulai semua layanan Hadoop, termasuk HDFS, YARN, dan tampilan web Hadoop. Anda dapat mengakses
 tampilan web Hadoop dengan membuka `http://{ip_address}:9870` di browser Anda.
 
-![Tampilan Web Hadoop](../../static/images/Hadoop-Tutor/web-ui-hadoop.png)
+![Tampilan Web Hadoop](./Hadoop-Tutor/web-ui-hadoop.png)
 
 **Catatan**:
 
@@ -118,11 +118,11 @@ menggunakan tampilan web Hadoop untuk membuat folder.
 1. Buka tampilan web Hadoop di `http://{ip_address}:9870`.
 2. Klik pada tab **Utilities** di bagian atas halaman.
 3. Pilih **Browse the file system**.
-   ![Browse File System](../../static/images/Hadoop-Tutor/hdfs-util-location.png)
+   ![Browse File System](./Hadoop-Tutor/hdfs-util-location.png)
 4. Untuk membuat folder baru, klik icon **Create** di samping tombol **Go**.
-   ![Create Folder](../../static/images/Hadoop-Tutor/create-folder-location.png)
+   ![Create Folder](./Hadoop-Tutor/create-folder-location.png)
 5. Masukkan nama folder bernama `user` dan klik **Create**.
-   ![Create User Folder](../../static/images/Hadoop-Tutor/mkdir-user.png)
+   ![Create User Folder](./Hadoop-Tutor/mkdir-user.png)
 6. Klik folder `user` yang baru dibuat.
 7. Klik icon **Create** untuk membuat folder baru di dalam folder `user`.
 8. Masukkan nama folder baru bernama `hadoop` dan klik **Create**.
@@ -136,7 +136,7 @@ dari [tautan berikut](https://www.kaggle.com/datasets/roblexnana/alice-wonderlan
 
 1. Unduh file `alice_in_wonderland.txt` di komputer lokal Anda.
 2. Unggah file `alice_in_wonderland.txt` ke folder `user/hadoop` di HDFS menggunakan tampilan web Hadoop.
-   ![Upload File](../../static/images/Hadoop-Tutor/add-input-data.png)
+   ![Upload File](./Hadoop-Tutor/add-input-data.png)
 
 ## Langkah 3: Menjalankan Program WordCount
 
@@ -150,7 +150,7 @@ dua bagian yaitu _mapper_ dan _reducer_ yang akan dijalankan oleh Hadoop.
 hadoop jar $HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.4.0.jar wordcount alice_in_wonderland.txt output
 ```
 
-![Run WordCount](../../static/images/Hadoop-Tutor/running-mapreduce.png)
+![Run WordCount](./Hadoop-Tutor/running-mapreduce.png)
 Perintah ini akan menjalankan program WordCount pada file `alice_in_wonderland.txt` dan menyimpan hasilnya di
 folder `user/hadoop/output` di HDFS.
 
@@ -163,10 +163,10 @@ menggunakan tampilan web Hadoop.
 2. Klik pada tab **Utilities** di bagian atas halaman.
 3. Pilih **Browse the file system**.
 4. Klik folder `user` -> `hadoop` -> `output` untuk melihat hasil WordCount.
-   ![View WordCount Output](../../static/images/Hadoop-Tutor/view-output.png)
+   ![View WordCount Output](./Hadoop-Tutor/view-output.png)
 5. Klik pada file `part-r-00000` untuk melihat hasil WordCount. Anda dapat mengunduh file ini untuk melihat hasil secara
    lebih detail, atau melihatnya langsung di tampilan web.
-   ![View WordCount Result](../../static/images/Hadoop-Tutor/view-result.png)
+   ![View WordCount Result](./Hadoop-Tutor/view-result.png)
 
 Anda telah berhasil menjalankan program WordCount menggunakan Hadoop dan melihat hasilnya. Program WordCount adalah
 contoh sederhana dari penggunaan Hadoop untuk memproses data besar menggunakan pemrograman MapReduce.
