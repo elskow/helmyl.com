@@ -53,7 +53,7 @@
 				<a
 					class="transition-all duration-300 hover:text-azure-600 dark:hover:text-azure-400 cursor-alias relative group px-3 py-2 rounded-md hover:bg-azure-50 dark:hover:bg-azure-900/20 min-h-[44px] min-w-[44px] flex items-center justify-center focus-ring"
 					draggable={false}
-					href="https://linkedin.com/in/helmyluqman"
+					href="https://linkedin.com/in/helmyl"
 					target="_blank"
 					title="Connect with me on LinkedIn"
 				>

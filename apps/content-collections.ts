@@ -22,6 +22,12 @@ import remarkGfm from 'remark-gfm';
 import remarkOembed from 'remark-oembed';
 import type { Pluggable } from 'unified';
 import { promisify } from 'util';
+import type { Element, Root } from 'hast';
+import { visit } from 'unist-util-visit';
+
+if (!process.env.PLAYWRIGHT_BROWSERS_PATH) {
+	process.env.PLAYWRIGHT_BROWSERS_PATH = '0';
+}
 
 const exec = promisify(execCallback);
 
@@ -52,26 +58,35 @@ const copyImageToStatic = async (imagePath: string, contentDir: string) => {
 
 // Custom rehype plugin to process and copy images
 const rehypeImageCopy = () => {
-	return async (tree: any) => {
-		const { visit } = await import('unist-util-visit');
+	return async (tree: Root) => {
 		const promises: Promise<void>[] = [];
 
-		visit(tree, 'element', (node: any) => {
-			if (node.tagName === 'img' && node.properties?.src) {
-				const src = node.properties.src;
+		visit(tree, 'element', (node) => {
+			const element = node as Element;
 
-				// Only process local images (not URLs or data URIs)
-				if (
-					!src.startsWith('http://') &&
-					!src.startsWith('https://') &&
-					!src.startsWith('/') &&
-					!src.startsWith('data:')
-				) {
-					const promise = copyImageToStatic(src, currentContentDir).then((newSrc) => {
-						node.properties.src = newSrc;
-					});
-					promises.push(promise);
-				}
+			// Only process img elements
+			if (element.tagName !== 'img') {
+				return;
+			}
+
+			const src = element.properties?.src;
+			if (typeof src !== 'string') {
+				return;
+			}
+
+			if (
+				!src.startsWith('http://') &&
+				!src.startsWith('https://') &&
+				!src.startsWith('/') &&
+				!src.startsWith('data:')
+			) {
+				const promise = copyImageToStatic(src, currentContentDir).then((newSrc) => {
+					element.properties = {
+						...(element.properties ?? {}),
+						src: newSrc
+					};
+				});
+				promises.push(promise);
 			}
 		});
 
@@ -149,6 +164,10 @@ const markdownOptions: Options = {
 			rehypeMermaid,
 			{
 				strategy: 'img-svg',
+				launchOptions: {
+					channel: 'chromium',
+					headless: true
+				},
 				mermaidConfig: {
 					theme: 'dark',
 					fontFamily:
@@ -312,7 +331,7 @@ const markdownOptions: Options = {
 		],
 		rehypePresetMinify
 	],
-	// @ts-ignore
+	// @ts-expect-error -- remark-oembed's types don't align with the plugin tuple signature
 	remarkPlugins: [remarkGfm, [remarkOembed]],
 	allowDangerousHtml: true
 };
@@ -341,7 +360,7 @@ const posts = defineCollection({
 		// Set content directory for rehype plugin
 		currentContentDir = join(root, dirname(data._meta.filePath));
 
-		let html = await compileMarkdown(context, data, markdownOptions);
+		const html = await compileMarkdown(context, data, markdownOptions);
 
 		// Handle frontmatter image field
 		let processedImage = data.image;
@@ -395,7 +414,7 @@ const projects = defineCollection({
 		// Set content directory for rehype plugin
 		currentContentDir = join(root, dirname(data._meta.filePath));
 
-		let html = await compileMarkdown(context, data, markdownOptions);
+		const html = await compileMarkdown(context, data, markdownOptions);
 
 		return {
 			...data,
@@ -413,7 +432,9 @@ interface UsesData extends Document {
 const uses = defineCollection({
 	name: 'uses',
 	directory: 'contents/',
-	schema: () => ({}),
+	schema: (z) => ({
+		color: z.string().optional()
+	}),
 	include: 'uses.md',
 	transform: async (data: UsesData, context: Context) => {
 		const { collection } = context;
@@ -423,7 +444,7 @@ const uses = defineCollection({
 		// Set content directory for rehype plugin
 		currentContentDir = join(root, dirname(data._meta.filePath));
 
-		let html = await compileMarkdown(context, data, markdownOptions);
+		const html = await compileMarkdown(context, data, markdownOptions);
 
 		return {
 			...data,
@@ -450,7 +471,7 @@ const about = defineCollection({
 		// Set content directory for rehype plugin
 		currentContentDir = join(root, dirname(data._meta.filePath));
 
-		let html = await compileMarkdown(context, data, markdownOptions);
+		const html = await compileMarkdown(context, data, markdownOptions);
 
 		return {
 			...data,
