@@ -29,7 +29,7 @@
 		? 'touch-device'
 		: ''}"
 >
-	<a href={`/projects/${slug}`} class="block relative z-10">
+	<a href={`/projects/${slug}`} class="block relative z-10 rounded-lg focus-ring">
 		<h3
 			class="font-semibold text-midnight-800 dark:text-dark-100 ease-in-out transition-colors {isTouchDevice
 				? 'touch-duration'
@@ -67,32 +67,32 @@
 		{/if}
 	</ul>
 
-	<footer class="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 flex gap-3 z-10">
+	<footer class="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 flex gap-2 z-10">
 		<a
 			class="cursor-alias transition-all {isTouchDevice
 				? 'touch-duration'
-				: 'duration-200'} ease-in-out hover:text-azure-600 dark:hover:text-azure-400 {isTouchDevice
+				: 'duration-200'} ease-in-out hover:text-azure-600 dark:hover:text-azure-400 hover:bg-azure-50 dark:hover:bg-azure-900/20 rounded-full p-2 min-h-[44px] min-w-[44px] flex items-center justify-center {isTouchDevice
 				? ''
-				: 'hover:scale-110'} {isTouchDevice ? 'touch-link' : ''}"
+				: 'hover:scale-105'} {isTouchDevice ? 'touch-link' : ''} focus-ring"
 			href={github}
 			rel="noopener noreferrer"
 			target="_blank"
 			title="View on GitHub"
 			aria-label={`View ${name} on GitHub`}
 		>
-			<ExternalLink size="1em" />
+			<ExternalLink size="18" />
 		</a>
 		<a
 			class="cursor-pointer transition-all {isTouchDevice
 				? 'touch-duration'
-				: 'duration-200'} ease-in-out hover:text-azure-600 dark:hover:text-azure-400 {isTouchDevice
+				: 'duration-200'} ease-in-out hover:text-azure-600 dark:hover:text-azure-400 hover:bg-azure-50 dark:hover:bg-azure-900/20 rounded-full p-2 min-h-[44px] min-w-[44px] flex items-center justify-center {isTouchDevice
 				? ''
-				: 'hover:scale-110'} {isTouchDevice ? 'touch-link' : ''}"
+				: 'hover:scale-105'} {isTouchDevice ? 'touch-link' : ''} focus-ring"
 			href={`/projects/${slug}`}
 			title="View details"
 			aria-label={`View details for ${name} project`}
 		>
-			<Search size="1em" />
+			<Search size="18" />
 		</a>
 	</footer>
 
@@ -120,7 +120,6 @@
 		box-shadow:
 			0 10px 15px -3px rgba(0, 0, 0, 0.08),
 			0 4px 6px -2px rgba(0, 0, 0, 0.04);
-		transform: translateY(-2px);
 	}
 
 	:global(.dark) .project-card {

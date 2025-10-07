@@ -27,41 +27,63 @@
 		bottom: 0;
 		left: 0;
 		right: 0;
-		height: 200px;
+		height: 140px;
 		pointer-events: none;
 		z-index: 40;
 		background: linear-gradient(
 			to top,
-			rgba(255, 255, 255, 0.95) 0%,
-			rgba(255, 255, 255, 0.7) 20%,
-			rgba(255, 255, 255, 0.3) 50%,
+			rgba(255, 255, 255, 0.6) 0%,
+			rgba(255, 255, 255, 0.48) 8%,
+			rgba(255, 255, 255, 0.36) 18%,
+			rgba(255, 255, 255, 0.26) 30%,
+			rgba(255, 255, 255, 0.18) 44%,
+			rgba(255, 255, 255, 0.12) 60%,
+			rgba(255, 255, 255, 0.06) 78%,
+			rgba(255, 255, 255, 0.02) 90%,
 			transparent 100%
 		);
-		backdrop-filter: blur(8px);
-		-webkit-backdrop-filter: blur(8px);
+		backdrop-filter: blur(3px);
+		-webkit-backdrop-filter: blur(3px);
 		mask-image: linear-gradient(
 			to top,
-			black 0%,
-			black 20%,
-			rgba(0, 0, 0, 0.5) 50%,
+			rgba(0, 0, 0, 0.9) 0%,
+			rgba(0, 0, 0, 0.75) 8%,
+			rgba(0, 0, 0, 0.6) 18%,
+			rgba(0, 0, 0, 0.45) 30%,
+			rgba(0, 0, 0, 0.32) 44%,
+			rgba(0, 0, 0, 0.2) 60%,
+			rgba(0, 0, 0, 0.1) 78%,
+			rgba(0, 0, 0, 0.03) 90%,
 			transparent 100%
 		);
 		-webkit-mask-image: linear-gradient(
 			to top,
-			black 0%,
-			black 20%,
-			rgba(0, 0, 0, 0.5) 50%,
+			rgba(0, 0, 0, 0.9) 0%,
+			rgba(0, 0, 0, 0.75) 8%,
+			rgba(0, 0, 0, 0.6) 18%,
+			rgba(0, 0, 0, 0.45) 30%,
+			rgba(0, 0, 0, 0.32) 44%,
+			rgba(0, 0, 0, 0.2) 60%,
+			rgba(0, 0, 0, 0.1) 78%,
+			rgba(0, 0, 0, 0.03) 90%,
 			transparent 100%
 		);
+		/* Smooth animation for any dynamic changes */
+		transition: opacity 0.3s ease-out;
 	}
 
 	@media (prefers-color-scheme: dark) {
 		.depth-of-field-overlay {
 			background: linear-gradient(
 				to top,
-				rgba(24, 24, 27, 0.95) 0%,
-				rgba(24, 24, 27, 0.7) 20%,
-				rgba(24, 24, 27, 0.3) 50%,
+				rgba(24, 24, 27, 0.6) 0%,
+				rgba(24, 24, 27, 0.48) 8%,
+				rgba(24, 24, 27, 0.36) 18%,
+				rgba(24, 24, 27, 0.26) 30%,
+				rgba(24, 24, 27, 0.18) 44%,
+				rgba(24, 24, 27, 0.12) 60%,
+				rgba(24, 24, 27, 0.06) 78%,
+				rgba(24, 24, 27, 0.02) 90%,
 				transparent 100%
 			);
 		}
@@ -70,7 +92,7 @@
 	/* Adjust for mobile screens */
 	@media (max-width: 640px) {
 		.depth-of-field-overlay {
-			height: 150px;
+			height: 120px;
 		}
 	}
 </style>

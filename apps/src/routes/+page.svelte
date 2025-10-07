@@ -3,8 +3,8 @@
 	import { technologies } from '$lib/technologies';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import Footer from '$lib/components/Footer.svelte';
-	import { onMount, tick } from 'svelte';
-	import { ArrowRight, Clock, Eye, Briefcase } from '@lucide/svelte';
+	import { onMount } from 'svelte';
+	import { ArrowRight, Clock, Eye } from '@lucide/svelte';
 	import { browser } from '$app/environment';
 
 	interface Props {
@@ -16,72 +16,16 @@
 	const projects = data.projects;
 	const qualities = ['secure', 'scalable', 'fast', 'reliable'];
 
-	// Define a type for the section keys to ensure type safety
-	type SectionKey = 'intro' | 'status' | 'technologies' | 'projects' | 'writings';
-
-	// Use a more efficient approach with content visibility
 	let mounted = $state(false);
-
-	// Track which sections are in viewport for content-visibility optimization
-	let sectionsInView = {
-		intro: true,
-		status: false,
-		technologies: false,
-		projects: false,
-		writings: false
-	};
-
 	let isTouchDevice = $state(false);
 
-	// Optimize initial render by deferring non-critical operations
-	onMount(async () => {
+	onMount(() => {
 		mounted = true;
 
 		// Detect if we're on a touch device
 		if (browser) {
 			isTouchDevice = window.matchMedia('(hover: none)').matches;
 		}
-
-		// Wait for first paint to complete
-		await tick();
-
-		// Set up lightweight scroll tracking for content-visibility
-		const observer = new IntersectionObserver(
-			(entries) => {
-				entries.forEach((entry) => {
-					const id = entry.target.id || entry.target.getAttribute('data-section');
-					// Type guard to ensure id is a valid key of sectionsInView
-					if (id && isSectionKey(id) && sectionsInView.hasOwnProperty(id)) {
-						sectionsInView[id] = entry.isIntersecting;
-					}
-				});
-			},
-			{ rootMargin: '200px' }
-		);
-
-		// Type guard function to check if a string is a valid section key
-		function isSectionKey(key: string): key is SectionKey {
-			return (
-				key === 'intro' ||
-				key === 'status' ||
-				key === 'technologies' ||
-				key === 'projects' ||
-				key === 'writings'
-			);
-		}
-
-		// Observe all main sections
-		document.querySelectorAll('[data-section]').forEach((section) => {
-			observer.observe(section);
-		});
-
-		// Pre-connect to external domains for technology links
-		technologies.forEach((tech) => {
-			const link = document.createElement('link');
-			link.rel = 'preconnect';
-			link.href = new URL(tech.link).origin;
-			document.head.appendChild(link);
-		});
 	});
 </script>
 
@@ -118,29 +62,26 @@
 	<link rel="canonical" href="https://helmyl.com/" />
 </svelte:head>
 
-<main class="max-w-4xl mx-auto md:p-8 p-4">
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<main id="main-content" class="max-w-4xl mx-auto md:p-8 p-4 safe-area-padding">
 	<div class="sm:flex sm:justify-between items-center pt-8">
 		<h1 class="text-lg sm:text-2xl font-semibold text-midnight-800 dark:text-dark-100">
 			Helmy Luqmanulhakim
 		</h1>
-		<nav class="space-x-4 pt-8 sm:pt-0" aria-label="Main navigation">
+		<nav class="flex gap-1 pt-8 sm:pt-0" aria-label="Main navigation" role="navigation">
 			<a
-				class="text-azure-600 dark:text-azure-400 font-medium hover:underline text-sm sm:text-base"
+				class="text-azure-600 dark:text-azure-400 font-medium hover:underline text-sm sm:text-base px-3 py-2 rounded-md transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center focus-ring"
 				href="/writings">Writings</a
 			>
 			<a
-				class="text-azure-600 dark:text-azure-400 font-medium hover:underline text-sm sm:text-base"
+				class="text-azure-600 dark:text-azure-400 font-medium hover:underline text-sm sm:text-base px-3 py-2 rounded-md transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center focus-ring"
 				href="/labs">Labs</a
 			>
 		</nav>
 	</div>
 
-	<section
-		data-section="status"
-		class="pt-6 content-visibility-section"
-		aria-labelledby="status-heading"
-		class:cv-auto={!sectionsInView.status && mounted}
-	>
+	<section data-section="status" class="pt-6" aria-labelledby="status-heading">
 		<div class="flex items-start space-x-2 text-sm sm:text-base">
 			<p class="text-dark-600 dark:text-dark-300">
 				Currently working as <span class="font-medium text-midnight-800 dark:text-dark-100"
@@ -148,8 +89,10 @@
 				>
 				at
 				<a
-					class="text-azure-600 dark:text-azure-400 font-medium"
+					class="text-azure-600 dark:text-azure-400 font-medium hover:underline px-1 py-1 rounded transition-colors focus-ring"
 					href="https://www.bca.co.id/id"
+					target="_blank"
+					rel="noopener noreferrer"
 				>
 					Bank Central Asia
 				</a>
@@ -174,17 +117,17 @@
 			<SelfDescription attributes={qualities} />
 		</p>
 		<p>
-			<a class="text-azure-600 dark:text-azure-400 font-medium hover:underline" href="/about"
-				>Get to know me</a
+			<a
+				class="text-azure-600 dark:text-azure-400 font-medium hover:underline py-1 rounded-md transition-colors min-h-[44px] min-w-[44px] flex items-center focus-ring"
+				href="/about">Get to know me</a
 			>
 		</p>
 	</section>
 
 	<section
 		data-section="technologies"
-		class="pt-10 relative content-visibility-section"
+		class="pt-10 relative"
 		aria-labelledby="technologies-heading"
-		class:cv-auto={!sectionsInView.technologies && mounted}
 	>
 		<h2
 			id="technologies-heading"
@@ -197,12 +140,12 @@
 		<ul
 			class="sm:grid sm:grid-cols-4 gap-7 sm:gap-4 mt-4 text-dark-600 dark:text-dark-300 overflow-x-auto flex sm:flex-none no-scrollbar py-4 sm:pl-3 px-3 pr-8 sm:pr-3"
 		>
-			{#each technologies as { name, icons: Icon, link, accentColor }}
+			{#each technologies as { name, icons: iconLoader, link, accentColor }}
 				<li>
 					<a
 						href={link}
 						target="_blank"
-						class="tech-item flex items-center space-x-2 group sm:py-4"
+						class="tech-item flex items-center space-x-2 group sm:py-4 py-3 px-2 rounded-lg transition-all hover:bg-dark-50 dark:hover:bg-midnight-700/30 min-h-[44px] w-full focus-ring"
 						aria-label={name}
 						rel="noopener noreferrer"
 						title={name}
@@ -211,7 +154,9 @@
 						<div
 							class="flex items-center justify-center sm:bg-dark-100/80 sm:dark:bg-midnight-700/50 rounded-lg sm:p-2 sm:group-hover:bg-dark-100 sm:dark:group-hover:bg-midnight-600/80 bg-none p-0"
 						>
-							<Icon class="w-5 h-5 grayscale group-hover:grayscale-0" />
+							{#await iconLoader() then Icon}
+								<Icon.default class="w-5 h-5 grayscale group-hover:grayscale-0" />
+							{/await}
 						</div>
 						<span
 							class="block text-xs sm:text-sm text-dark-600 dark:text-dark-300 group-hover:text-[var(--tech-color)]"
@@ -224,12 +169,7 @@
 		</ul>
 	</section>
 
-	<section
-		data-section="projects"
-		class="content-visibility-section"
-		aria-labelledby="projects-heading"
-		class:cv-auto={!sectionsInView.projects && mounted}
-	>
+	<section data-section="projects" aria-labelledby="projects-heading">
 		<h2
 			id="projects-heading"
 			class="text-base sm:text-lg font-medium text-midnight-800 dark:text-dark-100 pt-10 no-gradient"
@@ -242,19 +182,14 @@
 			{/each}
 		</ul>
 		<a
-			class="text-azure-600 dark:text-azure-400 font-medium hover:underline text-sm mt-4 block text-right pr-2"
+			class="text-azure-600 dark:text-azure-400 font-medium hover:underline text-sm mt-4 pr-2 py-2 px-3 rounded-md transition-colors min-h-[44px] flex items-center justify-end ml-auto w-fit focus-ring"
 			href="/projects"
 		>
 			View more projects
 		</a>
 	</section>
 
-	<section
-		data-section="writings"
-		class="relative content-visibility-section"
-		aria-labelledby="writings-heading"
-		class:cv-auto={!sectionsInView.writings && mounted}
-	>
+	<section data-section="writings" class="relative" aria-labelledby="writings-heading">
 		<h2
 			id="writings-heading"
 			class="text-base sm:text-lg font-medium text-midnight-800 dark:text-dark-100 pt-10 no-gradient relative inline-block"
@@ -267,7 +202,7 @@
 		<ul class="mt-4 space-y-3">
 			{#each posts as post, i}
 				<li
-					class="writing-item text-sm sm:text-base py-3 border-b border-dark-200 dark:border-midnight-700 hover:border-azure-500/30 dark:hover:border-azure-500/20 group hover:bg-dark-50/50 dark:hover:bg-midnight-800/30 rounded-md px-3 hover:shadow-sm relative {isTouchDevice
+					class="writing-item text-sm sm:text-base py-4 border-b border-dark-200 dark:border-midnight-700 hover:border-azure-500/30 dark:hover:border-azure-500/20 group hover:bg-dark-50/50 dark:hover:bg-midnight-800/30 rounded-md px-4 hover:shadow-sm relative min-h-[60px] {isTouchDevice
 						? 'touch-item'
 						: ''}"
 				>
@@ -282,7 +217,7 @@
 						<h3 class="font-medium text-midnight-800 dark:text-dark-100">
 							<a
 								href={`/writings/${post.slug}`}
-								class="hover:text-azure-600 dark:hover:text-azure-400 inline-flex items-center"
+								class="hover:text-azure-600 dark:hover:text-azure-400 inline-flex items-center py-1 px-1 rounded transition-colors min-h-[44px] w-full focus-ring"
 							>
 								<span>{post.title}</span>
 								<span
@@ -315,7 +250,7 @@
 			{/each}
 		</ul>
 		<a
-			class="text-azure-600 dark:text-azure-400 font-medium hover:underline text-sm mt-4 text-right pr-2 flex items-center justify-end"
+			class="text-azure-600 dark:text-azure-400 font-medium hover:underline text-sm mt-4 text-right pr-2 flex items-center justify-end py-2 px-3 rounded-md transition-colors min-h-[44px] ml-auto w-fit focus-ring"
 			href="/writings"
 		>
 			View all writings
@@ -348,15 +283,6 @@
 	.no-gradient {
 		position: relative;
 		z-index: 1;
-	}
-
-	.content-visibility-section {
-		contain: content;
-		contain-intrinsic-size: 0 500px;
-	}
-
-	.cv-auto {
-		content-visibility: auto;
 	}
 
 	.tech-item {

@@ -36,10 +36,10 @@
 				© {roman} Helmy Luqmanulhakim. All rights reserved.
 			</p>
 			<div
-				class="flex gap-8 text-xs sm:text-sm font-medium text-midnight-700 dark:text-dark-200"
+				class="flex gap-4 text-xs sm:text-sm font-medium text-midnight-700 dark:text-dark-200"
 			>
 				<a
-					class="transition-all duration-300 hover:text-azure-600 dark:hover:text-azure-400 cursor-alias relative group"
+					class="transition-all duration-300 hover:text-azure-600 dark:hover:text-azure-400 cursor-alias relative group px-3 py-2 rounded-md hover:bg-azure-50 dark:hover:bg-azure-900/20 min-h-[44px] min-w-[44px] flex items-center justify-center focus-ring"
 					draggable={false}
 					href="https://github.com/elskow"
 					target="_blank"
@@ -47,11 +47,11 @@
 				>
 					<span>GitHub</span>
 					<span
-						class="absolute -bottom-1 left-0 w-0 h-0.5 bg-azure-600 dark:bg-azure-400 transition-all duration-300 group-hover:w-full"
+						class="absolute -bottom-1 left-3 right-3 h-0.5 bg-azure-600 dark:bg-azure-400 transition-all duration-300 scale-x-0 group-hover:scale-x-100 group-focus:scale-x-100 origin-left"
 					></span>
 				</a>
 				<a
-					class="transition-all duration-300 hover:text-azure-600 dark:hover:text-azure-400 cursor-alias relative group"
+					class="transition-all duration-300 hover:text-azure-600 dark:hover:text-azure-400 cursor-alias relative group px-3 py-2 rounded-md hover:bg-azure-50 dark:hover:bg-azure-900/20 min-h-[44px] min-w-[44px] flex items-center justify-center focus-ring"
 					draggable={false}
 					href="https://linkedin.com/in/helmyluqman"
 					target="_blank"
@@ -59,11 +59,11 @@
 				>
 					<span>LinkedIn</span>
 					<span
-						class="absolute -bottom-1 left-0 w-0 h-0.5 bg-azure-600 dark:bg-azure-400 transition-all duration-300 group-hover:w-full"
+						class="absolute -bottom-1 left-3 right-3 h-0.5 bg-azure-600 dark:bg-azure-400 transition-all duration-300 scale-x-0 group-hover:scale-x-100 group-focus:scale-x-100 origin-left"
 					></span>
 				</a>
 				<a
-					class="transition-all duration-300 hover:text-azure-600 dark:hover:text-azure-400 cursor-alias relative group"
+					class="transition-all duration-300 hover:text-azure-600 dark:hover:text-azure-400 cursor-alias relative group px-3 py-2 rounded-md hover:bg-azure-50 dark:hover:bg-azure-900/20 min-h-[44px] min-w-[44px] flex items-center justify-center focus-ring"
 					draggable={false}
 					href="https://twitter.com/helmy_lh"
 					target="_blank"
@@ -71,7 +71,7 @@
 				>
 					<span>Twitter</span>
 					<span
-						class="absolute -bottom-1 left-0 w-0 h-0.5 bg-azure-600 dark:bg-azure-400 transition-all duration-300 group-hover:w-full"
+						class="absolute -bottom-1 left-3 right-3 h-0.5 bg-azure-600 dark:bg-azure-400 transition-all duration-300 scale-x-0 group-hover:scale-x-100 group-focus:scale-x-100 origin-left"
 					></span>
 				</a>
 			</div>
