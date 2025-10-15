@@ -87,10 +87,10 @@
 		<h1 class="text-2xl md:text-3xl font-bold relative inline-block">
 			Projects Portfolio
 			<div
-				class="absolute -bottom-1 left-0 w-1/3 h-1 bg-gradient-to-r from-azure-500/70 dark:from-azure-400/70 to-transparent rounded-full"
+				class="absolute -bottom-1 left-0 w-1/3 h-1 bg-gradient-to-r from-azure-500/70 to-transparent rounded-full"
 			></div>
 		</h1>
-		<p class="text-sm md:text-base text-zinc-600 dark:text-zinc-400 mt-4">
+		<p class="text-sm md:text-base text-zinc-600 mt-4">
 			A collection of software development projects I've worked on over the years.
 		</p>
 	</header>
@@ -103,20 +103,20 @@
 			>
 				<div class="flex items-center mb-4 md:mb-8">
 					<h2
-						class="text-xl md:text-2xl font-bold text-zinc-800 dark:text-zinc-200 flex items-center"
+						class="text-xl md:text-2xl font-bold text-zinc-800 flex items-center"
 					>
 						<span class="relative">
 							{year}
 							<span
-								class="absolute -left-2 -right-2 bottom-0 h-[6px] bg-azure-500/10 dark:bg-azure-400/20 -z-10 rounded-sm"
+								class="absolute -left-2 -right-2 bottom-0 h-[6px] bg-azure-500/10 -z-10 rounded-sm"
 							></span>
 						</span>
 					</h2>
 					<div
-						class="ml-3 md:ml-4 h-[1px] flex-grow bg-gradient-to-r from-zinc-300 dark:from-zinc-600 to-transparent"
+						class="ml-3 md:ml-4 h-[1px] flex-grow bg-gradient-to-r from-zinc-300 to-transparent"
 					></div>
 					<span
-						class="ml-2 md:ml-3 text-xs md:text-sm text-zinc-500 dark:text-zinc-300 font-medium px-2 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800/70"
+						class="ml-2 md:ml-3 text-xs md:text-sm text-zinc-500 font-medium px-2 py-1 rounded-full bg-zinc-100"
 					>
 						{projectsByYear[year].length} project{projectsByYear[year].length !== 1 ? 's' : ''}
 					</span>
@@ -136,7 +136,7 @@
 
 	<!-- Decorative corner element -->
 	<div
-		class="absolute top-0 right-0 w-24 h-24 pointer-events-none opacity-20 dark:opacity-30 flex items-center justify-center"
+		class="absolute top-0 right-0 w-24 h-24 pointer-events-none opacity-20 flex items-center justify-center"
 	>
 		<svg
 			width="90"

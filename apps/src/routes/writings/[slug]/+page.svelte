@@ -112,7 +112,7 @@
 
 	<!-- Decorative corner element -->
 	<div
-		class="absolute top-0 right-0 w-24 h-24 pointer-events-none opacity-20 dark:opacity-30 flex items-center justify-center"
+		class="absolute top-0 right-0 w-24 h-24 pointer-events-none opacity-20 flex items-center justify-center"
 	>
 		<svg
 			width="90"
@@ -134,18 +134,18 @@
 	</div>
 
 	<article class="pt-8 space-y-4 text-sm sm:text-base {isPageLoaded ? 'animate-fade-in' : ''}">
-		<header class="space-y-4 border-b border-dark-200 dark:border-midnight-700 pb-6 relative">
-			<h1 class="text-2xl md:text-3xl font-semibold text-midnight-800 dark:text-dark-100">
+		<header class="space-y-4 border-b border-dark-200 pb-6 relative">
+			<h1 class="text-2xl md:text-3xl font-semibold text-midnight-800">
 				{post.title}
 			</h1>
 			<!-- Decorative accent line -->
 			<div
-				class="w-16 h-1 bg-gradient-to-r from-azure-500/70 dark:from-azure-400/70 to-transparent rounded-full mb-4"
+				class="w-16 h-1 bg-gradient-to-r from-azure-500/70 to-transparent rounded-full mb-4"
 			></div>
 			<div class="flex items-center gap-4 justify-between">
 				<time
 					datetime={post.date ? new Date(post.date).toISOString() : ''}
-					class="text-sm text-dark-500 dark:text-dark-400 flex items-center"
+					class="text-sm text-dark-500 flex items-center"
 				>
 					<Calendar class="w-3.5 h-3.5 mr-1.5 opacity-70" />
 					{post.date
@@ -159,7 +159,7 @@
 				{#if post.readTime}
 					<data
 						value={post.readTime.replace(' ', '')}
-						class="text-sm text-dark-500 dark:text-dark-400 flex items-center"
+						class="text-sm text-dark-500 flex items-center"
 					>
 						<Eye class="w-3.5 h-3.5 mr-1.5 opacity-70" />
 						{post.readTime}
@@ -171,7 +171,7 @@
 				<div class="flex flex-wrap gap-2 mt-2">
 					{#each post.tags as tag}
 						<span
-							class="bg-dark-100/70 dark:bg-midnight-800/70 text-xs px-3 py-1 rounded-full font-medium text-dark-700 dark:text-dark-200"
+							class="bg-dark-100/70 text-xs px-3 py-1 rounded-full font-medium text-dark-700"
 						>
 							{tag}
 						</span>
@@ -181,7 +181,7 @@
 		</header>
 
 		<section
-			class="prose prose-sm sm:prose-base space-y-4 md:space-y-6 prose-headings:prose-base sm:prose-headings:prose-base min-w-full pr-2 pt-6 pb-8 post-content dark:prose-invert prose-a:text-azure-600 dark:prose-a:text-azure-400 prose-headings:group relative"
+			class="prose prose-sm sm:prose-base space-y-4 md:space-y-6 prose-headings:prose-base sm:prose-headings:prose-base min-w-full pr-2 pt-6 pb-8 post-content prose-a:text-azure-600 prose-headings:group relative"
 			aria-label="Article content"
 		>
 			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
@@ -190,7 +190,7 @@
 
 		{#if post.lastModified}
 			<footer
-				class="text-xs sm:text-sm text-dark-500 dark:text-dark-400 text-right font-light border-t border-dark-200/30 dark:border-dark-600/50 pt-4 mt-8"
+				class="text-xs sm:text-sm text-dark-500 text-right font-light border-t border-dark-200/30 pt-4 mt-8"
 			>
 				<time datetime={new Date(post.lastModified).toISOString()}>
 					Last modified on {new Date(post.lastModified).toLocaleDateString('en-US', {
@@ -221,11 +221,11 @@
 
 	/* Styling for table of contents */
 	:global(.post-content ul:has(li a[href^='#'])) {
-		@apply bg-gray-50 dark:bg-gray-800/50 p-4 rounded-lg my-6;
+		@apply bg-gray-50 p-4 rounded-lg my-6;
 	}
 
 	:global(.anchor-link) {
-		@apply ml-2 text-azure-500 dark:text-azure-400;
+		@apply ml-2 text-azure-500;
 	}
 
 	:global(.post-content pre) {
@@ -233,7 +233,7 @@
 	}
 
 	:global(.post-content blockquote) {
-		@apply border-l-4 border-azure-500 dark:border-azure-400 pl-4 italic;
+		@apply border-l-4 border-azure-500 pl-4 italic;
 	}
 
 	:global(.post-content table) {
@@ -241,15 +241,15 @@
 	}
 
 	:global(.post-content th) {
-		@apply bg-gray-100 dark:bg-gray-800 p-2 text-left;
+		@apply bg-gray-100 p-2 text-left;
 	}
 
 	:global(.post-content td) {
-		@apply border border-gray-200 dark:border-gray-700 p-2;
+		@apply border border-gray-200 p-2;
 	}
 
 	:global(.post-content a[target='_blank'] svg) {
-		@apply inline-block ml-1 text-azure-500 dark:text-azure-400;
+		@apply inline-block ml-1 text-azure-500;
 	}
 
 	/* New styling for headings */

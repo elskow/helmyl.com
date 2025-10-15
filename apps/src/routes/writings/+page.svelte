@@ -61,7 +61,7 @@
 
 	<!-- Decorative corner element -->
 	<div
-		class="absolute top-0 right-0 w-24 h-24 pointer-events-none opacity-20 dark:opacity-30 flex items-center justify-center"
+		class="absolute top-0 right-0 w-24 h-24 pointer-events-none opacity-20 flex items-center justify-center"
 	>
 		<svg
 			width="90"
@@ -81,10 +81,10 @@
 		<h1 class="text-2xl md:text-3xl font-bold relative inline-block">
 			Writings & Articles
 			<div
-				class="absolute -bottom-1 left-0 w-1/3 h-1 bg-gradient-to-r from-azure-500/70 dark:from-azure-400/70 to-transparent rounded-full"
+				class="absolute -bottom-1 left-0 w-1/3 h-1 bg-gradient-to-r from-azure-500/70 to-transparent rounded-full"
 			></div>
 		</h1>
-		<p class="text-sm md:text-base text-zinc-600 dark:text-zinc-400 mt-4">
+		<p class="text-sm md:text-base text-zinc-600 mt-4">
 			Thoughts, insights, and articles on software development and technical solutions.
 		</p>
 	</header>
@@ -92,29 +92,29 @@
 	<ul class="space-y-4 text-sm sm:text-base list-none">
 		{#each posts as post, i}
 			<li
-				class="text-sm sm:text-base py-4 border-b border-dark-200 dark:border-midnight-700 transition-all duration-300 hover:border-azure-500/30 dark:hover:border-azure-500/20 group hover:bg-dark-50/50 dark:hover:bg-midnight-800/30 rounded-md px-3 hover:shadow-sm relative {isPageLoaded
+				class="text-sm sm:text-base py-4 border-b border-dark-200 transition-all duration-300 hover:border-azure-500/30 group hover:bg-dark-50/50 rounded-md px-3 hover:shadow-sm relative {isPageLoaded
 					? 'animate-slide-up'
 					: ''} {isTouchDevice ? 'touch-item' : ''}"
 				style="animation-delay: {i * 100}ms"
 			>
 				<!-- Decorative dot -->
 				<div
-					class="absolute left-0 top-1/2 -translate-x-1 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-azure-500/40 dark:bg-azure-400/40 {isTouchDevice
+					class="absolute left-0 top-1/2 -translate-x-1 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-azure-500/40 {isTouchDevice
 						? 'opacity-30'
 						: 'opacity-0 group-hover:opacity-100'} transition-opacity duration-300"
 				></div>
 
 				<article>
-					<h2 class="font-medium text-midnight-800 dark:text-dark-100">
+					<h2 class="font-medium text-midnight-800">
 						<a
 							href={`/writings/${post.slug}`}
-							class="hover:text-azure-600 dark:hover:text-azure-400 transition-colors duration-200 ease-in-out inline-flex items-center"
+							class="hover:text-azure-600 transition-colors duration-200 ease-in-out inline-flex items-center"
 						>
 							<span>{post.title}</span>
 							<span
 								class="ml-1.5 {isTouchDevice
 									? 'opacity-50'
-									: 'opacity-0 group-hover:opacity-100'} transition-opacity duration-300 text-azure-500 dark:text-azure-400"
+									: 'opacity-0 group-hover:opacity-100'} transition-opacity duration-300 text-azure-500"
 							>
 								<ArrowRight size="14" />
 							</span>
@@ -123,14 +123,14 @@
 					<div class="flex items-center justify-between text-sm">
 						<time
 							datetime={post.date ? new Date(post.date).toISOString() : ''}
-							class="text-dark-400 dark:text-dark-500 mt-2 transition-colors duration-300 group-hover:text-dark-500 dark:group-hover:text-dark-400 flex items-center"
+							class="text-dark-400 mt-2 transition-colors duration-300 group-hover:text-dark-500 flex items-center"
 						>
 							<Clock class="w-3.5 h-3.5 mr-1.5 opacity-70" />
 							{post.date}
 						</time>
 						<data
 							value={post.readTime?.replace(/\s+/g, '')}
-							class="text-dark-400 dark:text-dark-500 mt-2 transition-colors duration-300 group-hover:text-dark-500 dark:group-hover:text-dark-400 flex items-center"
+							class="text-dark-400 mt-2 transition-colors duration-300 group-hover:text-dark-500 flex items-center"
 						>
 							<Eye class="w-3.5 h-3.5 mr-1.5 opacity-70" />
 							{post.readTime}

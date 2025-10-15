@@ -50,7 +50,7 @@
 
 	<!-- Decorative corner element -->
 	<div
-		class="absolute top-0 right-0 w-24 h-24 pointer-events-none opacity-20 dark:opacity-30 flex items-center justify-center"
+		class="absolute top-0 right-0 w-24 h-24 pointer-events-none opacity-20 flex items-center justify-center"
 	>
 		<svg
 			width="90"
@@ -70,14 +70,14 @@
 		class="pt-8 space-y-4 text-sm sm:text-base relative {isPageLoaded ? 'animate-fade-in' : ''}"
 	>
 		<header>
-			<h1 class="text-2xl font-semibold text-midnight-800 dark:text-dark-100">Hola World</h1>
+			<h1 class="text-2xl font-semibold text-midnight-800">Hola World</h1>
 			<div
-				class="w-16 h-1 bg-gradient-to-r from-azure-500 to-transparent dark:from-azure-400 rounded-full mb-6"
+				class="w-16 h-1 bg-gradient-to-r from-azure-500 to-transparent rounded-full mb-6"
 			></div>
 		</header>
 
 		<section
-			class="prose prose-sm sm:prose-base space-y-4 md:space-y-6 prose-headings:prose-base sm:prose-headings:prose-base min-w-full pt-4 pb-8 prose-img:drop-shadow-2xl dark:prose-invert prose-a:text-azure-600 dark:prose-a:text-azure-400 relative"
+			class="prose prose-sm sm:prose-base space-y-4 md:space-y-6 prose-headings:prose-base sm:prose-headings:prose-base min-w-full pt-4 pb-8 prose-img:drop-shadow-2xl prose-a:text-azure-600 relative"
 			aria-label="Biography and background"
 		>
 			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
@@ -86,7 +86,7 @@
 
 		{#if abouts.lastModified}
 			<footer
-				class="text-xs sm:text-sm text-dark-500 dark:text-dark-300 text-right font-light border-t border-dark-200/30 dark:border-dark-600/50 pt-4 mt-8"
+				class="text-xs sm:text-sm text-dark-500 text-right font-light border-t border-dark-200/30 pt-4 mt-8"
 			>
 				<time datetime={new Date(abouts.lastModified).toISOString()}>
 					Last modified on {new Date(abouts.lastModified).toLocaleDateString('en-US', {

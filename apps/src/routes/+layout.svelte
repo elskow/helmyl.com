@@ -72,23 +72,6 @@
 		transition: opacity 0.3s ease-out;
 	}
 
-	@media (prefers-color-scheme: dark) {
-		.depth-of-field-overlay {
-			background: linear-gradient(
-				to top,
-				rgba(24, 24, 27, 0.6) 0%,
-				rgba(24, 24, 27, 0.48) 8%,
-				rgba(24, 24, 27, 0.36) 18%,
-				rgba(24, 24, 27, 0.26) 30%,
-				rgba(24, 24, 27, 0.18) 44%,
-				rgba(24, 24, 27, 0.12) 60%,
-				rgba(24, 24, 27, 0.06) 78%,
-				rgba(24, 24, 27, 0.02) 90%,
-				transparent 100%
-			);
-		}
-	}
-
 	/* Adjust for mobile screens */
 	@media (max-width: 640px) {
 		.depth-of-field-overlay {

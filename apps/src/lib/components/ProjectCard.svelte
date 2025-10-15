@@ -23,21 +23,21 @@
 </script>
 
 <article
-	class="project-card relative overflow-hidden border border-dark-300/50 dark:border-dark-500/60 rounded-lg shadow-sm p-4 sm:p-5 transition-all {isTouchDevice
+	class="project-card relative overflow-hidden border border-dark-300/50 rounded-lg shadow-sm p-4 sm:p-5 transition-all {isTouchDevice
 		? 'touch-duration'
-		: 'duration-300'} hover:border-azure-500/50 dark:hover:border-azure-400/40 group bg-white/50 dark:bg-midnight-900/10 {isTouchDevice
+		: 'duration-300'} hover:border-azure-500/50 group bg-white/50 {isTouchDevice
 		? 'touch-device'
 		: ''}"
 >
 	<a href={`/projects/${slug}`} class="block relative z-10 rounded-lg focus-ring">
 		<h3
-			class="font-semibold text-midnight-800 dark:text-dark-100 ease-in-out transition-colors {isTouchDevice
+			class="font-semibold text-midnight-800 ease-in-out transition-colors {isTouchDevice
 				? 'touch-duration'
-				: 'duration-200'} text-sm sm:text-base group-hover:text-azure-600 dark:group-hover:text-azure-400 flex items-center"
+				: 'duration-200'} text-sm sm:text-base group-hover:text-azure-600 flex items-center"
 		>
 			{name}
 		</h3>
-		<p class="line-clamp-3 text-xs sm:text-sm mt-2 mb-3 text-dark-600 dark:text-dark-300">
+		<p class="line-clamp-3 text-xs sm:text-sm mt-2 mb-3 text-dark-600">
 			{description}
 		</p>
 	</a>
@@ -48,18 +48,18 @@
 	>
 		{#each visibleStacks as tech}
 			<li
-				class="text-xs px-2 py-0.5 bg-dark-100/30 dark:bg-midnight-700/70 rounded-full transition-all {isTouchDevice
+				class="text-xs px-2 py-0.5 bg-dark-100/30 rounded-full transition-all {isTouchDevice
 					? 'touch-duration'
-					: 'duration-300'} group-hover:bg-dark-200/50 dark:group-hover:bg-midnight-600/90 text-dark-700 dark:text-dark-200"
+					: 'duration-300'} group-hover:bg-dark-200/50 text-dark-700"
 			>
 				{tech}
 			</li>
 		{/each}
 		{#if remainingCount > 0}
 			<li
-				class="text-xs px-2 py-0.5 bg-dark-200/40 dark:bg-midnight-600/80 rounded-full transition-all {isTouchDevice
+				class="text-xs px-2 py-0.5 bg-dark-200/40 rounded-full transition-all {isTouchDevice
 					? 'touch-duration'
-					: 'duration-300'} group-hover:bg-dark-300/60 dark:group-hover:bg-midnight-500/90 text-dark-700 dark:text-dark-200"
+					: 'duration-300'} group-hover:bg-dark-300/60 text-dark-700"
 				title={stacks.slice(3).join(', ')}
 			>
 				+{remainingCount}
@@ -71,7 +71,7 @@
 		<a
 			class="cursor-alias transition-all {isTouchDevice
 				? 'touch-duration'
-				: 'duration-200'} ease-in-out hover:text-azure-600 dark:hover:text-azure-400 hover:bg-azure-50 dark:hover:bg-azure-900/20 rounded-full p-2 min-h-[44px] min-w-[44px] flex items-center justify-center {isTouchDevice
+				: 'duration-200'} ease-in-out hover:text-azure-600 hover:bg-azure-50 rounded-full p-2 min-h-[44px] min-w-[44px] flex items-center justify-center {isTouchDevice
 				? ''
 				: 'hover:scale-105'} {isTouchDevice ? 'touch-link' : ''} focus-ring"
 			href={github}
@@ -85,7 +85,7 @@
 		<a
 			class="cursor-pointer transition-all {isTouchDevice
 				? 'touch-duration'
-				: 'duration-200'} ease-in-out hover:text-azure-600 dark:hover:text-azure-400 hover:bg-azure-50 dark:hover:bg-azure-900/20 rounded-full p-2 min-h-[44px] min-w-[44px] flex items-center justify-center {isTouchDevice
+				: 'duration-200'} ease-in-out hover:text-azure-600 hover:bg-azure-50 rounded-full p-2 min-h-[44px] min-w-[44px] flex items-center justify-center {isTouchDevice
 				? ''
 				: 'hover:scale-105'} {isTouchDevice ? 'touch-link' : ''} focus-ring"
 			href={`/projects/${slug}`}
@@ -122,18 +122,6 @@
 			0 4px 6px -2px rgba(0, 0, 0, 0.04);
 	}
 
-	:global(.dark) .project-card {
-		box-shadow:
-			0 4px 6px -1px rgba(0, 0, 0, 0.1),
-			0 2px 4px -1px rgba(0, 0, 0, 0.06);
-	}
-
-	:global(.dark) .project-card:hover {
-		box-shadow:
-			0 10px 15px -3px rgba(0, 0, 0, 0.2),
-			0 4px 6px -2px rgba(0, 0, 0, 0.15);
-	}
-
 	.card-effects {
 		position: absolute;
 		inset: 0;
@@ -167,14 +155,6 @@
 
 	.project-card:hover .card-effects::after {
 		width: 100%;
-	}
-
-	:global(.dark) .card-effects::before {
-		background: linear-gradient(to top, rgba(96, 165, 250, 0.1) 0%, transparent 30%);
-	}
-
-	:global(.dark) .card-effects::after {
-		background: rgba(96, 165, 250, 0.8);
 	}
 
 	a,
@@ -220,12 +200,6 @@
 		box-shadow:
 			0 4px 6px -1px rgba(0, 0, 0, 0.05),
 			0 2px 4px -1px rgba(0, 0, 0, 0.03);
-	}
-
-	:global(.dark) .touch-device:hover {
-		box-shadow:
-			0 4px 6px -1px rgba(0, 0, 0, 0.1),
-			0 2px 4px -1px rgba(0, 0, 0, 0.06);
 	}
 
 	.touch-device:active {

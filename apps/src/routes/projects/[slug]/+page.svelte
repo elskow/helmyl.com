@@ -75,7 +75,7 @@
 
 	<!-- Decorative corner element -->
 	<div
-		class="absolute top-0 right-0 w-24 h-24 pointer-events-none opacity-20 dark:opacity-30 flex items-center justify-center"
+		class="absolute top-0 right-0 w-24 h-24 pointer-events-none opacity-20 flex items-center justify-center"
 	>
 		<svg
 			width="90"
@@ -92,23 +92,23 @@
 	</div>
 
 	<article class="pt-8 space-y-6 text-sm sm:text-base {isPageLoaded ? 'animate-fade-in' : ''}">
-		<header class="border-b border-dark-200 dark:border-midnight-700 pb-6 relative">
-			<h1 class="text-2xl md:text-3xl font-semibold text-midnight-800 dark:text-dark-100">
+		<header class="border-b border-dark-200 pb-6 relative">
+			<h1 class="text-2xl md:text-3xl font-semibold text-midnight-800">
 				{project.name}
 			</h1>
 			<!-- Decorative accent line -->
 			<div
-				class="w-16 h-1 bg-gradient-to-r from-azure-500/70 dark:from-azure-400/70 to-transparent rounded-full mb-4"
+				class="w-16 h-1 bg-gradient-to-r from-azure-500/70 to-transparent rounded-full mb-4"
 			></div>
 
-			<p class="mt-4 text-dark-600 dark:text-dark-300 leading-relaxed">{project.description}</p>
+			<p class="mt-4 text-dark-600 leading-relaxed">{project.description}</p>
 
 			<div class="mt-6 flex flex-col sm:flex-row sm:items-center gap-4 sm:justify-between">
 				<ul class="flex flex-wrap gap-2" aria-label="Technologies used">
 					{#if project.stacks && project.stacks.length > 0}
 						{#each project.stacks as stack}
 							<li
-								class="bg-dark-100/70 text-xs px-3 py-1.5 rounded-full font-medium text-dark-700 dark:text-dark-900 hover:bg-dark-200/70 transition-colors duration-200 cursor-pointer"
+								class="bg-dark-100/70 text-xs px-3 py-1.5 rounded-full font-medium text-dark-700 hover:bg-dark-200/70 transition-colors duration-200 cursor-pointer"
 							>
 								{stack}
 							</li>
@@ -118,7 +118,7 @@
 
 				<time
 					datetime={project.date ? new Date(project.date).toISOString() : ''}
-					class="text-sm text-dark-500 dark:text-dark-400 flex items-center"
+					class="text-sm text-dark-500 flex items-center"
 				>
 					<Calendar class="w-3.5 h-3.5 mr-1.5 opacity-70" />
 					{project.date
@@ -160,21 +160,21 @@
 
 		{#if project.html && project.html.trim() !== ''}
 			<section
-				class="prose prose-sm sm:prose-base space-y-4 md:space-y-6 prose-headings:prose-base sm:prose-headings:prose-base min-w-full pr-2 pt-6 pb-8 project-content dark:prose-invert prose-a:text-azure-600 dark:prose-a:text-azure-400 prose-img:rounded-lg prose-img:shadow-md relative"
+				class="prose prose-sm sm:prose-base space-y-4 md:space-y-6 prose-headings:prose-base sm:prose-headings:prose-base min-w-full pr-2 pt-6 pb-8 project-content prose-a:text-azure-600 prose-img:rounded-lg prose-img:shadow-md relative"
 				aria-label="Project details"
 			>
 				<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 				{@html project.html}
 			</section>
 		{:else}
-			<section class="pt-6 text-dark-600 dark:text-dark-400 italic" aria-label="Project details">
+			<section class="pt-6 text-dark-600 italic" aria-label="Project details">
 				No additional details available for this project.
 			</section>
 		{/if}
 
 		{#if project.lastModified}
 			<footer
-				class="text-xs sm:text-sm text-dark-500 dark:text-dark-400 text-right font-light border-t border-dark-200 dark:border-midnight-700 pt-4"
+				class="text-xs sm:text-sm text-dark-500 text-right font-light border-t border-dark-200 pt-4"
 			>
 				<time datetime={new Date(project.lastModified).toISOString()}>
 					Last modified on {new Date(project.lastModified).toLocaleDateString('en-US', {

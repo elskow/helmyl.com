@@ -8,7 +8,7 @@
 </script>
 
 {#snippet renderDescription()}
-	<span class="text-azure-600 dark:text-azure-400 animated-wrapper">
+	<span class="text-azure-600 animated-wrapper">
 		<span class="placeholder" aria-hidden="true">{longestAttribute}.</span>
 
 		{#each attributes as attribute, i}

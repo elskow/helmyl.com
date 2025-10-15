@@ -61,7 +61,7 @@
 
 	<!-- Decorative corner element -->
 	<div
-		class="absolute top-0 right-0 w-24 h-24 pointer-events-none opacity-20 dark:opacity-30 flex items-center justify-center"
+		class="absolute top-0 right-0 w-24 h-24 pointer-events-none opacity-20 flex items-center justify-center"
 	>
 		<svg
 			width="90"
@@ -81,10 +81,10 @@
 		<h1 class="text-2xl md:text-3xl font-bold relative inline-block">
 			Interactive Labs
 			<div
-				class="absolute -bottom-1 left-0 w-1/3 h-1 bg-gradient-to-r from-azure-500/70 dark:from-azure-400/70 to-transparent rounded-full"
+				class="absolute -bottom-1 left-0 w-1/3 h-1 bg-gradient-to-r from-azure-500/70 to-transparent rounded-full"
 			></div>
 		</h1>
-		<p class="text-sm md:text-base text-zinc-600 dark:text-zinc-400 mt-4">
+		<p class="text-sm md:text-base text-zinc-600 mt-4">
 			Hands-on experiments and interactive demos showcasing various technologies in action.
 		</p>
 	</header>
@@ -96,7 +96,7 @@
 		>
 			{#each data.projects as project, i}
 				<li
-					class="border border-dark-200 dark:border-midnight-700 p-3 sm:p-4 md:p-5 rounded-lg transition-all duration-300 hover:border-azure-500/50 dark:hover:border-azure-500/30 hover:shadow-md group relative overflow-hidden bg-white/50 dark:bg-midnight-800/10 backdrop-blur-sm {isPageLoaded
+					class="border border-dark-200 p-3 sm:p-4 md:p-5 rounded-lg transition-all duration-300 hover:border-azure-500/50 hover:shadow-md group relative overflow-hidden bg-white/50 backdrop-blur-sm {isPageLoaded
 						? 'animate-slide-up'
 						: ''} {isTouchDevice ? 'touch-item' : ''}"
 					style="animation-delay: {i * 100}ms"
@@ -105,14 +105,14 @@
 						class="absolute top-0 right-0 w-8 sm:w-10 md:w-12 h-8 sm:h-10 md:h-12 overflow-hidden"
 					>
 						<div
-							class="absolute transform rotate-45 bg-azure-500/20 dark:bg-azure-400/30 w-12 sm:w-14 md:w-16 h-3 sm:h-4 -top-2 -right-2 {isTouchDevice
-								? 'bg-azure-500/30 dark:bg-azure-400/40'
-								: 'group-hover:bg-azure-500/40 dark:group-hover:bg-azure-400/50'} transition-colors duration-300"
+							class="absolute transform rotate-45 bg-azure-500/20 w-12 sm:w-14 md:w-16 h-3 sm:h-4 -top-2 -right-2 {isTouchDevice
+								? 'bg-azure-500/30'
+								: 'group-hover:bg-azure-500/40'} transition-colors duration-300"
 						></div>
 					</div>
 
 					<div
-						class="absolute inset-0 bg-gradient-to-t from-azure-500/5 dark:from-azure-400/10 to-transparent {isTouchDevice
+						class="absolute inset-0 bg-gradient-to-t from-azure-500/5 to-transparent {isTouchDevice
 							? 'opacity-30'
 							: 'opacity-0 group-hover:opacity-100'} transition-opacity duration-300 pointer-events-none"
 					></div>
@@ -128,22 +128,22 @@
 					<article class="relative z-0">
 						<header>
 							<h2
-								class="text-base sm:text-lg font-semibold text-midnight-800 dark:text-dark-100 {isTouchDevice
-									? 'text-azure-600/80 dark:text-azure-400/80'
-									: 'group-hover:text-azure-600 dark:group-hover:text-azure-400'} transition-colors duration-200 flex items-center line-clamp-1"
+								class="text-base sm:text-lg font-semibold text-midnight-800 {isTouchDevice
+									? 'text-azure-600/80'
+									: 'group-hover:text-azure-600'} transition-colors duration-200 flex items-center line-clamp-1"
 							>
 								{project.name}
 							</h2>
 						</header>
 
 						<p
-							class="text-xs sm:text-sm text-dark-600 dark:text-dark-300 mt-1 sm:mt-2 line-clamp-2 sm:line-clamp-3"
+							class="text-xs sm:text-sm text-dark-600 mt-1 sm:mt-2 line-clamp-2 sm:line-clamp-3"
 						>
 							{project.description}
 						</p>
 
 						<footer
-							class="mt-2 sm:mt-3 text-xs text-dark-500 dark:text-dark-400 flex justify-between"
+							class="mt-2 sm:mt-3 text-xs text-dark-500 flex justify-between"
 						>
 							<div>
 								{#if project.author}
@@ -160,7 +160,7 @@
 						</footer>
 
 						<div
-							class="mt-2 sm:mt-3 inline-flex items-center text-azure-600 dark:text-azure-400 hover:underline transition-all duration-200 pointer-events-none text-xs sm:text-sm"
+							class="mt-2 sm:mt-3 inline-flex items-center text-azure-600 hover:underline transition-all duration-200 pointer-events-none text-xs sm:text-sm"
 						>
 							<span>View Project</span>
 							<ArrowRight
@@ -175,7 +175,7 @@
 					<div
 						class="absolute bottom-0 left-0 {isTouchDevice
 							? 'w-1/3'
-							: 'w-0 group-hover:w-full'} h-0.5 bg-azure-500/70 dark:bg-azure-400/80 transition-all duration-700 ease-out"
+							: 'w-0 group-hover:w-full'} h-0.5 bg-azure-500/70 transition-all duration-700 ease-out"
 					></div>
 				</li>
 			{/each}

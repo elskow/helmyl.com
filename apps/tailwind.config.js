@@ -2,7 +2,6 @@ import defaultTheme from 'tailwindcss/defaultTheme'
 
 /** @type {import('tailwindcss').Config} */
 export default {
-  darkMode: 'media',
   content: ['./src/**/*.{html,js,svelte,ts}'],
   theme: {
     extend: {
@@ -71,42 +70,6 @@ export default {
               '&:hover': {
                 color: theme('colors.azure.700'),
               },
-            },
-          },
-        },
-        invert: {
-          css: {
-            a: {
-              color: theme('colors.azure.400'),
-              '&:hover': {
-                color: theme('colors.azure.300'),
-              },
-            },
-            h1: {
-              color: theme('colors.dark.100'),
-            },
-            h2: {
-              color: theme('colors.dark.100'),
-            },
-            h3: {
-              color: theme('colors.dark.100'),
-            },
-            h4: {
-              color: theme('colors.dark.100'),
-            },
-            p: {
-              color: theme('colors.dark.200'),
-            },
-            strong: {
-              color: theme('colors.dark.100'),
-            },
-            code: {
-              color: theme('colors.dark.100'),
-              backgroundColor: theme('colors.midnight.800'),
-            },
-            blockquote: {
-              color: theme('colors.dark.300'),
-              borderLeftColor: theme('colors.midnight.700'),
             },
           },
         },

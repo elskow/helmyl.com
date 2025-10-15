@@ -2,21 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-/*for id started with mermaid-* center horizontally and add background in dark mode*/
+/*for id started with mermaid-* center horizontally*/
 [id^='mermaid-'] {
 	margin-left: auto;
 	margin-right: auto;
+	background-color: rgba(0, 0, 0, 0.9);
+	padding: 1rem;
+	border-radius: 0.4rem;
 }
 
-@media (prefers-color-scheme: light) {
-	[id^='mermaid-'] {
-		background-color: rgba(0, 0, 0, 0.9);
-		padding: 1rem;
-		border-radius: 0.4rem;
-	}
-}
-
-/* Global styles for light mode */
+/* Global styles */
 html {
 	scroll-behavior: smooth;
 	-webkit-overflow-scrolling: touch; /* iOS momentum scrolling */
@@ -45,12 +40,6 @@ body {
 	background-color: rgba(59, 130, 246, 0.05);
 }
 
-@media (prefers-color-scheme: dark) {
-	.touch-target:hover {
-		background-color: rgba(59, 130, 246, 0.1);
-	}
-}
-
 /* Enhanced focus indicators for accessibility */
 *:focus {
 	outline: none; /* Remove default outline to use custom focus ring */
@@ -75,21 +64,6 @@ body {
 .focus-ring:focus:not(:focus-visible) {
 	box-shadow: none;
 	transform: none;
-}
-
-@media (prefers-color-scheme: dark) {
-	.focus-ring:focus-visible,
-	.focus-ring:focus {
-		box-shadow:
-			0 0 0 2px rgba(24, 24, 27, 1),
-			0 0 0 4px rgba(96, 165, 250, 0.8),
-			0 4px 12px rgba(96, 165, 250, 0.25);
-	}
-
-	.focus-ring:focus:not(:focus-visible) {
-		box-shadow: none;
-		transform: none;
-	}
 }
 
 /* Skip link for screen readers */
@@ -117,35 +91,5 @@ body {
 	.safe-area-padding {
 		padding-left: max(1rem, env(safe-area-inset-left));
 		padding-right: max(1rem, env(safe-area-inset-right));
-	}
-}
-
-/* Enhanced dark mode styles */
-@media (prefers-color-scheme: dark) {
-	body {
-		@apply bg-zinc-900 text-zinc-100;
-	}
-
-	/* Improve link visibility in dark mode */
-	a:not([class]) {
-		@apply text-blue-400 hover:text-blue-300;
-	}
-
-	/* Soften borders in dark mode */
-	.border,
-	[class*='border-'] {
-		@apply border-zinc-700;
-	}
-
-	/* Improve code block readability */
-	pre,
-	code {
-		@apply bg-zinc-800 text-zinc-200;
-	}
-
-	/* Soften shadows for better depth perception */
-	.shadow,
-	[class*='shadow-'] {
-		@apply shadow-zinc-950/50;
 	}
 }

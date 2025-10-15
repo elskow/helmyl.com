@@ -44,7 +44,7 @@
 
 	<!-- Decorative corner element -->
 	<div
-		class="absolute top-0 right-0 w-24 h-24 pointer-events-none opacity-20 dark:opacity-30 flex items-center justify-center"
+		class="absolute top-0 right-0 w-24 h-24 pointer-events-none opacity-20 flex items-center justify-center"
 	>
 		<svg
 			width="90"
@@ -66,7 +66,7 @@
 		</header>
 
 		<section
-			class="prose prose-sm sm:prose-base space-y-4 md:space-y-6 prose-headings:prose-base sm:prose-headings:prose-base min-w-full pr-2 pt-4 pb-8 prose-img:drop-shadow-2xl dark:prose-invert prose-a:text-azure-600 dark:prose-a:text-azure-400"
+			class="prose prose-sm sm:prose-base space-y-4 md:space-y-6 prose-headings:prose-base sm:prose-headings:prose-base min-w-full pr-2 pt-4 pb-8 prose-img:drop-shadow-2xl prose-a:text-azure-600"
 			aria-label="Tools and technologies"
 		>
 			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
@@ -74,7 +74,7 @@
 		</section>
 
 		{#if use.lastModified}
-			<footer class="text-xs sm:text-sm text-dark-500 dark:text-dark-400 text-right font-light">
+			<footer class="text-xs sm:text-sm text-dark-500 text-right font-light">
 				<time datetime={new Date(use.lastModified).toISOString()}>
 					Last modified on {new Date(use.lastModified).toLocaleDateString('en-US', {
 						year: 'numeric',
