@@ -24,8 +24,12 @@ export default defineConfig(({ mode }) => {
 			mode === 'production' ? utwm() : null
 		],
 		build: {
+			chunkSizeWarningLimit: 500,
 			rollupOptions: {
 				output: {
+					manualChunks: {
+						vendor: ['svelte', '@sveltejs/kit']
+					},
 					assetFileNames: (assetInfo) => {
 						for (const name of assetInfo.names) {
 							if (name.endsWith('.html')) {
@@ -38,6 +42,9 @@ export default defineConfig(({ mode }) => {
 			}
 		},
 		server: {
+			headers: {
+            	'Cache-Control': 'public, max-age=31536000'
+        	},
 			fs: {
 				allow: ['static']
 			}

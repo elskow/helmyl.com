@@ -2,45 +2,24 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
+		<meta content="width=device-width, initial-scale=1" name="viewport" />
+
+		<!-- DNS Prefetch for faster font loading -->
+		<link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+		<link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+		<link href="https://fonts.googleapis.com" rel="preconnect" />
+		<link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
+
 		<link
-			href="%sveltekit.assets%/favicons/apple-icon-57x57.png"
-			rel="apple-touch-icon"
-			sizes="57x57"
+			href="https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap"
+			rel="stylesheet"
 		/>
+
 		<link
-			href="%sveltekit.assets%/favicons/apple-icon-60x60.png"
-			rel="apple-touch-icon"
-			sizes="60x60"
-		/>
-		<link
-			href="%sveltekit.assets%/favicons/apple-icon-72x72.png"
-			rel="apple-touch-icon"
-			sizes="72x72"
-		/>
-		<link
-			href="%sveltekit.assets%/favicons/apple-icon-76x76.png"
-			rel="apple-touch-icon"
-			sizes="76x76"
-		/>
-		<link
-			href="%sveltekit.assets%/favicons/apple-icon-114x114.png"
-			rel="apple-touch-icon"
-			sizes="114x114"
-		/>
-		<link
-			href="%sveltekit.assets%/favicons/apple-icon-120x120.png"
-			rel="apple-touch-icon"
-			sizes="120x120"
-		/>
-		<link
-			href="%sveltekit.assets%/favicons/apple-icon-144x144.png"
-			rel="apple-touch-icon"
-			sizes="144x144"
-		/>
-		<link
-			href="%sveltekit.assets%/favicons/apple-icon-152x152.png"
-			rel="apple-touch-icon"
-			sizes="152x152"
+			href="%sveltekit.assets%/favicons/favicon-32x32.png"
+			rel="icon"
+			sizes="32x32"
+			type="image/png"
 		/>
 		<link
 			href="%sveltekit.assets%/favicons/apple-icon-180x180.png"
@@ -53,24 +32,9 @@
 			sizes="192x192"
 			type="image/png"
 		/>
-		<link
-			href="%sveltekit.assets%/favicons/favicon-32x32.png"
-			rel="icon"
-			sizes="32x32"
-			type="image/png"
-		/>
-		<link
-			href="%sveltekit.assets%/favicons/favicon-96x96.png"
-			rel="icon"
-			sizes="96x96"
-			type="image/png"
-		/>
-		<link
-			href="%sveltekit.assets%/favicons/favicon-16x16.png"
-			rel="icon"
-			sizes="16x16"
-			type="image/png"
-		/>
+
+		%sveltekit.head%
+
 		<link href="%sveltekit.assets%/favicons/manifest.json" rel="manifest" />
 		<meta content="#ffffff" name="msapplication-TileColor" />
 		<meta
@@ -78,20 +42,6 @@
 			name="msapplication-TileImage"
 		/>
 		<meta content="#ffffff" name="theme-color" />
-		<link href="https://fonts.googleapis.com" rel="preconnect" />
-		<link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
-		<script
-			defer
-			data-domain="helmyl.com"
-			src="https://plausible.helmyl.com/js/script.js"
-		></script>
-		<link
-			href="https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap"
-			rel="stylesheet"
-			rel="preload"
-		/>
-		<meta content="width=device-width, initial-scale=1" name="viewport" />
-		%sveltekit.head%
 	</head>
 
 	<body data-sveltekit-preload-data="hover">
