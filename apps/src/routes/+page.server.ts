@@ -34,7 +34,7 @@ export const load: PageServerLoad = async () => {
 			readTime: post.readTime
 		}));
 
-	const limitedProjects = [...allProjects].sort(compareProjects).slice(0, 6);
+	const limitedProjects = [...allProjects].sort(compareProjects).slice(0, 3);
 
 	return {
 		posts: limitedPosts,

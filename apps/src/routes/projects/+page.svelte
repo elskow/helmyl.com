@@ -2,7 +2,6 @@
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import Breadcrumbs from '$lib/components/Breadcrumbs.svelte';
-	import { onMount } from 'svelte';
 
 	interface Props {
 		data: import('./$types').PageData;
@@ -22,10 +21,9 @@
 
 	let { data }: Props = $props();
 	const projects = data.projects as Project[];
-	let isPageLoaded = $state(false);
 
 	// Group projects by year
-	const projectsByYear = projects.reduce(
+	const groupedProjects = projects.reduce(
 		(acc, project: Project) => {
 			const year = new Date(project.date).getFullYear();
 			if (!acc[year]) {
@@ -37,14 +35,8 @@
 		{} as Record<number, Project[]>
 	);
 
-	// Sort years in descending order
-	const sortedYears = Object.keys(projectsByYear)
-		.map(Number)
-		.sort((a, b) => b - a);
-
-	onMount(() => {
-		isPageLoaded = true;
-	});
+	// Sort years in descending order (newest first)
+	const sortedYears = Object.entries(groupedProjects).sort(([a], [b]) => Number(b) - Number(a));
 </script>
 
 <svelte:head>
@@ -80,106 +72,34 @@
 	<link rel="canonical" href="https://helmyl.com/projects" />
 </svelte:head>
 
-<main class="max-w-4xl mx-auto md:p-8 p-4 mt-4 relative">
+<div class="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-20 min-h-screen">
 	<Breadcrumbs path="projects" />
 
-	<header class="mb-8 md:mb-12 mt-4 md:mt-6">
-		<h1 class="text-2xl md:text-3xl font-bold relative inline-block">
-			Projects Portfolio
-			<div
-				class="absolute -bottom-1 left-0 w-1/3 h-1 bg-gradient-to-r from-azure-500/70 to-transparent rounded-full"
-			></div>
-		</h1>
-		<p class="text-sm md:text-base text-zinc-600 mt-4">
-			A collection of software development projects I've worked on over the years.
-		</p>
-	</header>
+	<h1 class="text-xl sm:text-2xl md:text-3xl font-semibold mb-3 sm:mb-4 tracking-tight">
+		Projects
+	</h1>
+	<p class="text-xs sm:text-sm md:text-base text-dark-600 mb-8 sm:mb-10 md:mb-12 leading-relaxed">
+		A collection of software development projects I've worked on over the years.
+	</p>
 
-	<div class="space-y-12 md:space-y-20">
-		{#each sortedYears as year, i}
-			<section
-				class="relative {isPageLoaded ? 'animate-fade-in' : ''}"
-				style="animation-delay: {i * 100}ms"
-			>
-				<div class="flex items-center mb-4 md:mb-8">
+	<div class="space-y-12 sm:space-y-16 md:space-y-20">
+		{#each sortedYears as [year, projects]}
+			<section>
+				<div class="flex items-center gap-4 mb-6 sm:mb-8">
 					<h2
-						class="text-xl md:text-2xl font-bold text-zinc-800 flex items-center"
+						class="text-lg sm:text-xl md:text-2xl font-semibold tracking-tight text-midnight-800"
 					>
-						<span class="relative">
-							{year}
-							<span
-								class="absolute -left-2 -right-2 bottom-0 h-[6px] bg-azure-500/10 -z-10 rounded-sm"
-							></span>
-						</span>
+						{year}
 					</h2>
-					<div
-						class="ml-3 md:ml-4 h-[1px] flex-grow bg-gradient-to-r from-zinc-300 to-transparent"
-					></div>
-					<span
-						class="ml-2 md:ml-3 text-xs md:text-sm text-zinc-500 font-medium px-2 py-1 rounded-full bg-zinc-100"
-					>
-						{projectsByYear[year].length} project{projectsByYear[year].length !== 1 ? 's' : ''}
-					</span>
+					<div class="flex-1 h-px bg-dark-200"></div>
 				</div>
-
-				<ul
-					class="grid gap-3 md:gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3"
-					aria-label="Projects from {year}"
-				>
-					{#each projectsByYear[year] as project, j}
+				<div class="space-y-6 sm:space-y-8">
+					{#each projects as project}
 						<ProjectCard {...project} />
 					{/each}
-				</ul>
+				</div>
 			</section>
 		{/each}
 	</div>
-
-	<!-- Decorative corner element -->
-	<div
-		class="absolute top-0 right-0 w-24 h-24 pointer-events-none opacity-20 flex items-center justify-center"
-	>
-		<svg
-			width="90"
-			height="90"
-			viewBox="0 0 100 100"
-			fill="none"
-			xmlns="http://www.w3.org/2000/svg"
-			class="transform -translate-x-1 -translate-y-1"
-		>
-			<path d="M5 5L95 5L95 95" stroke="currentColor" stroke-width="1" stroke-dasharray="4 4" />
-			<circle cx="70" cy="30" r="4" fill="currentColor" opacity="0.5" />
-			<circle cx="30" cy="70" r="2" fill="currentColor" opacity="0.3" />
-		</svg>
-	</div>
-</main>
+</div>
 <Footer />
-
-<style>
-	@keyframes fadeIn {
-		from {
-			opacity: 0;
-		}
-		to {
-			opacity: 1;
-		}
-	}
-
-	@keyframes slideUp {
-		from {
-			opacity: 0;
-			transform: translateY(10px);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
-	}
-
-	.animate-fade-in {
-		animation: fadeIn 0.6s ease-out forwards;
-	}
-
-	:global(body) {
-		position: relative;
-	}
-</style>

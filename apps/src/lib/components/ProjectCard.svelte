@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ExternalLink, Search } from '@lucide/svelte';
+	import { ExternalLink, ChevronRight } from '@lucide/svelte';
 	import { browser } from '$app/environment';
 
 	interface Props {
@@ -8,12 +8,14 @@
 		github: string;
 		stacks: string[];
 		slug: string;
+		html?: string;
 	}
 
-	let { name, description, github, stacks, slug }: Props = $props();
+	let { name, description, github, stacks, slug, html }: Props = $props();
 
 	const visibleStacks = $derived(stacks.slice(0, 3));
 	const remainingCount = $derived(stacks.length > 3 ? stacks.length - 3 : 0);
+	const hasDetails = $derived(html && html.trim() !== '');
 
 	let isTouchDevice = $state(false);
 
@@ -22,199 +24,93 @@
 	}
 </script>
 
-<article
-	class="project-card relative overflow-hidden border border-dark-300/50 rounded-lg shadow-sm p-4 sm:p-5 transition-all {isTouchDevice
-		? 'touch-duration'
-		: 'duration-300'} hover:border-azure-500/50 group bg-white/50 {isTouchDevice
-		? 'touch-device'
-		: ''}"
->
-	<a href={`/projects/${slug}`} class="block relative z-10 rounded-lg focus-ring">
-		<h3
-			class="font-semibold text-midnight-800 ease-in-out transition-colors {isTouchDevice
-				? 'touch-duration'
-				: 'duration-200'} text-sm sm:text-base group-hover:text-azure-600 flex items-center"
-		>
-			{name}
-		</h3>
-		<p class="line-clamp-3 text-xs sm:text-sm mt-2 mb-3 text-dark-600">
-			{description}
-		</p>
-	</a>
-
-	<ul
-		class="flex flex-wrap gap-1.5 pt-2 justify-end pb-2 relative z-10 pl-6 sm:pl-10 text-right"
-		aria-label="Technologies used"
-	>
-		{#each visibleStacks as tech}
-			<li
-				class="text-xs px-2 py-0.5 bg-dark-100/30 rounded-full transition-all {isTouchDevice
-					? 'touch-duration'
-					: 'duration-300'} group-hover:bg-dark-200/50 text-dark-700"
-			>
-				{tech}
-			</li>
-		{/each}
-		{#if remainingCount > 0}
-			<li
-				class="text-xs px-2 py-0.5 bg-dark-200/40 rounded-full transition-all {isTouchDevice
-					? 'touch-duration'
-					: 'duration-300'} group-hover:bg-dark-300/60 text-dark-700"
-				title={stacks.slice(3).join(', ')}
-			>
-				+{remainingCount}
-			</li>
+<article class="group pb-6 sm:pb-8 border-b border-dark-200 last:border-b-0 last:pb-0">
+	<div class="flex items-start justify-between gap-3 sm:gap-4 mb-2 sm:mb-3">
+		{#if hasDetails}
+			<a href={`/projects/${slug}`} class="flex-1 min-w-0">
+				<h3
+					class="text-base sm:text-lg md:text-xl font-semibold text-midnight-800 group-hover:text-azure-600 transition-colors leading-tight tracking-tight"
+				>
+					{name}
+				</h3>
+			</a>
+		{:else}
+			<div class="flex-1 min-w-0">
+				<h3
+					class="text-base sm:text-lg md:text-xl font-semibold text-midnight-800 leading-tight tracking-tight"
+				>
+					{name}
+				</h3>
+			</div>
 		{/if}
-	</ul>
+		{#if github}
+			<a
+				href={github}
+				target="_blank"
+				rel="noopener noreferrer"
+				class="flex-shrink-0 p-1.5 sm:p-2 text-dark-500 hover:text-azure-600 hover:bg-azure-50 rounded-lg transition-all"
+				aria-label={`View ${name} on GitHub`}
+			>
+				<ExternalLink class="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+			</a>
+		{/if}
+	</div>
 
-	<footer class="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 flex gap-2 z-10">
-		<a
-			class="cursor-alias transition-all {isTouchDevice
-				? 'touch-duration'
-				: 'duration-200'} ease-in-out hover:text-azure-600 hover:bg-azure-50 rounded-full p-2 min-h-[44px] min-w-[44px] flex items-center justify-center {isTouchDevice
-				? ''
-				: 'hover:scale-105'} {isTouchDevice ? 'touch-link' : ''} focus-ring"
-			href={github}
-			rel="noopener noreferrer"
-			target="_blank"
-			title="View on GitHub"
-			aria-label={`View ${name} on GitHub`}
-		>
-			<ExternalLink size="18" />
-		</a>
-		<a
-			class="cursor-pointer transition-all {isTouchDevice
-				? 'touch-duration'
-				: 'duration-200'} ease-in-out hover:text-azure-600 hover:bg-azure-50 rounded-full p-2 min-h-[44px] min-w-[44px] flex items-center justify-center {isTouchDevice
-				? ''
-				: 'hover:scale-105'} {isTouchDevice ? 'touch-link' : ''} focus-ring"
-			href={`/projects/${slug}`}
-			title="View details"
-			aria-label={`View details for ${name} project`}
-		>
-			<Search size="18" />
-		</a>
-	</footer>
+	{#if hasDetails}
+		<a href={`/projects/${slug}`} class="block group/card">
+			<p class="text-xs sm:text-sm text-dark-600 leading-relaxed mb-3 sm:mb-4">
+				{description}
+			</p>
 
-	<div class="card-effects"></div>
+			<div class="flex items-center justify-between gap-3">
+				<div class="flex flex-wrap gap-1.5 sm:gap-2">
+					{#each visibleStacks as tech}
+						<span
+							class="text-xs px-2 sm:px-2.5 py-0.5 sm:py-1 bg-dark-100 text-dark-700 rounded-full"
+						>
+							{tech}
+						</span>
+					{/each}
+					{#if remainingCount > 0}
+						<span
+							class="text-xs px-2 sm:px-2.5 py-0.5 sm:py-1 bg-dark-100 text-dark-700 rounded-full"
+							title={stacks.slice(3).join(', ')}
+						>
+							+{remainingCount}
+						</span>
+					{/if}
+				</div>
+
+				<div
+					class="flex items-center text-dark-400 group-hover/card:text-azure-600 transition-colors"
+				>
+					<ChevronRight class="w-4 h-4" />
+				</div>
+			</div>
+		</a>
+	{:else}
+		<div class="block">
+			<p class="text-xs sm:text-sm text-dark-600 leading-relaxed mb-3 sm:mb-4">
+				{description}
+			</p>
+
+			<div class="flex flex-wrap gap-1.5 sm:gap-2">
+				{#each visibleStacks as tech}
+					<span
+						class="text-xs px-2 sm:px-2.5 py-0.5 sm:py-1 bg-dark-100 text-dark-700 rounded-full"
+					>
+						{tech}
+					</span>
+				{/each}
+				{#if remainingCount > 0}
+					<span
+						class="text-xs px-2 sm:px-2.5 py-0.5 sm:py-1 bg-dark-100 text-dark-700 rounded-full"
+						title={stacks.slice(3).join(', ')}
+					>
+						+{remainingCount}
+					</span>
+				{/if}
+			</div>
+		</div>
+	{/if}
 </article>
-
-<style>
-	.line-clamp-3 {
-		display: -webkit-box;
-		-webkit-line-clamp: 3;
-		line-clamp: 3;
-		-webkit-box-orient: vertical;
-		overflow: hidden;
-	}
-
-	.project-card {
-		backdrop-filter: blur(8px);
-		box-shadow:
-			0 4px 6px -1px rgba(0, 0, 0, 0.05),
-			0 2px 4px -1px rgba(0, 0, 0, 0.03);
-		will-change: transform, box-shadow;
-	}
-
-	.project-card:hover {
-		box-shadow:
-			0 10px 15px -3px rgba(0, 0, 0, 0.08),
-			0 4px 6px -2px rgba(0, 0, 0, 0.04);
-	}
-
-	.card-effects {
-		position: absolute;
-		inset: 0;
-		pointer-events: none;
-	}
-
-	.card-effects::before {
-		content: '';
-		position: absolute;
-		inset: 0;
-		background: linear-gradient(to top, rgba(59, 130, 246, 0.05) 0%, transparent 30%);
-		opacity: 0;
-		transition: opacity 0.3s ease;
-		z-index: -1;
-	}
-
-	.project-card:hover .card-effects::before {
-		opacity: 1;
-	}
-
-	.card-effects::after {
-		content: '';
-		position: absolute;
-		bottom: 0;
-		left: 0;
-		height: 2px;
-		width: 0;
-		background: rgba(59, 130, 246, 0.7);
-		transition: width 0.7s ease-out;
-	}
-
-	.project-card:hover .card-effects::after {
-		width: 100%;
-	}
-
-	a,
-	h3 {
-		transition: all 0.2s ease-in-out;
-	}
-
-	.touch-device {
-		will-change: auto;
-	}
-
-	.touch-device:active {
-		background-color: rgba(59, 130, 246, 0.05);
-	}
-
-	.touch-device .card-effects::before {
-		opacity: 0.3;
-	}
-
-	.touch-device .card-effects::after {
-		width: 30%;
-	}
-
-	.touch-device:active .card-effects::after {
-		width: 100%;
-	}
-
-	.touch-link {
-		padding: 10px;
-		margin: -10px;
-	}
-
-	.touch-duration {
-		transition-duration: 0.1s;
-	}
-
-	.touch-device * {
-		transition-duration: 0.1s;
-	}
-
-	.touch-device:hover {
-		transform: none;
-		box-shadow:
-			0 4px 6px -1px rgba(0, 0, 0, 0.05),
-			0 2px 4px -1px rgba(0, 0, 0, 0.03);
-	}
-
-	.touch-device:active {
-		transform: translateY(-1px);
-	}
-
-	@media (max-width: 640px) {
-		.project-card {
-			contain: content;
-			content-visibility: auto;
-		}
-
-		.touch-link {
-			padding: 12px;
-			margin: -12px;
-		}
-	}
-</style>

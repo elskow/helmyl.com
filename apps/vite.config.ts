@@ -42,9 +42,6 @@ export default defineConfig(({ mode }) => {
 			}
 		},
 		server: {
-			headers: {
-            	'Cache-Control': 'public, max-age=31536000'
-        	},
 			fs: {
 				allow: ['static']
 			}

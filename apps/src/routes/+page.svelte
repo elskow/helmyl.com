@@ -62,267 +62,131 @@
 	<link rel="canonical" href="https://helmyl.com/" />
 </svelte:head>
 
-<a href="#main-content" class="skip-link">Skip to main content</a>
-
-<main id="main-content" class="max-w-4xl mx-auto md:p-8 p-4 safe-area-padding">
-	<div class="sm:flex sm:justify-between items-center pt-8">
-		<h1 class="text-lg sm:text-2xl font-semibold text-midnight-800">Helmy Luqmanulhakim</h1>
-		<nav class="flex gap-1 pt-8 sm:pt-0" aria-label="Main navigation" role="navigation">
-			<a
-				class="text-azure-600 font-medium hover:underline text-sm sm:text-base px-3 py-2 rounded-md transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center focus-ring"
-				href="/writings">Writings</a
-			>
-			<a
-				class="text-azure-600 font-medium hover:underline text-sm sm:text-base px-3 py-2 rounded-md transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center focus-ring"
-				href="/labs">Labs</a
-			>
+<main class="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-20 min-h-screen">
+	<!-- Header -->
+	<header class="mb-8 sm:mb-10 md:mb-12">
+		<h1 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 tracking-tight">
+			Helmy Luqmanulhakim
+		</h1>
+		<p class="text-base sm:text-lg text-dark-600 mb-4 sm:mb-6">
+			Software Engineer building solution that <SelfDescription attributes={qualities} />
+		</p>
+		<nav class="flex flex-wrap gap-3 sm:gap-4 md:gap-6 text-xs sm:text-sm">
+			<a href="/about" class="text-midnight-800 hover:text-dark-600 transition-colors">
+				About
+			</a>
+			<a href="/labs" class="text-midnight-800 hover:text-dark-600 transition-colors">
+				Labs
+			</a>
+			<a href="/uses" class="text-midnight-800 hover:text-dark-600 transition-colors">
+				Uses
+			</a>
 		</nav>
-	</div>
+	</header>
 
-	<section data-section="status" class="pt-6" aria-labelledby="status-heading">
-		<div class="flex items-start space-x-2 text-sm sm:text-base">
-			<p class="text-dark-600">
-				Currently working as <span class="font-medium text-midnight-800"
-					>Application Developer</span
-				>
-				at
+	<!-- Status -->
+	<section class="mb-8 sm:mb-10 md:mb-12">
+		<div class="flex items-center gap-2 text-xs sm:text-sm text-dark-600 mb-6 sm:mb-8">
+			<span class="relative flex h-2 w-2">
+				<span
+					class="animate-ping absolute inline-flex h-full w-full rounded-full bg-midnight-800 opacity-75"
+				></span>
+				<span class="relative inline-flex rounded-full h-2 w-2 bg-midnight-800"></span>
+			</span>
+			<p>
+				Currently at{' '}
 				<a
-					class="text-azure-600 font-medium hover:underline px-1 py-1 rounded transition-colors focus-ring"
 					href="https://www.bca.co.id/id"
 					target="_blank"
 					rel="noopener noreferrer"
+					class="text-midnight-800 underline underline-offset-4 hover:text-dark-600 transition-colors"
 				>
 					Bank Central Asia
 				</a>
 			</p>
-			<div
-				class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse mt-1 sm:block hidden"
-			></div>
 		</div>
 	</section>
 
-	<section
-		data-section="intro"
-		class="pt-6 text-sm sm:text-base text-dark-600 space-y-4"
-		aria-label="Introduction"
-	>
-		<p>
-			This is my personal corner of the web where I share my journey and insights from my
-			experiences in software development and data development.
-		</p>
-		<p>
-			My focus is on crafting solutions that are not only functional but also
-			<SelfDescription attributes={qualities} />
-		</p>
-		<p>
-			<a
-				class="text-azure-600 font-medium hover:underline py-1 rounded-md transition-colors min-h-[44px] min-w-[44px] flex items-center focus-ring"
-				href="/about">Get to know me</a
-			>
-		</p>
-	</section>
-
-	<section
-		data-section="technologies"
-		class="pt-10 relative"
-		aria-labelledby="technologies-heading"
-	>
-		<h2
-			id="technologies-heading"
-			class="text-base sm:text-lg font-medium text-midnight-800 no-gradient"
-		>
-			Technologies that I use :
+	<!-- Tech Stack -->
+	<section class="mb-8 sm:mb-10 md:mb-12">
+		<h2 class="text-xs sm:text-sm uppercase tracking-wider text-dark-600 mb-4 sm:mb-6">
+			Tech Stack
 		</h2>
-		<div class="gradient-overlay-left sm:hidden"></div>
-		<div class="gradient-overlay-right sm:hidden"></div>
-		<ul
-			class="sm:grid sm:grid-cols-4 gap-7 sm:gap-4 mt-4 text-dark-600 overflow-x-auto flex sm:flex-none no-scrollbar py-4 sm:pl-3 px-3 pr-8 sm:pr-3"
-		>
-			{#each technologies as { name, icons: iconLoader, link, accentColor }}
-				<li>
-					<a
-						href={link}
-						target="_blank"
-						class="tech-item flex items-center space-x-2 group sm:py-4 py-3 px-2 rounded-lg transition-all hover:bg-dark-50 min-h-[44px] w-full focus-ring"
-						aria-label={name}
-						rel="noopener noreferrer"
-						title={name}
-						style="--tech-color: {accentColor}"
-					>
-						<div
-							class="flex items-center justify-center sm:bg-dark-100/80 rounded-lg sm:p-2 sm:group-hover:bg-dark-100 bg-none p-0"
-						>
-							{#await iconLoader() then Icon}
-								<Icon.default class="w-5 h-5 grayscale group-hover:grayscale-0" />
-							{/await}
-						</div>
-						<span
-							class="block text-xs sm:text-sm text-dark-600 group-hover:text-[var(--tech-color)]"
-						>
-							{name}
-						</span>
-					</a>
-				</li>
+		<div class="flex flex-wrap gap-2 sm:gap-3">
+			{#each technologies as { name, link }}
+				<a
+					href={link}
+					target="_blank"
+					rel="noopener noreferrer"
+					class="text-xs sm:text-sm px-2.5 sm:px-3 py-1 sm:py-1.5 border border-dark-200 rounded-full hover:border-midnight-800 transition-colors"
+				>
+					{name}
+				</a>
 			{/each}
-		</ul>
+		</div>
 	</section>
 
-	<section data-section="projects" aria-labelledby="projects-heading">
-		<h2
-			id="projects-heading"
-			class="text-base sm:text-lg font-medium text-midnight-800 pt-10 no-gradient"
-		>
-			Some Stuff That I've Built
-		</h2>
-		<ul class="mt-4 sm:grid-cols-3 grid gap-2 grid-cols-2">
+	<!-- Projects -->
+	<section class="mb-12 sm:mb-14 md:mb-16">
+		<div class="flex items-center justify-between mb-4 sm:mb-6">
+			<h2 class="text-xs sm:text-sm uppercase tracking-wider text-dark-600">
+				Selected Projects
+			</h2>
+			<a
+				href="/projects"
+				class="text-xs sm:text-sm text-midnight-800 hover:text-dark-600 transition-colors flex items-center gap-1"
+			>
+				View all
+				<ArrowRight class="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+			</a>
+		</div>
+
+		<div class="space-y-4 sm:space-y-6">
 			{#each projects as project}
 				<ProjectCard {...project} />
 			{/each}
-		</ul>
-		<a
-			class="text-azure-600 font-medium hover:underline text-sm mt-4 pr-2 py-2 px-3 rounded-md transition-colors min-h-[44px] flex items-center justify-end ml-auto w-fit focus-ring"
-			href="/projects"
-		>
-			View more projects
-		</a>
+		</div>
 	</section>
 
-	<section data-section="writings" class="relative" aria-labelledby="writings-heading">
-		<h2
-			id="writings-heading"
-			class="text-base sm:text-lg font-medium text-midnight-800 pt-10 no-gradient relative inline-block"
-		>
-			Recent Writings
-			<div
-				class="absolute -bottom-1 left-0 w-1/3 h-0.5 bg-gradient-to-r from-azure-500/70 to-transparent rounded-full"
-			></div>
-		</h2>
-		<ul class="mt-4 space-y-3">
-			{#each posts as post, i}
-				<li
-					class="writing-item text-sm sm:text-base py-4 border-b border-dark-200 hover:border-azure-500/30 group hover:bg-dark-50/50 rounded-md px-4 hover:shadow-sm relative min-h-[60px] {isTouchDevice
-						? 'touch-item'
-						: ''}"
-				>
-					<!-- Decorative dot -->
-					<div
-						class="absolute left-0 top-1/2 -translate-x-1 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-azure-500/40 {isTouchDevice
-							? 'opacity-30'
-							: 'opacity-0 group-hover:opacity-100'}"
-					></div>
+	<!-- Writing -->
+	<section class="mb-12 sm:mb-14 md:mb-16">
+		<div class="flex items-center justify-between mb-4 sm:mb-6">
+			<h2 class="text-xs sm:text-sm uppercase tracking-wider text-dark-600">
+				Recent Writing
+			</h2>
+			<a
+				href="/writings"
+				class="text-xs sm:text-sm text-midnight-800 hover:text-dark-600 transition-colors flex items-center gap-1"
+			>
+				View all
+				<ArrowRight class="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+			</a>
+		</div>
 
-					<article>
-						<h3 class="font-medium text-midnight-800">
-							<a
-								href={`/writings/${post.slug}`}
-								class="hover:text-azure-600 inline-flex items-center py-1 px-1 rounded transition-colors min-h-[44px] w-full focus-ring"
+		<div class="space-y-3 sm:space-y-4">
+			{#each posts as post}
+				<a href={`/writings/${post.slug}`} class="block group">
+					<article
+						class="flex items-center justify-between py-2 sm:py-3 border-b border-dark-200 group-hover:border-midnight-800 transition-colors"
+					>
+						<div class="flex-1 min-w-0 pr-4">
+							<h3
+								class="text-sm sm:text-base font-medium group-hover:text-dark-600 transition-colors truncate"
 							>
-								<span>{post.title}</span>
-								<span
-									class="ml-1.5 {isTouchDevice
-										? 'opacity-50'
-										: 'opacity-0 group-hover:opacity-100'} text-azure-500"
-								>
-									<ArrowRight size="14" />
-								</span>
-							</a>
-						</h3>
-						<div class="flex items-center justify-between text-xs sm:text-sm">
-							<time
-								datetime={post.date ? new Date(post.date).toISOString() : ''}
-								class="text-dark-400 mt-2 group-hover:text-dark-500 flex items-center"
-							>
-								<Clock class="w-3.5 h-3.5 mr-1.5 opacity-70" />
+								{post.title}
+							</h3>
+						</div>
+						<div
+							class="flex items-center gap-2 sm:gap-4 text-xs sm:text-sm text-dark-600 flex-shrink-0"
+						>
+							<time datetime={post.date ? new Date(post.date).toISOString() : ''}>
 								{post.date}
 							</time>
-							<data
-								value={post.readTime?.replace(/\s+/g, '')}
-								class="text-dark-400 mt-2 group-hover:text-dark-500 flex items-center"
-							>
-								<Eye class="w-3.5 h-3.5 mr-1.5 opacity-70" />
-								{post.readTime}
-							</data>
 						</div>
 					</article>
-				</li>
+				</a>
 			{/each}
-		</ul>
-		<a
-			class="text-azure-600 font-medium hover:underline text-sm mt-4 text-right pr-2 flex items-center justify-end py-2 px-3 rounded-md transition-colors min-h-[44px] ml-auto w-fit focus-ring"
-			href="/writings"
-		>
-			View all writings
-			<ArrowRight class="w-3.5 h-3.5 ml-1" />
-		</a>
+		</div>
 	</section>
 </main>
 <Footer />
-
-<style>
-	.no-scrollbar::-webkit-scrollbar {
-		display: none;
-	}
-
-	.no-scrollbar {
-		-ms-overflow-style: none;
-		scrollbar-width: none;
-	}
-
-	:root {
-		--gradient-from: rgba(255, 255, 255, 1);
-		--gradient-to: rgba(255, 255, 255, 0);
-	}
-
-	.no-gradient {
-		position: relative;
-		z-index: 1;
-	}
-
-	.tech-item {
-		transition-property: color, transform;
-		transition-duration: 300ms;
-		transition-timing-function: ease;
-		cursor: alias;
-	}
-
-	.tech-item span {
-		transition: color 300ms ease;
-	}
-
-	.touch-item {
-		position: relative;
-	}
-
-	.touch-item:active {
-		background-color: rgba(59, 130, 246, 0.05);
-		border-color: rgba(59, 130, 246, 0.3);
-	}
-
-	.touch-item a {
-		display: block;
-		padding: 2px 0;
-	}
-
-	.touch-item * {
-		transition-duration: 0.15s;
-	}
-
-	.touch-item:active .absolute {
-		opacity: 1;
-	}
-
-	.touch-item:active a span:last-child {
-		opacity: 1;
-	}
-
-	.writing-item {
-		transition-property: background-color, border-color, box-shadow;
-		transition-duration: 300ms;
-		transition-timing-function: ease;
-		contain: content;
-	}
-
-	.writing-item div[class*='absolute'] {
-		transition: opacity 300ms ease;
-	}
-</style>

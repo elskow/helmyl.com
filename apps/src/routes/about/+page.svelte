@@ -2,14 +2,8 @@
 	import { allAbouts } from 'content-collections';
 	import Footer from '$lib/components/Footer.svelte';
 	import Breadcrumbs from '$lib/components/Breadcrumbs.svelte';
-	import { onMount } from 'svelte';
 
 	const abouts = allAbouts[0];
-	let isPageLoaded = $state(false);
-
-	onMount(() => {
-		isPageLoaded = true;
-	});
 </script>
 
 <svelte:head>
@@ -45,119 +39,56 @@
 	<link rel="canonical" href="https://helmyl.com/about" />
 </svelte:head>
 
-<main class="max-w-4xl mx-auto md:p-8 p-4 mt-4 relative">
+<main class="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-20 min-h-screen">
+	<!-- Breadcrumbs -->
 	<Breadcrumbs path="about" />
 
-	<!-- Decorative corner element -->
-	<div
-		class="absolute top-0 right-0 w-24 h-24 pointer-events-none opacity-20 flex items-center justify-center"
-	>
-		<svg
-			width="90"
-			height="90"
-			viewBox="0 0 100 100"
-			fill="none"
-			xmlns="http://www.w3.org/2000/svg"
-			class="transform -translate-x-1 -translate-y-1"
-		>
-			<path d="M5 5L95 5L95 95" stroke="currentColor" stroke-width="1" stroke-dasharray="4 4" />
-			<circle cx="70" cy="30" r="4" fill="currentColor" opacity="0.5" />
-			<circle cx="30" cy="70" r="2" fill="currentColor" opacity="0.3" />
-		</svg>
-	</div>
+	<!-- Header -->
+	<header class="mb-8 sm:mb-10 md:mb-12">
+		<h1 class="text-xl sm:text-2xl md:text-3xl font-semibold mb-3 sm:mb-4 tracking-tight">
+			About
+		</h1>
+	</header>
 
+	<!-- Content -->
 	<article
-		class="pt-8 space-y-4 text-sm sm:text-base relative {isPageLoaded ? 'animate-fade-in' : ''}"
+		class="prose prose-sm sm:prose-base md:prose-lg max-w-none
+			prose-headings:text-midnight-800 prose-headings:font-semibold prose-headings:tracking-tight
+			prose-h1:text-base prose-h1:sm:text-lg prose-h1:md:text-xl prose-h1:mt-8 prose-h1:sm:mt-10 prose-h1:md:mt-12 prose-h1:mb-4 prose-h1:sm:mb-5 prose-h1:md:mb-6 prose-h1:leading-tight
+			prose-h2:text-base prose-h2:sm:text-lg prose-h2:md:text-xl prose-h2:mt-8 prose-h2:sm:mt-10 prose-h2:md:mt-12 prose-h2:mb-4 prose-h2:sm:mb-5 prose-h2:md:mb-6 prose-h2:leading-tight
+			prose-h3:text-base prose-h3:sm:text-lg prose-h3:md:text-lg prose-h3:mt-6 prose-h3:sm:mt-8 prose-h3:md:mt-10 prose-h3:mb-3 prose-h3:sm:mb-4 prose-h3:md:mb-4
+			prose-h4:text-sm prose-h4:sm:text-base prose-h4:md:text-base prose-h4:mt-6 prose-h4:sm:mt-7 prose-h4:md:mt-8 prose-h4:mb-2 prose-h4:sm:mb-3 prose-h4:md:mb-3
+			prose-p:text-dark-600 prose-p:text-sm prose-p:sm:text-base prose-p:md:text-base prose-p:leading-relaxed prose-p:my-4 prose-p:sm:my-5 prose-p:md:my-6
+			prose-a:text-azure-600 prose-a:font-medium prose-a:no-underline prose-a:border-b prose-a:border-azure-300 hover:prose-a:border-azure-600 prose-a:transition-colors
+			prose-strong:text-midnight-800 prose-strong:font-semibold
+			prose-code:text-azure-700 prose-code:bg-azure-50 prose-code:px-1 prose-code:sm:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-xs prose-code:sm:text-sm prose-code:font-mono prose-code:before:content-[''] prose-code:after:content-['']
+			prose-pre:bg-dark-900 prose-pre:text-dark-50 prose-pre:rounded-lg prose-pre:border prose-pre:border-dark-700 prose-pre:text-xs prose-pre:sm:text-sm prose-pre:md:text-sm
+			prose-ul:text-dark-600 prose-ul:my-4 prose-ul:sm:my-5 prose-ul:md:my-6 prose-ul:leading-relaxed
+			prose-ol:text-dark-600 prose-ol:my-4 prose-ol:sm:my-5 prose-ol:md:my-6 prose-ol:leading-relaxed
+			prose-li:my-1 prose-li:sm:my-1.5 prose-li:md:my-2 prose-li:text-sm prose-li:sm:text-base prose-li:md:text-base
+			prose-blockquote:border-l-4 prose-blockquote:border-azure-500 prose-blockquote:pl-4 prose-blockquote:sm:pl-6 prose-blockquote:italic prose-blockquote:text-dark-600 prose-blockquote:my-6 prose-blockquote:sm:my-8
+			prose-hr:border-dark-200 prose-hr:my-6 prose-hr:sm:my-8
+			prose-img:my-6 prose-img:sm:my-8
+			post-content"
 	>
-		<header>
-			<h1 class="text-2xl font-semibold text-midnight-800">Hola World</h1>
-			<div
-				class="w-16 h-1 bg-gradient-to-r from-azure-500 to-transparent rounded-full mb-6"
-			></div>
-		</header>
+		<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+		{@html abouts.html}
+	</article>
 
-		<section
-			class="prose prose-sm sm:prose-base space-y-4 md:space-y-6 prose-headings:prose-base sm:prose-headings:prose-base min-w-full pt-4 pb-8 prose-img:drop-shadow-2xl prose-a:text-azure-600 relative"
-			aria-label="Biography and background"
-		>
-			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-			{@html abouts.html}
-		</section>
-
-		{#if abouts.lastModified}
-			<footer
-				class="text-xs sm:text-sm text-dark-500 text-right font-light border-t border-dark-200/30 pt-4 mt-8"
-			>
+	<!-- Footer -->
+	{#if abouts.lastModified}
+		<footer class="mt-8 sm:mt-10 md:mt-12 pt-6 sm:pt-8">
+			<p class="text-xs sm:text-sm text-dark-500 text-right">
+				Last updated on{' '}
 				<time datetime={new Date(abouts.lastModified).toISOString()}>
-					Last modified on {new Date(abouts.lastModified).toLocaleDateString('en-US', {
+					{new Date(abouts.lastModified).toLocaleDateString('en-US', {
 						year: 'numeric',
 						month: 'long',
 						day: 'numeric'
 					})}
 				</time>
-			</footer>
-		{/if}
-	</article>
+			</p>
+		</footer>
+	{/if}
 </main>
 <Footer />
-
-<style>
-	@keyframes fadeIn {
-		from {
-			opacity: 0;
-		}
-		to {
-			opacity: 1;
-		}
-	}
-
-	.animate-fade-in {
-		animation: fadeIn 0.8s ease-out forwards;
-	}
-
-	:global(.prose h2) {
-		position: relative;
-		display: inline-block;
-	}
-
-	:global(.prose h2::after) {
-		content: '';
-		position: absolute;
-		bottom: -4px;
-		left: 0;
-		width: 40%;
-		height: 2px;
-		background: linear-gradient(to right, rgba(59, 130, 246, 0.5), transparent);
-		border-radius: 9999px;
-	}
-
-	:global(.prose p) {
-		position: relative;
-		z-index: 10;
-	}
-
-	:global(.prose a) {
-		text-decoration: none;
-		position: relative;
-	}
-
-	:global(.prose a::after) {
-		content: '';
-		position: absolute;
-		bottom: -1px;
-		left: 0;
-		width: 100%;
-		height: 1px;
-		background-color: currentColor;
-		opacity: 0.5;
-		transition: opacity 0.2s ease;
-	}
-
-	:global(.prose a:hover::after) {
-		opacity: 0.8;
-	}
-
-	:global(.dark .prose h2::after) {
-		background: linear-gradient(to right, rgba(96, 165, 250, 0.5), transparent);
-	}
-</style>
