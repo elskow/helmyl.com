@@ -55,9 +55,13 @@ jobs:
         env:
           GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Install Wrangler
+        run: pnpm add -D -w wrangler
+
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy apps/build --project-name=helmyl-com --branch=${{ github.head_ref || github.ref_name }}
+          wranglerVersion: "*"
