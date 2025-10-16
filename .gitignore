@@ -71,3 +71,4 @@ temp/
 apps/static/labs/*
 !apps/static/labs/.gitkeep
 labs-metadata.json
+apps/static/api
