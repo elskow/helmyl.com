@@ -8,7 +8,7 @@ const config = {
 			fallback: 'index.html',
 			pages: 'build',
 			assets: 'build',
-			precompress: false,
+			precompress: true,
 			strict: true
 		}),
 		prerender: {
