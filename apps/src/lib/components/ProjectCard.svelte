@@ -8,14 +8,14 @@
 		github: string;
 		stacks: string[];
 		slug: string;
-		html?: string;
+		hasContent?: boolean;
 	}
 
-	let { name, description, github, stacks, slug, html }: Props = $props();
+	let { name, description, github, stacks, slug, hasContent }: Props = $props();
 
 	const visibleStacks = $derived(stacks.slice(0, 3));
 	const remainingCount = $derived(stacks.length > 3 ? stacks.length - 3 : 0);
-	const hasDetails = $derived(html && html.trim() !== '');
+	const hasDetails = $derived(hasContent === true);
 
 	let isTouchDevice = $state(false);
 
