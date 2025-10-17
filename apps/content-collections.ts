@@ -1,14 +1,15 @@
 import {
-	type Context,
-	defineCollection,
-	defineConfig,
-	type Document
+    type Context,
+    defineCollection,
+    defineConfig,
+    type Document
 } from '@content-collections/core';
 import { compileMarkdown } from '@content-collections/markdown';
 import { pluginCollapsibleSections } from '@expressive-code/plugin-collapsible-sections';
 import { pluginFrames } from '@expressive-code/plugin-frames';
 import { exec as execCallback } from 'child_process';
 import { copyFile, mkdir } from 'fs/promises';
+import type { Element, Root } from 'hast';
 import { dirname, join } from 'path';
 import readingTime from 'reading-time';
 import rehypeExpressiveCode from 'rehype-expressive-code';
@@ -21,9 +22,8 @@ import rehypeUnwrapImages from 'rehype-unwrap-images';
 import remarkGfm from 'remark-gfm';
 import remarkOembed from 'remark-oembed';
 import type { Pluggable } from 'unified';
-import { promisify } from 'util';
-import type { Element, Root } from 'hast';
 import { visit } from 'unist-util-visit';
+import { promisify } from 'util';
 
 if (!process.env.PLAYWRIGHT_BROWSERS_PATH) {
 	process.env.PLAYWRIGHT_BROWSERS_PATH = '0';
@@ -339,6 +339,9 @@ const markdownOptions: Options = {
 			{
 				target: '_blank',
 				rel: ['noopener', 'noreferrer'],
+				properties: {
+					style: 'display: inline-flex; align-items: center; flex-wrap: nowrap;'
+				},
 				content: {
 					type: 'element',
 					tagName: 'svg',
@@ -348,7 +351,7 @@ const markdownOptions: Options = {
 						height: 12,
 						fill: 'currentColor',
 						viewBox: '0 0 16 16',
-						className: ['ml-1 inline-block']
+						style: 'margin-left: 0.25rem; flex-shrink: 0;'
 					},
 					children: [
 						{
