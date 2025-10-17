@@ -13,6 +13,7 @@ import type { Element, Root } from 'hast';
 import { dirname, join } from 'path';
 import readingTime from 'reading-time';
 import rehypeExpressiveCode from 'rehype-expressive-code';
+import rehypeExternalLinks from 'rehype-external-links';
 import rehypeKatex from 'rehype-katex';
 import rehypeMermaid from 'rehype-mermaid';
 import rehypePresetMinify from 'rehype-preset-minify';
@@ -53,77 +54,6 @@ const copyImageToStatic = async (imagePath: string, contentDir: string) => {
 		console.warn(`Failed to copy image ${imagePath}: ${error}`);
 		return imagePath;
 	}
-};
-
-// Custom rehype plugin to add external link icons
-const rehypeExternalLinksWithIcon = () => {
-	return (tree: Root) => {
-		visit(tree, 'element', (node) => {
-			const element = node as Element;
-
-			if (element.tagName !== 'a') {
-				return;
-			}
-
-			const href = element.properties?.href;
-			if (typeof href !== 'string') {
-				return;
-			}
-
-			// Check if it's an external link
-			if (href.startsWith('http://') || href.startsWith('https://')) {
-				// Add target and rel
-				element.properties = {
-					...(element.properties ?? {}),
-					target: '_blank',
-					rel: ['noopener', 'noreferrer']
-				};
-
-				// Add icon as last child with nowrap wrapper
-				const iconNode: Element = {
-					type: 'element',
-					tagName: 'span',
-					properties: {
-						style: 'white-space: nowrap;'
-					},
-					children: [
-						{
-							type: 'element',
-							tagName: 'svg',
-							properties: {
-								xmlns: 'http://www.w3.org/2000/svg',
-								width: '12',
-								height: '12',
-								fill: 'currentColor',
-								viewBox: '0 0 16 16',
-								style: 'display: inline-block; vertical-align: text-bottom; margin-left: 0.25rem;'
-							},
-							children: [
-								{
-									type: 'element',
-									tagName: 'path',
-									properties: {
-										d: 'M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z'
-									},
-									children: []
-								},
-								{
-									type: 'element',
-									tagName: 'path',
-									properties: {
-										d: 'M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z'
-									},
-									children: []
-								}
-							]
-						}
-					]
-				};
-
-				element.children.push(iconNode);
-			}
-		});
-	};
 };
 
 // Custom rehype plugin to process and copy images
@@ -404,7 +334,44 @@ const markdownOptions: Options = {
 			}
 		],
 		[rehypeExpressiveCode, rehypeExpressiveCodeOptions],
-		rehypeExternalLinksWithIcon,
+		[
+			rehypeExternalLinks,
+			{
+				target: '_blank',
+				rel: ['noopener', 'noreferrer'],
+				properties: {
+					style: 'display: inline-flex; align-items: center; flex-wrap: nowrap;'
+				},
+				content: {
+					type: 'element',
+					tagName: 'svg',
+					properties: {
+						xmlns: 'http://www.w3.org/2000/svg',
+						width: 12,
+						height: 12,
+						fill: 'currentColor',
+						viewBox: '0 0 16 16',
+						style: 'margin-left: 0.25rem; flex-shrink: 0;'
+					},
+					children: [
+						{
+							type: 'element',
+							tagName: 'path',
+							properties: {
+								d: 'M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z'
+							}
+						},
+						{
+							type: 'element',
+							tagName: 'path',
+							properties: {
+								d: 'M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z'
+							}
+						}
+					]
+				}
+			}
+		],
 		rehypePresetMinify
 	],
 	// @ts-expect-error -- remark-oembed's types don't align with the plugin tuple signature
