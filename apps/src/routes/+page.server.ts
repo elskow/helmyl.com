@@ -9,7 +9,7 @@ const compareProjects = (
 	b: { priority?: number | null; date: string }
 ) => {
 	if (a.priority != null && b.priority != null) {
-		return a.priority - b.priority;
+		return b.priority - a.priority; // Higher priority number shows first
 	}
 	if (a.priority != null) {
 		return -1;
