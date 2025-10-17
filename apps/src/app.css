@@ -93,3 +93,8 @@ body {
 		padding-right: max(1rem, env(safe-area-inset-right));
 	}
 }
+
+/* Ensure external link icons display properly inline */
+a[target='_blank'] svg {
+	vertical-align: text-bottom;
+}
