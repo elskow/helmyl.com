@@ -5,10 +5,9 @@
 	"private": true,
 	"scripts": {
 		"generate:labs": "tsx scripts/generate-labs-metadata.ts",
-		"generate:content": "tsx scripts/generate-content-json.ts",
 		"predev": "pnpm generate:labs",
 		"dev": "vite dev",
-		"prebuild": "pnpm generate:labs && pnpm generate:content && mkdir -p static/labs",
+		"prebuild": "pnpm generate:labs && mkdir -p static/labs",
 		"build": "vite build",
 		"postbuild": "cp static/_headers build/_headers",
 		"preview": "vite preview",
