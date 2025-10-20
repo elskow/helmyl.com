@@ -7,7 +7,7 @@
 </script>
 
 <svelte:head>
-	<title>Tools & Tech I Use | Helmy Luqmanulhakim</title>
+	<title>Uses - Helmy Luqmanulhakim</title>
 	<meta
 		name="description"
 		content="Discover the tools, technologies, and equipment I use for software development and in my daily workflow."

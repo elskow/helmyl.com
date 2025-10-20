@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-	<title>Interactive Labs & Experiments | Helmy Luqmanulhakim</title>
+	<title>Labs - Helmy Luqmanulhakim</title>
 	<meta
 		name="description"
 		content="Explore my hands-on experiments, interactive demos, and technical labs showcasing various technologies in action."

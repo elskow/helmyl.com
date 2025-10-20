@@ -30,42 +30,101 @@
 	});
 
 	const projectUrl = `https://helmyl.com/projects/${project.slug}`;
+	const pageTitle = `${project.name} - Helmy Luqmanulhakim`;
+	const pageDescription =
+		project.description ||
+		`Detailed breakdown of ${project.name}, including technologies used, implementation details, and outcomes.`;
+	const ogImage = project.image || 'https://helmyl.com/images/og-default.jpg';
 </script>
 
 <svelte:head>
-	<title>{project.name} | Helmy Luqmanulhakim Projects</title>
-	<meta
-		name="description"
-		content={project.description ||
-			`Detailed breakdown of ${project.name}, including technologies used, implementation details, and outcomes.`}
-	/>
+	<title>{pageTitle}</title>
+	<meta name="description" content={pageDescription} />
 	<meta
 		name="keywords"
 		content={project.stacks
 			? project.stacks.join(', ') + ', project, Helmy Luqmanulhakim'
 			: 'software project, development, Helmy Luqmanulhakim'}
 	/>
+	<meta name="author" content="Helmy Luqmanulhakim" />
 
 	<!-- Open Graph / Facebook -->
 	<meta property="og:type" content="article" />
 	<meta property="og:url" content={projectUrl} />
 	<meta property="og:title" content={project.name} />
-	<meta property="og:description" content={project.description} />
+	<meta property="og:description" content={pageDescription} />
 	<meta property="og:site_name" content="Helmy Luqmanulhakim" />
-	{#if project.image}
-		<meta property="og:image" content={project.image} />
+	<meta property="og:image" content={ogImage} />
+	<meta property="og:image:alt" content={project.name} />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
+	<meta property="og:locale" content="en_US" />
+	<meta property="article:author" content="Helmy Luqmanulhakim" />
+	{#if project.stacks}
+		{#each project.stacks as stack}
+			<meta property="article:tag" content={stack} />
+		{/each}
 	{/if}
 
 	<!-- Twitter -->
-	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:url" content={projectUrl} />
+	<meta name="twitter:site" content="@helmyl" />
+	<meta name="twitter:creator" content="@helmyl" />
 	<meta name="twitter:title" content={project.name} />
-	<meta name="twitter:description" content={project.description} />
-	{#if project.image}
-		<meta name="twitter:image" content={project.image} />
-	{/if}
+	<meta name="twitter:description" content={pageDescription} />
+	<meta name="twitter:image" content={ogImage} />
+	<meta name="twitter:image:alt" content={project.name} />
 
 	<link rel="canonical" href={projectUrl} />
+
+	<!-- Structured Data - Project -->
+	<script type="application/ld+json">
+		{JSON.stringify({
+			'@context': 'https://schema.org',
+			'@type': 'CreativeWork',
+			name: project.name,
+			description: pageDescription,
+			image: ogImage,
+			url: projectUrl,
+			author: {
+				'@type': 'Person',
+				'@id': 'https://helmyl.com/#person',
+				name: 'Helmy Luqmanulhakim',
+				url: 'https://helmyl.com'
+			},
+			keywords: project.stacks ? project.stacks.join(', ') : undefined,
+			inLanguage: 'en-US'
+		})}
+	</script>
+
+	<!-- Structured Data - Breadcrumbs -->
+	<script type="application/ld+json">
+		{JSON.stringify({
+			'@context': 'https://schema.org',
+			'@type': 'BreadcrumbList',
+			itemListElement: [
+				{
+					'@type': 'ListItem',
+					position: 1,
+					name: 'Home',
+					item: 'https://helmyl.com'
+				},
+				{
+					'@type': 'ListItem',
+					position: 2,
+					name: 'Projects',
+					item: 'https://helmyl.com/projects'
+				},
+				{
+					'@type': 'ListItem',
+					position: 3,
+					name: project.name,
+					item: projectUrl
+				}
+			]
+		})}
+	</script>
 </svelte:head>
 
 <main class="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-20 min-h-screen">

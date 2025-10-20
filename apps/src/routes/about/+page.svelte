@@ -4,39 +4,99 @@
 	import Breadcrumbs from '$lib/components/Breadcrumbs.svelte';
 
 	const abouts = allAbouts[0];
+
+	const pageTitle = 'About - Helmy Luqmanulhakim';
+	const pageDescription =
+		'Learn more about Helmy Luqmanulhakim, my background, skills, and professional journey in software engineering and full-stack development.';
+	const pageUrl = 'https://helmyl.com/about';
+	const ogImage = 'https://helmyl.com/images/og-default.jpg';
 </script>
 
 <svelte:head>
-	<title>About Me | Helmy Luqmanulhakim</title>
-	<meta
-		name="description"
-		content="Learn more about Helmy Luqmanulhakim, my background, skills, and professional journey in software engineering."
-	/>
+	<title>{pageTitle}</title>
+	<meta name="description" content={pageDescription} />
 	<meta
 		name="keywords"
-		content="about Helmy Luqmanulhakim, software engineer bio, developer profile"
+		content="about Helmy Luqmanulhakim, software engineer bio, developer profile, full stack developer, web developer background"
 	/>
+	<meta name="author" content="Helmy Luqmanulhakim" />
 
 	<!-- Open Graph / Facebook -->
-	<meta property="og:type" content="website" />
-	<meta property="og:url" content="https://helmyl.com/about" />
-	<meta property="og:title" content="About Me | Helmy Luqmanulhakim" />
-	<meta
-		property="og:description"
-		content="Learn more about Helmy Luqmanulhakim, my background, skills, and professional journey in software engineering."
-	/>
+	<meta property="og:type" content="profile" />
+	<meta property="og:url" content={pageUrl} />
+	<meta property="og:title" content={pageTitle} />
+	<meta property="og:description" content={pageDescription} />
 	<meta property="og:site_name" content="Helmy Luqmanulhakim" />
+	<meta property="og:image" content={ogImage} />
+	<meta property="og:image:alt" content="Helmy Luqmanulhakim - About Me" />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
+	<meta property="og:locale" content="en_US" />
+	<meta property="profile:first_name" content="Helmy" />
+	<meta property="profile:last_name" content="Luqmanulhakim" />
 
 	<!-- Twitter -->
-	<meta name="twitter:card" content="summary" />
-	<meta name="twitter:url" content="https://helmyl.com/about" />
-	<meta name="twitter:title" content="About Me | Helmy Luqmanulhakim" />
-	<meta
-		name="twitter:description"
-		content="Learn more about Helmy Luqmanulhakim, my background, skills, and professional journey in software engineering."
-	/>
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:url" content={pageUrl} />
+	<meta name="twitter:title" content={pageTitle} />
+	<meta name="twitter:description" content={pageDescription} />
+	<meta name="twitter:image" content={ogImage} />
+	<meta name="twitter:image:alt" content="Helmy Luqmanulhakim - About Me" />
+	<meta name="twitter:site" content="@helmyl" />
+	<meta name="twitter:creator" content="@helmyl" />
 
-	<link rel="canonical" href="https://helmyl.com/about" />
+	<link rel="canonical" href={pageUrl} />
+
+	<!-- Structured Data - Person Profile -->
+	<script type="application/ld+json">
+		{JSON.stringify({
+			'@context': 'https://schema.org',
+			'@type': 'ProfilePage',
+			mainEntity: {
+				'@type': 'Person',
+				'@id': 'https://helmyl.com/#person',
+				name: 'Helmy Luqmanulhakim',
+				alternateName: 'Helmy L',
+				url: 'https://helmyl.com',
+				image: ogImage,
+				sameAs: ['https://github.com/helmyl', 'https://linkedin.com/in/helmyl'],
+				jobTitle: 'Software Engineer',
+				worksFor: {
+					'@type': 'Organization',
+					name: 'Bank Central Asia'
+				},
+				knowsAbout: [
+					'Software Engineering',
+					'Web Development',
+					'Data Engineering',
+					'Full Stack Development'
+				],
+				description: pageDescription
+			}
+		})}
+	</script>
+
+	<!-- Structured Data - Breadcrumbs -->
+	<script type="application/ld+json">
+		{JSON.stringify({
+			'@context': 'https://schema.org',
+			'@type': 'BreadcrumbList',
+			itemListElement: [
+				{
+					'@type': 'ListItem',
+					position: 1,
+					name: 'Home',
+					item: 'https://helmyl.com'
+				},
+				{
+					'@type': 'ListItem',
+					position: 2,
+					name: 'About',
+					item: pageUrl
+				}
+			]
+		})}
+	</script>
 </svelte:head>
 
 <main class="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-20 min-h-screen">

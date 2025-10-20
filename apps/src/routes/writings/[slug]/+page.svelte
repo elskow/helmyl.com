@@ -52,14 +52,14 @@
 	});
 
 	const articleUrl = `https://helmyl.com/writings/${post.slug}`;
+	const pageTitle = `${post.title} - Helmy Luqmanulhakim`;
+	const pageDescription = post.excerpt || post.description || `Read my thoughts on ${post.title}.`;
+	const ogImage = post.image || 'https://helmyl.com/images/og-default.jpg';
 </script>
 
 <svelte:head>
-	<title>{post.title} | Helmy Luqmanulhakim</title>
-	<meta
-		name="description"
-		content={post.excerpt || `Read my thoughts on ${post.title}. ${post.description || ''}`}
-	/>
+	<title>{pageTitle}</title>
+	<meta name="description" content={pageDescription} />
 	<meta
 		name="keywords"
 		content={post.tags
@@ -72,14 +72,13 @@
 	<meta property="og:type" content="article" />
 	<meta property="og:url" content={articleUrl} />
 	<meta property="og:title" content={post.title} />
-	<meta
-		property="og:description"
-		content={post.excerpt || post.description || `Read my thoughts on ${post.title}.`}
-	/>
+	<meta property="og:description" content={pageDescription} />
 	<meta property="og:site_name" content="Helmy Luqmanulhakim" />
-	{#if post.image}
-		<meta property="og:image" content={post.image} />
-	{/if}
+	<meta property="og:image" content={ogImage} />
+	<meta property="og:image:alt" content={post.title} />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
+	<meta property="og:locale" content="en_US" />
 	{#if post.date}
 		<meta property="article:published_time" content={new Date(post.date).toISOString()} />
 	{/if}
@@ -89,20 +88,87 @@
 			content={new Date(post.lastModified).toISOString()}
 		/>
 	{/if}
+	<meta property="article:author" content="Helmy Luqmanulhakim" />
+	{#if post.tags}
+		{#each post.tags as tag}
+			<meta property="article:tag" content={tag} />
+		{/each}
+	{/if}
 
 	<!-- Twitter -->
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:url" content={articleUrl} />
+	<meta name="twitter:site" content="@helmyl" />
+	<meta name="twitter:creator" content="@helmyl" />
 	<meta name="twitter:title" content={post.title} />
-	<meta
-		name="twitter:description"
-		content={post.excerpt || post.description || `Read my thoughts on ${post.title}.`}
-	/>
-	{#if post.image}
-		<meta name="twitter:image" content={post.image} />
-	{/if}
+	<meta name="twitter:description" content={pageDescription} />
+	<meta name="twitter:image" content={ogImage} />
+	<meta name="twitter:image:alt" content={post.title} />
 
 	<link rel="canonical" href={articleUrl} />
+
+	<!-- Structured Data - Article -->
+	<script type="application/ld+json">
+		{JSON.stringify({
+			'@context': 'https://schema.org',
+			'@type': 'BlogPosting',
+			headline: post.title,
+			description: pageDescription,
+			image: ogImage,
+			url: articleUrl,
+			datePublished: post.date ? new Date(post.date).toISOString() : undefined,
+			dateModified: post.lastModified
+				? new Date(post.lastModified).toISOString()
+				: post.date
+					? new Date(post.date).toISOString()
+					: undefined,
+			author: {
+				'@type': 'Person',
+				'@id': 'https://helmyl.com/#person',
+				name: 'Helmy Luqmanulhakim',
+				url: 'https://helmyl.com'
+			},
+			publisher: {
+				'@type': 'Person',
+				name: 'Helmy Luqmanulhakim',
+				url: 'https://helmyl.com'
+			},
+			keywords: post.tags ? post.tags.join(', ') : undefined,
+			inLanguage: 'en-US',
+			mainEntityOfPage: {
+				'@type': 'WebPage',
+				'@id': articleUrl
+			}
+		})}
+	</script>
+
+	<!-- Structured Data - Breadcrumbs -->
+	<script type="application/ld+json">
+		{JSON.stringify({
+			'@context': 'https://schema.org',
+			'@type': 'BreadcrumbList',
+			itemListElement: [
+				{
+					'@type': 'ListItem',
+					position: 1,
+					name: 'Home',
+					item: 'https://helmyl.com'
+				},
+				{
+					'@type': 'ListItem',
+					position: 2,
+					name: 'Writings',
+					item: 'https://helmyl.com/writings'
+				},
+				{
+					'@type': 'ListItem',
+					position: 3,
+					name: post.title,
+					item: articleUrl
+				}
+			]
+		})}
+	</script>
 </svelte:head>
 
 <main class="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-20 min-h-screen">

@@ -40,7 +40,7 @@
 </script>
 
 <svelte:head>
-	<title>Projects Portfolio | Helmy Luqmanulhakim</title>
+	<title>Projects - Helmy Luqmanulhakim</title>
 	<meta
 		name="description"
 		content="Explore my software development projects spanning web applications, data engineering, and technical solutions."

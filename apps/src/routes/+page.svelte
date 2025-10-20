@@ -27,39 +27,77 @@
 			isTouchDevice = window.matchMedia('(hover: none)').matches;
 		}
 	});
+
+	const pageTitle = 'Helmy Luqmanulhakim - Software Engineer';
+	const pageDescription =
+		'Software engineer specializing in web development, data engineering, and building scalable solutions. Explore my projects, writings, and tech insights.';
+	const pageUrl = 'https://helmyl.com/';
+	const ogImage = 'https://helmyl.com/images/og-default.jpg';
 </script>
 
 <svelte:head>
-	<title>Helmy Luqmanulhakim | Software Engineer</title>
-	<meta
-		name="description"
-		content="Software engineer exploring and sharing insights on development, data engineering, and tech solutions."
-	/>
+	<title>{pageTitle}</title>
+	<meta name="description" content={pageDescription} />
 	<meta
 		name="keywords"
-		content="Helmy Luqmanulhakim, software engineer, web development, data engineering, programming"
+		content="Helmy Luqmanulhakim, software engineer, web development, data engineering, programming, full stack developer, SvelteKit, TypeScript, React, Python"
 	/>
 
 	<!-- Open Graph / Facebook -->
 	<meta property="og:type" content="website" />
-	<meta property="og:url" content="https://helmyl.com/" />
-	<meta property="og:title" content="Helmy Luqmanulhakim | Software Engineer" />
-	<meta
-		property="og:description"
-		content="Software engineer exploring and sharing insights on development, data engineering, and tech solutions."
-	/>
+	<meta property="og:url" content={pageUrl} />
+	<meta property="og:title" content={pageTitle} />
+	<meta property="og:description" content={pageDescription} />
+	<meta property="og:image" content={ogImage} />
+	<meta property="og:image:alt" content="Helmy Luqmanulhakim - Software Engineer" />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
 	<meta property="og:site_name" content="Helmy Luqmanulhakim" />
+	<meta property="og:locale" content="en_US" />
 
 	<!-- Twitter -->
 	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:url" content="https://helmyl.com/" />
-	<meta name="twitter:title" content="Helmy Luqmanulhakim | Software Engineer" />
-	<meta
-		name="twitter:description"
-		content="Software engineer exploring and sharing insights on development, data engineering, and tech solutions."
-	/>
+	<meta name="twitter:url" content={pageUrl} />
+	<meta name="twitter:title" content={pageTitle} />
+	<meta name="twitter:description" content={pageDescription} />
+	<meta name="twitter:image" content={ogImage} />
+	<meta name="twitter:image:alt" content="Helmy Luqmanulhakim - Software Engineer" />
+	<meta name="twitter:site" content="@helmyl" />
+	<meta name="twitter:creator" content="@helmyl" />
 
-	<link rel="canonical" href="https://helmyl.com/" />
+	<link rel="canonical" href={pageUrl} />
+
+	<!-- Structured Data -->
+	<script type="application/ld+json">
+		{JSON.stringify({
+			'@context': 'https://schema.org',
+			'@type': 'ProfilePage',
+			mainEntity: {
+				'@type': 'Person',
+				'@id': 'https://helmyl.com/#person',
+				name: 'Helmy Luqmanulhakim',
+				alternateName: 'Helmy L',
+				description: pageDescription,
+				url: 'https://helmyl.com',
+				image: ogImage,
+				sameAs: ['https://github.com/helmyl', 'https://linkedin.com/in/helmyl'],
+				jobTitle: 'Software Engineer',
+				worksFor: {
+					'@type': 'Organization',
+					name: 'Bank Central Asia'
+				},
+				knowsAbout: [
+					'Software Engineering',
+					'Web Development',
+					'Data Engineering',
+					'Full Stack Development',
+					'SvelteKit',
+					'TypeScript',
+					'Python'
+				]
+			}
+		})}
+	</script>
 </svelte:head>
 
 <main class="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-20 min-h-screen">

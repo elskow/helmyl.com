@@ -21,7 +21,7 @@
 </script>
 
 <svelte:head>
-	<title>{data.project.name} | Lab Experiment | Helmy Luqmanulhakim</title>
+	<title>{data.project.name} - Helmy Luqmanulhakim</title>
 	<meta
 		name="description"
 		content={data.project.description ||

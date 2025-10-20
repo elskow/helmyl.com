@@ -1,9 +1,9 @@
-import type { RequestHandler } from '@sveltejs/kit';
-import * as sitemap from 'super-sitemap';
-import { allPosts, allProjects } from 'content-collections';
-import type { Post, Project } from 'content-collections';
-import labsMetadata from '$lib/generated/labs-metadata.json';
 import type { LabMetadata } from '$lib/generated/labs-metadata.json';
+import labsMetadata from '$lib/generated/labs-metadata.json';
+import type { RequestHandler } from '@sveltejs/kit';
+import type { Post, Project } from 'content-collections';
+import { allPosts, allProjects } from 'content-collections';
+import * as sitemap from 'super-sitemap';
 
 export const prerender = true;
 
@@ -27,8 +27,31 @@ export const GET: RequestHandler = async () => {
 			// Add labs as static paths
 			...labSlugs.map((slug) => `/labs/${slug}`)
 		],
-		defaultChangefreq: 'always',
-		defaultPriority: 1,
-		sort: 'alpha'
+		// Set specific priorities and change frequencies for better SEO
+		defaultChangefreq: 'weekly',
+		defaultPriority: 0.7,
+		sort: 'alpha',
+		changefreq: {
+			'/': 'daily', // Homepage changes frequently with new content
+			'/about': 'monthly',
+			'/uses': 'monthly',
+			'/writings': 'daily', // Blog listing updates with new posts
+			'/writings/[slug]': 'monthly', // Individual posts don't change often
+			'/projects': 'weekly',
+			'/projects/[slug]': 'monthly',
+			'/labs': 'weekly',
+			'/labs/*': 'monthly'
+		},
+		priority: {
+			'/': 1.0, // Highest priority for homepage
+			'/about': 0.8,
+			'/writings': 0.9, // High priority for blog
+			'/writings/[slug]': 0.8, // Individual blog posts
+			'/projects': 0.9,
+			'/projects/[slug]': 0.8,
+			'/labs': 0.7,
+			'/labs/*': 0.6,
+			'/uses': 0.6
+		}
 	});
 };
