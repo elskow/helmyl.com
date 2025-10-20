@@ -22,10 +22,14 @@ jobs:
           submodules: recursive # Initialize and update git submodules
           token: ${{ secrets.GITHUB_TOKEN }} # Use token for submodule access
 
-      - name: Initialize and update submodules
+      - name: Initialize and update submodules to latest
         run: |
           git submodule init
-          git submodule update --recursive --remote
+          git submodule update --init --recursive --remote
+          cd apps/contents
+          git checkout master || git checkout main
+          git pull origin master || git pull origin main
+          cd ../..
 
       - name: Setup Node.js
         uses: actions/setup-node@v4

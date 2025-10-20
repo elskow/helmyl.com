@@ -1,0 +1,91 @@
+name: Update Content and Redeploy
+
+on:
+  repository_dispatch:
+    types: [content-updated]
+  workflow_dispatch:
+
+jobs:
+  update-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      deployments: write
+    name: Update Content and Redeploy
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+          token: ${{ secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}
+
+      - name: Update submodule to latest
+        run: |
+          git submodule update --remote --merge apps/contents
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if git diff --quiet; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "No changes in submodule"
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "Submodule has been updated"
+          fi
+
+      - name: Commit and push if changed
+        if: steps.check_changes.outputs.changed == 'true'
+        run: |
+          git add apps/contents
+          git commit -m "chore: update content submodule to latest [skip ci]"
+          git push origin master
+
+      - name: Setup Node.js
+        if: steps.check_changes.outputs.changed == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup pnpm
+        if: steps.check_changes.outputs.changed == 'true'
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+          run_install: false
+
+      - name: Install Dependencies
+        if: steps.check_changes.outputs.changed == 'true'
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Install tsx globally
+        if: steps.check_changes.outputs.changed == 'true'
+        run: pnpm add -g tsx
+
+      - name: Install Playwright in apps workspace
+        if: steps.check_changes.outputs.changed == 'true'
+        run: cd apps && pnpm exec playwright install --with-deps chromium
+
+      - name: Set GitHub token environment variable
+        if: steps.check_changes.outputs.changed == 'true'
+        run: echo "GITHUB_API_TOKEN=${{ secrets.GITHUB_TOKEN }}" >> $GITHUB_ENV
+
+      - name: Build
+        if: steps.check_changes.outputs.changed == 'true'
+        run: pnpm build
+        env:
+          GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish to Cloudflare Pages
+        if: steps.check_changes.outputs.changed == 'true'
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: helmyl-com
+          directory: apps/build
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
