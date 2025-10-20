@@ -6,8 +6,7 @@ export async function GET(): Promise<Response> {
         'User-agent: *',
         'Allow: /',
         '',
-        `Sitemap: ${import.meta.env.DEV ? 'http://localhost:5173' : 'https://helmyl.com'}/sitemap.xml`,
-        `RSS: ${import.meta.env.DEV ? 'http://localhost:5173' : 'https://helmyl.com'}/rss.xml`
+        `Sitemap: ${import.meta.env.DEV ? 'http://localhost:5173' : 'https://helmyl.com'}/sitemap.xml`
     ].join('\n').trim();
 
 	const headers = {
