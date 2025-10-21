@@ -1,0 +1,8 @@
+# Serve OG images as static files, not SPA routes
+/og/*  /og/:splat  200
+/favicons/*  /favicons/:splat  200
+/images/*  /images/:splat  200
+/labs/*  /labs/:splat  200
+
+# SPA fallback for everything else
+/*  /index.html  200
