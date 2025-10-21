@@ -26,15 +26,21 @@
 		content="Discover the tools, technologies, and equipment I use for software development and in my daily workflow."
 	/>
 	<meta property="og:site_name" content="Helmy Luqmanulhakim" />
+	<meta property="og:image" content="https://helmyl.com/og/uses.png" />
+	<meta property="og:image:alt" content="Tools & Tech I Use" />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
 
 	<!-- Twitter -->
-	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:url" content="https://helmyl.com/uses" />
 	<meta name="twitter:title" content="Tools & Tech I Use | Helmy Luqmanulhakim" />
 	<meta
 		name="twitter:description"
 		content="Discover the tools, technologies, and equipment I use for software development and in my daily workflow."
 	/>
+	<meta name="twitter:image" content="https://helmyl.com/og/uses.png" />
+	<meta name="twitter:image:alt" content="Tools & Tech I Use" />
 
 	<link rel="canonical" href="https://helmyl.com/uses" />
 </svelte:head>

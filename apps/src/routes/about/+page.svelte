@@ -9,7 +9,7 @@
 	const pageDescription =
 		'Learn more about Helmy Luqmanulhakim, my background, skills, and professional journey in software engineering and full-stack development.';
 	const pageUrl = 'https://helmyl.com/about';
-	const ogImage = 'https://helmyl.com/og/home.png';
+	const ogImage = 'https://helmyl.com/og/about.png';
 </script>
 
 <svelte:head>

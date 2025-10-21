@@ -59,6 +59,10 @@
 		content="Explore my software development projects spanning web applications, data engineering, and technical solutions."
 	/>
 	<meta property="og:site_name" content="Helmy Luqmanulhakim" />
+	<meta property="og:image" content="https://helmyl.com/og/projects-list.png" />
+	<meta property="og:image:alt" content="Projects Portfolio" />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
 
 	<!-- Twitter -->
 	<meta name="twitter:card" content="summary_large_image" />
@@ -68,6 +72,8 @@
 		name="twitter:description"
 		content="Explore my software development projects spanning web applications, data engineering, and technical solutions."
 	/>
+	<meta name="twitter:image" content="https://helmyl.com/og/projects-list.png" />
+	<meta name="twitter:image:alt" content="Projects Portfolio" />
 
 	<link rel="canonical" href="https://helmyl.com/projects" />
 </svelte:head>

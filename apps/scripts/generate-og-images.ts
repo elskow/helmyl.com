@@ -652,6 +652,42 @@ async function main() {
 		'home'
 	);
 
+	// Generate OG images for other pages
+	await generateOgImage(
+		'About',
+		'Learn more about my background, skills, and professional journey in software engineering.',
+		join(ogDir, 'about.png'),
+		'default'
+	);
+
+	await generateOgImage(
+		'Labs',
+		'Explore hands-on experiments, interactive demos, and technical labs showcasing various technologies.',
+		join(ogDir, 'labs.png'),
+		'default'
+	);
+
+	await generateOgImage(
+		'Uses',
+		'Discover the tools, technologies, and equipment I use for software development.',
+		join(ogDir, 'uses.png'),
+		'default'
+	);
+
+	await generateOgImage(
+		'Projects',
+		'Explore my software development projects spanning web applications, data engineering, and technical solutions.',
+		join(ogDir, 'projects-list.png'),
+		'default'
+	);
+
+	await generateOgImage(
+		'Writing',
+		'Read my thoughts, insights, and articles on software development, data engineering, and tech trends.',
+		join(ogDir, 'writings-list.png'),
+		'default'
+	);
+
 	// Generate OG images for blog posts
 	if (existsSync(postsPath)) {
 		// Import the JS module (default export)
