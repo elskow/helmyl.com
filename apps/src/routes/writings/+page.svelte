@@ -13,7 +13,7 @@
 	const pageDescription =
 		'Read my thoughts, insights, and articles on software development, data engineering, technical solutions, and industry trends.';
 	const pageUrl = 'https://helmyl.com/writings';
-	const ogImage = 'https://helmyl.com/images/og-default.jpg';
+	const ogImage = 'https://helmyl.com/og/home.png';
 </script>
 
 <svelte:head>

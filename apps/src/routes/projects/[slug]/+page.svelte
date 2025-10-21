@@ -34,7 +34,7 @@
 	const pageDescription =
 		project.description ||
 		`Detailed breakdown of ${project.name}, including technologies used, implementation details, and outcomes.`;
-	const ogImage = project.image || 'https://helmyl.com/images/og-default.jpg';
+	const ogImage = project.image || `https://helmyl.com/og/projects/${project.slug}.png`;
 </script>
 
 <svelte:head>

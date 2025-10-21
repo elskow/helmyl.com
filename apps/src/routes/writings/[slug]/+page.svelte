@@ -54,7 +54,8 @@
 	const articleUrl = `https://helmyl.com/writings/${post.slug}`;
 	const pageTitle = `${post.title} - Helmy Luqmanulhakim`;
 	const pageDescription = post.excerpt || post.description || `Read my thoughts on ${post.title}.`;
-	const ogImage = post.image || 'https://helmyl.com/images/og-default.jpg';
+	const ogImage = post.image || `https://helmyl.com/og/writings/${post.slug}.png`;
+
 </script>
 
 <svelte:head>

@@ -15,10 +15,27 @@ export interface SEOConfig {
 	section?: string;
 }
 
-const DEFAULT_IMAGE = 'https://helmyl.com/images/og-default.png';
 const SITE_NAME = 'Helmy Luqmanulhakim';
 const TWITTER_HANDLE = '@helmyl';
 const BASE_URL = 'https://helmyl.com';
+
+/**
+ * Generate OG image URL for static images
+ * Images are generated at build time using generate-og-images.ts script
+ */
+export function getOgImageUrl(
+	slug: string,
+	type: 'default' | 'article' | 'project' | 'lab' = 'default'
+): string {
+	// Map to static OG image paths
+	if (type === 'article') {
+		return `${BASE_URL}/og/writings/${slug}.png`;
+	} else if (type === 'project') {
+		return `${BASE_URL}/og/projects/${slug}.png`;
+	} else {
+		return `${BASE_URL}/og/home.png`;
+	}
+}
 
 /**
  * Generate comprehensive meta tags for a page
@@ -28,7 +45,7 @@ export function generateMetaTags(config: SEOConfig): Record<string, string> {
 		title,
 		description,
 		url,
-		image = DEFAULT_IMAGE,
+		image,
 		type = 'website',
 		publishedTime,
 		modifiedTime,
@@ -38,7 +55,12 @@ export function generateMetaTags(config: SEOConfig): Record<string, string> {
 	} = config;
 
 	const fullUrl = url.startsWith('http') ? url : `${BASE_URL}${url}`;
-	const fullImage = image.startsWith('http') ? image : `${BASE_URL}${image}`;
+	// Generate dynamic OG image if no image provided
+	const fullImage = image
+		? image.startsWith('http')
+			? image
+			: `${BASE_URL}${image}`
+		: getOgImageUrl(title, description, type === 'article' ? 'article' : 'default');
 
 	const meta: Record<string, string> = {
 		// Primary Meta Tags
@@ -61,7 +83,7 @@ export function generateMetaTags(config: SEOConfig): Record<string, string> {
 		'twitter:description': description,
 		'twitter:image': fullImage,
 		'twitter:site': TWITTER_HANDLE,
-		'twitter:creator': TWITTER_HANDLE,
+		'twitter:creator': TWITTER_HANDLE
 	};
 
 	// Article-specific meta tags
@@ -104,19 +126,21 @@ export function generateArticleStructuredData(config: {
 		title,
 		description,
 		url,
-		image = DEFAULT_IMAGE,
+		image,
 		publishedTime,
 		modifiedTime,
 		author = SITE_NAME,
 		tags = []
 	} = config;
 
+	const ogImage = image || getOgImageUrl(title, description, 'article');
+
 	return {
 		'@context': 'https://schema.org',
 		'@type': 'Article',
 		headline: title,
 		description,
-		image: image.startsWith('http') ? image : `${BASE_URL}${image}`,
+		image: ogImage.startsWith('http') ? ogImage : `${BASE_URL}${ogImage}`,
 		url: url.startsWith('http') ? url : `${BASE_URL}${url}`,
 		datePublished: publishedTime,
 		dateModified: modifiedTime || publishedTime,

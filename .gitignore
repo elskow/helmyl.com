@@ -71,3 +71,6 @@ temp/
 apps/static/labs/*
 !apps/static/labs/.gitkeep
 labs-metadata.json
+
+# Generated OG images
+apps/static/og/

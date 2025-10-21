@@ -32,7 +32,7 @@
 	const pageDescription =
 		'Software engineer specializing in web development, data engineering, and building scalable solutions. Explore my projects, writings, and tech insights.';
 	const pageUrl = 'https://helmyl.com/';
-	const ogImage = 'https://helmyl.com/images/og-default.jpg';
+	const ogImage = 'https://helmyl.com/og/home.png';
 </script>
 
 <svelte:head>
