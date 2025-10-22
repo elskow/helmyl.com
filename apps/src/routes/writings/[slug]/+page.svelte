@@ -1,17 +1,26 @@
 <script lang="ts">
 	import Footer from '$lib/components/Footer.svelte';
 	import Breadcrumbs from '$lib/components/Breadcrumbs.svelte';
+	import RelatedArticles from '$lib/components/RelatedArticles.svelte';
 	import { onMount } from 'svelte';
 	import { afterNavigate } from '$app/navigation';
 	import { Calendar, Eye } from '@lucide/svelte';
+	import { calculateReadingTime, getWordCount } from '$lib/utils/seo';
 
 	interface Props {
 		data: import('./$types').PageData;
 	}
 
 	let { data }: Props = $props();
-	const post = data.post;
-	const breadcrumbPath = `writings/${post.slug}`;
+
+	// Make these reactive to data changes using $derived
+	const post = $derived(data.post);
+	const relatedArticles = $derived(data.relatedArticles || []);
+	const breadcrumbPath = $derived(`writings/${post.slug}`);
+
+	// Calculate reading time and word count for structured data (reactive)
+	const readingTime = $derived(calculateReadingTime(post.html));
+	const wordCount = $derived(getWordCount(post.html));
 
 	function executePostScripts() {
 		const scripts = document.querySelectorAll('.post-content script');
@@ -26,8 +35,11 @@
 		executePostScripts();
 	});
 
+	// Re-execute scripts when post changes
 	$effect(() => {
-		executePostScripts();
+		if (post) {
+			executePostScripts();
+		}
 	});
 
 	function initializeTwitterWidgets() {
@@ -47,14 +59,18 @@
 		initializeTwitterWidgets();
 	});
 
+	// Reinitialize Twitter widgets after navigation
 	afterNavigate(() => {
-		initializeTwitterWidgets();
+		setTimeout(() => {
+			initializeTwitterWidgets();
+		}, 100);
 	});
 
-	const articleUrl = `https://helmyl.com/writings/${post.slug}`;
-	const pageTitle = `${post.title} - Helmy Luqmanulhakim`;
-	const pageDescription = post.excerpt || post.description || `Read my thoughts on ${post.title}.`;
-	const ogImage = post.image || `https://helmyl.com/og/writings/${post.slug}.png`;
+	// Make these reactive to post changes using $derived
+	const articleUrl = $derived(`https://helmyl.com/writings/${post.slug}`);
+	const pageTitle = $derived(`${post.title} - Helmy Luqmanulhakim`);
+	const pageDescription = $derived(post.excerpt || post.description || `Read my thoughts on ${post.title}.`);
+	const ogImage = $derived(post.image || `https://helmyl.com/og/writings/${post.slug}.png`);
 
 </script>
 
@@ -135,6 +151,8 @@
 				url: 'https://helmyl.com'
 			},
 			keywords: post.tags ? post.tags.join(', ') : undefined,
+			wordCount: wordCount,
+			timeRequired: readingTime.replace(' read', '').replace(' min', 'M'),
 			inLanguage: 'en-US',
 			mainEntityOfPage: {
 				'@type': 'WebPage',
@@ -172,10 +190,11 @@
 	</script>
 </svelte:head>
 
-<main class="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-20 min-h-screen">
-	<Breadcrumbs path={breadcrumbPath} />
+{#key post.slug}
+	<main class="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-20 min-h-screen">
+		<Breadcrumbs path={breadcrumbPath} />
 
-	<article>
+		<article>
 		<header class="mb-6 sm:mb-12">
 			<h1
 				class="text-xl sm:text-2xl md:text-3xl font-semibold mb-6 sm:mb-8 tracking-tight leading-tight"
@@ -250,7 +269,7 @@
 		</section>
 
 		{#if post.lastModified}
-			<footer class="mt-8 sm:mt-10 md:mt-12 pt-6 sm:pt-8">
+			<footer class="mt-8 sm:mt-10 md:mt-12 pt-6 sm:pt-8 border-t border-dark-200">
 				<p class="text-xs sm:text-sm text-dark-500 text-right">
 					Last updated:{' '}
 					<time datetime={new Date(post.lastModified).toISOString()}>
@@ -264,7 +283,13 @@
 			</footer>
 		{/if}
 	</article>
-</main>
+
+		<!-- Related Articles -->
+		{#if relatedArticles.length > 0}
+			<RelatedArticles articles={relatedArticles} />
+		{/if}
+	</main>
+{/key}
 <Footer />
 
 <style lang="postcss">

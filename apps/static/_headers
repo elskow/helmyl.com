@@ -7,6 +7,9 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()
 
+  # Content Security Policy (helps with SEO trust signals)
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://platform.twitter.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:; frame-src https://platform.twitter.com; object-src 'none'; base-uri 'self'; form-action 'self'
+
   # CORS Headers
   Access-Control-Allow-Origin: *
   Cross-Origin-Resource-Policy: cross-origin

@@ -15,6 +15,12 @@
 		title="Helmy Luqmanulhakim's Blog"
 		href="/rss.xml"
 	/>
+	<link
+		rel="alternate"
+		type="application/feed+json"
+		title="Helmy Luqmanulhakim's Blog"
+		href="/feed.json"
+	/>
 </svelte:head>
 
 {@render children?.()}

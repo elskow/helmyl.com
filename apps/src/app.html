@@ -16,15 +16,47 @@
 			content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
 		/>
 
-		<!-- DNS Prefetch for faster font loading -->
+		<!-- Theme & Appearance -->
+		<meta name="theme-color" content="#ffffff" />
+		<meta name="color-scheme" content="light" />
+		<meta name="format-detection" content="telephone=no" />
+
+		<!-- Language & Locale -->
+		<meta http-equiv="content-language" content="en" />
+		<link rel="alternate" hreflang="en" href="https://helmyl.com" />
+		<link rel="alternate" hreflang="x-default" href="https://helmyl.com" />
+
+		<!-- DNS Prefetch & Preconnect for faster font loading -->
 		<link rel="dns-prefetch" href="https://fonts.googleapis.com" />
 		<link rel="dns-prefetch" href="https://fonts.gstatic.com" />
 		<link href="https://fonts.googleapis.com" rel="preconnect" />
 		<link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
 
+		<!-- Preload critical font with high priority -->
+		<link
+			rel="preload"
+			as="style"
+			href="https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap"
+		/>
 		<link
 			href="https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap"
 			rel="stylesheet"
+			media="print"
+			onload="this.media='all'"
+		/>
+		<noscript>
+			<link
+				href="https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap"
+				rel="stylesheet"
+			/>
+		</noscript>
+
+		<!-- Preload critical assets -->
+		<link
+			rel="preload"
+			href="%sveltekit.assets%/favicons/favicon-32x32.png"
+			as="image"
+			type="image/png"
 		/>
 
 		<!-- Favicons -->
@@ -48,36 +80,71 @@
 
 		%sveltekit.head%
 
-		<!-- Structured Data -->
+		<!-- Global Structured Data -->
 		<script type="application/ld+json">
-			{
-				"@context": "https://schema.org",
-				"@type": "Person",
-				"name": "Helmy Luqmanulhakim",
-				"jobTitle": "Software Engineer",
-				"url": "https://helmyl.com",
-				"sameAs": ["https://github.com/helmyl", "https://linkedin.com/in/helmyl"],
-				"knowsAbout": [
-					"Software Engineering",
-					"Web Development",
-					"Data Engineering",
-					"Full Stack Development"
-				]
-			}
-		</script>
-		<script type="application/ld+json">
-			{
-				"@context": "https://schema.org",
-				"@type": "WebSite",
-				"name": "Helmy Luqmanulhakim",
-				"url": "https://helmyl.com",
-				"description": "Software engineer exploring and sharing insights on development, data engineering, and tech solutions.",
-				"author": {
-					"@type": "Person",
-					"name": "Helmy Luqmanulhakim"
-				},
-				"inLanguage": "en-US"
-			}
+						{
+							"@context": "https://schema.org",
+							"@graph": [
+								{
+									"@type": "Person",
+									"@id": "https://helmyl.com/#person",
+									"name": "Helmy Luqmanulhakim",
+									"jobTitle": "Software Engineer",
+									"url": "https://helmyl.com",
+									"sameAs": [
+										"https://github.com/helmyl",
+										"https://linkedin.com/in/helmyl",
+										"https://twitter.com/helmyl"
+									],
+									"knowsAbout": [
+										"Software Engineering",
+										"Web Development",
+										"Data Engineering",
+										"Full Stack Development",
+										"React",
+										"Svelte",
+										"TypeScript",
+										"Node.js"
+									]
+								},
+								{
+									"@type": "WebSite",
+									"@id": "https://helmyl.com/#website",
+									"name": "Helmy Luqmanulhakim",
+									"url": "https://helmyl.com",
+									"description": "Software engineer exploring and sharing insights on development, data engineering, and tech solutions.",
+									"author": {
+										"@id": "https://helmyl.com/#person"
+									},
+									"publisher": {
+										"@id": "https://helmyl.com/#person"
+									},
+									"inLanguage": "en-US",
+									"potentialAction": [
+										{
+											"@type": "SearchAction",
+											"target": {
+												"@type": "EntryPoint",
+												"urlTemplate": "https://helmyl.com/writings?q={search_term_string}"
+											},
+											"query-input": "required name=search_term_string"
+										},
+										{
+											"@type": "ReadAction",
+											"target": {
+												"@type": "EntryPoint",
+												"urlTemplate": "https://helmyl.com/writings",
+												"actionPlatform": [
+													"http://schema.org/DesktopWebPlatform",
+													"http://schema.org/MobileWebPlatform"
+												]
+											}
+										}
+									]
+			</parameter>
+								}
+							]
+						}
 		</script>
 	</head>
 
