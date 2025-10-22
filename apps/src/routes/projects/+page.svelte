@@ -16,7 +16,7 @@
 		priority?: number;
 		slug: string;
 		lastModified: string;
-		html: string;
+		hasContent: boolean;
 	}
 
 	let { data }: Props = $props();

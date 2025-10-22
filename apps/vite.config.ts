@@ -1,5 +1,6 @@
 import contentCollections from '@content-collections/vite';
 import { sveltekit } from '@sveltejs/kit/vite';
+import tailwindcss from '@tailwindcss/vite';
 import Icons from 'unplugin-icons/vite';
 import utwm from 'unplugin-tailwindcss-mangle/vite';
 import { defineConfig } from 'vite';
@@ -18,6 +19,7 @@ export default defineConfig(({ mode }) => {
 			}
 		},
 		plugins: [
+			tailwindcss(),
 			webfontDownload(),
 			sveltekit(),
 			contentCollections(),

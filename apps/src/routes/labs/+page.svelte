@@ -66,7 +66,7 @@
 		<ul class="space-y-4 sm:space-y-6" aria-label="Lab projects">
 			{#each data.projects as project}
 				<li
-					class="border border-dark-200 p-4 sm:p-5 rounded hover:border-azure-500 transition-colors"
+					class="border border-dark-200 p-4 sm:p-5 rounded-sm hover:border-azure-500 transition-colors"
 				>
 					<a href={`/labs/${project.slug}`} class="block">
 						<article>

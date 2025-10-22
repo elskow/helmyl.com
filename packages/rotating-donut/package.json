@@ -10,6 +10,6 @@
 		"clean": "rm -rf dist .parcel-cache ../../apps/static/labs/rotating-donut"
 	},
 	"devDependencies": {
-		"parcel": "^2.13.3"
+		"parcel": "^2.16.0"
 	}
 }

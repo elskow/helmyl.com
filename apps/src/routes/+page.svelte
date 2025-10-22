@@ -215,7 +215,7 @@
 							</h3>
 						</div>
 						<div
-							class="flex items-center gap-2 sm:gap-4 text-xs sm:text-sm text-dark-600 flex-shrink-0"
+							class="flex items-center gap-2 sm:gap-4 text-xs sm:text-sm text-dark-600 shrink-0"
 						>
 							<time datetime={post.date ? new Date(post.date).toISOString() : ''}>
 								{post.date}

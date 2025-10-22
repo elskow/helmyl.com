@@ -15,7 +15,7 @@
 		<h1 class="font-semibold text-dark-500 mb-4">Unknown error occurred</h1>
 	{/if}
 	<button
-		class="mt-4 px-4 py-2 bg-azure-600 text-white rounded transition duration-300 ease-in-out transform hover:bg-azure-700 hover:text-dark-50 active:scale-95"
+		class="mt-4 px-4 py-2 bg-azure-600 text-white rounded-sm transition duration-300 ease-in-out transform hover:bg-azure-700 hover:text-dark-50 active:scale-95"
 		onclick={goHome}
 	>
 		Home

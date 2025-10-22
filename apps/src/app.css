@@ -1,6 +1,83 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@theme {
+	/* Custom font family */
+	--font-family-sans:
+		'Onest', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+		'Segoe UI Symbol', 'Noto Color Emoji';
+
+	/* Custom color palette - dark */
+	--color-dark-50: #f5f7fa;
+	--color-dark-100: #e4e7eb;
+	--color-dark-200: #cbd2d9;
+	--color-dark-300: #9aa5b1;
+	--color-dark-400: #7b8794;
+	--color-dark-500: #616e7c;
+	--color-dark-600: #52606d;
+	--color-dark-700: #3e4c59;
+	--color-dark-800: #323f4b;
+	--color-dark-900: #1f2933;
+	--color-dark-950: #0f172a;
+
+	/* Custom color palette - midnight */
+	--color-midnight-50: #f8fafc;
+	--color-midnight-100: #e2e8f0;
+	--color-midnight-200: #cbd5e1;
+	--color-midnight-300: #94a3b8;
+	--color-midnight-400: #64748b;
+	--color-midnight-500: #475569;
+	--color-midnight-600: #334155;
+	--color-midnight-700: #1e293b;
+	--color-midnight-800: #0f172a;
+	--color-midnight-900: #020617;
+	--color-midnight-950: #010313;
+
+	/* Custom color palette - indigo */
+	--color-indigo-50: #eef2ff;
+	--color-indigo-100: #e0e7ff;
+	--color-indigo-200: #c7d2fe;
+	--color-indigo-300: #a5b4fc;
+	--color-indigo-400: #818cf8;
+	--color-indigo-500: #6366f1;
+	--color-indigo-600: #4f46e5;
+	--color-indigo-700: #4338ca;
+	--color-indigo-800: #3730a3;
+	--color-indigo-900: #312e81;
+	--color-indigo-950: #1e1b4b;
+
+	/* Custom color palette - azure */
+	--color-azure-50: #f0f9ff;
+	--color-azure-100: #e0f2fe;
+	--color-azure-200: #bae6fd;
+	--color-azure-300: #7dd3fc;
+	--color-azure-400: #38bdf8;
+	--color-azure-500: #0ea5e9;
+	--color-azure-600: #0284c7;
+	--color-azure-700: #0369a1;
+	--color-azure-800: #075985;
+	--color-azure-900: #0c4a6e;
+	--color-azure-950: #082f49;
+}
+
+@plugin "@tailwindcss/typography";
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+	*,
+	::after,
+	::before,
+	::backdrop,
+	::file-selector-button {
+		border-color: var(--color-gray-200, currentcolor);
+	}
+}
 
 /*for id started with mermaid-* center horizontally*/
 [id^='mermaid-'] {

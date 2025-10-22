@@ -48,7 +48,7 @@
 				href={github}
 				target="_blank"
 				rel="noopener noreferrer"
-				class="flex-shrink-0 p-1.5 sm:p-2 text-dark-500 hover:text-azure-600 hover:bg-azure-50 rounded-lg transition-all"
+				class="shrink-0 p-1.5 sm:p-2 text-dark-500 hover:text-azure-600 hover:bg-azure-50 rounded-lg transition-all"
 				aria-label={`View ${name} on GitHub`}
 			>
 				<ExternalLink class="w-3.5 h-3.5 sm:w-4 sm:h-4" />

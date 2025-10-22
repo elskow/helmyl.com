@@ -1,8 +1,8 @@
 import {
-    type Context,
-    defineCollection,
-    defineConfig,
-    type Document
+	type Context,
+	defineCollection,
+	defineConfig,
+	type Document
 } from '@content-collections/core';
 import { compileMarkdown } from '@content-collections/markdown';
 import { pluginCollapsibleSections } from '@expressive-code/plugin-collapsible-sections';
@@ -24,6 +24,7 @@ import remarkOembed from 'remark-oembed';
 import type { Pluggable } from 'unified';
 import { visit } from 'unist-util-visit';
 import { promisify } from 'util';
+import { z } from 'zod';
 
 if (!process.env.PLAYWRIGHT_BROWSERS_PATH) {
 	process.env.PLAYWRIGHT_BROWSERS_PATH = '0';
@@ -112,9 +113,7 @@ const calcLastModified = async (filePath: string, root: string) => {
 					const { stdout: remoteUrl } = await exec(
 						`cd "${root}" && git config --get remote.origin.url`
 					);
-					const repoMatch = remoteUrl
-						.trim()
-						.match(/github\.com[/:]([\w-]+)\/([\w.-]+)(?:\.git)?$/);
+					const repoMatch = remoteUrl.trim().match(/github\.com[/:]([\w-]+)\/([\w.-]+)(?:\.git)?$/);
 
 					if (repoMatch) {
 						const [, owner, repo] = repoMatch;
@@ -351,7 +350,7 @@ const markdownOptions: Options = {
 						height: 12,
 						fill: 'currentColor',
 						viewBox: '0 0 16 16',
-						style: 'margin-left: 0.25rem; flex-shrink: 0;'
+						style: 'margin-left: 0.25rem; shrink: 0;'
 					},
 					children: [
 						{
@@ -390,7 +389,7 @@ const posts = defineCollection({
 	name: 'posts',
 	directory: 'contents/posts/',
 	include: '*.md',
-	schema: (z) => ({
+	schema: z.object({
 		title: z.string(),
 		date: z.string(),
 		image: z.string().optional()
@@ -440,7 +439,7 @@ interface ProjectData extends Document {
 const projects = defineCollection({
 	name: 'projects',
 	directory: 'contents/projects/',
-	schema: (z) => ({
+	schema: z.object({
 		name: z.string(),
 		description: z.string(),
 		github: z.string(),
@@ -475,7 +474,7 @@ interface UsesData extends Document {
 const uses = defineCollection({
 	name: 'uses',
 	directory: 'contents/',
-	schema: (z) => ({
+	schema: z.object({
 		color: z.string().optional()
 	}),
 	include: 'uses.md',
@@ -504,7 +503,7 @@ interface AboutData extends Document {
 const about = defineCollection({
 	name: 'about',
 	directory: 'contents/',
-	schema: (z) => ({
+	schema: z.object({
 		color: z.string().optional()
 	}),
 	include: 'about.md',

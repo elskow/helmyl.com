@@ -22,14 +22,14 @@
 		"typecheck": "pnpm check",
 		"test": "echo \"No tests specified\" && exit 0",
 		"generate:labs": "pnpm --filter @helmyl/website run generate:labs",
-		"postinstall": "pnpm --filter @helmyl/website run prepare"
+		"postinstall": "echo 'Dependencies installed'"
 	},
 	"devDependencies": {
-		"@parcel/transformer-glsl": "2.13.3",
-		"@parcel/transformer-sass": "2.13.3",
+		"@parcel/transformer-glsl": "^2.16.0",
+		"@parcel/transformer-sass": "^2.16.0",
 		"prettier": "^3.6.2",
 		"tsx": "^4.20.3",
-		"wrangler": "^4.43.0"
+		"wrangler": "^4.44.0"
 	},
 	"engines": {
 		"node": ">=20.18.0",

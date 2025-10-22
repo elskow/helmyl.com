@@ -631,7 +631,7 @@ async function generateOgImage(
 }
 
 async function main() {
-	console.log('🎨 Generating OG images...\n');
+	console.log('Generating OG images...\n');
 
 	// Create output directories
 	const ogDir = join(process.cwd(), 'static/og');
@@ -693,7 +693,7 @@ async function main() {
 		// Import the JS module (default export)
 		const postsModule = await import(postsPath);
 		const posts: Post[] = postsModule.default || [];
-		console.log(`\n📝 Generating OG images for ${posts.length} posts...`);
+		console.log(`\nGenerating OG images for ${posts.length} posts...`);
 
 		for (const post of posts) {
 			const description = post.excerpt || post.description || '';
@@ -711,7 +711,7 @@ async function main() {
 		// Import the JS module (default export)
 		const projectsModule = await import(projectsPath);
 		const projects: Project[] = projectsModule.default || [];
-		console.log(`\n🚀 Generating OG images for ${projects.length} projects...`);
+		console.log(`\nGenerating OG images for ${projects.length} projects...`);
 
 		for (const project of projects) {
 			await generateOgImage(
@@ -723,7 +723,7 @@ async function main() {
 		}
 	}
 
-	console.log('\n✅ OG image generation complete!\n');
+	console.log('\nOG image generation complete!\n');
 }
 
 main().catch(console.error);

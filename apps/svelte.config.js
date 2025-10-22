@@ -22,9 +22,6 @@ const config = {
 			},
 			entries: ['*'],
 			handleMissingId: 'warn'
-		},
-		files: {
-			assets: 'static'
 		}
 	},
 	preprocess: vitePreprocess()

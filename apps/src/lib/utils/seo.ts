@@ -60,7 +60,7 @@ export function generateMetaTags(config: SEOConfig): Record<string, string> {
 		? image.startsWith('http')
 			? image
 			: `${BASE_URL}${image}`
-		: getOgImageUrl(title, description, type === 'article' ? 'article' : 'default');
+		: getOgImageUrl('home', type === 'article' ? 'article' : 'default');
 
 	const meta: Record<string, string> = {
 		// Primary Meta Tags
@@ -133,7 +133,7 @@ export function generateArticleStructuredData(config: {
 		tags = []
 	} = config;
 
-	const ogImage = image || getOgImageUrl(title, description, 'article');
+	const ogImage = image || getOgImageUrl('article', 'article');
 
 	return {
 		'@context': 'https://schema.org',

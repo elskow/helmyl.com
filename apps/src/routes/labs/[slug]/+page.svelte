@@ -72,13 +72,13 @@
 			<div class="space-y-4">
 				<button
 					onclick={launchLab}
-					class="w-full px-4 py-2 bg-azure-600 text-white rounded transition duration-300 ease-in-out transform hover:bg-azure-700 hover:text-dark-50 active:scale-95"
+					class="w-full px-4 py-2 bg-azure-600 text-white rounded-sm transition duration-300 ease-in-out transform hover:bg-azure-700 hover:text-dark-50 active:scale-95"
 				>
 					Launch Lab
 				</button>
 				<button
 					onclick={goBack}
-					class="w-full px-4 py-2 border-2 border-dark-400 text-dark-600 rounded transition duration-300 ease-in-out transform hover:bg-dark-100 active:scale-95"
+					class="w-full px-4 py-2 border-2 border-dark-400 text-dark-600 rounded-sm transition duration-300 ease-in-out transform hover:bg-dark-100 active:scale-95"
 				>
 					Back to Labs
 				</button>
