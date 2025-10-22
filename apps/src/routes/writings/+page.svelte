@@ -51,50 +51,46 @@
 	<link rel="canonical" href={pageUrl} />
 
 	<!-- Structured Data - ItemList for Blog Posts -->
-	<script type="application/ld+json">
-		{JSON.stringify({
-			'@context': 'https://schema.org',
-			'@type': 'Blog',
-			name: 'Helmy Luqmanulhakim - Writings',
-			description: pageDescription,
-			url: pageUrl,
-			author: {
-				'@type': 'Person',
-				'@id': 'https://helmyl.com/#person',
-				name: 'Helmy Luqmanulhakim',
-				url: 'https://helmyl.com'
-			},
-			inLanguage: 'en-US',
-			blogPost: posts.map((post) => ({
-				'@type': 'BlogPosting',
-				headline: post.title,
-				url: `https://helmyl.com/writings/${post.slug}`,
-				datePublished: post.date ? new Date(post.date).toISOString() : undefined
-			}))
-		})}
-	</script>
+	{@html `<script type="application/ld+json">${JSON.stringify({
+		'@context': 'https://schema.org',
+		'@type': 'Blog',
+		name: 'Helmy Luqmanulhakim - Writings',
+		description: pageDescription,
+		url: pageUrl,
+		author: {
+			'@type': 'Person',
+			'@id': 'https://helmyl.com/#person',
+			name: 'Helmy Luqmanulhakim',
+			url: 'https://helmyl.com'
+		},
+		inLanguage: 'en-US',
+		blogPost: posts.map((post) => ({
+			'@type': 'BlogPosting',
+			headline: post.title,
+			url: `https://helmyl.com/writings/${post.slug}`,
+			datePublished: post.date ? new Date(post.date).toISOString() : undefined
+		}))
+	})}</script>`}
 
 	<!-- Structured Data - Breadcrumbs -->
-	<script type="application/ld+json">
-		{JSON.stringify({
-			'@context': 'https://schema.org',
-			'@type': 'BreadcrumbList',
-			itemListElement: [
-				{
-					'@type': 'ListItem',
-					position: 1,
-					name: 'Home',
-					item: 'https://helmyl.com'
-				},
-				{
-					'@type': 'ListItem',
-					position: 2,
-					name: 'Writings',
-					item: pageUrl
-				}
-			]
-		})}
-	</script>
+	{@html `<script type="application/ld+json">${JSON.stringify({
+		'@context': 'https://schema.org',
+		'@type': 'BreadcrumbList',
+		itemListElement: [
+			{
+				'@type': 'ListItem',
+				position: 1,
+				name: 'Home',
+				item: 'https://helmyl.com'
+			},
+			{
+				'@type': 'ListItem',
+				position: 2,
+				name: 'Writings',
+				item: pageUrl
+			}
+		]
+	})}</script>`}
 </svelte:head>
 
 <div class="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-20 min-h-screen">

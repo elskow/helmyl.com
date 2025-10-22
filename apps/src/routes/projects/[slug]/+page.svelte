@@ -79,52 +79,48 @@
 	<link rel="canonical" href={projectUrl} />
 
 	<!-- Structured Data - Project -->
-	<script type="application/ld+json">
-		{JSON.stringify({
-			'@context': 'https://schema.org',
-			'@type': 'CreativeWork',
-			name: project.name,
-			description: pageDescription,
-			image: ogImage,
-			url: projectUrl,
-			author: {
-				'@type': 'Person',
-				'@id': 'https://helmyl.com/#person',
-				name: 'Helmy Luqmanulhakim',
-				url: 'https://helmyl.com'
-			},
-			keywords: project.stacks ? project.stacks.join(', ') : undefined,
-			inLanguage: 'en-US'
-		})}
-	</script>
+	{@html `<script type="application/ld+json">${JSON.stringify({
+		'@context': 'https://schema.org',
+		'@type': 'CreativeWork',
+		name: project.name,
+		description: pageDescription,
+		image: ogImage,
+		url: projectUrl,
+		author: {
+			'@type': 'Person',
+			'@id': 'https://helmyl.com/#person',
+			name: 'Helmy Luqmanulhakim',
+			url: 'https://helmyl.com'
+		},
+		keywords: project.stacks ? project.stacks.join(', ') : undefined,
+		inLanguage: 'en-US'
+	})}</script>`}
 
 	<!-- Structured Data - Breadcrumbs -->
-	<script type="application/ld+json">
-		{JSON.stringify({
-			'@context': 'https://schema.org',
-			'@type': 'BreadcrumbList',
-			itemListElement: [
-				{
-					'@type': 'ListItem',
-					position: 1,
-					name: 'Home',
-					item: 'https://helmyl.com'
-				},
-				{
-					'@type': 'ListItem',
-					position: 2,
-					name: 'Projects',
-					item: 'https://helmyl.com/projects'
-				},
-				{
-					'@type': 'ListItem',
-					position: 3,
-					name: project.name,
-					item: projectUrl
-				}
-			]
-		})}
-	</script>
+	{@html `<script type="application/ld+json">${JSON.stringify({
+		'@context': 'https://schema.org',
+		'@type': 'BreadcrumbList',
+		itemListElement: [
+			{
+				'@type': 'ListItem',
+				position: 1,
+				name: 'Home',
+				item: 'https://helmyl.com'
+			},
+			{
+				'@type': 'ListItem',
+				position: 2,
+				name: 'Projects',
+				item: 'https://helmyl.com/projects'
+			},
+			{
+				'@type': 'ListItem',
+				position: 3,
+				name: project.name,
+				item: projectUrl
+			}
+		]
+	})}</script>`}
 </svelte:head>
 
 <main class="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-20 min-h-screen">

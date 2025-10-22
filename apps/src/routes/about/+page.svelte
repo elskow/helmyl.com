@@ -48,55 +48,51 @@
 	<link rel="canonical" href={pageUrl} />
 
 	<!-- Structured Data - Person Profile -->
-	<script type="application/ld+json">
-		{JSON.stringify({
-			'@context': 'https://schema.org',
-			'@type': 'ProfilePage',
-			mainEntity: {
-				'@type': 'Person',
-				'@id': 'https://helmyl.com/#person',
-				name: 'Helmy Luqmanulhakim',
-				alternateName: 'Helmy L',
-				url: 'https://helmyl.com',
-				image: ogImage,
-				sameAs: ['https://github.com/helmyl', 'https://linkedin.com/in/helmyl'],
-				jobTitle: 'Software Engineer',
-				worksFor: {
-					'@type': 'Organization',
-					name: 'Bank Central Asia'
-				},
-				knowsAbout: [
-					'Software Engineering',
-					'Web Development',
-					'Data Engineering',
-					'Full Stack Development'
-				],
-				description: pageDescription
-			}
-		})}
-	</script>
+	{@html `<script type="application/ld+json">${JSON.stringify({
+		'@context': 'https://schema.org',
+		'@type': 'ProfilePage',
+		mainEntity: {
+			'@type': 'Person',
+			'@id': 'https://helmyl.com/#person',
+			name: 'Helmy Luqmanulhakim',
+			alternateName: 'Helmy L',
+			url: 'https://helmyl.com',
+			image: ogImage,
+			sameAs: ['https://github.com/helmyl', 'https://linkedin.com/in/helmyl'],
+			jobTitle: 'Software Engineer',
+			worksFor: {
+				'@type': 'Organization',
+				name: 'Bank Central Asia'
+			},
+			knowsAbout: [
+				'Software Engineering',
+				'Web Development',
+				'Data Engineering',
+				'Full Stack Development'
+			],
+			description: pageDescription
+		}
+	})}</script>`}
 
 	<!-- Structured Data - Breadcrumbs -->
-	<script type="application/ld+json">
-		{JSON.stringify({
-			'@context': 'https://schema.org',
-			'@type': 'BreadcrumbList',
-			itemListElement: [
-				{
-					'@type': 'ListItem',
-					position: 1,
-					name: 'Home',
-					item: 'https://helmyl.com'
-				},
-				{
-					'@type': 'ListItem',
-					position: 2,
-					name: 'About',
-					item: pageUrl
-				}
-			]
-		})}
-	</script>
+	{@html `<script type="application/ld+json">${JSON.stringify({
+		'@context': 'https://schema.org',
+		'@type': 'BreadcrumbList',
+		itemListElement: [
+			{
+				'@type': 'ListItem',
+				position: 1,
+				name: 'Home',
+				item: 'https://helmyl.com'
+			},
+			{
+				'@type': 'ListItem',
+				position: 2,
+				name: 'About',
+				item: pageUrl
+			}
+		]
+	})}</script>`}
 </svelte:head>
 
 <main class="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-20 min-h-screen">

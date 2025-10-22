@@ -66,38 +66,6 @@
 	<meta name="twitter:creator" content="@helmyl" />
 
 	<link rel="canonical" href={pageUrl} />
-
-	<!-- Structured Data -->
-	<script type="application/ld+json">
-		{JSON.stringify({
-			'@context': 'https://schema.org',
-			'@type': 'ProfilePage',
-			mainEntity: {
-				'@type': 'Person',
-				'@id': 'https://helmyl.com/#person',
-				name: 'Helmy Luqmanulhakim',
-				alternateName: 'Helmy L',
-				description: pageDescription,
-				url: 'https://helmyl.com',
-				image: ogImage,
-				sameAs: ['https://github.com/helmyl', 'https://linkedin.com/in/helmyl'],
-				jobTitle: 'Software Engineer',
-				worksFor: {
-					'@type': 'Organization',
-					name: 'Bank Central Asia'
-				},
-				knowsAbout: [
-					'Software Engineering',
-					'Web Development',
-					'Data Engineering',
-					'Full Stack Development',
-					'SvelteKit',
-					'TypeScript',
-					'Python'
-				]
-			}
-		})}
-	</script>
 </svelte:head>
 
 <main class="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-20 min-h-screen">

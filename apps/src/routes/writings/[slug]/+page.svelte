@@ -125,69 +125,65 @@
 	<link rel="canonical" href={articleUrl} />
 
 	<!-- Structured Data - Article -->
-	<script type="application/ld+json">
-		{JSON.stringify({
-			'@context': 'https://schema.org',
-			'@type': 'BlogPosting',
-			headline: post.title,
-			description: pageDescription,
-			image: ogImage,
-			url: articleUrl,
-			datePublished: post.date ? new Date(post.date).toISOString() : undefined,
-			dateModified: post.lastModified
-				? new Date(post.lastModified).toISOString()
-				: post.date
-					? new Date(post.date).toISOString()
-					: undefined,
-			author: {
-				'@type': 'Person',
-				'@id': 'https://helmyl.com/#person',
-				name: 'Helmy Luqmanulhakim',
-				url: 'https://helmyl.com'
-			},
-			publisher: {
-				'@type': 'Person',
-				name: 'Helmy Luqmanulhakim',
-				url: 'https://helmyl.com'
-			},
-			keywords: post.tags ? post.tags.join(', ') : undefined,
-			wordCount: wordCount,
-			timeRequired: readingTime.replace(' read', '').replace(' min', 'M'),
-			inLanguage: 'en-US',
-			mainEntityOfPage: {
-				'@type': 'WebPage',
-				'@id': articleUrl
-			}
-		})}
-	</script>
+	{@html `<script type="application/ld+json">${JSON.stringify({
+		'@context': 'https://schema.org',
+		'@type': 'BlogPosting',
+		headline: post.title,
+		description: pageDescription,
+		image: ogImage,
+		url: articleUrl,
+		datePublished: post.date ? new Date(post.date).toISOString() : undefined,
+		dateModified: post.lastModified
+			? new Date(post.lastModified).toISOString()
+			: post.date
+				? new Date(post.date).toISOString()
+				: undefined,
+		author: {
+			'@type': 'Person',
+			'@id': 'https://helmyl.com/#person',
+			name: 'Helmy Luqmanulhakim',
+			url: 'https://helmyl.com'
+		},
+		publisher: {
+			'@type': 'Person',
+			name: 'Helmy Luqmanulhakim',
+			url: 'https://helmyl.com'
+		},
+		keywords: post.tags ? post.tags.join(', ') : undefined,
+		wordCount: wordCount,
+		timeRequired: readingTime.replace(' read', '').replace(' min', 'M'),
+		inLanguage: 'en-US',
+		mainEntityOfPage: {
+			'@type': 'WebPage',
+			'@id': articleUrl
+		}
+	})}</script>`}
 
 	<!-- Structured Data - Breadcrumbs -->
-	<script type="application/ld+json">
-		{JSON.stringify({
-			'@context': 'https://schema.org',
-			'@type': 'BreadcrumbList',
-			itemListElement: [
-				{
-					'@type': 'ListItem',
-					position: 1,
-					name: 'Home',
-					item: 'https://helmyl.com'
-				},
-				{
-					'@type': 'ListItem',
-					position: 2,
-					name: 'Writings',
-					item: 'https://helmyl.com/writings'
-				},
-				{
-					'@type': 'ListItem',
-					position: 3,
-					name: post.title,
-					item: articleUrl
-				}
-			]
-		})}
-	</script>
+	{@html `<script type="application/ld+json">${JSON.stringify({
+		'@context': 'https://schema.org',
+		'@type': 'BreadcrumbList',
+		itemListElement: [
+			{
+				'@type': 'ListItem',
+				position: 1,
+				name: 'Home',
+				item: 'https://helmyl.com'
+			},
+			{
+				'@type': 'ListItem',
+				position: 2,
+				name: 'Writings',
+				item: 'https://helmyl.com/writings'
+			},
+			{
+				'@type': 'ListItem',
+				position: 3,
+				name: post.title,
+				item: articleUrl
+			}
+		]
+	})}</script>`}
 </svelte:head>
 
 {#key post.slug}
