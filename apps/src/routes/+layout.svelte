@@ -1,4 +1,5 @@
 <script lang="ts">
+	import '@fontsource-variable/onest';
 	import '../app.css';
 
 	interface Props {

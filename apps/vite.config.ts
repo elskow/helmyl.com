@@ -4,7 +4,6 @@ import tailwindcss from '@tailwindcss/vite';
 import Icons from 'unplugin-icons/vite';
 import utwm from 'unplugin-tailwindcss-mangle/vite';
 import { defineConfig } from 'vite';
-import webfontDownload from 'vite-plugin-webfont-dl';
 
 export default defineConfig(({ mode }) => {
 	const isProduction = mode === 'production';
@@ -20,7 +19,6 @@ export default defineConfig(({ mode }) => {
 		},
 		plugins: [
 			tailwindcss(),
-			webfontDownload(),
 			sveltekit(),
 			contentCollections(),
 			Icons({

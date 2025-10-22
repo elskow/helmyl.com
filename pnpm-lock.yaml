@@ -29,6 +29,9 @@ importers:
       '@expressive-code/plugin-frames':
         specifier: ^0.41.3
         version: 0.41.3
+      '@fontsource-variable/onest':
+        specifier: ^5.2.11
+        version: 5.2.11
       '@lucide/svelte':
         specifier: ^0.546.0
         version: 0.546.0(svelte@5.41.1)
@@ -739,6 +742,9 @@ packages:
 
   '@expressive-code/plugin-text-markers@0.41.3':
     resolution: {integrity: sha512-SN8tkIzDpA0HLAscEYD2IVrfLiid6qEdE9QLlGVSxO1KEw7qYvjpbNBQjUjMr5/jvTJ7ys6zysU2vLPHE0sb2g==}
+
+  '@fontsource-variable/onest@5.2.11':
+    resolution: {integrity: sha512-knJww1KxK4g66+qu90q3CPBvl4zhL5oDRi3/JMkYMmlhW3OgyRgT4MMfgd6jg2lvho7bLPAXfsYPh59h0yzwUA==}
 
   '@fortawesome/fontawesome-free@6.7.2':
     resolution: {integrity: sha512-JUOtgFW6k9u4Y+xeIaEiLr3+cjoUPiAuLXoyKOJSia6Duzb7pq+A76P9ZdPDoAoxHdHzq6gE9/jKBGXlZT8FbA==}
@@ -5407,6 +5413,8 @@ snapshots:
   '@expressive-code/plugin-text-markers@0.41.3':
     dependencies:
       '@expressive-code/core': 0.41.3
+
+  '@fontsource-variable/onest@5.2.11': {}
 
   '@fortawesome/fontawesome-free@6.7.2': {}
 
