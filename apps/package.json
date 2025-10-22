@@ -6,11 +6,10 @@
 	"scripts": {
 		"generate:labs": "tsx scripts/generate-labs-metadata.ts",
 		"generate:og": "tsx scripts/generate-og-images.ts",
+		"postbuild": "pnpm generate:og && cp static/{_headers,_redirects,_routes.json} build/ && rm -rf build/og && cp -r static/og build/og && echo 'OG images generated:' && find build/og -name '*.png' -type f | wc -l",
 		"predev": "pnpm generate:labs",
 		"dev": "vite dev",
-		"prebuild": "pnpm generate:labs && pnpm generate:og && mkdir -p static/labs",
-		"build": "vite build",
-		"postbuild": "cp static/_headers build/_headers && cp static/_redirects build/_redirects && cp -r static/og build/",
+		"build": "pnpm generate:labs && mkdir -p static/labs && vite build",
 		"preview": "vite preview",
 		"clean": "rm -rf build .svelte-kit .content-collections .tw-patch",
 		"prepare": "rm -rf .tw-patch && tw-patch install && tw-patch extract",

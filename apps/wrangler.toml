@@ -1,0 +1,16 @@
+name = "helmyl-com"
+compatibility_date = "2025-01-21"
+pages_build_output_dir = "build"
+
+# Cloudflare Pages configuration
+# The build output is in the 'build' directory from SvelteKit adapter-static
+# Build commands are handled in CI/CD pipeline
+
+# Environment variables for production
+# [vars]
+# Add any production environment variables here
+
+# Preview/staging environment configuration
+[env.preview]
+# [env.preview.vars]
+# Add any preview-specific environment variables here

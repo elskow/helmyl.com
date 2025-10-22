@@ -5,6 +5,10 @@ packages:
   - '!**/dist'
   - '!**/coverage'
 
+ignoredBuiltDependencies:
+  - sharp
+  - workerd
+
 onlyBuiltDependencies:
   - '@parcel/watcher'
   - '@sveltejs/kit'

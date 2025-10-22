@@ -59,12 +59,12 @@ jobs:
         env:
           GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish to Cloudflare Pages
-        uses: cloudflare/pages-action@v1
+      - name: Deploy to Cloudflare Pages
+        id: deploy
+        uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: helmyl-com
-          directory: apps/build
+          command: pages deploy apps/build --project-name=helmyl-com --branch=${{ github.ref_name == 'master' && 'main' || github.head_ref || github.ref_name }}
+          packageManager: pnpm
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          branch: main

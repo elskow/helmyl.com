@@ -28,7 +28,8 @@
 		"@parcel/transformer-glsl": "2.13.3",
 		"@parcel/transformer-sass": "2.13.3",
 		"prettier": "^3.6.2",
-		"tsx": "^4.20.3"
+		"tsx": "^4.20.3",
+		"wrangler": "^4.43.0"
 	},
 	"engines": {
 		"node": ">=20.18.0",
