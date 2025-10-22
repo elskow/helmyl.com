@@ -54,7 +54,7 @@ jobs:
         if: steps.check_changes.outputs.changed == 'true'
         uses: pnpm/action-setup@v3
         with:
-          version: 8
+          version: 10
           run_install: false
 
       - name: Install Dependencies
