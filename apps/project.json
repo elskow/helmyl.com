@@ -14,7 +14,7 @@
 					"mkdir -p static/labs",
 					"vite build",
 					"pnpm generate:og",
-					"cp static/{_headers,_redirects,_routes.json} build/",
+					"cp static/_headers static/_redirects static/_routes.json build/",
 					"rm -rf build/og",
 					"cp -r static/og build/og",
 					"echo 'OG images generated:' && find build/og -name '*.png' -type f | wc -l"
