@@ -1,0 +1,77 @@
+{
+	"name": "website",
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"sourceRoot": "apps/src",
+	"projectType": "application",
+	"targets": {
+		"build": {
+			"executor": "nx:run-commands",
+			"dependsOn": ["^build"],
+			"outputs": ["{projectRoot}/build"],
+			"options": {
+				"commands": [
+					"pnpm generate:labs",
+					"mkdir -p static/labs",
+					"vite build",
+					"pnpm generate:og",
+					"cp static/{_headers,_redirects,_routes.json} build/",
+					"rm -rf build/og",
+					"cp -r static/og build/og",
+					"echo 'OG images generated:' && find build/og -name '*.png' -type f | wc -l"
+				],
+				"cwd": "apps",
+				"parallel": false
+			}
+		},
+		"dev": {
+			"executor": "nx:run-commands",
+			"dependsOn": ["^build"],
+			"options": {
+				"commands": [
+					"pnpm generate:labs",
+					"vite dev"
+				],
+				"cwd": "apps",
+				"parallel": false
+			}
+		},
+		"preview": {
+			"executor": "nx:run-commands",
+			"dependsOn": ["build"],
+			"options": {
+				"command": "vite preview",
+				"cwd": "apps"
+			}
+		},
+		"clean": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "rm -rf build .svelte-kit .content-collections",
+				"cwd": "apps"
+			}
+		},
+		"check": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+				"cwd": "apps"
+			}
+		},
+		"lint": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "prettier --check . && eslint .",
+				"cwd": "apps"
+			}
+		},
+		"format": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "prettier --write .",
+				"cwd": "apps"
+			}
+		}
+	},
+	"tags": ["type:app"],
+	"implicitDependencies": ["tag:type:lab"]
+}

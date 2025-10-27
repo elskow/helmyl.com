@@ -1,87 +1,57 @@
 # helmyl.com
 
-Personal website and interactive labs monorepo built with SvelteKit and various web technologies.
+Personal website and interactive labs monorepo.
 
-## 🏗️ Project Structure
+## Prerequisites
 
-```
-├── apps/                    # Main SvelteKit application
-│   ├── src/                # Source code
-│   ├── static/             # Static assets
-│   └── contents/           # Markdown content
-├── packages/               # Lab experiments
-│   ├── rotating-donut/     # WebGL rotating donut
-│   └── space-shooter/      # Space shooter game
-└── package.json           # Root package configuration
-```
+- Node.js >= 20.18.0
+- pnpm >= 10.0.0
 
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Node.js >= 18.0.0
-- pnpm >= 8.0.0
-
-### Installation
+## Installation
 
 ```bash
 pnpm install
 ```
 
-### Development
+## Development
 
 ```bash
 # Start development server
 pnpm dev
 
-# Build all packages
+# Build for production
 pnpm build
 
 # Preview production build
 pnpm preview
 ```
 
-## 📦 Packages
+## Project Structure
 
-### Apps
+```
+├── apps/                   # SvelteKit website
+├── packages/               # Lab experiments
+│   ├── rotating-donut/
+│   └── space-shooter/
+└── nx.json                 # Build configuration
+```
 
-- **apps**: Main SvelteKit website with blog, projects, and lab integrations
+## Technology Stack
 
-### Labs
+- **Nx** - Build orchestration and caching
+- **SvelteKit** - Web framework
+- **pnpm** - Package manager
+- **TypeScript** - Type safety
+- **Tailwind CSS** - Styling
 
-- **@labs/rotating-donut**: WebGL-based rotating donut visualization
-- **@labs/space-shooter**: Interactive space shooter game
+## Adding a New Lab
 
-## 🛠️ Scripts
+1. Create `packages/lab-name/` directory
+2. Add `package.json` with dependencies
+3. Add `project.json` with `"tags": ["type:lab"]`
 
-| Script | Description |
-|--------|-------------|
-| `pnpm dev` | Start development server |
-| `pnpm build` | Build all packages for production |
-| `pnpm preview` | Preview production build |
-| `pnpm clean` | Clean all build artifacts |
-| `pnpm format` | Format code with Prettier |
-| `pnpm lint` | Lint code with ESLint |
-| `pnpm check` | Type check with Svelte |
+The build system automatically includes it.
 
-## 🏗️ Architecture
+## Deployment
 
-This monorepo uses:
-
-- **pnpm workspaces** for package management
-- **SvelteKit** for the main application
-- **Parcel** for lab package bundling
-- **TypeScript** for type safety
-- **Tailwind CSS** for styling
-- **Content Collections** for markdown processing
-
-## 📝 Development Workflow
-
-1. Labs are built independently in the `packages/` directory
-2. Built labs are copied to `apps/static/labs/` during build
-3. The main app generates metadata for lab integration
-4. Everything is deployed as a static site
-
-## 🚀 Deployment
-
-The project is configured for static deployment. Run `pnpm build` to generate the production build in `apps/build/`.
+Build generates static output in `apps/build/` for deployment.

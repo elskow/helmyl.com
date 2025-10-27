@@ -1,0 +1,36 @@
+{
+	"$schema": "./node_modules/nx/schemas/nx-schema.json",
+	"targetDefaults": {
+		"build": {
+			"dependsOn": ["^build"],
+			"cache": true,
+			"inputs": ["production", "^production"]
+		},
+		"dev": {
+			"cache": false
+		},
+		"clean": {
+			"cache": false
+		}
+	},
+	"namedInputs": {
+		"default": ["{projectRoot}/**/*", "sharedGlobals"],
+		"production": [
+			"default",
+			"!{projectRoot}/**/*.spec.ts",
+			"!{projectRoot}/**/*.test.ts",
+			"!{projectRoot}/**/*.md"
+		],
+		"sharedGlobals": ["{workspaceRoot}/pnpm-lock.yaml"]
+	},
+	"targetDefaults": {
+		"build": {
+			"dependsOn": ["^build"],
+			"cache": true,
+			"inputs": ["production", "^production"]
+		}
+	},
+	"defaultProject": "website",
+	"parallel": 3,
+	"cacheDirectory": ".nx/cache"
+}

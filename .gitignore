@@ -9,6 +9,9 @@ dist/
 .vercel/
 .svelte-kit/
 .parcel-cache/
+.nx/
+static/
+dependency-graph.html
 
 # Development
 .content-collections/
@@ -70,7 +73,7 @@ temp/
 .pre-commit-config.yaml
 apps/static/labs/*
 !apps/static/labs/.gitkeep
-labs-metadata.json
+apps/src/lib/generated/
 
 # Generated OG images
 apps/static/og/

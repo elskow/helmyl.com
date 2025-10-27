@@ -4,11 +4,6 @@
 	"description": "WebGL rotating donut visualization",
 	"private": true,
 	"type": "module",
-	"scripts": {
-		"dev": "parcel src/index.html --port 3001",
-		"build": "mkdir -p ../../apps/static/labs/rotating-donut && parcel build src/index.html --dist-dir ../../apps/static/labs/rotating-donut --public-url /labs/rotating-donut/ --no-cache",
-		"clean": "rm -rf dist .parcel-cache ../../apps/static/labs/rotating-donut"
-	},
 	"devDependencies": {
 		"parcel": "^2.16.0"
 	}
