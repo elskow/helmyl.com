@@ -11,6 +11,16 @@ export default defineConfig(({ mode }) => {
 	return {
 		css: {
 			devSourcemap: true,
+			transformer: 'lightningcss',
+			lightningcss: {
+				minify: true,
+				targets: {
+					chrome: 90,
+					firefox: 88,
+					safari: 14,
+					edge: 90
+				}
+			},
 			modules: {
 				generateScopedName: isProduction
 					? '[hash:base64:5]'
@@ -31,6 +41,10 @@ export default defineConfig(({ mode }) => {
 			chunkSizeWarningLimit: 500,
 			minify: 'terser',
 			target: 'es2020',
+			assetsInlineLimit: 4096,
+			modulePreload: {
+				polyfill: false
+			},
 			terserOptions: {
 				compress: {
 					drop_console: true,
