@@ -36,13 +36,17 @@ export default defineConfig(({ mode }) => {
 					drop_console: true,
 					drop_debugger: true,
 					pure_funcs: ['console.log', 'console.info', 'console.debug'],
-					passes: 2
+					passes: 2,
+					dead_code: true,
+					unused: true
 				},
 				mangle: {
-					safari10: true
+					safari10: true,
+					toplevel: true
 				},
 				format: {
-					comments: false
+					comments: false,
+					ecma: 2020
 				}
 			},
 			rollupOptions: {

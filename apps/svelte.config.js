@@ -11,6 +11,7 @@ const config = {
 			precompress: true,
 			strict: true
 		}),
+		inlineStyleThreshold: 4096,
 		prerender: {
 			handleHttpError: ({ path, message }) => {
 				// Ignore 404s for lab routes
