@@ -15,7 +15,8 @@ export const GET: RequestHandler = async () => {
 		title: 'Helmy Luqmanulhakim - Software Engineer',
 		home_page_url: website,
 		feed_url: `${website}/feed.json`,
-		description: 'Software engineer exploring and sharing insights on development, data engineering, and tech solutions.',
+		description:
+			'Software engineer exploring and sharing insights on development, data engineering, and tech solutions.',
 		icon: `${website}/favicons/apple-icon-180x180.png`,
 		favicon: `${website}/favicons/favicon-32x32.png`,
 		language: 'en',

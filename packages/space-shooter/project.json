@@ -27,10 +27,7 @@
 		"clean": {
 			"executor": "nx:run-commands",
 			"options": {
-				"commands": [
-					"rm -rf dist .parcel-cache",
-					"rm -rf ../../apps/static/labs/space-shooter"
-				],
+				"commands": ["rm -rf dist .parcel-cache", "rm -rf ../../apps/static/labs/space-shooter"],
 				"cwd": "packages/space-shooter",
 				"parallel": false
 			}

@@ -171,7 +171,8 @@ function createOgElement(title: string, description: string = '', type: string =
 													style: {
 														fontSize: '72px',
 														fontWeight: 700,
-														background: 'linear-gradient(135deg, #0f172a 0%, #334155 100%)',
+														background:
+															'linear-gradient(135deg, #0f172a 0%, #334155 100%)',
 														backgroundClip: 'text',
 														color: 'transparent',
 														margin: 0,
@@ -220,7 +221,8 @@ function createOgElement(title: string, description: string = '', type: string =
 																			style: {
 																				width: '60px',
 																				height: '4px',
-																				background: '#0f172a'
+																				background:
+																					'#0f172a'
 																			}
 																		}
 																	},
@@ -230,7 +232,8 @@ function createOgElement(title: string, description: string = '', type: string =
 																			style: {
 																				width: '35px',
 																				height: '4px',
-																				background: '#cbd5e1'
+																				background:
+																					'#cbd5e1'
 																			}
 																		}
 																	},
@@ -240,7 +243,8 @@ function createOgElement(title: string, description: string = '', type: string =
 																			style: {
 																				width: '20px',
 																				height: '4px',
-																				background: '#e2e8f0'
+																				background:
+																					'#e2e8f0'
 																			}
 																		}
 																	}
@@ -393,7 +397,13 @@ function createOgElement(title: string, description: string = '', type: string =
 		description && description.length > 140 ? description.slice(0, 140) + '...' : description;
 
 	const typeLabel =
-		type === 'article' ? 'Writing' : type === 'project' ? 'Project' : type === 'lab' ? 'Lab' : '';
+		type === 'article'
+			? 'Writing'
+			: type === 'project'
+				? 'Project'
+				: type === 'lab'
+					? 'Lab'
+					: '';
 
 	return {
 		type: 'div',

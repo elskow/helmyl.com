@@ -27,10 +27,7 @@
 			"executor": "nx:run-commands",
 			"dependsOn": ["^build"],
 			"options": {
-				"commands": [
-					"pnpm generate:labs",
-					"vite dev"
-				],
+				"commands": ["pnpm generate:labs", "vite dev"],
 				"cwd": "apps",
 				"parallel": false
 			}

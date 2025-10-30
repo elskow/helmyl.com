@@ -26,10 +26,7 @@
 		"clean": {
 			"executor": "nx:run-commands",
 			"options": {
-				"commands": [
-					"rm -rf dist .parcel-cache",
-					"rm -rf ../../apps/static/labs/rotating-donut"
-				],
+				"commands": ["rm -rf dist .parcel-cache", "rm -rf ../../apps/static/labs/rotating-donut"],
 				"cwd": "packages/rotating-donut",
 				"parallel": false
 			}

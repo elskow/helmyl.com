@@ -22,6 +22,22 @@
 	const readingTime = $derived(calculateReadingTime(post.html));
 	const wordCount = $derived(getWordCount(post.html));
 
+	// Reading progress indicator (improves dwell time - SEO signal)
+	let readingProgress = $state(0);
+
+	function updateReadingProgress() {
+		const windowHeight = window.innerHeight;
+		const documentHeight = document.documentElement.scrollHeight - windowHeight;
+		const scrolled = window.scrollY;
+		const progress = (scrolled / documentHeight) * 100;
+		readingProgress = Math.min(100, Math.max(0, progress));
+	}
+
+	onMount(() => {
+		window.addEventListener('scroll', updateReadingProgress, { passive: true });
+		return () => window.removeEventListener('scroll', updateReadingProgress);
+	});
+
 	function executePostScripts() {
 		const scripts = document.querySelectorAll('.post-content script');
 		scripts.forEach((script) => {
@@ -69,9 +85,10 @@
 	// Make these reactive to post changes using $derived
 	const articleUrl = $derived(`https://helmyl.com/writings/${post.slug}`);
 	const pageTitle = $derived(`${post.title} - Helmy Luqmanulhakim`);
-	const pageDescription = $derived(post.excerpt || post.description || `Read my thoughts on ${post.title}.`);
+	const pageDescription = $derived(
+		post.excerpt || post.description || `Read my thoughts on ${post.title}.`
+	);
 	const ogImage = $derived(post.image || `https://helmyl.com/og/writings/${post.slug}.png`);
-
 </script>
 
 <svelte:head>
@@ -100,10 +117,7 @@
 		<meta property="article:published_time" content={new Date(post.date).toISOString()} />
 	{/if}
 	{#if post.lastModified}
-		<meta
-			property="article:modified_time"
-			content={new Date(post.lastModified).toISOString()}
-		/>
+		<meta property="article:modified_time" content={new Date(post.lastModified).toISOString()} />
 	{/if}
 	<meta property="article:author" content="Helmy Luqmanulhakim" />
 	{#if post.tags}
@@ -124,13 +138,18 @@
 
 	<link rel="canonical" href={articleUrl} />
 
-	<!-- Structured Data - Article -->
+	<!-- Structured Data - Article (Enhanced for Google Rich Results) -->
 	{@html `<script type="application/ld+json">${JSON.stringify({
 		'@context': 'https://schema.org',
 		'@type': 'BlogPosting',
 		headline: post.title,
 		description: pageDescription,
-		image: ogImage,
+		image: {
+			'@type': 'ImageObject',
+			url: ogImage,
+			width: 1200,
+			height: 630
+		},
 		url: articleUrl,
 		datePublished: post.date ? new Date(post.date).toISOString() : undefined,
 		dateModified: post.lastModified
@@ -142,17 +161,36 @@
 			'@type': 'Person',
 			'@id': 'https://helmyl.com/#person',
 			name: 'Helmy Luqmanulhakim',
-			url: 'https://helmyl.com'
+			url: 'https://helmyl.com',
+			sameAs: [
+				'https://github.com/helmyl',
+				'https://linkedin.com/in/helmyl',
+				'https://twitter.com/helmyl'
+			]
 		},
 		publisher: {
 			'@type': 'Person',
+			'@id': 'https://helmyl.com/#person',
 			name: 'Helmy Luqmanulhakim',
-			url: 'https://helmyl.com'
+			url: 'https://helmyl.com',
+			logo: {
+				'@type': 'ImageObject',
+				url: 'https://helmyl.com/favicons/android-icon-192x192.png',
+				width: 192,
+				height: 192
+			}
 		},
 		keywords: post.tags ? post.tags.join(', ') : undefined,
+		articleSection: post.tags && post.tags.length > 0 ? post.tags[0] : 'Technology',
 		wordCount: wordCount,
 		timeRequired: readingTime.replace(' read', '').replace(' min', 'M'),
 		inLanguage: 'en-US',
+		isAccessibleForFree: true,
+		isPartOf: {
+			'@type': 'Blog',
+			'@id': 'https://helmyl.com/writings',
+			name: "Helmy Luqmanulhakim's Blog"
+		},
 		mainEntityOfPage: {
 			'@type': 'WebPage',
 			'@id': articleUrl
@@ -186,62 +224,74 @@
 	})}</script>`}
 </svelte:head>
 
+<!-- Reading progress bar (improves engagement metrics) -->
+<div
+	class="fixed top-0 left-0 h-1 bg-azure-500 z-50 transition-all duration-150"
+	style="width: {readingProgress}%"
+	aria-hidden="true"
+></div>
+
 {#key post.slug}
 	<main class="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-20 min-h-screen">
 		<Breadcrumbs path={breadcrumbPath} />
 
 		<article>
-		<header class="mb-6 sm:mb-12">
-			<h1
-				class="text-xl sm:text-2xl md:text-3xl font-semibold mb-6 sm:mb-8 tracking-tight leading-tight"
-			>
-				{post.title}
-			</h1>
-
-			<div
-				class="flex flex-wrap items-center gap-4 sm:gap-6 text-xs sm:text-sm text-dark-500"
-			>
-				<time
-					datetime={post.date ? new Date(post.date).toISOString() : ''}
-					class="flex items-center gap-1.5 sm:gap-2"
+			<header class="mb-6 sm:mb-12">
+				<h1
+					class="text-xl sm:text-2xl md:text-3xl font-semibold mb-6 sm:mb-8 tracking-tight leading-tight"
 				>
-					<Calendar class="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-					<span>
-						{post.date
-							? new Date(post.date).toLocaleDateString('en-US', {
-									year: 'numeric',
-									month: 'long',
-									day: 'numeric'
-								})
-							: 'Date not available'}
-					</span>
-				</time>
-				{#if post.readTime}
-					<data
-						value={post.readTime.replace(' ', '')}
+					{post.title}
+				</h1>
+
+				<div class="flex flex-wrap items-center gap-4 sm:gap-6 text-xs sm:text-sm text-dark-500">
+					<time
+						datetime={post.date ? new Date(post.date).toISOString() : ''}
 						class="flex items-center gap-1.5 sm:gap-2"
 					>
-						<Eye class="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-						<span>{post.readTime}</span>
-					</data>
-				{/if}
-			</div>
-
-			{#if post.tags && post.tags.length > 0}
-				<div class="flex flex-wrap gap-2 mt-4 sm:mt-6">
-					{#each post.tags as tag}
-						<span
-							class="text-xs px-2.5 sm:px-3 py-1 sm:py-1.5 border border-dark-300 rounded-full text-dark-600 hover:border-dark-400 transition-colors"
-						>
-							{tag}
+						<Calendar class="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+						<span>
+							{post.date
+								? new Date(post.date).toLocaleDateString('en-US', {
+										year: 'numeric',
+										month: 'long',
+										day: 'numeric'
+									})
+								: 'Date not available'}
 						</span>
-					{/each}
+					</time>
+					{#if post.lastModified}
+						{@const daysSinceUpdate = Math.floor(
+							(Date.now() - new Date(post.lastModified).getTime()) / (1000 * 60 * 60 * 24)
+						)}
+						{#if daysSinceUpdate < 90}
+							<span class="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">
+								Recently Updated
+							</span>
+						{/if}
+					{/if}
+					{#if post.readTime}
+						<data value={post.readTime.replace(' ', '')} class="flex items-center gap-1.5 sm:gap-2">
+							<Eye class="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+							<span>{post.readTime}</span>
+						</data>
+					{/if}
 				</div>
-			{/if}
-		</header>
 
-		<section
-			class="prose prose-sm sm:prose-base md:prose-lg max-w-none
+				{#if post.tags && post.tags.length > 0}
+					<div class="flex flex-wrap gap-2 mt-4 sm:mt-6">
+						{#each post.tags as tag}
+							<span
+								class="text-xs px-2.5 sm:px-3 py-1 sm:py-1.5 border border-dark-300 rounded-full text-dark-600 hover:border-dark-400 transition-colors"
+							>
+								{tag}
+							</span>
+						{/each}
+					</div>
+				{/if}
+			</header>
+
+			<section
+				class="prose prose-sm sm:prose-base md:prose-lg max-w-none
 			prose-headings:text-midnight-800 prose-headings:font-semibold prose-headings:tracking-tight
 			prose-h1:text-base sm:prose-h1:text-lg md:prose-h1:text-xl prose-h1:mt-8 sm:prose-h1:mt-10 md:prose-h1:mt-12 prose-h1:mb-4 sm:prose-h1:mb-5 md:prose-h1:mb-6 prose-h1:leading-tight
 			prose-h2:text-base sm:prose-h2:text-lg md:prose-h2:text-xl prose-h2:mt-8 sm:prose-h2:mt-10 md:prose-h2:mt-12 prose-h2:mb-4 sm:prose-h2:mb-5 md:prose-h2:mb-6 prose-h2:leading-tight
@@ -259,26 +309,26 @@
 			prose-hr:border-dark-200 prose-hr:my-6 sm:prose-hr:my-8
 			prose-img:my-6 sm:prose-img:my-8
 			post-content"
-		>
-			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-			{@html post.html}
-		</section>
+			>
+				<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+				{@html post.html}
+			</section>
 
-		{#if post.lastModified}
-			<footer class="mt-8 sm:mt-10 md:mt-12 pt-6 sm:pt-8 border-t border-dark-200">
-				<p class="text-xs sm:text-sm text-dark-500 text-right">
-					Last updated:{' '}
-					<time datetime={new Date(post.lastModified).toISOString()}>
-						{new Date(post.lastModified).toLocaleDateString('en-US', {
-							year: 'numeric',
-							month: 'long',
-							day: 'numeric'
-						})}
-					</time>
-				</p>
-			</footer>
-		{/if}
-	</article>
+			{#if post.lastModified}
+				<footer class="mt-8 sm:mt-10 md:mt-12 pt-6 sm:pt-8">
+					<p class="text-xs sm:text-sm text-dark-500 text-right">
+						Last updated:{' '}
+						<time datetime={new Date(post.lastModified).toISOString()}>
+							{new Date(post.lastModified).toLocaleDateString('en-US', {
+								year: 'numeric',
+								month: 'long',
+								day: 'numeric'
+							})}
+						</time>
+					</p>
+				</footer>
+			{/if}
+		</article>
 
 		<!-- Related Articles -->
 		{#if relatedArticles.length > 0}
@@ -300,15 +350,17 @@
 		@apply text-midnight-800 my-1 sm:my-1.5;
 	}
 
-	/* Anchor links */
-	:global(.anchor-link) {
-		@apply ml-2 text-azure-500 opacity-0 hover:opacity-100 transition-opacity;
+	/* Heading anchor links - inherit text color, no decoration */
+	:global(.post-content .heading-anchor) {
+		color: inherit !important;
+		text-decoration: none !important;
+		border: none !important;
 	}
 
-	:global(h2:hover .anchor-link),
-	:global(h3:hover .anchor-link),
-	:global(h4:hover .anchor-link) {
-		@apply opacity-100;
+	:global(.post-content .heading-anchor:hover) {
+		color: inherit !important;
+		text-decoration: none !important;
+		border: none !important;
 	}
 
 	/* Tables */

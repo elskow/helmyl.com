@@ -20,12 +20,15 @@
 		<meta name="theme-color" content="#ffffff" />
 		<meta name="color-scheme" content="light" />
 		<meta name="format-detection" content="telephone=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="mobile-web-app-capable" content="yes" />
 
 		<!-- Language & Locale -->
 		<meta http-equiv="content-language" content="en" />
+		<meta property="og:locale:alternate" content="en_US" />
+		<meta name="twitter:domain" content="helmyl.com" />
 		<link rel="alternate" hreflang="en" href="https://helmyl.com" />
 		<link rel="alternate" hreflang="x-default" href="https://helmyl.com" />
-
 
 		<!-- Preload critical assets -->
 		<link
@@ -124,7 +127,7 @@
 		</script>
 	</head>
 
-	<body data-sveltekit-preload-data="hover">
+	<body data-sveltekit-preload-data="tap">
 		<div style="display: contents">%sveltekit.body%</div>
 	</body>
 </html>
