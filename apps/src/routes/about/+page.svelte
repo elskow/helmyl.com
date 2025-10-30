@@ -5,9 +5,9 @@
 
 	const abouts = allAbouts[0];
 
-	const pageTitle = 'About - Helmy Luqmanulhakim';
+	const pageTitle = 'Helmy Luqmanulhakim — Software Engineer focused on Web and Data Systems';
 	const pageDescription =
-		'Learn more about Helmy Luqmanulhakim, my background, skills, and professional journey in software engineering and full-stack development.';
+		'Software engineer focused on reliable web and data systems. I work with Go, Python, and TypeScript, and care about cloud-native design, performance, and clear architecture. At BCA; Bangkit ML alum.';
 	const pageUrl = 'https://helmyl.com/about';
 	const ogImage = 'https://helmyl.com/og/about.png';
 </script>
@@ -17,7 +17,7 @@
 	<meta name="description" content={pageDescription} />
 	<meta
 		name="keywords"
-		content="about Helmy Luqmanulhakim, software engineer bio, developer profile, full stack developer, web developer background"
+		content="Helmy Luqmanulhakim, software engineer, web development, data engineering, Go, Python, TypeScript, cloud-native, system design, Indonesia"
 	/>
 	<meta name="author" content="Helmy Luqmanulhakim" />
 
@@ -28,7 +28,7 @@
 	<meta property="og:description" content={pageDescription} />
 	<meta property="og:site_name" content="Helmy Luqmanulhakim" />
 	<meta property="og:image" content={ogImage} />
-	<meta property="og:image:alt" content="Helmy Luqmanulhakim - About Me" />
+	<meta property="og:image:alt" content="Helmy Luqmanulhakim — Profile" />
 	<meta property="og:image:width" content="1200" />
 	<meta property="og:image:height" content="630" />
 	<meta property="og:locale" content="en_US" />
@@ -39,11 +39,15 @@
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:url" content={pageUrl} />
 	<meta name="twitter:title" content={pageTitle} />
-	<meta name="twitter:description" content={pageDescription} />
+	<meta
+		name="twitter:description"
+		content="Building web and data systems with Go, Python, and TypeScript. Cloud-native mindset. At BCA; Bangkit ML alum."
+	/>
+
 	<meta name="twitter:image" content={ogImage} />
-	<meta name="twitter:image:alt" content="Helmy Luqmanulhakim - About Me" />
-	<meta name="twitter:site" content="@helmyl" />
-	<meta name="twitter:creator" content="@helmyl" />
+	<meta name="twitter:image:alt" content="Helmy Luqmanulhakim — Profile" />
+	<meta name="twitter:site" content="@helmy_lh" />
+	<meta name="twitter:creator" content="@helmy_lh" />
 
 	<link rel="canonical" href={pageUrl} />
 
@@ -58,18 +62,34 @@
 			alternateName: 'Helmy L',
 			url: 'https://helmyl.com',
 			image: ogImage,
-			sameAs: ['https://github.com/helmyl', 'https://linkedin.com/in/helmyl'],
-			jobTitle: 'Software Engineer',
+			sameAs: [
+				'https://github.com/helmyl',
+				'https://linkedin.com/in/helmyl',
+				'https://twitter.com/helmy_lh',
+				'https://www.credly.com/users/helmy-luqmanulhakim'
+			],
+			jobTitle: 'Application Developer',
 			worksFor: {
 				'@type': 'Organization',
-				name: 'Bank Central Asia'
+				name: 'Bank Central Asia',
+				url: 'https://www.bca.co.id/'
 			},
 			knowsAbout: [
 				'Software Engineering',
 				'Web Development',
 				'Data Engineering',
-				'Full Stack Development'
+				'System Architecture',
+				'Cloud Computing',
+				'Go Programming',
+				'Python',
+				'TypeScript',
+				'Machine Learning',
+				'Performance Optimization'
 			],
+			alumniOf: {
+				'@type': 'EducationalOrganization',
+				name: 'Bangkit Academy - Machine Learning Path'
+			},
 			description: pageDescription
 		}
 	})}</script>`}
@@ -88,7 +108,7 @@
 			{
 				'@type': 'ListItem',
 				position: 2,
-				name: 'About',
+				name: 'Profile',
 				item: pageUrl
 			}
 		]
@@ -102,7 +122,7 @@
 	<!-- Header -->
 	<header class="mb-8 sm:mb-10 md:mb-12">
 		<h1 class="text-xl sm:text-2xl md:text-3xl font-semibold mb-3 sm:mb-4 tracking-tight">
-			About
+			Helmy Luqmanulhakim
 		</h1>
 	</header>
 
