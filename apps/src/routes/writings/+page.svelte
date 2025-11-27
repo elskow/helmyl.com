@@ -1,7 +1,5 @@
 <script lang="ts">
 	import Footer from '$lib/components/Footer.svelte';
-	import Breadcrumbs from '$lib/components/Breadcrumbs.svelte';
-
 	interface Props {
 		data: import('./$types').PageData;
 	}
@@ -10,123 +8,96 @@
 	const posts = data.posts;
 
 	const pageTitle = 'Writing - Helmy Luqmanulhakim';
-	const pageDescription =
-		'Read my thoughts, insights, and articles on software development, data engineering, technical solutions, and industry trends.';
-	const pageUrl = 'https://helmyl.com/writings';
-	const ogImage = 'https://helmyl.com/og/writings-list.png';
+	const pageDescription = 'Thoughts on software, infrastructure, and design.';
 </script>
 
 <svelte:head>
 	<title>{pageTitle}</title>
 	<meta name="description" content={pageDescription} />
-	<meta
-		name="keywords"
-		content="tech articles, software development blog, coding tutorials, programming insights, data engineering, web development, Helmy Luqmanulhakim writings"
-	/>
-	<meta name="author" content="Helmy Luqmanulhakim" />
-
-	<!-- Open Graph / Facebook -->
-	<meta property="og:type" content="website" />
-	<meta property="og:url" content={pageUrl} />
-	<meta property="og:title" content={pageTitle} />
-	<meta property="og:description" content={pageDescription} />
-	<meta property="og:site_name" content="Helmy Luqmanulhakim" />
-	<meta property="og:image" content={ogImage} />
-	<meta property="og:image:alt" content="Helmy Luqmanulhakim - Writings & Articles" />
-	<meta property="og:image:width" content="1200" />
-	<meta property="og:image:height" content="630" />
-	<meta property="og:locale" content="en_US" />
-
-	<!-- Twitter -->
-	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:url" content={pageUrl} />
-	<meta name="twitter:title" content={pageTitle} />
-	<meta name="twitter:description" content={pageDescription}
-	/>
-	<meta name="twitter:image" content={ogImage} />
-	<meta name="twitter:image:alt" content="Helmy Luqmanulhakim - Writings & Articles" />
-	<meta name="twitter:site" content="@helmyl" />
-	<meta name="twitter:creator" content="@helmyl" />
-
-	<link rel="canonical" href={pageUrl} />
-
-	<!-- Structured Data - ItemList for Blog Posts -->
-	{@html `<script type="application/ld+json">${JSON.stringify({
-		'@context': 'https://schema.org',
-		'@type': 'Blog',
-		name: 'Helmy Luqmanulhakim - Writings',
-		description: pageDescription,
-		url: pageUrl,
-		author: {
-			'@type': 'Person',
-			'@id': 'https://helmyl.com/#person',
-			name: 'Helmy Luqmanulhakim',
-			url: 'https://helmyl.com'
-		},
-		inLanguage: 'en-US',
-		blogPost: posts.map((post) => ({
-			'@type': 'BlogPosting',
-			headline: post.title,
-			url: `https://helmyl.com/writings/${post.slug}`,
-			datePublished: post.date ? new Date(post.date).toISOString() : undefined
-		}))
-	})}</script>`}
-
-	<!-- Structured Data - Breadcrumbs -->
-	{@html `<script type="application/ld+json">${JSON.stringify({
-		'@context': 'https://schema.org',
-		'@type': 'BreadcrumbList',
-		itemListElement: [
-			{
-				'@type': 'ListItem',
-				position: 1,
-				name: 'Home',
-				item: 'https://helmyl.com'
-			},
-			{
-				'@type': 'ListItem',
-				position: 2,
-				name: 'Writings',
-				item: pageUrl
-			}
-		]
-	})}</script>`}
 </svelte:head>
 
-<div class="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-20 min-h-screen">
-	<Breadcrumbs path="writings" />
-
-	<h1 class="text-xl sm:text-2xl md:text-3xl font-semibold mb-3 sm:mb-4 tracking-tight">
-		Writings
-	</h1>
-	<p class="text-xs sm:text-sm md:text-base text-dark-600 mb-8 sm:mb-10 md:mb-12 leading-relaxed">
-		Thoughts and insights on software development, technical solutions, and industry trends.
-	</p>
-
-	<div class="space-y-6 sm:space-y-8">
-		{#each posts as post}
-			{@const formattedDate = post.date
-				? new Date(post.date).toLocaleDateString('en-US', {
-						year: 'numeric',
-						month: 'long',
-						day: 'numeric'
-					})
-				: 'Date not available'}
-
-			<article class="pb-4 sm:pb-6 border-b border-dark-200 last:border-b-0">
-				<a href="/writings/{post.slug}" class="block group">
-					<h2
-						class="text-base sm:text-lg font-semibold mb-2 sm:mb-3 tracking-tight group-hover:text-azure-600 transition-colors"
+<main class="max-w-screen-xl mx-auto px-6 py-12 md:py-24 min-h-screen text-neutral-900 font-sans">
+	<div class="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-24">
+		<div class="md:col-span-7 lg:col-span-8">
+			<header class="mb-20">
+				<div class="mb-8">
+					<a
+						href="/"
+						class="text-xs text-neutral-400 hover:text-neutral-900 transition-colors flex items-center gap-1"
 					>
-						{post.title}
-					</h2>
-					<p class="text-xs sm:text-sm text-dark-500 mb-1 sm:mb-2">{formattedDate}</p>
-					<p class="text-xs sm:text-sm text-dark-600 leading-relaxed">
-						{post.readTime || 'Read article'}
-					</p>
-				</a>
-			</article>
-		{/each}
+						← Back home
+					</a>
+				</div>
+				<h1 class="text-lg font-medium tracking-tight text-neutral-950 mb-2">Writing</h1>
+				<p class="text-neutral-500 max-w-md text-sm leading-relaxed">
+					{pageDescription}
+				</p>
+			</header>
+
+			<div class="space-y-0 border-t border-neutral-100">
+				{#each posts as post}
+					<a
+						href="/writings/{post.slug}"
+						class="block group py-6 border-b border-neutral-100 last:border-0"
+					>
+						<article class="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-8">
+							<time class="text-xs text-neutral-400 font-mono shrink-0 w-24">
+								{post.date
+									? new Date(post.date).toLocaleDateString('en-US', {
+											year: 'numeric',
+											month: 'short',
+											day: 'numeric'
+										})
+									: ''}
+							</time>
+
+							<div>
+								<h2
+									class="text-base font-medium text-neutral-900 group-hover:underline decoration-neutral-300 underline-offset-4 transition-all mb-1"
+								>
+									{post.title}
+								</h2>
+							</div>
+						</article>
+					</a>
+				{/each}
+			</div>
+		</div>
+
+		<div class="md:col-span-5 lg:col-span-4 md:pl-12 lg:pl-24 space-y-12 hidden md:block">
+			<div class="text-neutral-300">
+				<svg
+					width="24"
+					height="24"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="1.5"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					><path d="M12 20h9" /><path
+						d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"
+					/></svg
+				>
+			</div>
+
+			<nav class="space-y-8 text-sm">
+				<div>
+					<h3 class="text-xs text-neutral-400 mb-4 uppercase tracking-wide select-none">Topics</h3>
+					<div class="flex flex-wrap gap-2">
+						<span class="text-xs border border-neutral-200 px-2 py-1 rounded text-neutral-500"
+							>Engineering</span
+						>
+						<span class="text-xs border border-neutral-200 px-2 py-1 rounded text-neutral-500"
+							>DevOps</span
+						>
+						<span class="text-xs border border-neutral-200 px-2 py-1 rounded text-neutral-500"
+							>Life</span
+						>
+					</div>
+				</div>
+			</nav>
+		</div>
 	</div>
-</div>
+</main>
 <Footer />

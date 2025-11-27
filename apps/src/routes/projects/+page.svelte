@@ -1,7 +1,6 @@
 <script lang="ts">
-	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import Footer from '$lib/components/Footer.svelte';
-	import Breadcrumbs from '$lib/components/Breadcrumbs.svelte';
+	import { ArrowUpRight } from '@lucide/svelte';
 
 	interface Props {
 		data: import('./$types').PageData;
@@ -22,90 +21,145 @@
 	let { data }: Props = $props();
 	const projects = data.projects as Project[];
 
-	// Group projects by year
 	const groupedProjects = projects.reduce(
 		(acc, project: Project) => {
 			const year = new Date(project.date).getFullYear();
-			if (!acc[year]) {
-				acc[year] = [];
-			}
+			if (!acc[year]) acc[year] = [];
 			acc[year].push(project);
 			return acc;
 		},
 		{} as Record<number, Project[]>
 	);
 
-	// Sort years in descending order (newest first)
 	const sortedYears = Object.entries(groupedProjects).sort(([a], [b]) => Number(b) - Number(a));
 </script>
 
 <svelte:head>
 	<title>Projects - Helmy Luqmanulhakim</title>
-	<meta
-		name="description"
-		content="Explore my software development projects spanning web applications, data engineering, and technical solutions."
-	/>
-	<meta
-		name="keywords"
-		content="software projects, web development portfolio, coding projects, Helmy Luqmanulhakim work"
-	/>
-
-	<!-- Open Graph / Facebook -->
-	<meta property="og:type" content="website" />
-	<meta property="og:url" content="https://helmyl.com/projects" />
-	<meta property="og:title" content="Projects Portfolio | Helmy Luqmanulhakim" />
-	<meta
-		property="og:description"
-		content="Explore my software development projects spanning web applications, data engineering, and technical solutions."
-	/>
-	<meta property="og:site_name" content="Helmy Luqmanulhakim" />
-	<meta property="og:image" content="https://helmyl.com/og/projects-list.png" />
-	<meta property="og:image:alt" content="Projects Portfolio" />
-	<meta property="og:image:width" content="1200" />
-	<meta property="og:image:height" content="630" />
-
-	<!-- Twitter -->
-	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:url" content="https://helmyl.com/projects" />
-	<meta name="twitter:title" content="Projects Portfolio | Helmy Luqmanulhakim" />
-	<meta
-		name="twitter:description"
-		content="Explore my software development projects spanning web applications, data engineering, and technical solutions."
-	/>
-	<meta name="twitter:image" content="https://helmyl.com/og/projects-list.png" />
-	<meta name="twitter:image:alt" content="Projects Portfolio" />
-
-	<link rel="canonical" href="https://helmyl.com/projects" />
+	<meta name="description" content="Selected works, open source contributions, and tools." />
 </svelte:head>
 
-<div class="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-20 min-h-screen">
-	<Breadcrumbs path="projects" />
-
-	<h1 class="text-xl sm:text-2xl md:text-3xl font-semibold mb-3 sm:mb-4 tracking-tight">
-		Projects
-	</h1>
-	<p class="text-xs sm:text-sm md:text-base text-dark-600 mb-8 sm:mb-10 md:mb-12 leading-relaxed">
-		A collection of software development projects I've worked on over the years.
-	</p>
-
-	<div class="space-y-12 sm:space-y-16 md:space-y-20">
-		{#each sortedYears as [year, projects]}
-			<section>
-				<div class="flex items-center gap-4 mb-6 sm:mb-8">
-					<h2
-						class="text-lg sm:text-xl md:text-2xl font-semibold tracking-tight text-midnight-800"
+<main
+	class="max-w-screen-xl mx-auto px-4 sm:px-6 py-10 md:py-24 min-h-screen text-neutral-900 font-sans"
+>
+	<div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-24">
+		<div class="md:col-span-7 lg:col-span-8">
+			<header class="mb-20 md:mb-32">
+				<div class="mb-8">
+					<a
+						href="/"
+						class="text-xs text-neutral-400 hover:text-neutral-900 transition-colors flex items-center gap-1"
 					>
-						{year}
-					</h2>
-					<div class="flex-1 h-px bg-dark-200"></div>
+						← Back home
+					</a>
 				</div>
-				<div class="space-y-6 sm:space-y-8">
-					{#each projects as project}
-						<ProjectCard {...project} />
-					{/each}
+
+				<h1 class="text-3xl sm:text-4xl font-medium tracking-tight text-neutral-950 mb-4">
+					Projects
+				</h1>
+				<p class="text-lg text-neutral-500 max-w-md leading-relaxed font-light">
+					Selected works, open source contributions, and developer tools.
+				</p>
+			</header>
+
+			<div class="space-y-24">
+				{#each sortedYears as [year, yearProjects]}
+					<section class="relative">
+						<div class="md:absolute md:-left-32 md:top-0 mb-6 md:mb-0">
+							<span class="font-mono text-xs text-neutral-400 select-none">{year}</span>
+						</div>
+
+						<div class="border-l border-neutral-100 pl-8 md:pl-10 space-y-16">
+							{#each yearProjects as project}
+								<article class="group relative">
+									<div
+										class="absolute -left-[37px] md:-left-[45px] top-2.5 w-1.5 h-1.5 rounded-full bg-neutral-200 ring-4 ring-white group-hover:bg-neutral-400 transition-colors duration-300"
+									></div>
+
+									<a
+										href={project.hasContent ? `/projects/${project.slug}` : project.github}
+										class="block"
+										target={project.hasContent ? '_self' : '_blank'}
+									>
+										<div class="flex items-start justify-between gap-4 mb-3">
+											<h2
+												class="text-base font-medium text-neutral-900 group-hover:underline decoration-neutral-300 underline-offset-4 transition-all"
+											>
+												{project.name}
+											</h2>
+
+											<div
+												class="shrink-0 text-neutral-300 group-hover:text-neutral-900 transition-colors"
+											>
+												{#if !project.hasContent}
+													<div
+														class="flex items-center gap-1 text-[10px] uppercase tracking-wider font-medium opacity-0 group-hover:opacity-100 transition-opacity"
+													>
+														<span>Code</span>
+														<ArrowUpRight class="w-3 h-3" />
+													</div>
+												{:else}
+													<ArrowUpRight class="w-3.5 h-3.5" />
+												{/if}
+											</div>
+										</div>
+
+										<p class="text-sm text-neutral-500 leading-relaxed mb-5 max-w-lg">
+											{project.description}
+										</p>
+
+										<div class="flex flex-wrap gap-2">
+											{#each project.stacks.slice(0, 5) as stack}
+												<span
+													class="text-[10px] px-2 py-1 bg-neutral-50 text-neutral-500 rounded-sm border border-neutral-100 font-medium tracking-wide"
+												>
+													{stack}
+												</span>
+											{/each}
+										</div>
+									</a>
+								</article>
+							{/each}
+						</div>
+					</section>
+				{/each}
+			</div>
+		</div>
+
+		<div class="md:col-span-5 lg:col-span-4 md:pl-12 lg:pl-24 space-y-16 hidden md:block">
+			<div class="sticky top-24 space-y-16">
+				<div class="text-neutral-300">
+					<svg
+						width="24"
+						height="24"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.5"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						><rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><line
+							x1="9"
+							y1="3"
+							x2="9"
+							y2="21"
+						/></svg
+					>
 				</div>
-			</section>
-		{/each}
+
+				<div>
+					<h3 class="text-[10px] text-neutral-400 mb-4 uppercase tracking-widest select-none">
+						Focus
+					</h3>
+					<ul class="space-y-2 text-sm text-neutral-500">
+						<li>Infrastructure</li>
+						<li>Web Development</li>
+						<li>Data Engineering</li>
+						<li>Developer Tools</li>
+					</ul>
+				</div>
+			</div>
+		</div>
 	</div>
-</div>
+</main>
 <Footer />

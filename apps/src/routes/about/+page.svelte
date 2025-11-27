@@ -1,170 +1,302 @@
 <script>
 	import { allAbouts } from 'content-collections';
 	import Footer from '$lib/components/Footer.svelte';
-	import Breadcrumbs from '$lib/components/Breadcrumbs.svelte';
 
 	const abouts = allAbouts[0];
 
-	const pageTitle = 'Helmy Luqmanulhakim — Software Engineer focused on Web and Data Systems';
+	const pageTitle = 'About - Helmy Luqmanulhakim';
 	const pageDescription =
-		'Software engineer focused on reliable web and data systems. I work with Go, Python, and TypeScript, and care about cloud-native design, performance, and clear architecture. At BCA; Bangkit ML alum.';
-	const pageUrl = 'https://helmyl.com/about';
-	const ogImage = 'https://helmyl.com/og/about.png';
+		'Software engineer focused on reliable web and data systems. Cloud-native design, performance, and clear architecture.';
 </script>
 
 <svelte:head>
 	<title>{pageTitle}</title>
 	<meta name="description" content={pageDescription} />
-	<meta
-		name="keywords"
-		content="Helmy Luqmanulhakim, software engineer, web development, data engineering, Go, Python, TypeScript, cloud-native, system design, Indonesia"
-	/>
-	<meta name="author" content="Helmy Luqmanulhakim" />
-
-	<!-- Open Graph / Facebook -->
-	<meta property="og:type" content="profile" />
-	<meta property="og:url" content={pageUrl} />
 	<meta property="og:title" content={pageTitle} />
 	<meta property="og:description" content={pageDescription} />
-	<meta property="og:site_name" content="Helmy Luqmanulhakim" />
-	<meta property="og:image" content={ogImage} />
-	<meta property="og:image:alt" content="Helmy Luqmanulhakim — Profile" />
-	<meta property="og:image:width" content="1200" />
-	<meta property="og:image:height" content="630" />
-	<meta property="og:locale" content="en_US" />
-	<meta property="profile:first_name" content="Helmy" />
-	<meta property="profile:last_name" content="Luqmanulhakim" />
-
-	<!-- Twitter -->
-	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:url" content={pageUrl} />
-	<meta name="twitter:title" content={pageTitle} />
-	<meta
-		name="twitter:description"
-		content="Building web and data systems with Go, Python, and TypeScript. Cloud-native mindset. At BCA; Bangkit ML alum."
-	/>
-
-	<meta name="twitter:image" content={ogImage} />
-	<meta name="twitter:image:alt" content="Helmy Luqmanulhakim — Profile" />
-	<meta name="twitter:site" content="@helmy_lh" />
-	<meta name="twitter:creator" content="@helmy_lh" />
-
-	<link rel="canonical" href={pageUrl} />
-
-	<!-- Structured Data - Person Profile -->
-	{@html `<script type="application/ld+json">${JSON.stringify({
-		'@context': 'https://schema.org',
-		'@type': 'ProfilePage',
-		mainEntity: {
-			'@type': 'Person',
-			'@id': 'https://helmyl.com/#person',
-			name: 'Helmy Luqmanulhakim',
-			alternateName: 'Helmy L',
-			url: 'https://helmyl.com',
-			image: ogImage,
-			sameAs: [
-				'https://github.com/helmyl',
-				'https://linkedin.com/in/helmyl',
-				'https://twitter.com/helmy_lh',
-				'https://www.credly.com/users/helmy-luqmanulhakim'
-			],
-			jobTitle: 'Application Developer',
-			worksFor: {
-				'@type': 'Organization',
-				name: 'Bank Central Asia',
-				url: 'https://www.bca.co.id/'
-			},
-			knowsAbout: [
-				'Software Engineering',
-				'Web Development',
-				'Data Engineering',
-				'System Architecture',
-				'Cloud Computing',
-				'Go Programming',
-				'Python',
-				'TypeScript',
-				'Machine Learning',
-				'Performance Optimization'
-			],
-			alumniOf: {
-				'@type': 'EducationalOrganization',
-				name: 'Bangkit Academy - Machine Learning Path'
-			},
-			description: pageDescription
-		}
-	})}</script>`}
-
-	<!-- Structured Data - Breadcrumbs -->
-	{@html `<script type="application/ld+json">${JSON.stringify({
-		'@context': 'https://schema.org',
-		'@type': 'BreadcrumbList',
-		itemListElement: [
-			{
-				'@type': 'ListItem',
-				position: 1,
-				name: 'Home',
-				item: 'https://helmyl.com'
-			},
-			{
-				'@type': 'ListItem',
-				position: 2,
-				name: 'Profile',
-				item: pageUrl
-			}
-		]
-	})}</script>`}
 </svelte:head>
 
-<main class="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-20 min-h-screen">
-	<!-- Breadcrumbs -->
-	<Breadcrumbs path="about" />
+<main
+	class="max-w-screen-xl mx-auto px-4 sm:px-6 py-10 md:py-24 min-h-screen text-neutral-900 font-sans"
+>
+	<div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-24">
+		<div class="md:col-span-7 lg:col-span-8">
+			<header class="mb-12 md:mb-16">
+				<a
+					href="/"
+					class="text-xs text-neutral-400 hover:text-neutral-900 mb-6 md:mb-8 inline-block transition-colors"
+				>
+					← Back home
+				</a>
+				<h1
+					class="text-3xl sm:text-4xl font-medium tracking-tight leading-[1.15] text-neutral-950 mb-4"
+				>
+					Who am i?
+				</h1>
+				<p class="text-lg text-neutral-500 leading-relaxed font-light">
+					Engineer. Builder. Problem Solver.
+				</p>
+			</header>
 
-	<!-- Header -->
-	<header class="mb-8 sm:mb-10 md:mb-12">
-		<h1 class="text-xl sm:text-2xl md:text-3xl font-semibold mb-3 sm:mb-4 tracking-tight">
-			Helmy Luqmanulhakim
-		</h1>
-	</header>
+			<article class="about-content">
+				{@html abouts.html}
+			</article>
 
-	<!-- Content -->
-	<article
-		class="prose prose-sm sm:prose-base md:prose-lg max-w-none
-			prose-headings:text-midnight-800 prose-headings:font-semibold prose-headings:tracking-tight
-			prose-h1:text-base sm:prose-h1:text-lg md:prose-h1:text-xl prose-h1:mt-8 sm:prose-h1:mt-10 md:prose-h1:mt-12 prose-h1:mb-4 sm:prose-h1:mb-5 md:prose-h1:mb-6 prose-h1:leading-tight
-			prose-h2:text-base sm:prose-h2:text-lg md:prose-h2:text-xl prose-h2:mt-8 sm:prose-h2:mt-10 md:prose-h2:mt-12 prose-h2:mb-4 sm:prose-h2:mb-5 md:prose-h2:mb-6 prose-h2:leading-tight
-			prose-h3:text-base sm:prose-h3:text-lg md:prose-h3:text-lg prose-h3:mt-6 sm:prose-h3:mt-8 md:prose-h3:mt-10 prose-h3:mb-3 sm:prose-h3:mb-4 md:prose-h3:mb-4
-			prose-h4:text-sm sm:prose-h4:text-base md:prose-h4:text-base prose-h4:mt-6 sm:prose-h4:mt-7 md:prose-h4:mt-8 prose-h4:mb-2 sm:prose-h4:mb-3 md:prose-h4:mb-3
-			prose-p:text-dark-600 prose-p:text-sm sm:prose-p:text-base md:prose-p:text-base prose-p:leading-relaxed prose-p:my-4 sm:prose-p:my-5 md:prose-p:my-6
-			prose-a:text-azure-600 prose-a:font-medium prose-a:no-underline prose-a:border-b prose-a:border-azure-300 prose-a:hover:border-azure-600 prose-a:transition-colors
-			prose-strong:text-midnight-800 prose-strong:font-semibold
-			prose-code:text-azure-700 prose-code:bg-azure-50 prose-code:px-1 sm:prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-sm prose-code:text-xs sm:prose-code:text-sm prose-code:font-mono prose-code:before:content-[''] prose-code:after:content-['']
-			prose-pre:bg-dark-900 prose-pre:text-dark-50 prose-pre:rounded-lg prose-pre:border prose-pre:border-dark-700 prose-pre:text-xs sm:prose-pre:text-sm md:prose-pre:text-sm
-			prose-ul:text-dark-600 prose-ul:my-4 sm:prose-ul:my-5 md:prose-ul:my-6 prose-ul:leading-relaxed
-			prose-ol:text-dark-600 prose-ol:my-4 sm:prose-ol:my-5 md:prose-ol:my-6 prose-ol:leading-relaxed
-			prose-li:my-1 sm:prose-li:my-1.5 md:prose-li:my-2 prose-li:text-sm sm:prose-li:text-base md:prose-li:text-base
-			prose-blockquote:border-l-4 prose-blockquote:border-azure-500 prose-blockquote:pl-4 sm:prose-blockquote:pl-6 prose-blockquote:italic prose-blockquote:text-dark-600 prose-blockquote:my-6 sm:prose-blockquote:my-8
-			prose-hr:border-dark-200 prose-hr:my-6 sm:prose-hr:my-8
-			prose-img:my-6 sm:prose-img:my-8
-			post-content"
-	>
-		<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-		{@html abouts.html}
-	</article>
+			<div class="md:hidden mt-16 pt-8 border-t border-neutral-100">
+				<h3 class="text-xs text-neutral-400 mb-6 uppercase tracking-wide select-none">Connect</h3>
+				<ul class="space-y-4 text-sm">
+					<li>
+						<a href="https://github.com/helmyl" class="flex justify-between text-neutral-900"
+							>GitHub <span>↗</span></a
+						>
+					</li>
+					<li>
+						<a href="https://linkedin.com/in/helmyl" class="flex justify-between text-neutral-900"
+							>LinkedIn <span>↗</span></a
+						>
+					</li>
+					<li>
+						<a href="mailto:contact@helmyl.com" class="flex justify-between text-neutral-900"
+							>Email <span>@</span></a
+						>
+					</li>
+				</ul>
+			</div>
+		</div>
 
-	<!-- Footer -->
-	{#if abouts.lastModified}
-		<footer class="mt-8 sm:mt-10 md:mt-12 pt-6 sm:pt-8">
-			<p class="text-xs sm:text-sm text-dark-500 text-right">
-				Last updated on{' '}
-				<time datetime={new Date(abouts.lastModified).toISOString()}>
-					{new Date(abouts.lastModified).toLocaleDateString('en-US', {
-						year: 'numeric',
-						month: 'long',
-						day: 'numeric'
-					})}
-				</time>
-			</p>
-		</footer>
-	{/if}
+		<div class="md:col-span-5 lg:col-span-4 md:pl-12 lg:pl-24 space-y-12 hidden md:block">
+			<div class="sticky top-24 space-y-12">
+				<div class="text-neutral-300">
+					<svg
+						width="24"
+						height="24"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.5"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle
+							cx="12"
+							cy="7"
+							r="4"
+						/></svg
+					>
+				</div>
+
+				<div>
+					<h3 class="text-xs text-neutral-400 mb-6 uppercase tracking-wide select-none">Connect</h3>
+					<ul class="space-y-4 text-sm">
+						<li>
+							<a href="https://github.com/helmyl" target="_blank" class="flex justify-between group"
+								><span
+									class="text-neutral-900 group-hover:underline decoration-neutral-300 underline-offset-4"
+									>GitHub</span
+								><span class="text-neutral-400">↗</span></a
+							>
+						</li>
+						<li>
+							<a
+								href="https://linkedin.com/in/helmyl"
+								target="_blank"
+								class="flex justify-between group"
+								><span
+									class="text-neutral-900 group-hover:underline decoration-neutral-300 underline-offset-4"
+									>LinkedIn</span
+								><span class="text-neutral-400">↗</span></a
+							>
+						</li>
+						<li>
+							<a
+								href="https://twitter.com/helmy_lh"
+								target="_blank"
+								class="flex justify-between group"
+								><span
+									class="text-neutral-900 group-hover:underline decoration-neutral-300 underline-offset-4"
+									>Twitter</span
+								><span class="text-neutral-400">↗</span></a
+							>
+						</li>
+						<li>
+							<a href="mailto:contact@helmyl.com" class="flex justify-between group"
+								><span
+									class="text-neutral-900 group-hover:underline decoration-neutral-300 underline-offset-4"
+									>Email</span
+								><span class="text-neutral-400">@</span></a
+							>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
 </main>
 <Footer />
+
+<style>
+	/* --- MARKDOWN CONTENT STYLING --- */
+	:global(.about-content) {
+		color: #525252; /* Neutral-600 */
+	}
+
+	/* PARAGRAPHS */
+	:global(.about-content p) {
+		margin-bottom: 1.5rem;
+		line-height: 1.8;
+		font-weight: 400;
+		font-size: 1rem;
+	}
+
+	/* LINKS */
+	:global(.about-content a) {
+		color: #171717;
+		font-weight: 500;
+		text-decoration: underline;
+		text-decoration-color: #d4d4d4;
+		text-underline-offset: 3px;
+		transition: all 0.2s;
+	}
+	:global(.about-content a:hover) {
+		text-decoration-color: #171717;
+		background-color: #f5f5f5;
+	}
+
+	/* SECTION HEADINGS (H2, H3 in Markdown) */
+	/* We style these to look like "Labels" rather than big shouts */
+	:global(.about-content h2),
+	:global(.about-content h3) {
+		color: #171717; /* Neutral-900 */
+		margin-top: 4rem;
+		margin-bottom: 1.5rem;
+		font-size: 0.875rem; /* small */
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		border-bottom: 1px solid #f5f5f5;
+		padding-bottom: 0.75rem;
+	}
+
+	/* LISTS (Skills, Certifications) */
+	:global(.about-content ul) {
+		margin-bottom: 3rem;
+		padding-left: 0;
+		list-style-type: none;
+	}
+	:global(.about-content li) {
+		margin-bottom: 0.75rem;
+		line-height: 1.6;
+		display: flex;
+		align-items: baseline;
+		gap: 0.75rem;
+		font-size: 0.9375rem;
+	}
+	/* Custom bullet point */
+	:global(.about-content li::before) {
+		content: '·';
+		color: #d4d4d4;
+		font-weight: bold;
+		font-size: 1.5rem; /* Larger bullet */
+		line-height: 0;
+		position: relative;
+		top: 0.2rem;
+	}
+	/* Bold Text (Keys) */
+	:global(.about-content strong) {
+		color: #171717;
+		font-weight: 500;
+	}
+
+	/* --- TABLE STYLING (Crucial for Experience) --- */
+	:global(.about-content table) {
+		width: 100%;
+		border-collapse: collapse;
+		margin-top: 1rem;
+		margin-bottom: 3rem;
+		font-size: 0.875rem; /* text-sm */
+		text-align: left;
+	}
+
+	/* Table Header */
+	:global(.about-content thead) {
+		border-bottom: 1px solid #e5e5e5;
+	}
+	:global(.about-content th) {
+		padding: 0.75rem 0;
+		font-weight: 500;
+		text-transform: uppercase;
+		font-size: 0.7rem;
+		color: #a3a3a3; /* Neutral-400 */
+		letter-spacing: 0.05em;
+		vertical-align: bottom;
+	}
+
+	/* Table Rows */
+	:global(.about-content tr) {
+		border-bottom: 1px dashed #f5f5f5;
+	}
+	/* Remove border from last row */
+	:global(.about-content tr:last-child) {
+		border-bottom: none;
+	}
+
+	:global(.about-content td) {
+		padding: 1rem 1rem 1rem 0;
+		color: #525252;
+		vertical-align: top;
+	}
+
+	/* --- COLUMN SPECIFIC STYLING --- */
+	/* 1. Date Column */
+	:global(.about-content td:nth-child(1)) {
+		width: 25%;
+		color: #a3a3a3;
+		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+		font-size: 0.75rem;
+		line-height: 1.5;
+	}
+	/* 2. Role Column */
+	:global(.about-content td:nth-child(2)) {
+		width: 35%;
+		font-weight: 500;
+		color: #171717;
+	}
+	/* 3. Company Column */
+	:global(.about-content td:nth-child(3)) {
+		width: 40%;
+	}
+
+	/* --- RESPONSIVE TABLE (Stacking on Mobile) --- */
+	@media (max-width: 640px) {
+		:global(.about-content thead) {
+			display: none;
+		}
+
+		:global(.about-content tr) {
+			display: flex;
+			flex-direction: column;
+			border-bottom: 1px solid #f5f5f5;
+			padding-bottom: 1.5rem;
+			margin-bottom: 1.5rem;
+		}
+
+		:global(.about-content td) {
+			display: block;
+			width: 100% !important; /* Force full width */
+			padding: 0.25rem 0;
+			border: none;
+		}
+
+		/* Reorder: Date goes to top visually on mobile */
+		:global(.about-content td:nth-child(1)) {
+			order: -1;
+			margin-bottom: 0.25rem;
+		}
+
+		/* Role looks like a heading */
+		:global(.about-content td:nth-child(2)) {
+			font-size: 1rem;
+			color: #171717;
+			font-weight: 600;
+		}
+	}
+</style>

@@ -1,82 +1,39 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+
 	interface Props {
 		attributes?: string[];
 	}
 
 	let { attributes = [] }: Props = $props();
-	const longestAttribute = attributes.reduce((a, b) => (a.length > b.length ? a : b), '');
+
+	// State for the typewriter/cycle effect
+	let currentIndex = $state(0);
+	let isVisible = $state(true);
+
+	onMount(() => {
+		const interval = setInterval(() => {
+			isVisible = false; // Fade out
+			setTimeout(() => {
+				currentIndex = (currentIndex + 1) % attributes.length;
+				isVisible = true; // Fade in
+			}, 200); // Wait for fade out to finish
+		}, 3000); // Change word every 3 seconds
+
+		return () => clearInterval(interval);
+	});
 </script>
 
-{#snippet renderDescription()}
-	<span class="text-azure-600 animated-wrapper">
-		<span class="placeholder" aria-hidden="true">{longestAttribute}.</span>
-
-		{#each attributes as attribute, i}
-			<span class="animated-word" style="animation-delay: {i * 1.5}s;">{attribute}.</span>
-		{/each}
+<span class="inline-flex relative overflow-hidden">
+	<span class="invisible font-medium" aria-hidden="true">
+		{attributes.reduce((a, b) => (a.length > b.length ? a : b), '')}
 	</span>
-{/snippet}
 
-{@render renderDescription()}
-
-<style>
-	.animated-wrapper {
-		position: relative;
-		display: inline-block;
-	}
-
-	.placeholder {
-		visibility: hidden;
-		opacity: 0;
-		user-select: none;
-	}
-
-	.animated-word {
-		position: absolute;
-		top: 0;
-		left: 0;
-		opacity: 0;
-		animation: cycle-words 6s infinite;
-		will-change: transform, opacity;
-		backface-visibility: hidden;
-	}
-
-	@keyframes cycle-words {
-		0%,
-		5% {
-			opacity: 0;
-			transform: translateY(10px);
-			filter: blur(4px);
-		}
-		10% {
-			filter: blur(2px);
-		}
-		15%,
-		25% {
-			opacity: 1;
-			transform: translateY(0);
-			filter: blur(0px);
-		}
-		30% {
-			filter: blur(1px);
-		}
-		35%,
-		100% {
-			opacity: 0;
-			transform: translateY(-10px);
-			filter: blur(4px);
-		}
-	}
-	.animated-word:nth-child(2) {
-		animation-delay: 0s;
-	}
-	.animated-word:nth-child(3) {
-		animation-delay: 1.5s;
-	}
-	.animated-word:nth-child(4) {
-		animation-delay: 3s;
-	}
-	.animated-word:nth-child(5) {
-		animation-delay: 4.5s;
-	}
-</style>
+	<span
+		class="absolute left-0 top-0 font-medium text-neutral-900 transition-opacity duration-200 ease-in-out"
+		class:opacity-0={!isVisible}
+		class:opacity-100={isVisible}
+	>
+		{attributes[currentIndex]}
+	</span>
+</span>

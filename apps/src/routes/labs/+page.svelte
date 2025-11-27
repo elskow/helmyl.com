@@ -1,8 +1,7 @@
 <script lang="ts">
 	import type { LabProject } from '$lib/types/labs';
 	import Footer from '$lib/components/Footer.svelte';
-	import Breadcrumbs from '$lib/components/Breadcrumbs.svelte';
-	import { User, Tag } from '@lucide/svelte';
+	import { ArrowUpRight } from '@lucide/svelte';
 
 	interface Props {
 		data: { projects: LabProject[] };
@@ -13,96 +12,85 @@
 
 <svelte:head>
 	<title>Labs - Helmy Luqmanulhakim</title>
-	<meta
-		name="description"
-		content="Explore my hands-on experiments, interactive demos, and technical labs showcasing various technologies in action."
-	/>
-	<meta
-		name="keywords"
-		content="web experiments, interactive demos, tech labs, code playground, Helmy Luqmanulhakim"
-	/>
-
-	<!-- Open Graph / Facebook -->
-	<meta property="og:type" content="website" />
-	<meta property="og:url" content="https://helmyl.com/labs" />
-	<meta property="og:title" content="Interactive Labs & Experiments | Helmy Luqmanulhakim" />
-	<meta
-		property="og:description"
-		content="Explore my hands-on experiments, interactive demos, and technical labs showcasing various technologies in action."
-	/>
-	<meta property="og:site_name" content="Helmy Luqmanulhakim" />
-	<meta property="og:image" content="https://helmyl.com/og/labs.png" />
-	<meta property="og:image:alt" content="Interactive Labs & Experiments" />
-	<meta property="og:image:width" content="1200" />
-	<meta property="og:image:height" content="630" />
-
-	<!-- Twitter -->
-	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:url" content="https://helmyl.com/labs" />
-	<meta name="twitter:title" content="Interactive Labs & Experiments | Helmy Luqmanulhakim" />
-	<meta
-		name="twitter:description"
-		content="Explore my hands-on experiments, interactive demos, and technical labs showcasing various technologies in action."
-	/>
-	<meta name="twitter:image" content="https://helmyl.com/og/labs.png" />
-	<meta name="twitter:image:alt" content="Interactive Labs & Experiments" />
-
-	<link rel="canonical" href="https://helmyl.com/labs" />
 </svelte:head>
 
-<main class="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-20 min-h-screen">
-	<Breadcrumbs path="labs" />
-
-	<header class="mb-8 sm:mb-10 md:mb-12">
-		<h1 class="text-xl sm:text-2xl md:text-3xl font-semibold mb-3 sm:mb-4 tracking-tight">
-			Labs
-		</h1>
-		<p class="text-xs sm:text-sm md:text-base text-dark-600">
-			Interactive experiments and demos showcasing various technologies.
-		</p>
-	</header>
-
-	<section>
-		<ul class="space-y-4 sm:space-y-6" aria-label="Lab projects">
-			{#each data.projects as project}
-				<li
-					class="border border-dark-200 p-4 sm:p-5 rounded-sm hover:border-azure-500 transition-colors"
-				>
-					<a href={`/labs/${project.slug}`} class="block">
-						<article>
-							<header>
-								<h2
-									class="text-base sm:text-lg font-semibold mb-2 text-midnight-800 hover:text-azure-600 transition-colors"
-								>
-									{project.name}
-								</h2>
-							</header>
-
-							<p class="text-xs sm:text-sm text-dark-600 leading-relaxed">
-								{project.description}
-							</p>
-
-							<footer
-								class="mt-3 sm:mt-4 text-xs text-dark-500 flex justify-between items-center"
-							>
-								<div class="flex gap-3">
-									{#if project.author}
-										<address class="not-italic flex items-center gap-1">
-											<User class="w-3.5 h-3.5" />
-											{project.author}
-										</address>
-									{/if}
-									<data value={project.version} class="flex items-center gap-1">
-										<Tag class="w-3.5 h-3.5" />
-										{project.version}
-									</data>
-								</div>
-							</footer>
-						</article>
+<main
+	class="max-w-screen-xl mx-auto px-4 sm:px-6 py-10 md:py-24 min-h-screen text-neutral-900 font-sans"
+>
+	<div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-24">
+		<div class="md:col-span-7 lg:col-span-8">
+			<header class="mb-12 md:mb-20">
+				<div class="mb-8">
+					<a
+						href="/"
+						class="text-xs text-neutral-400 hover:text-neutral-900 transition-colors flex items-center gap-1"
+					>
+						← Back home
 					</a>
-				</li>
-			{/each}
-		</ul>
-	</section>
+				</div>
+				<h1 class="text-3xl sm:text-4xl font-medium tracking-tight text-neutral-950 mb-4">Labs</h1>
+				<p class="text-lg text-neutral-500 max-w-md leading-relaxed font-light">
+					Experiments, demos, and proof-of-concepts.
+				</p>
+			</header>
+
+			<div class="space-y-0 border-t border-neutral-100">
+				{#each data.projects as project}
+					<div
+						class="group py-6 border-b border-neutral-100 flex flex-col sm:flex-row sm:items-baseline justify-between gap-4"
+					>
+						<div class="flex-1">
+							<a href={`/labs/${project.slug}`} class="block group/link">
+								<div class="flex items-center gap-2 mb-2">
+									<h2
+										class="text-base font-medium text-neutral-900 group-hover/link:underline decoration-neutral-300 underline-offset-4 transition-all"
+									>
+										{project.name}
+									</h2>
+									<ArrowUpRight
+										class="w-3.5 h-3.5 text-neutral-300 group-hover/link:text-neutral-900 transition-colors"
+									/>
+								</div>
+								<p class="text-sm text-neutral-500 max-w-md leading-relaxed">
+									{project.description}
+								</p>
+							</a>
+						</div>
+
+						<div class="shrink-0 flex items-center gap-4 text-xs font-mono text-neutral-400">
+							{#if project.version}
+								<span>v{project.version}</span>
+							{/if}
+						</div>
+					</div>
+				{/each}
+			</div>
+		</div>
+
+		<div class="md:col-span-5 lg:col-span-4 md:pl-12 lg:pl-24 space-y-16 hidden md:block">
+			<div class="sticky top-24 space-y-16">
+				<div class="text-neutral-300">
+					<svg
+						width="24"
+						height="24"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.5"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						><path d="M2 12h20" /><path d="M20 12v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8" /><path
+							d="M4 12V4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8"
+						/></svg
+					>
+				</div>
+
+				<div class="text-xs text-neutral-400 leading-relaxed">
+					<p>These projects are experimental.</p>
+					<p>Expect breaking changes.</p>
+				</div>
+			</div>
+		</div>
+	</div>
 </main>
 <Footer />

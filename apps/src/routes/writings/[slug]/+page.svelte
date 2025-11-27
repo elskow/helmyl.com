@@ -1,10 +1,8 @@
 <script lang="ts">
 	import Footer from '$lib/components/Footer.svelte';
-	import Breadcrumbs from '$lib/components/Breadcrumbs.svelte';
-	import RelatedArticles from '$lib/components/RelatedArticles.svelte';
+	import RelatedContent from '$lib/components/RelatedContent.svelte';
 	import { onMount } from 'svelte';
 	import { afterNavigate } from '$app/navigation';
-	import { Calendar, Eye } from '@lucide/svelte';
 	import { calculateReadingTime, getWordCount } from '$lib/utils/seo';
 
 	interface Props {
@@ -13,18 +11,15 @@
 
 	let { data }: Props = $props();
 
-	// Make these reactive to data changes using $derived
 	const post = $derived(data.post);
 	const relatedArticles = $derived(data.relatedArticles || []);
-	const breadcrumbPath = $derived(`writings/${post.slug}`);
 
-	// Calculate reading time and word count for structured data (reactive)
+	// Structured data calculations
 	const readingTime = $derived(calculateReadingTime(post.html));
 	const wordCount = $derived(getWordCount(post.html));
 
-	// Reading progress indicator (improves dwell time - SEO signal)
+	// Reading progress
 	let readingProgress = $state(0);
-
 	function updateReadingProgress() {
 		const windowHeight = window.innerHeight;
 		const documentHeight = document.documentElement.scrollHeight - windowHeight;
@@ -33,11 +28,27 @@
 		readingProgress = Math.min(100, Math.max(0, progress));
 	}
 
+	// Share Logic
+	let isCopied = $state(false);
+	const shareUrl = $derived(`https://helmyl.com/writings/${post.slug}`);
+	const shareText = $derived(encodeURIComponent(post.title));
+
+	async function copyLink() {
+		try {
+			await navigator.clipboard.writeText(shareUrl);
+			isCopied = true;
+			setTimeout(() => (isCopied = false), 2000);
+		} catch (err) {
+			console.error('Failed to copy link:', err);
+		}
+	}
+
 	onMount(() => {
 		window.addEventListener('scroll', updateReadingProgress, { passive: true });
 		return () => window.removeEventListener('scroll', updateReadingProgress);
 	});
 
+	// Re-execute scripts (for Twitter/widgets) when content loads
 	function executePostScripts() {
 		const scripts = document.querySelectorAll('.post-content script');
 		scripts.forEach((script) => {
@@ -51,38 +62,11 @@
 		executePostScripts();
 	});
 
-	// Re-execute scripts when post changes
 	$effect(() => {
-		if (post) {
-			executePostScripts();
-		}
+		if (post) executePostScripts();
 	});
 
-	function initializeTwitterWidgets() {
-		// Check if Twitter widgets script is already loaded
-		if (window.twttr) {
-			window.twttr.widgets.load();
-		} else {
-			// Load Twitter widgets script if not present
-			const script = document.createElement('script');
-			script.src = 'https://platform.twitter.com/widgets.js';
-			script.async = true;
-			document.head.appendChild(script);
-		}
-	}
-
-	onMount(() => {
-		initializeTwitterWidgets();
-	});
-
-	// Reinitialize Twitter widgets after navigation
-	afterNavigate(() => {
-		setTimeout(() => {
-			initializeTwitterWidgets();
-		}, 100);
-	});
-
-	// Make these reactive to post changes using $derived
+	// Meta details
 	const articleUrl = $derived(`https://helmyl.com/writings/${post.slug}`);
 	const pageTitle = $derived(`${post.title} - Helmy Luqmanulhakim`);
 	const pageDescription = $derived(
@@ -94,15 +78,6 @@
 <svelte:head>
 	<title>{pageTitle}</title>
 	<meta name="description" content={pageDescription} />
-	<meta
-		name="keywords"
-		content={post.tags
-			? post.tags.join(', ') + ', Helmy Luqmanulhakim'
-			: 'article, blog post, software development, Helmy Luqmanulhakim'}
-	/>
-	<meta name="author" content="Helmy Luqmanulhakim" />
-
-	<!-- Open Graph / Facebook -->
 	<meta property="og:type" content="article" />
 	<meta property="og:url" content={articleUrl} />
 	<meta property="og:title" content={post.title} />
@@ -126,7 +101,6 @@
 		{/each}
 	{/if}
 
-	<!-- Twitter -->
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:url" content={articleUrl} />
 	<meta name="twitter:site" content="@helmyl" />
@@ -138,7 +112,6 @@
 
 	<link rel="canonical" href={articleUrl} />
 
-	<!-- Structured Data - Article (Enhanced for Google Rich Results) -->
 	{@html `<script type="application/ld+json">${JSON.stringify({
 		'@context': 'https://schema.org',
 		'@type': 'BlogPosting',
@@ -161,262 +134,437 @@
 			'@type': 'Person',
 			'@id': 'https://helmyl.com/#person',
 			name: 'Helmy Luqmanulhakim',
-			url: 'https://helmyl.com',
-			sameAs: [
-				'https://github.com/helmyl',
-				'https://linkedin.com/in/helmyl',
-				'https://twitter.com/helmyl'
-			]
-		},
-		publisher: {
-			'@type': 'Person',
-			'@id': 'https://helmyl.com/#person',
-			name: 'Helmy Luqmanulhakim',
-			url: 'https://helmyl.com',
-			logo: {
-				'@type': 'ImageObject',
-				url: 'https://helmyl.com/favicons/android-icon-192x192.png',
-				width: 192,
-				height: 192
-			}
+			url: 'https://helmyl.com'
 		},
 		keywords: post.tags ? post.tags.join(', ') : undefined,
-		articleSection: post.tags && post.tags.length > 0 ? post.tags[0] : 'Technology',
 		wordCount: wordCount,
 		timeRequired: readingTime.replace(' read', '').replace(' min', 'M'),
 		inLanguage: 'en-US',
-		isAccessibleForFree: true,
-		isPartOf: {
-			'@type': 'Blog',
-			'@id': 'https://helmyl.com/writings',
-			name: "Helmy Luqmanulhakim's Blog"
-		},
 		mainEntityOfPage: {
 			'@type': 'WebPage',
 			'@id': articleUrl
 		}
 	})}</script>`}
-
-	<!-- Structured Data - Breadcrumbs -->
-	{@html `<script type="application/ld+json">${JSON.stringify({
-		'@context': 'https://schema.org',
-		'@type': 'BreadcrumbList',
-		itemListElement: [
-			{
-				'@type': 'ListItem',
-				position: 1,
-				name: 'Home',
-				item: 'https://helmyl.com'
-			},
-			{
-				'@type': 'ListItem',
-				position: 2,
-				name: 'Writings',
-				item: 'https://helmyl.com/writings'
-			},
-			{
-				'@type': 'ListItem',
-				position: 3,
-				name: post.title,
-				item: articleUrl
-			}
-		]
-	})}</script>`}
 </svelte:head>
 
-<!-- Reading progress bar (improves engagement metrics) -->
 <div
-	class="fixed top-0 left-0 h-1 bg-azure-500 z-50 transition-all duration-150"
+	class="fixed top-0 left-0 h-0.5 bg-neutral-900 z-50 transition-all duration-150"
 	style="width: {readingProgress}%"
 	aria-hidden="true"
 ></div>
 
-{#key post.slug}
-	<main class="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-20 min-h-screen">
-		<Breadcrumbs path={breadcrumbPath} />
-
-		<article>
-			<header class="mb-6 sm:mb-12">
-				<h1
-					class="text-xl sm:text-2xl md:text-3xl font-semibold mb-6 sm:mb-8 tracking-tight leading-tight"
-				>
-					{post.title}
-				</h1>
-
-				<div class="flex flex-wrap items-center gap-4 sm:gap-6 text-xs sm:text-sm text-dark-500">
-					<time
-						datetime={post.date ? new Date(post.date).toISOString() : ''}
-						class="flex items-center gap-1.5 sm:gap-2"
+<main
+	class="max-w-screen-xl mx-auto px-4 sm:px-6 py-10 md:py-24 min-h-screen text-neutral-900 font-sans"
+>
+	<div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-24">
+		<div class="md:col-span-7 lg:col-span-8">
+			<article>
+				<header class="mb-12 md:mb-16">
+					<a
+						href="/writings"
+						class="text-xs text-neutral-400 hover:text-neutral-900 mb-6 md:mb-8 inline-block transition-colors"
 					>
-						<Calendar class="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-						<span>
-							{post.date
-								? new Date(post.date).toLocaleDateString('en-US', {
-										year: 'numeric',
-										month: 'long',
-										day: 'numeric'
-									})
-								: 'Date not available'}
-						</span>
-					</time>
-					{#if post.lastModified}
-						{@const daysSinceUpdate = Math.floor(
-							(Date.now() - new Date(post.lastModified).getTime()) / (1000 * 60 * 60 * 24)
-						)}
-						{#if daysSinceUpdate < 90}
-							<span class="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">
-								Recently Updated
+						← Back to writings
+					</a>
+					<h1
+						class="text-3xl sm:text-4xl font-medium tracking-tight leading-[1.15] text-neutral-950 mb-6"
+					>
+						{post.title}
+					</h1>
+
+					<div class="md:hidden border-t border-neutral-100 pt-6 mt-6 space-y-4">
+						<div class="flex justify-between items-baseline text-sm">
+							<span class="text-neutral-400 text-xs uppercase tracking-wide">Published</span>
+							<span class="text-neutral-900 font-mono">
+								{post.date
+									? new Date(post.date).toLocaleDateString('en-US', {
+											year: 'numeric',
+											month: 'long',
+											day: 'numeric'
+										})
+									: 'N/A'}
 							</span>
+						</div>
+
+						{#if post.readTime}
+							<div class="flex justify-between items-baseline text-sm">
+								<span class="text-neutral-400 text-xs uppercase tracking-wide">Reading Time</span>
+								<span class="text-neutral-900 font-mono">{post.readTime}</span>
+							</div>
 						{/if}
-					{/if}
-					{#if post.readTime}
-						<data value={post.readTime.replace(' ', '')} class="flex items-center gap-1.5 sm:gap-2">
-							<Eye class="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-							<span>{post.readTime}</span>
-						</data>
-					{/if}
+
+						{#if post.tags && post.tags.length > 0}
+							<div class="pt-2">
+								<div class="flex flex-wrap gap-2">
+									{#each post.tags as tag}
+										<span
+											class="text-xs border border-neutral-200 px-2 py-1 rounded-sm text-neutral-600 bg-neutral-50"
+										>
+											{tag}
+										</span>
+									{/each}
+								</div>
+							</div>
+						{/if}
+					</div>
+				</header>
+
+				<div class="post-content">
+					{@html post.html}
+				</div>
+			</article>
+
+			{#if relatedArticles.length > 0}
+				<RelatedContent currentItem={post} allItems={relatedArticles} type="writings" />
+			{/if}
+
+			<nav class="mt-16 pt-8 border-t border-neutral-100">
+				<h3 class="text-[10px] text-neutral-400 mb-4 uppercase tracking-widest select-none">
+					Menu
+				</h3>
+				<div class="flex flex-wrap gap-6 text-sm">
+					<a href="/" class="text-neutral-600 hover:text-black transition-colors">Home</a>
+					<a href="/projects" class="text-neutral-600 hover:text-black transition-colors"
+						>Projects</a
+					>
+					<a href="/writings" class="text-neutral-600 hover:text-black transition-colors">Writing</a
+					>
+					<a href="/about" class="text-neutral-600 hover:text-black transition-colors">About</a>
+				</div>
+			</nav>
+		</div>
+
+		<div class="md:col-span-5 lg:col-span-4 md:pl-12 lg:pl-24 space-y-12 hidden md:block">
+			<div class="sticky top-24 space-y-16">
+				<div>
+					<h3 class="text-[10px] text-neutral-400 mb-6 uppercase tracking-widest select-none">
+						About this post
+					</h3>
+					<dl class="space-y-6 text-sm">
+						<div>
+							<dt class="text-neutral-400 text-xs mb-1.5">Published</dt>
+							<dd class="text-neutral-900 font-mono">
+								{post.date
+									? new Date(post.date).toLocaleDateString('en-US', {
+											year: 'numeric',
+											month: 'long',
+											day: 'numeric'
+										})
+									: 'N/A'}
+							</dd>
+						</div>
+
+						{#if post.readTime}
+							<div>
+								<dt class="text-neutral-400 text-xs mb-1.5">Reading Time</dt>
+								<dd class="text-neutral-900 font-mono">{post.readTime}</dd>
+							</div>
+						{/if}
+
+						{#if post.tags && post.tags.length > 0}
+							<div>
+								<dt class="text-neutral-400 text-xs mb-2">Topics</dt>
+								<dd class="flex flex-wrap gap-2">
+									{#each post.tags as tag}
+										<span
+											class="inline-flex items-center px-2 py-1 border border-neutral-200 rounded-sm text-xs text-neutral-600 cursor-default"
+										>
+											{tag}
+										</span>
+									{/each}
+								</dd>
+							</div>
+						{/if}
+					</dl>
 				</div>
 
-				{#if post.tags && post.tags.length > 0}
-					<div class="flex flex-wrap gap-2 mt-4 sm:mt-6">
-						{#each post.tags as tag}
-							<span
-								class="text-xs px-2.5 sm:px-3 py-1 sm:py-1.5 border border-dark-300 rounded-full text-dark-600 hover:border-dark-400 transition-colors"
+				<div>
+					<h3 class="text-[10px] text-neutral-400 mb-6 uppercase tracking-widest select-none">
+						Share
+					</h3>
+					<ul class="space-y-3 text-sm">
+						<li>
+							<a
+								href={`https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="flex justify-between group"
 							>
-								{tag}
-							</span>
-						{/each}
+								<span class="text-neutral-600 group-hover:text-black transition-colors"
+									>Twitter</span
+								>
+								<span class="text-neutral-300 group-hover:text-black transition-colors">↗</span>
+							</a>
+						</li>
+						<li>
+							<a
+								href={`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="flex justify-between group"
+							>
+								<span class="text-neutral-600 group-hover:text-black transition-colors"
+									>LinkedIn</span
+								>
+								<span class="text-neutral-300 group-hover:text-black transition-colors">↗</span>
+							</a>
+						</li>
+						<li>
+							<button onclick={copyLink} class="flex justify-between group w-full text-left">
+								<span class="text-neutral-600 group-hover:text-black transition-colors">
+									{isCopied ? 'Link Copied' : 'Copy Link'}
+								</span>
+								<span class="text-neutral-300 group-hover:text-black transition-colors">
+									{isCopied ? '✓' : '+'}
+								</span>
+							</button>
+						</li>
+					</ul>
+				</div>
+
+				<div class="border-t border-neutral-100 pt-8">
+					<h3 class="text-[10px] text-neutral-400 mb-4 uppercase tracking-widest select-none">
+						Written by
+					</h3>
+					<div class="flex items-center gap-4">
+						<div
+							class="w-10 h-10 bg-neutral-100 rounded-full overflow-hidden flex-shrink-0 border border-neutral-200"
+						>
+							<img
+								src="https://avatars.githubusercontent.com/u/103118501?v=4"
+								alt="Helmy Luqmanulhakim"
+								class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500 ease-out"
+							/>
+						</div>
+						<div>
+							<p class="text-sm font-medium text-neutral-900">Helmy Luqmanulhakim</p>
+							<a
+								href="https://twitter.com/helmy_lh"
+								target="_blank"
+								class="text-xs text-neutral-500 hover:text-black transition-colors"
+							>
+								@helmy_lh
+							</a>
+						</div>
 					</div>
-				{/if}
-			</header>
-
-			<section
-				class="prose prose-sm sm:prose-base md:prose-lg max-w-none
-			prose-headings:text-midnight-800 prose-headings:font-semibold prose-headings:tracking-tight
-			prose-h1:text-base sm:prose-h1:text-lg md:prose-h1:text-xl prose-h1:mt-8 sm:prose-h1:mt-10 md:prose-h1:mt-12 prose-h1:mb-4 sm:prose-h1:mb-5 md:prose-h1:mb-6 prose-h1:leading-tight
-			prose-h2:text-base sm:prose-h2:text-lg md:prose-h2:text-xl prose-h2:mt-8 sm:prose-h2:mt-10 md:prose-h2:mt-12 prose-h2:mb-4 sm:prose-h2:mb-5 md:prose-h2:mb-6 prose-h2:leading-tight
-			prose-h3:text-base sm:prose-h3:text-lg md:prose-h3:text-lg prose-h3:mt-6 sm:prose-h3:mt-8 md:prose-h3:mt-10 prose-h3:mb-3 sm:prose-h3:mb-4 md:prose-h3:mb-4
-			prose-h4:text-sm sm:prose-h4:text-base md:prose-h4:text-base prose-h4:mt-6 sm:prose-h4:mt-7 md:prose-h4:mt-8 prose-h4:mb-2 sm:prose-h4:mb-3 md:prose-h4:mb-3
-			prose-p:text-dark-600 prose-p:text-sm sm:prose-p:text-base md:prose-p:text-base prose-p:leading-relaxed prose-p:my-4 sm:prose-p:my-5 md:prose-p:my-6
-			prose-a:text-azure-600 prose-a:font-medium prose-a:no-underline prose-a:border-b prose-a:border-azure-300 prose-a:hover:border-azure-600 prose-a:transition-colors
-			prose-strong:text-midnight-800 prose-strong:font-semibold
-			prose-code:text-azure-700 prose-code:bg-azure-50 prose-code:px-1 sm:prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-sm prose-code:text-xs sm:prose-code:text-sm prose-code:font-mono prose-code:before:content-[''] prose-code:after:content-['']
-			prose-pre:bg-dark-900 prose-pre:text-dark-50 prose-pre:rounded-lg prose-pre:border prose-pre:border-dark-700 prose-pre:text-xs sm:prose-pre:text-sm md:prose-pre:text-sm
-			prose-ul:text-dark-600 prose-ul:my-4 sm:prose-ul:my-5 md:prose-ul:my-6 prose-ul:leading-relaxed
-			prose-ol:text-dark-600 prose-ol:my-4 sm:prose-ol:my-5 md:prose-ol:my-6 prose-ol:leading-relaxed
-			prose-li:my-1 sm:prose-li:my-1.5 md:prose-li:my-2 prose-li:text-sm sm:prose-li:text-base md:prose-li:text-base
-			prose-blockquote:border-l-4 prose-blockquote:border-azure-500 prose-blockquote:pl-4 sm:prose-blockquote:pl-6 prose-blockquote:italic prose-blockquote:text-dark-600 prose-blockquote:my-6 sm:prose-blockquote:my-8
-			prose-hr:border-dark-200 prose-hr:my-6 sm:prose-hr:my-8
-			prose-img:my-6 sm:prose-img:my-8
-			post-content"
-			>
-				<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-				{@html post.html}
-			</section>
-
-			{#if post.lastModified}
-				<footer class="mt-8 sm:mt-10 md:mt-12 pt-6 sm:pt-8">
-					<p class="text-xs sm:text-sm text-dark-500 text-right">
-						Last updated:{' '}
-						<time datetime={new Date(post.lastModified).toISOString()}>
-							{new Date(post.lastModified).toLocaleDateString('en-US', {
-								year: 'numeric',
-								month: 'long',
-								day: 'numeric'
-							})}
-						</time>
-					</p>
-				</footer>
-			{/if}
-		</article>
-
-		<!-- Related Articles -->
-		{#if relatedArticles.length > 0}
-			<RelatedArticles articles={relatedArticles} />
-		{/if}
-	</main>
-{/key}
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
 <Footer />
 
-<style lang="postcss">
-	@reference "../../../app.css";
+<style>
+	/* Standard CSS overrides.
+		Colors map to standard Tailwind Neutral values:
+		950: #0a0a0a | 900: #171717 | 600: #525252 | 400: #a3a3a3 | 300: #d4d4d4 | 200: #e5e5e5 | 100: #f5f5f5
+	*/
 
-	/* Table of contents styling */
-	:global(.post-content ul:has(li a[href^='#'])) {
-		@apply bg-azure-50 border border-azure-200 p-4 sm:p-6 rounded-lg my-6 sm:my-8;
+	:global(.post-content) {
+		color: #525252;
 	}
 
-	:global(.post-content ul:has(li a[href^='#']) li) {
-		@apply text-midnight-800 my-1 sm:my-1.5;
+	/* HEADINGS */
+	:global(.post-content h2) {
+		color: #0a0a0a;
+		margin-top: 4rem;
+		margin-bottom: 1.5rem;
+		font-size: 1.25rem;
+		line-height: 1.375;
+		font-weight: 500;
+		letter-spacing: -0.025em;
 	}
 
-	/* Heading anchor links - inherit text color, no decoration */
-	:global(.post-content .heading-anchor) {
-		color: inherit !important;
-		text-decoration: none !important;
-		border: none !important;
+	@media (min-width: 640px) {
+		:global(.post-content h2) {
+			font-size: 1.5rem;
+		}
 	}
 
-	:global(.post-content .heading-anchor:hover) {
-		color: inherit !important;
-		text-decoration: none !important;
-		border: none !important;
+	:global(.post-content h3) {
+		color: #171717;
+		margin-top: 3rem;
+		margin-bottom: 1rem;
+		font-size: 1.125rem;
+		line-height: 1.375;
+		font-weight: 500;
+		letter-spacing: -0.025em;
 	}
 
-	/* Tables */
-	:global(.post-content table) {
-		@apply w-full border-collapse my-6 sm:my-8 text-xs sm:text-sm md:text-base overflow-x-auto block sm:table;
+	@media (min-width: 640px) {
+		:global(.post-content h3) {
+			font-size: 1.25rem;
+		}
 	}
 
-	:global(.post-content thead) {
-		@apply bg-dark-50;
+	:global(.post-content h4) {
+		color: #171717;
+		margin-top: 2rem;
+		margin-bottom: 0.75rem;
+		font-size: 1rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.025em;
 	}
 
-	:global(.post-content th) {
-		@apply border border-dark-200 px-2 sm:px-3 md:px-4 py-2 sm:py-2.5 md:py-3 text-left font-semibold text-midnight-800;
+	/* TEXT & LINKS */
+	:global(.post-content p) {
+		margin-bottom: 1.5rem;
+		line-height: 1.75;
+		font-weight: 400;
 	}
 
-	:global(.post-content td) {
-		@apply border border-dark-200 px-2 sm:px-3 md:px-4 py-2 sm:py-2.5 md:py-3 text-dark-600;
+	@media (min-width: 640px) {
+		:global(.post-content p) {
+			line-height: 2;
+		}
 	}
 
-	:global(.post-content tbody tr:hover) {
-		@apply bg-dark-50;
+	:global(.post-content a) {
+		color: #171717;
+		font-weight: 500;
+		text-decoration: underline;
+		text-decoration-color: #d4d4d4;
+		text-underline-offset: 4px;
+		text-decoration-thickness: 1px;
+		transition: all 0.2s;
 	}
 
-	/* Code blocks - syntax highlighting support */
-	:global(.post-content pre) {
-		@apply my-6 sm:my-8 p-4 sm:p-6 overflow-x-auto;
+	:global(.post-content a:hover) {
+		text-decoration-color: #171717;
 	}
 
-	:global(.post-content pre code) {
-		@apply bg-transparent text-inherit p-0 rounded-none text-xs sm:text-sm;
+	:global(.post-content strong) {
+		color: #171717;
+		font-weight: 600;
 	}
 
-	/* External link icons */
-	:global(.post-content a[target='_blank']) {
-		@apply inline-flex items-center gap-1;
+	/* LISTS */
+	:global(.post-content ul) {
+		list-style-type: disc;
+		list-style-position: outside;
+		margin-left: 1.25rem;
+		margin-bottom: 1.5rem;
+		color: #525252;
 	}
 
-	:global(.post-content a[target='_blank'] svg) {
-		@apply w-3.5 h-3.5 opacity-70;
+	:global(.post-content ol) {
+		list-style-type: decimal;
+		list-style-position: outside;
+		margin-left: 1.25rem;
+		margin-bottom: 1.5rem;
+		color: #525252;
 	}
 
-	/* Figure and figcaption */
-	:global(.post-content figure) {
-		@apply my-6 sm:my-8;
+	:global(.post-content li) {
+		margin-bottom: 0.5rem;
+		padding-left: 0.25rem;
+		line-height: 1.75;
+	}
+
+	:global(.post-content li::marker) {
+		color: #d4d4d4;
+	}
+
+	/* BLOCKQUOTES */
+	:global(.post-content blockquote) {
+		border-left: 2px solid #e5e5e5;
+		padding-left: 1.5rem;
+		margin-top: 2rem;
+		margin-bottom: 2rem;
+		font-style: italic;
+		color: #404040;
+		background-color: transparent;
+		font-weight: 300;
+	}
+
+	/* IMAGES & CAPTIONS */
+	:global(.post-content img) {
+		width: 100%;
+		border-radius: 0.125rem;
+		margin-top: 2rem;
+		margin-bottom: 2rem;
+		display: block;
 	}
 
 	:global(.post-content figcaption) {
-		@apply text-xs sm:text-sm text-center text-dark-500 mt-2 sm:mt-3 italic;
+		font-size: 0.75rem;
+		color: #a3a3a3;
+		text-align: center;
+		margin-top: 0.75rem;
+		margin-bottom: 2.5rem;
+		display: block;
+		font-weight: 400;
 	}
 
-	/* Footnotes */
-	:global(.post-content .footnotes) {
-		@apply mt-8 sm:mt-10 md:mt-12 pt-6 sm:pt-8 text-xs sm:text-sm;
+	/* CODE BLOCKS (Pre) */
+	:global(.post-content pre) {
+		background-color: #171717;
+		color: #fafafa;
+		padding: 1.5rem;
+		border-radius: 0.125rem;
+		overflow-x: auto;
+		margin-top: 2rem;
+		margin-bottom: 2rem;
+		font-size: 0.875rem;
+		line-height: 1.625;
+		border: 1px solid #262626;
 	}
 
-	:global(.post-content .footnotes ol) {
-		@apply pl-4;
+	/* INLINE CODE */
+	:global(.post-content code) {
+		font-family:
+			ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+			monospace;
+		font-size: 0.875rem;
+		color: #262626;
+		background-color: #f5f5f5;
+		padding: 0.125rem 0.375rem;
+		border-radius: 0.125rem;
+	}
+
+	/* Remove annoying backticks added by Tailwind typography plugin */
+	:global(.post-content code::before),
+	:global(.post-content code::after) {
+		content: none !important;
+	}
+
+	/* Ensure code inside pre doesn't get the inline styling */
+	:global(.post-content pre code) {
+		background-color: transparent;
+		color: inherit;
+		padding: 0;
+		font-size: inherit;
+	}
+
+	/* TABLES */
+	:global(.post-content table) {
+		width: 100%;
+		border-collapse: collapse;
+		margin-top: 2.5rem;
+		margin-bottom: 2.5rem;
+		font-size: 0.875rem;
+	}
+
+	:global(.post-content th) {
+		text-align: left;
+		padding: 0.75rem 1rem;
+		border-bottom: 1px solid #e5e5e5;
+		font-weight: 500;
+		color: #171717;
+	}
+
+	:global(.post-content td) {
+		padding: 0.75rem 1rem;
+		border-bottom: 1px solid #f5f5f5;
+		color: #525252;
+	}
+
+	/* HORIZONTAL RULE */
+	:global(.post-content hr) {
+		border: 0;
+		border-top: 1px solid #e5e5e5;
+		margin-top: 3rem;
+		margin-bottom: 3rem;
 	}
 </style>

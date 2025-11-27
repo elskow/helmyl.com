@@ -10,7 +10,10 @@ dist/
 .svelte-kit/
 .parcel-cache/
 .nx/
-static/
+static/images
+static/labs
+static/og
+
 dependency-graph.html
 
 # Development

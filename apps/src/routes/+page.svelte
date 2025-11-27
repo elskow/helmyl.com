@@ -1,11 +1,7 @@
 <script lang="ts">
-	import SelfDescription from '$lib/components/SelfDescription.svelte';
 	import { technologies } from '$lib/technologies';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import Footer from '$lib/components/Footer.svelte';
-	import { onMount } from 'svelte';
-	import { ArrowRight, Clock, Eye } from '@lucide/svelte';
-	import { browser } from '$app/environment';
 
 	interface Props {
 		data: import('./$types').PageData;
@@ -14,185 +10,263 @@
 	let { data }: Props = $props();
 	const posts = data.posts;
 	const projects = data.projects;
-	const qualities = ['secure', 'scalable', 'fast', 'reliable'];
 
-	let mounted = $state(false);
-	let isTouchDevice = $state(false);
-
-	onMount(() => {
-		mounted = true;
-
-		// Detect if we're on a touch device
-		if (browser) {
-			isTouchDevice = window.matchMedia('(hover: none)').matches;
+	// Experience Data
+	const experience = [
+		{
+			role: 'Application Developer',
+			company: 'Bank Central Asia',
+			date: 'Mar 2025 — Present',
+			link: 'https://www.bca.co.id/'
+		},
+		{
+			role: 'Machine Learning Cohort',
+			company: 'Bangkit Academy',
+			date: 'Sep 2024 — Jan 2025',
+			link: 'https://grow.google/intl/id_id/bangkit/'
+		},
+		{
+			role: 'PowerBI Data Analyst',
+			company: 'Biji-biji Initiative',
+			date: 'Apr 2024 — May 2024',
+			link: 'https://www.biji-biji.com/'
 		}
-	});
+	];
 
 	const pageTitle = 'Helmy Luqmanulhakim - Software Engineer';
 	const pageDescription =
-		'Software engineer specializing in web development, data engineering, and building scalable solutions. Explore my projects, writings, and tech insights.';
-	const pageUrl = 'https://helmyl.com/';
-	const ogImage = 'https://helmyl.com/og/home.png';
+		'Software engineer specializing in web development, data engineering, and building scalable solutions.';
 </script>
 
 <svelte:head>
 	<title>{pageTitle}</title>
 	<meta name="description" content={pageDescription} />
-	<meta
-		name="keywords"
-		content="Helmy Luqmanulhakim, software engineer, web development, data engineering, programming, full stack developer, SvelteKit, TypeScript, React, Python"
-	/>
-
-	<!-- Open Graph / Facebook -->
-	<meta property="og:type" content="website" />
-	<meta property="og:url" content={pageUrl} />
-	<meta property="og:title" content={pageTitle} />
-	<meta property="og:description" content={pageDescription} />
-	<meta property="og:image" content={ogImage} />
-	<meta property="og:image:alt" content="Helmy Luqmanulhakim - Software Engineer" />
-	<meta property="og:image:width" content="1200" />
-	<meta property="og:image:height" content="630" />
-	<meta property="og:site_name" content="Helmy Luqmanulhakim" />
-	<meta property="og:locale" content="en_US" />
-
-	<!-- Twitter -->
-	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:url" content={pageUrl} />
-	<meta name="twitter:title" content={pageTitle} />
-	<meta name="twitter:description" content={pageDescription} />
-	<meta name="twitter:image" content={ogImage} />
-	<meta name="twitter:image:alt" content="Helmy Luqmanulhakim - Software Engineer" />
-	<meta name="twitter:site" content="@helmyl" />
-	<meta name="twitter:creator" content="@helmyl" />
-
-	<link rel="canonical" href={pageUrl} />
 </svelte:head>
 
-<main class="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-20 min-h-screen">
-	<!-- Header -->
-	<header class="mb-8 sm:mb-10 md:mb-12">
-		<h1 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 tracking-tight">
-			Helmy Luqmanulhakim
-		</h1>
-		<p class="text-base sm:text-lg text-dark-600 mb-4 sm:mb-6">
-			Software Engineer building solution that <SelfDescription attributes={qualities} />
-		</p>
-		<nav class="flex flex-wrap gap-3 sm:gap-4 md:gap-6 text-xs sm:text-sm">
-			<a href="/about" class="text-midnight-800 hover:text-dark-600 transition-colors">
-				About
-			</a>
-			<a href="/labs" class="text-midnight-800 hover:text-dark-600 transition-colors">
-				Labs
-			</a>
-			<a href="/uses" class="text-midnight-800 hover:text-dark-600 transition-colors">
-				Uses
-			</a>
-		</nav>
-	</header>
+<main class="max-w-screen-xl mx-auto px-6 py-12 md:py-24 min-h-screen text-neutral-900 font-sans">
+	<div class="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-24">
+		<div class="md:col-span-7 lg:col-span-8 space-y-24">
+			<section class="space-y-8">
+				<div class="w-12 h-12 bg-neutral-100 rounded-sm overflow-hidden border border-neutral-200">
+					<img
+						src="https://avatars.githubusercontent.com/u/103118501?v=4"
+						alt="Helmy Luqmanulhakim"
+						class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500 ease-out"
+					/>
+				</div>
 
-	<!-- Status -->
-	<section class="mb-8 sm:mb-10 md:mb-12">
-		<div class="flex items-center gap-2 text-xs sm:text-sm text-dark-600 mb-6 sm:mb-8">
-			<span class="relative flex h-2 w-2">
-				<span
-					class="animate-ping absolute inline-flex h-full w-full rounded-full bg-midnight-800 opacity-75"
-				></span>
-				<span class="relative inline-flex rounded-full h-2 w-2 bg-midnight-800"></span>
-			</span>
-			<p>
-				Currently at{' '}
-				<a
-					href="https://www.bca.co.id/id"
-					target="_blank"
-					rel="noopener noreferrer"
-					class="text-midnight-800 underline underline-offset-4 hover:text-dark-600 transition-colors"
-				>
-					Bank Central Asia
-				</a>
-			</p>
-		</div>
-	</section>
+				<div class="space-y-1">
+					<h1 class="text-xl font-medium tracking-tight text-neutral-950">Helmy Luqmanulhakim</h1>
+					<p class="text-base text-neutral-500">Software design & engineering</p>
+					<p class="text-sm text-neutral-400">South Jakarta, ID</p>
+				</div>
 
-	<!-- Tech Stack -->
-	<section class="mb-8 sm:mb-10 md:mb-12">
-		<h2 class="text-xs sm:text-sm uppercase tracking-wider text-dark-600 mb-4 sm:mb-6">
-			Tech Stack
-		</h2>
-		<div class="flex flex-wrap gap-2 sm:gap-3">
-			{#each technologies as { name, link }}
-				<a
-					href={link}
-					target="_blank"
-					rel="noopener noreferrer"
-					class="text-xs sm:text-sm px-2.5 sm:px-3 py-1 sm:py-1.5 border border-dark-200 rounded-full hover:border-midnight-800 transition-colors"
-				>
-					{name}
-				</a>
-			{/each}
-		</div>
-	</section>
+				<div class="space-y-4 max-w-lg text-base leading-relaxed text-neutral-600">
+					<p>
+						I build high-performance web systems and data infrastructure. Currently an Application
+						Developer at
+						<a
+							href="https://www.bca.co.id"
+							target="_blank"
+							class="text-neutral-900 border-b border-neutral-200 hover:border-neutral-900 transition-colors"
+							>Bank Central Asia</a
+						>.
+					</p>
+					<p>Focused on scalability, clean architecture, and developer experience.</p>
+				</div>
 
-	<!-- Projects -->
-	<section class="mb-12 sm:mb-14 md:mb-16">
-		<div class="flex items-center justify-between mb-4 sm:mb-6">
-			<h2 class="text-xs sm:text-sm uppercase tracking-wider text-dark-600">
-				Selected Projects
-			</h2>
-			<a
-				href="/projects"
-				class="text-xs sm:text-sm text-midnight-800 hover:text-dark-600 transition-colors flex items-center gap-1"
-			>
-				View all
-				<ArrowRight class="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-			</a>
-		</div>
-
-		<div class="space-y-4 sm:space-y-6">
-			{#each projects as project}
-				<ProjectCard {...project} />
-			{/each}
-		</div>
-	</section>
-
-	<!-- Writing -->
-	<section class="mb-12 sm:mb-14 md:mb-16">
-		<div class="flex items-center justify-between mb-4 sm:mb-6">
-			<h2 class="text-xs sm:text-sm uppercase tracking-wider text-dark-600">
-				Recent Writing
-			</h2>
-			<a
-				href="/writings"
-				class="text-xs sm:text-sm text-midnight-800 hover:text-dark-600 transition-colors flex items-center gap-1"
-			>
-				View all
-				<ArrowRight class="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-			</a>
-		</div>
-
-		<div class="space-y-3 sm:space-y-4">
-			{#each posts as post}
-				<a href={`/writings/${post.slug}`} class="block group">
-					<article
-						class="flex items-center justify-between py-2 sm:py-3 border-b border-dark-200 group-hover:border-midnight-800 transition-colors"
+				<div class="flex gap-4 pt-2">
+					<a
+						href="https://linkedin.com/in/helmyl"
+						target="_blank"
+						class="text-xs font-medium bg-neutral-100 hover:bg-neutral-200 text-neutral-900 px-3 py-2 rounded-sm transition-colors flex items-center gap-1"
 					>
-						<div class="flex-1 min-w-0 pr-4">
-							<h3
-								class="text-sm sm:text-base font-medium group-hover:text-dark-600 transition-colors truncate"
+						LinkedIn <span class="text-neutral-500">↗</span>
+					</a>
+
+					<a
+						href="mailto:helmyl.work@gmail.com"
+						class="text-xs font-medium border border-neutral-200 hover:border-neutral-900 text-neutral-600 hover:text-neutral-900 px-3 py-2 rounded-sm transition-colors flex items-center gap-1"
+					>
+						Email <span class="text-neutral-400">@</span>
+					</a>
+				</div>
+			</section>
+
+			<section>
+				<h2 class="text-neutral-400 text-xs uppercase tracking-wider mb-8 select-none">
+					Experience
+				</h2>
+
+				<div class="space-y-8">
+					{#each experience as job, i}
+						<div class="group relative pl-0 md:pl-8">
+							<span
+								class="absolute left-0 top-1 text-neutral-300 text-xs hidden md:block font-mono select-none"
 							>
-								{post.title}
-							</h3>
+								{String(i + 1).padStart(2, '0')}
+							</span>
+
+							<div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
+								<h3 class="text-base font-medium text-neutral-900">
+									{job.role}
+									<span class="text-neutral-400 font-normal mx-1 text-sm">at</span>
+									<a
+										href={job.link}
+										target="_blank"
+										class="hover:text-black hover:underline decoration-neutral-200 underline-offset-4 transition-all"
+									>
+										{job.company}
+									</a>
+								</h3>
+								<span class="text-xs text-neutral-400 font-mono shrink-0 pt-1 sm:pt-0"
+									>{job.date}</span
+								>
+							</div>
 						</div>
-						<div
-							class="flex items-center gap-2 sm:gap-4 text-xs sm:text-sm text-dark-600 shrink-0"
+					{/each}
+				</div>
+			</section>
+
+			<section>
+				<h2 class="text-neutral-400 text-xs uppercase tracking-wider mb-8 select-none">
+					Selected Work
+				</h2>
+
+				<div class="space-y-12">
+					{#each projects as project, i}
+						<div class="relative pl-0 md:pl-8">
+							<span
+								class="absolute left-0 top-0 text-neutral-300 text-xs hidden md:block font-mono select-none"
+							>
+								{String(i + 1).padStart(2, '0')}
+							</span>
+							<ProjectCard {...project} minimal={true} />
+						</div>
+					{/each}
+				</div>
+
+				<div class="mt-10 pl-0 md:pl-8">
+					<a
+						href="/projects"
+						class="inline-flex items-center justify-center px-4 py-2 border border-neutral-200 rounded-sm text-xs font-medium text-neutral-600 hover:border-neutral-900 hover:text-neutral-900 transition-all"
+					>
+						View all projects →
+					</a>
+				</div>
+			</section>
+
+			<section>
+				<h2 class="text-neutral-400 text-xs uppercase tracking-wider mb-6 select-none">Stack</h2>
+				<div class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-neutral-500">
+					{#each technologies as { name, link }}
+						<a
+							href={link}
+							target="_blank"
+							class="hover:text-neutral-900 hover:underline decoration-neutral-200 underline-offset-4 transition-all"
 						>
-							<time datetime={post.date ? new Date(post.date).toISOString() : ''}>
-								{post.date}
-							</time>
-						</div>
-					</article>
-				</a>
-			{/each}
+							{name}
+						</a>
+					{/each}
+				</div>
+			</section>
+
+			<section>
+				<h2 class="text-neutral-400 text-xs uppercase tracking-wider mb-8 select-none">Writing</h2>
+				<div class="space-y-6">
+					{#each posts as post}
+						<a href={`/writings/${post.slug}`} class="block group">
+							<article class="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-6">
+								<span class="text-xs text-neutral-400 font-mono shrink-0 w-24">{post.date}</span>
+								<h3
+									class="text-base font-medium text-neutral-900 group-hover:underline decoration-neutral-300 underline-offset-4 transition-all"
+								>
+									{post.title}
+								</h3>
+							</article>
+						</a>
+					{/each}
+				</div>
+
+				<div class="mt-8">
+					<a
+						href="/writings"
+						class="inline-flex items-center gap-2 text-sm text-neutral-500 hover:text-neutral-900 transition-colors font-medium"
+					>
+						Read all articles →
+					</a>
+				</div>
+			</section>
 		</div>
-	</section>
+
+		<div class="md:col-span-5 lg:col-span-4 md:pl-12 lg:pl-24 space-y-12">
+			<div class="hidden md:block text-neutral-300">
+				<svg
+					width="24"
+					height="24"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="1.5"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					><circle cx="12" cy="12" r="10" /><line x1="2" x2="22" y1="12" y2="12" /><path
+						d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+					/></svg
+				>
+			</div>
+
+			<nav class="space-y-8 text-sm">
+				<div>
+					<h3 class="text-xs text-neutral-400 mb-4 uppercase tracking-wide select-none">Menu</h3>
+					<ul class="space-y-3">
+						<li>
+							<a href="/about" class="block text-neutral-600 hover:text-black transition-colors">
+								<span class="text-neutral-300 mr-2 font-mono text-xs">└</span> About
+							</a>
+						</li>
+						<li>
+							<a href="/projects" class="block text-neutral-600 hover:text-black transition-colors">
+								<span class="text-neutral-300 mr-2 font-mono text-xs">└</span> Projects
+							</a>
+						</li>
+						<li>
+							<a href="/writings" class="block text-neutral-600 hover:text-black transition-colors">
+								<span class="text-neutral-300 mr-2 font-mono text-xs">└</span> Writings
+							</a>
+						</li>
+						<li>
+							<a href="/labs" class="block text-neutral-600 hover:text-black transition-colors">
+								<span class="text-neutral-300 mr-2 font-mono text-xs">└</span> Labs
+							</a>
+						</li>
+						<li>
+							<a href="/uses" class="block text-neutral-600 hover:text-black transition-colors">
+								<span class="text-neutral-300 mr-2 font-mono text-xs">└</span> Uses
+							</a>
+						</li>
+					</ul>
+				</div>
+
+				<div>
+					<div
+						class="inline-flex items-center gap-2 bg-neutral-50 border border-neutral-200 px-2 py-1 rounded-sm text-[10px] uppercase tracking-wider font-medium text-neutral-600"
+					>
+						<span class="relative flex h-1.5 w-1.5">
+							<span
+								class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"
+							></span>
+							<span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+						</span>
+						Open to work
+					</div>
+					<div class="mt-4 text-xs text-neutral-400 font-mono space-y-1">
+						<p>@helmyl</p>
+						<p>Jakarta, WIB (UTC+7)</p>
+					</div>
+				</div>
+			</nav>
+		</div>
+	</div>
 </main>
 <Footer />
