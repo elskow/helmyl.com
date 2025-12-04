@@ -1,6 +1,7 @@
 <script>
 	import { page } from '$app/stores';
 	import Footer from '$lib/components/Footer.svelte';
+	import { ArrowLeft, AlertCircle } from '@lucide/svelte';
 </script>
 
 <svelte:head>
@@ -15,9 +16,9 @@
 			<header class="mb-12 md:mb-16">
 				<a
 					href="/"
-					class="text-xs text-neutral-400 hover:text-neutral-900 mb-6 md:mb-8 inline-block transition-colors"
+					class="text-xs text-neutral-400 hover:text-neutral-900 mb-6 md:mb-8 inline-flex items-center gap-1 transition-colors"
 				>
-					← Back home
+					<ArrowLeft class="w-3 h-3" /> Back home
 				</a>
 
 				<h1 class="text-6xl md:text-8xl font-medium tracking-tighter text-neutral-950 mb-6">
@@ -47,20 +48,7 @@
 		<div class="md:col-span-5 lg:col-span-4 md:pl-12 lg:pl-24 space-y-12 hidden md:block">
 			<div class="sticky top-24 space-y-12">
 				<div class="text-neutral-300">
-					<svg
-						width="24"
-						height="24"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="1.5"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-					>
-						<circle cx="12" cy="12" r="10" />
-						<line x1="12" y1="8" x2="12" y2="12" />
-						<line x1="12" y1="16" x2="12.01" y2="16" />
-					</svg>
+					<AlertCircle class="w-6 h-6" strokeWidth={1.5} />
 				</div>
 
 				<div>

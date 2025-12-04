@@ -2,6 +2,13 @@
 	import { technologies } from '$lib/technologies';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import Footer from '$lib/components/Footer.svelte';
+	import {
+		ArrowUpRight,
+		AtSign,
+		ArrowRight,
+		CornerDownRight,
+		Globe
+	} from '@lucide/svelte';
 
 	interface Props {
 		data: import('./$types').PageData;
@@ -81,14 +88,14 @@
 						target="_blank"
 						class="text-xs font-medium bg-neutral-100 hover:bg-neutral-200 text-neutral-900 px-3 py-2 rounded-sm transition-colors flex items-center gap-1"
 					>
-						LinkedIn <span class="text-neutral-500">↗</span>
+						LinkedIn <ArrowUpRight class="w-3 h-3 text-neutral-500" />
 					</a>
 
 					<a
 						href="mailto:helmyl.work@gmail.com"
 						class="text-xs font-medium border border-neutral-200 hover:border-neutral-900 text-neutral-600 hover:text-neutral-900 px-3 py-2 rounded-sm transition-colors flex items-center gap-1"
 					>
-						Email <span class="text-neutral-400">@</span>
+						Email <AtSign class="w-3 h-3 text-neutral-400" />
 					</a>
 				</div>
 			</section>
@@ -149,9 +156,9 @@
 				<div class="mt-10 pl-0 md:pl-8">
 					<a
 						href="/projects"
-						class="inline-flex items-center justify-center px-4 py-2 border border-neutral-200 rounded-sm text-xs font-medium text-neutral-600 hover:border-neutral-900 hover:text-neutral-900 transition-all"
+						class="inline-flex items-center justify-center gap-1 px-4 py-2 border border-neutral-200 rounded-sm text-xs font-medium text-neutral-600 hover:border-neutral-900 hover:text-neutral-900 transition-all"
 					>
-						View all projects →
+						View all projects <ArrowRight class="w-3 h-3" />
 					</a>
 				</div>
 			</section>
@@ -191,9 +198,9 @@
 				<div class="mt-8">
 					<a
 						href="/writings"
-						class="inline-flex items-center gap-2 text-sm text-neutral-500 hover:text-neutral-900 transition-colors font-medium"
+						class="inline-flex items-center gap-1 text-sm text-neutral-500 hover:text-neutral-900 transition-colors font-medium"
 					>
-						Read all articles →
+						Read all articles <ArrowRight class="w-3.5 h-3.5" />
 					</a>
 				</div>
 			</section>
@@ -201,19 +208,7 @@
 
 		<div class="md:col-span-5 lg:col-span-4 md:pl-12 lg:pl-24 space-y-12">
 			<div class="hidden md:block text-neutral-300">
-				<svg
-					width="24"
-					height="24"
-					viewBox="0 0 24 24"
-					fill="none"
-					stroke="currentColor"
-					stroke-width="1.5"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					><circle cx="12" cy="12" r="10" /><line x1="2" x2="22" y1="12" y2="12" /><path
-						d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
-					/></svg
-				>
+				<Globe class="w-6 h-6" strokeWidth={1.5} />
 			</div>
 
 			<nav class="space-y-8 text-sm">
@@ -222,27 +217,27 @@
 					<ul class="space-y-3">
 						<li>
 							<a href="/about" class="block text-neutral-600 hover:text-black transition-colors">
-								<span class="text-neutral-300 mr-2 font-mono text-xs">└</span> About
+								<CornerDownRight class="w-3 h-3 inline-block text-neutral-300 mr-2" /> About
 							</a>
 						</li>
 						<li>
 							<a href="/projects" class="block text-neutral-600 hover:text-black transition-colors">
-								<span class="text-neutral-300 mr-2 font-mono text-xs">└</span> Projects
+								<CornerDownRight class="w-3 h-3 inline-block text-neutral-300 mr-2" /> Projects
 							</a>
 						</li>
 						<li>
 							<a href="/writings" class="block text-neutral-600 hover:text-black transition-colors">
-								<span class="text-neutral-300 mr-2 font-mono text-xs">└</span> Writings
+								<CornerDownRight class="w-3 h-3 inline-block text-neutral-300 mr-2" /> Writings
 							</a>
 						</li>
 						<li>
 							<a href="/labs" class="block text-neutral-600 hover:text-black transition-colors">
-								<span class="text-neutral-300 mr-2 font-mono text-xs">└</span> Labs
+								<CornerDownRight class="w-3 h-3 inline-block text-neutral-300 mr-2" /> Labs
 							</a>
 						</li>
 						<li>
 							<a href="/uses" class="block text-neutral-600 hover:text-black transition-colors">
-								<span class="text-neutral-300 mr-2 font-mono text-xs">└</span> Uses
+								<CornerDownRight class="w-3 h-3 inline-block text-neutral-300 mr-2" /> Uses
 							</a>
 						</li>
 					</ul>

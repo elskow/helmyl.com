@@ -1,6 +1,7 @@
 <script>
 	import { allAbouts } from 'content-collections';
 	import Footer from '$lib/components/Footer.svelte';
+	import { ArrowLeft, ArrowUpRight, AtSign, User } from '@lucide/svelte';
 
 	const abouts = allAbouts[0];
 
@@ -24,9 +25,9 @@
 			<header class="mb-12 md:mb-16">
 				<a
 					href="/"
-					class="text-xs text-neutral-400 hover:text-neutral-900 mb-6 md:mb-8 inline-block transition-colors"
+					class="text-xs text-neutral-400 hover:text-neutral-900 mb-6 md:mb-8 inline-flex items-center gap-1 transition-colors"
 				>
-					← Back home
+					<ArrowLeft class="w-3 h-3" /> Back home
 				</a>
 				<h1
 					class="text-3xl sm:text-4xl font-medium tracking-tight leading-[1.15] text-neutral-950 mb-4"
@@ -46,18 +47,18 @@
 				<h3 class="text-xs text-neutral-400 mb-6 uppercase tracking-wide select-none">Connect</h3>
 				<ul class="space-y-4 text-sm">
 					<li>
-						<a href="https://github.com/helmyl" class="flex justify-between text-neutral-900"
-							>GitHub <span>↗</span></a
+						<a href="https://github.com/helmyl" class="flex justify-between items-center text-neutral-900"
+							>GitHub <ArrowUpRight class="w-3.5 h-3.5" /></a
 						>
 					</li>
 					<li>
-						<a href="https://linkedin.com/in/helmyl" class="flex justify-between text-neutral-900"
-							>LinkedIn <span>↗</span></a
+						<a href="https://linkedin.com/in/helmyl" class="flex justify-between items-center text-neutral-900"
+							>LinkedIn <ArrowUpRight class="w-3.5 h-3.5" /></a
 						>
 					</li>
 					<li>
-						<a href="mailto:contact@helmyl.com" class="flex justify-between text-neutral-900"
-							>Email <span>@</span></a
+						<a href="mailto:contact@helmyl.com" class="flex justify-between items-center text-neutral-900"
+							>Email <AtSign class="w-3.5 h-3.5" /></a
 						>
 					</li>
 				</ul>
@@ -67,21 +68,7 @@
 		<div class="md:col-span-5 lg:col-span-4 md:pl-12 lg:pl-24 space-y-12 hidden md:block">
 			<div class="sticky top-24 space-y-12">
 				<div class="text-neutral-300">
-					<svg
-						width="24"
-						height="24"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="1.5"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle
-							cx="12"
-							cy="7"
-							r="4"
-						/></svg
-					>
+					<User class="w-6 h-6" strokeWidth={1.5} />
 				</div>
 
 				<div>
@@ -92,7 +79,7 @@
 								><span
 									class="text-neutral-900 group-hover:underline decoration-neutral-300 underline-offset-4"
 									>GitHub</span
-								><span class="text-neutral-400">↗</span></a
+								><ArrowUpRight class="w-3.5 h-3.5 text-neutral-400" /></a
 							>
 						</li>
 						<li>
@@ -103,7 +90,7 @@
 								><span
 									class="text-neutral-900 group-hover:underline decoration-neutral-300 underline-offset-4"
 									>LinkedIn</span
-								><span class="text-neutral-400">↗</span></a
+								><ArrowUpRight class="w-3.5 h-3.5 text-neutral-400" /></a
 							>
 						</li>
 						<li>
@@ -114,7 +101,7 @@
 								><span
 									class="text-neutral-900 group-hover:underline decoration-neutral-300 underline-offset-4"
 									>Twitter</span
-								><span class="text-neutral-400">↗</span></a
+								><ArrowUpRight class="w-3.5 h-3.5 text-neutral-400" /></a
 							>
 						</li>
 						<li>
@@ -122,7 +109,7 @@
 								><span
 									class="text-neutral-900 group-hover:underline decoration-neutral-300 underline-offset-4"
 									>Email</span
-								><span class="text-neutral-400">@</span></a
+								><AtSign class="w-3.5 h-3.5 text-neutral-400" /></a
 							>
 						</li>
 					</ul>

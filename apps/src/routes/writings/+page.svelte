@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Footer from '$lib/components/Footer.svelte';
+	import { ArrowLeft, PenLine } from '@lucide/svelte';
 	interface Props {
 		data: import('./$types').PageData;
 	}
@@ -25,7 +26,7 @@
 						href="/"
 						class="text-xs text-neutral-400 hover:text-neutral-900 transition-colors flex items-center gap-1"
 					>
-						← Back home
+						<ArrowLeft class="w-3 h-3" /> Back home
 					</a>
 				</div>
 				<h1 class="text-lg font-medium tracking-tight text-neutral-950 mb-2">Writing</h1>
@@ -66,19 +67,7 @@
 
 		<div class="md:col-span-5 lg:col-span-4 md:pl-12 lg:pl-24 space-y-12 hidden md:block">
 			<div class="text-neutral-300">
-				<svg
-					width="24"
-					height="24"
-					viewBox="0 0 24 24"
-					fill="none"
-					stroke="currentColor"
-					stroke-width="1.5"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					><path d="M12 20h9" /><path
-						d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"
-					/></svg
-				>
+				<PenLine class="w-6 h-6" strokeWidth={1.5} />
 			</div>
 
 			<nav class="space-y-8 text-sm">

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Footer from '$lib/components/Footer.svelte';
-	import { ArrowUpRight } from '@lucide/svelte';
+	import { ArrowUpRight, ArrowLeft, LayoutPanelLeft } from '@lucide/svelte';
 
 	interface Props {
 		data: import('./$types').PageData;
@@ -50,7 +50,7 @@
 						href="/"
 						class="text-xs text-neutral-400 hover:text-neutral-900 transition-colors flex items-center gap-1"
 					>
-						← Back home
+						<ArrowLeft class="w-3 h-3" /> Back home
 					</a>
 				</div>
 
@@ -129,22 +129,7 @@
 		<div class="md:col-span-5 lg:col-span-4 md:pl-12 lg:pl-24 space-y-16 hidden md:block">
 			<div class="sticky top-24 space-y-16">
 				<div class="text-neutral-300">
-					<svg
-						width="24"
-						height="24"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="1.5"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						><rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><line
-							x1="9"
-							y1="3"
-							x2="9"
-							y2="21"
-						/></svg
-					>
+					<LayoutPanelLeft class="w-6 h-6" strokeWidth={1.5} />
 				</div>
 
 				<div>

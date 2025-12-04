@@ -4,6 +4,7 @@
 	import { onMount } from 'svelte';
 	import { afterNavigate } from '$app/navigation';
 	import { calculateReadingTime, getWordCount } from '$lib/utils/seo';
+	import { ArrowLeft, ArrowUpRight, Check, Plus } from '@lucide/svelte';
 
 	interface Props {
 		data: import('./$types').PageData;
@@ -162,9 +163,9 @@
 				<header class="mb-12 md:mb-16">
 					<a
 						href="/writings"
-						class="text-xs text-neutral-400 hover:text-neutral-900 mb-6 md:mb-8 inline-block transition-colors"
+						class="text-xs text-neutral-400 hover:text-neutral-900 mb-6 md:mb-8 inline-flex items-center gap-1 transition-colors"
 					>
-						← Back to writings
+						<ArrowLeft class="w-3 h-3" /> Back to writings
 					</a>
 					<h1
 						class="text-3xl sm:text-4xl font-medium tracking-tight leading-[1.15] text-neutral-950 mb-6"
@@ -293,7 +294,7 @@
 								<span class="text-neutral-600 group-hover:text-black transition-colors"
 									>Twitter</span
 								>
-								<span class="text-neutral-300 group-hover:text-black transition-colors">↗</span>
+								<ArrowUpRight class="w-3.5 h-3.5 text-neutral-300 group-hover:text-black transition-colors" />
 							</a>
 						</li>
 						<li>
@@ -306,7 +307,7 @@
 								<span class="text-neutral-600 group-hover:text-black transition-colors"
 									>LinkedIn</span
 								>
-								<span class="text-neutral-300 group-hover:text-black transition-colors">↗</span>
+								<ArrowUpRight class="w-3.5 h-3.5 text-neutral-300 group-hover:text-black transition-colors" />
 							</a>
 						</li>
 						<li>
@@ -314,9 +315,11 @@
 								<span class="text-neutral-600 group-hover:text-black transition-colors">
 									{isCopied ? 'Link Copied' : 'Copy Link'}
 								</span>
-								<span class="text-neutral-300 group-hover:text-black transition-colors">
-									{isCopied ? '✓' : '+'}
-								</span>
+								{#if isCopied}
+									<Check class="w-3.5 h-3.5 text-neutral-300 group-hover:text-black transition-colors" />
+								{:else}
+									<Plus class="w-3.5 h-3.5 text-neutral-300 group-hover:text-black transition-colors" />
+								{/if}
 							</button>
 						</li>
 					</ul>

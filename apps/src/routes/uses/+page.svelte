@@ -1,6 +1,7 @@
 <script>
 	import { allUses } from 'content-collections';
 	import Footer from '$lib/components/Footer.svelte';
+	import { ArrowLeft, Monitor } from '@lucide/svelte';
 
 	const use = allUses[0];
 
@@ -26,7 +27,7 @@
 						href="/"
 						class="text-xs text-neutral-400 hover:text-neutral-900 transition-colors flex items-center gap-1"
 					>
-						← Back home
+						<ArrowLeft class="w-3 h-3" /> Back home
 					</a>
 				</div>
 				<h1 class="text-3xl sm:text-4xl font-medium tracking-tight text-neutral-950 mb-4">Uses</h1>
@@ -69,20 +70,7 @@
 		<div class="md:col-span-5 lg:col-span-4 md:pl-12 lg:pl-24 space-y-16 hidden md:block">
 			<div class="sticky top-24 space-y-16">
 				<div class="text-neutral-300">
-					<svg
-						width="24"
-						height="24"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="1.5"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-					>
-						<rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
-						<line x1="8" y1="21" x2="16" y2="21" />
-						<line x1="12" y1="17" x2="12" y2="21" />
-					</svg>
+					<Monitor class="w-6 h-6" strokeWidth={1.5} />
 				</div>
 
 				<div>
