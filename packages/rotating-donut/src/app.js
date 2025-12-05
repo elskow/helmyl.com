@@ -1,3 +1,5 @@
+import { mat4 } from 'gl-matrix';
+
 function init() {
 	const canvas = document.createElement('canvas');
 	canvas.width = 800;
