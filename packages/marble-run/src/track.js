@@ -436,6 +436,67 @@ export class Track {
 		};
 	}
 
+	/**
+	 * Calculate track curvature at a given distance
+	 * Curvature κ = |dT/ds| where T is unit tangent and s is arc length
+	 * Returns: { curvature, curvatureVector, radius }
+	 */
+	getCurvatureAtDistance(distance) {
+		const delta = 0.1; // Sample distance for derivative
+
+		// Get tangents at nearby points
+		const pos0 = this.getPositionAtDistance(Math.max(0, distance - delta));
+		const pos1 = this.getPositionAtDistance(Math.min(this.pathLength, distance + delta));
+
+		const frame0 = this.getFrameAt(pos0.index, pos0.t);
+		const frame1 = this.getFrameAt(pos1.index, pos1.t);
+
+		// Normalize tangents
+		vec3.normalize(frame0.tangent, frame0.tangent);
+		vec3.normalize(frame1.tangent, frame1.tangent);
+
+		// dT/ds approximation
+		const dT = vec3.sub(vec3.create(), frame1.tangent, frame0.tangent);
+		const ds = 2 * delta;
+
+		// Curvature magnitude
+		const curvature = vec3.length(dT) / ds;
+
+		// Curvature vector (points toward center of curvature)
+		const curvatureVector = vec3.scale(vec3.create(), dT, 1 / ds);
+
+		// Radius of curvature (1/κ), clamped to avoid infinity
+		const radius = curvature > 0.001 ? 1 / curvature : 1000;
+
+		return {
+			curvature,
+			curvatureVector,
+			radius
+		};
+	}
+
+	/**
+	 * Get banking angle for a given curvature and design speed
+	 * Bank angle θ = atan(v² / (r * g))
+	 * Returns angle in radians
+	 */
+	getBankingAngle(curvature, designSpeed = 3.0) {
+		if (curvature < 0.01) return 0; // No banking on straight sections
+
+		const radius = 1 / curvature;
+		const g = 9.81;
+
+		// Calculate ideal banking angle
+		// tan(θ) = v² / (r * g)
+		const tanTheta = (designSpeed * designSpeed) / (radius * g);
+
+		// Clamp to reasonable range (-45° to 45°)
+		const maxBank = Math.PI / 4;
+		const angle = Math.atan(tanTheta);
+
+		return Math.max(-maxBank, Math.min(maxBank, angle));
+	}
+
 	draw(renderer) {
 		const identity = mat4.create();
 		for (const { mesh, metallic, roughness } of this.meshes) {

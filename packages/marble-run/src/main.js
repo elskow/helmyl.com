@@ -24,6 +24,7 @@ class App {
 		this.speedDisplay = document.getElementById('speed');
 		this.spinDisplay = document.getElementById('spin');
 		this.energyDisplay = document.getElementById('energy');
+		this.stateDisplay = document.getElementById('state');
 
 		this.setupUI();
 		this.animate();
@@ -75,6 +76,13 @@ class App {
 		this.speedDisplay.textContent = debugInfo.speed.toFixed(1);
 		this.spinDisplay.textContent = debugInfo.angularSpeed.toFixed(1);
 		this.energyDisplay.textContent = (debugInfo.energyConservation * 100).toFixed(0);
+
+		// State display: Rolling, Sliding, or Flying
+		let state = 'Flying';
+		if (debugInfo.isOnTrack || debugInfo.isOnGround) {
+			state = debugInfo.isSlipping ? 'Sliding' : 'Rolling';
+		}
+		this.stateDisplay.textContent = state;
 
 		// Render
 		this.renderer.updateTime(this.totalTime);
