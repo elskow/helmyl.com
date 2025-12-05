@@ -1,0 +1,36 @@
+{
+	"name": "marble-run",
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"sourceRoot": "packages/marble-run/src",
+	"projectType": "library",
+	"targets": {
+		"build": {
+			"executor": "nx:run-commands",
+			"outputs": ["{workspaceRoot}/apps/static/labs/marble-run"],
+			"options": {
+				"commands": [
+					"mkdir -p ../../apps/static/labs/marble-run",
+					"parcel build src/index.html --dist-dir ../../apps/static/labs/marble-run --public-url /labs/marble-run/ --no-cache"
+				],
+				"cwd": "packages/marble-run",
+				"parallel": false
+			}
+		},
+		"dev": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "parcel src/index.html --port 3002",
+				"cwd": "packages/marble-run"
+			}
+		},
+		"clean": {
+			"executor": "nx:run-commands",
+			"options": {
+				"commands": ["rm -rf dist .parcel-cache", "rm -rf ../../apps/static/labs/marble-run"],
+				"cwd": "packages/marble-run",
+				"parallel": false
+			}
+		}
+	},
+	"tags": ["type:lab"]
+}

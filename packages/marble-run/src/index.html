@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Marble Run</title>
+		<link rel="stylesheet" href="./styles.css" />
+	</head>
+	<body>
+		<div id="app">
+			<canvas id="canvas"></canvas>
+			<div id="ui">
+				<div id="controls">
+					<button id="reset-btn">Reset</button>
+					<div id="camera-modes">
+						<button data-mode="follow" class="active">Follow</button>
+						<button data-mode="orbit">Orbit</button>
+						<button data-mode="firstPerson">FPV</button>
+					</div>
+				</div>
+				<div id="stats">
+					<div class="stat">
+						<span class="label">Speed</span>
+						<span class="value"><span id="speed">0</span> m/s</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="module" src="./main.js"></script>
+	</body>
+</html>
