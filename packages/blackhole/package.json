@@ -1,0 +1,14 @@
+{
+  "name": "@labs/blackhole",
+  "version": "1.0.0",
+  "description": "Interactive black hole visualization with gravitational lensing, accretion disk, and relativistic effects - all GPU-rendered",
+  "private": true,
+  "type": "module",
+  "source": "src/index.html",
+  "dependencies": {
+    "gl-matrix": "^3.4.3"
+  },
+  "devDependencies": {
+    "parcel": "^2.16.0"
+  }
+}
