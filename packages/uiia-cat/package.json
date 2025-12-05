@@ -1,0 +1,14 @@
+{
+  "name": "@labs/uiia-cat",
+  "version": "1.0.0",
+  "description": "3D rotating Uiia cat model viewer",
+  "private": true,
+  "type": "module",
+  "source": "src/index.html",
+  "dependencies": {
+    "three": "^0.170.0"
+  },
+  "devDependencies": {
+    "parcel": "^2.16.0"
+  }
+}

@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>3D Model Viewer</title>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+			body {
+				background: #ffffff;
+				overflow: hidden;
+				font-family: system-ui, sans-serif;
+			}
+			#canvas {
+				display: block;
+				width: 100vw;
+				height: 100vh;
+			}
+			#loading {
+				position: fixed;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				color: #888;
+				font-size: 14px;
+			}
+			#error {
+				position: fixed;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				color: #ff6666;
+				font-size: 14px;
+				text-align: center;
+				display: none;
+			}
+			#model-switcher {
+				position: fixed;
+				bottom: 20px;
+				left: 50%;
+				transform: translateX(-50%);
+				display: flex;
+				gap: 8px;
+				background: rgba(255, 255, 255, 0.9);
+				padding: 8px 12px;
+				border-radius: 24px;
+				box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+				backdrop-filter: blur(8px);
+			}
+			.model-btn {
+				padding: 8px 16px;
+				border: none;
+				background: transparent;
+				color: #666;
+				font-size: 13px;
+				font-weight: 500;
+				cursor: pointer;
+				border-radius: 16px;
+				transition: all 0.2s ease;
+			}
+			.model-btn:hover {
+				background: rgba(0, 0, 0, 0.05);
+				color: #333;
+			}
+			.model-btn.active {
+				background: #333;
+				color: #fff;
+			}
+			#controls-hint {
+				position: fixed;
+				bottom: 80px;
+				left: 50%;
+				transform: translateX(-50%);
+				color: #999;
+				font-size: 12px;
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body>
+		<canvas id="canvas"></canvas>
+		<div id="loading">Loading model...</div>
+		<div id="error">
+			Model not found.<br />
+			Place your GLB file in:<br />
+			<code>src/models/</code>
+		</div>
+		<div id="model-switcher">
+			<button class="model-btn active" data-model="uiia-cat">Uiia Cat</button>
+			<button class="model-btn" data-model="cow_havest_moon">Cow</button>
+			<button class="model-btn" data-model="capybara">Capybara</button>
+		</div>
+		<div id="controls-hint">
+			Drag to orbit · Scroll to zoom · Double-click to toggle auto-rotate
+		</div>
+		<script type="module" src="main.js"></script>
+	</body>
+</html>
