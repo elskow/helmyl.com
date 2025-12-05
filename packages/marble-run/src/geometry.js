@@ -80,14 +80,17 @@ export function buildRMF(path) {
 	let tangent = vec3.sub(vec3.create(), path[1], path[0]);
 	vec3.normalize(tangent, tangent);
 
-	let normal = vec3.fromValues(0, 1, 0);
-	if (Math.abs(vec3.dot(tangent, normal)) > 0.9) {
-		normal = vec3.fromValues(1, 0, 0);
-	}
+	// Initial normal - always start with world up projected onto the plane perpendicular to tangent
+	const worldUp = vec3.fromValues(0, 1, 0);
+	let binormal = vec3.cross(vec3.create(), tangent, worldUp);
 
-	let binormal = vec3.cross(vec3.create(), tangent, normal);
+	// Handle case where tangent is nearly vertical
+	if (vec3.length(binormal) < 0.1) {
+		binormal = vec3.fromValues(1, 0, 0);
+	}
 	vec3.normalize(binormal, binormal);
-	normal = vec3.cross(vec3.create(), binormal, tangent);
+
+	let normal = vec3.cross(vec3.create(), binormal, tangent);
 	vec3.normalize(normal, normal);
 
 	frames.push({
@@ -106,6 +109,7 @@ export function buildRMF(path) {
 		}
 		vec3.normalize(tangent, tangent);
 
+		// RMF: rotate the previous frame to align with new tangent
 		const axis = vec3.cross(vec3.create(), prevFrame.tangent, tangent);
 		const axisLen = vec3.length(axis);
 
@@ -124,6 +128,18 @@ export function buildRMF(path) {
 
 		vec3.normalize(normal, normal);
 		vec3.normalize(binormal, binormal);
+
+		// Bias normal towards world up to prevent excessive track rotation
+		// This keeps the track floor more horizontal
+		const upBias = 0.15;
+		const biasedNormal = vec3.create();
+		vec3.scaleAndAdd(biasedNormal, normal, worldUp, upBias);
+
+		// Re-orthogonalize after biasing
+		binormal = vec3.cross(vec3.create(), tangent, biasedNormal);
+		vec3.normalize(binormal, binormal);
+		normal = vec3.cross(vec3.create(), binormal, tangent);
+		vec3.normalize(normal, normal);
 
 		frames.push({ tangent: vec3.clone(tangent), normal, binormal });
 	}
@@ -197,6 +213,110 @@ export function createGroundMesh(renderer, size, divisions) {
 			indices.push(a, b, c);
 			indices.push(b, d, c);
 		}
+	}
+
+	return renderer.createMesh(positions, normals, colors, indices);
+}
+
+// Creates a continuous wall mesh following a path (double-sided)
+// bottomPath: array of vec3 points at the base
+// topPath: array of vec3 points at the top (same length as bottomPath)
+export function createWallMesh(renderer, bottomPath, topPath, color, normalDir = 1) {
+	const positions = [];
+	const normals = [];
+	const colors = [];
+	const indices = [];
+
+	// First pass: front faces
+	for (let i = 0; i < bottomPath.length; i++) {
+		const bottom = bottomPath[i];
+		const top = topPath[i];
+
+		// Calculate normal for this segment
+		let wallNormal;
+		if (i < bottomPath.length - 1) {
+			const nextBottom = bottomPath[i + 1];
+			const tangent = vec3.sub(vec3.create(), nextBottom, bottom);
+			const up = vec3.sub(vec3.create(), top, bottom);
+			wallNormal = vec3.cross(vec3.create(), tangent, up);
+			vec3.normalize(wallNormal, wallNormal);
+			vec3.scale(wallNormal, wallNormal, normalDir);
+		} else if (i > 0) {
+			const prevBottom = bottomPath[i - 1];
+			const tangent = vec3.sub(vec3.create(), bottom, prevBottom);
+			const up = vec3.sub(vec3.create(), top, bottom);
+			wallNormal = vec3.cross(vec3.create(), tangent, up);
+			vec3.normalize(wallNormal, wallNormal);
+			vec3.scale(wallNormal, wallNormal, normalDir);
+		} else {
+			wallNormal = vec3.fromValues(normalDir, 0, 0);
+		}
+
+		// Bottom vertex
+		positions.push(bottom[0], bottom[1], bottom[2]);
+		normals.push(wallNormal[0], wallNormal[1], wallNormal[2]);
+		colors.push(color[0], color[1], color[2]);
+
+		// Top vertex
+		positions.push(top[0], top[1], top[2]);
+		normals.push(wallNormal[0], wallNormal[1], wallNormal[2]);
+		colors.push(color[0], color[1], color[2]);
+	}
+
+	// Create front face triangles
+	for (let i = 0; i < bottomPath.length - 1; i++) {
+		const bl = i * 2;
+		const tl = i * 2 + 1;
+		const br = (i + 1) * 2;
+		const tr = (i + 1) * 2 + 1;
+
+		indices.push(bl, br, tl);
+		indices.push(br, tr, tl);
+	}
+
+	// Second pass: back faces (reverse winding, opposite normals)
+	const vertexOffset = bottomPath.length * 2;
+	for (let i = 0; i < bottomPath.length; i++) {
+		const bottom = bottomPath[i];
+		const top = topPath[i];
+
+		let wallNormal;
+		if (i < bottomPath.length - 1) {
+			const nextBottom = bottomPath[i + 1];
+			const tangent = vec3.sub(vec3.create(), nextBottom, bottom);
+			const up = vec3.sub(vec3.create(), top, bottom);
+			wallNormal = vec3.cross(vec3.create(), tangent, up);
+			vec3.normalize(wallNormal, wallNormal);
+			vec3.scale(wallNormal, wallNormal, -normalDir); // Opposite direction
+		} else if (i > 0) {
+			const prevBottom = bottomPath[i - 1];
+			const tangent = vec3.sub(vec3.create(), bottom, prevBottom);
+			const up = vec3.sub(vec3.create(), top, bottom);
+			wallNormal = vec3.cross(vec3.create(), tangent, up);
+			vec3.normalize(wallNormal, wallNormal);
+			vec3.scale(wallNormal, wallNormal, -normalDir);
+		} else {
+			wallNormal = vec3.fromValues(-normalDir, 0, 0);
+		}
+
+		positions.push(bottom[0], bottom[1], bottom[2]);
+		normals.push(wallNormal[0], wallNormal[1], wallNormal[2]);
+		colors.push(color[0] * 0.8, color[1] * 0.8, color[2] * 0.8); // Slightly darker back
+
+		positions.push(top[0], top[1], top[2]);
+		normals.push(wallNormal[0], wallNormal[1], wallNormal[2]);
+		colors.push(color[0] * 0.8, color[1] * 0.8, color[2] * 0.8);
+	}
+
+	// Create back face triangles (reverse winding)
+	for (let i = 0; i < bottomPath.length - 1; i++) {
+		const bl = vertexOffset + i * 2;
+		const tl = vertexOffset + i * 2 + 1;
+		const br = vertexOffset + (i + 1) * 2;
+		const tr = vertexOffset + (i + 1) * 2 + 1;
+
+		indices.push(bl, tl, br);
+		indices.push(br, tl, tr);
 	}
 
 	return renderer.createMesh(positions, normals, colors, indices);

@@ -27,25 +27,35 @@ export class Camera {
 				break;
 		}
 
-		const smoothing = this.mode === 'firstPerson' ? 0.15 : 0.06;
+		// Faster smoothing for follow/FPV to keep up with marble
+		const smoothing = this.mode === 'firstPerson' ? 0.25 : this.mode === 'follow' ? 0.12 : 0.06;
 		vec3.lerp(this.smoothPosition, this.smoothPosition, this.position, smoothing);
 		vec3.lerp(this.smoothTarget, this.smoothTarget, this.target, smoothing);
 	}
 
 	updateFollow(marble, track) {
-		const { index, t } = track.getPositionAtDistance(marble.distance);
+		// Use trackDistance (the correct property name)
+		const trackDist = marble.trackDistance || 0;
+		const { index, t } = track.getPositionAtDistance(trackDist);
 		const frame = track.getFrameAt(index, t);
 
-		const behind = vec3.scale(vec3.create(), frame.tangent, -6);
-		const up = vec3.fromValues(0, 4, 0);
+		vec3.normalize(frame.tangent, frame.tangent);
+
+		// Position camera behind and above the marble
+		// Behind = opposite of tangent direction
+		const behind = vec3.create();
+		vec3.scale(behind, frame.tangent, -5); // 5 units behind
+
+		const up = vec3.fromValues(0, 3, 0); // 3 units above
 
 		vec3.add(this.position, marble.position, behind);
 		vec3.add(this.position, this.position, up);
 
-		const lookAhead = Math.min(marble.distance + 2, track.pathLength - 0.1);
-		const aheadPos = track.getPositionAtDistance(lookAhead);
+		// Look ahead on the track
+		const lookAheadDist = Math.min(trackDist + 3, track.pathLength - 0.1);
+		const aheadPos = track.getPositionAtDistance(lookAheadDist);
 		vec3.copy(this.target, aheadPos.position);
-		this.target[1] += 0.5;
+		this.target[1] += 0.3; // Slightly above track
 	}
 
 	updateOrbit(marble, dt) {
@@ -61,14 +71,23 @@ export class Camera {
 	}
 
 	updateFirstPerson(marble, track) {
-		const { index, t } = track.getPositionAtDistance(marble.distance);
+		// Use trackDistance (the correct property name)
+		const trackDist = marble.trackDistance || 0;
+		const { index, t } = track.getPositionAtDistance(trackDist);
 		const frame = track.getFrameAt(index, t);
 
-		vec3.copy(this.position, marble.position);
-		this.position[1] += 0.3;
+		vec3.normalize(frame.tangent, frame.tangent);
+		vec3.normalize(frame.normal, frame.normal);
 
-		const lookDir = vec3.scale(vec3.create(), frame.tangent, 3);
-		vec3.add(this.target, marble.position, lookDir);
+		// Position camera at marble position, slightly above
+		vec3.copy(this.position, marble.position);
+		// Lift camera up along track normal (so it's above the marble on the track surface)
+		vec3.scaleAndAdd(this.position, this.position, frame.normal, 0.15);
+
+		// Look ahead along track direction
+		const lookAheadDist = Math.min(trackDist + 2, track.pathLength - 0.1);
+		const aheadPos = track.getPositionAtDistance(lookAheadDist);
+		vec3.copy(this.target, aheadPos.position);
 	}
 
 	getPosition() {

@@ -634,9 +634,15 @@ export class Renderer {
 		metallic = 0.0,
 		roughness = 0.5,
 		isMarble = false,
-		isGround = false
+		isGround = false,
+		doubleSided = false
 	) {
 		const gl = this.gl;
+
+		// Disable culling for double-sided meshes
+		if (doubleSided) {
+			gl.disable(gl.CULL_FACE);
+		}
 
 		mat4.copy(this.model, modelMatrix);
 		mat4.invert(this.normalMatrix, this.model);
@@ -663,6 +669,11 @@ export class Renderer {
 
 		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, mesh.indexBuffer);
 		gl.drawElements(gl.TRIANGLES, mesh.indexCount, gl.UNSIGNED_SHORT, 0);
+
+		// Re-enable culling
+		if (doubleSided) {
+			gl.enable(gl.CULL_FACE);
+		}
 	}
 
 	createMesh(positions, normals, colors, indices) {

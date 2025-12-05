@@ -58,9 +58,12 @@ class App {
 		this.camera.update(this.marble, this.track, dt);
 
 		// Emit particles when moving fast
-		if (marbleData.speed > 3) {
-			const emitRate = Math.floor(marbleData.speed / 3);
-			const vel = vec3.scale(vec3.create(), marbleData.frame.tangent, -this.marble.velocity);
+		const speed = marbleData.speed;
+		if (speed > 3 && marbleData.frame) {
+			const emitRate = Math.floor(speed / 3);
+			// Use opposite of velocity direction for particle emission
+			const vel = vec3.create();
+			vec3.scale(vel, this.marble.velocity, -0.5);
 			this.particles.emit(this.marble.position, vel, emitRate);
 		}
 		this.particles.update(dt);
