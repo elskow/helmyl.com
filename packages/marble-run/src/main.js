@@ -22,6 +22,8 @@ class App {
 		this.lastTime = performance.now();
 		this.totalTime = 0;
 		this.speedDisplay = document.getElementById('speed');
+		this.spinDisplay = document.getElementById('spin');
+		this.energyDisplay = document.getElementById('energy');
 
 		this.setupUI();
 		this.animate();
@@ -69,7 +71,10 @@ class App {
 		this.particles.update(dt);
 
 		// Update UI
-		this.speedDisplay.textContent = this.marble.getSpeed().toFixed(1);
+		const debugInfo = this.marble.getDebugInfo();
+		this.speedDisplay.textContent = debugInfo.speed.toFixed(1);
+		this.spinDisplay.textContent = debugInfo.angularSpeed.toFixed(1);
+		this.energyDisplay.textContent = (debugInfo.energyConservation * 100).toFixed(0);
 
 		// Render
 		this.renderer.updateTime(this.totalTime);
