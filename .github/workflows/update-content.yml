@@ -61,6 +61,21 @@ jobs:
         if: steps.check_changes.outputs.changed == 'true'
         run: pnpm install --no-frozen-lockfile
 
+      - name: Setup Emscripten cache
+        if: steps.check_changes.outputs.changed == 'true'
+        uses: actions/cache@v4
+        id: emsdk-cache
+        with:
+          path: ~/emsdk
+          key: ${{ runner.os }}-emsdk-3.1.51
+
+      - name: Setup Emscripten
+        if: steps.check_changes.outputs.changed == 'true'
+        uses: mymindstorm/setup-emsdk@v14
+        with:
+          version: '3.1.51'
+          actions-cache-folder: 'emsdk-cache'
+
       - name: Install tsx globally
         if: steps.check_changes.outputs.changed == 'true'
         run: pnpm add -g tsx

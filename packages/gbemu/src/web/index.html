@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+		<title>GameBoy Emulator</title>
+		<link rel="stylesheet" href="styles.css" />
+	</head>
+	<body>
+		<div class="gameboy">
+			<!-- Top ridge/edge -->
+			<div class="gb-top-ridge"></div>
+
+			<!-- Screen section -->
+			<div class="gb-screen-section">
+				<div class="gb-screen-label">
+					<span class="dot"></span>
+					<span class="gb-title">GAME BOY</span>
+				</div>
+
+				<div class="gb-screen-bezel">
+					<div class="gb-screen-inner">
+						<canvas id="screen" width="160" height="144"></canvas>
+						<div class="screen-overlay" id="overlay">
+							<div class="game-library">
+								<div class="library-title">Select a Game</div>
+								<div class="game-list" id="game-list">
+									<!-- Games loaded dynamically from games.json -->
+									<div class="game-list-loading">Loading...</div>
+								</div>
+								<div class="drop-hint">
+									<span class="hint-desktop"
+										>D-PAD: navigate | A/START: select</span
+									>
+									<span class="hint-mobile">Tap screen to change game</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="gb-screen-footer">
+					<div class="gb-power">
+						<div class="power-led" id="power-led"></div>
+						<span>POWER</span>
+					</div>
+				</div>
+			</div>
+
+			<!-- Controls section -->
+			<div class="gb-controls-section">
+				<!-- D-Pad -->
+				<div class="gb-dpad-area">
+					<div class="gb-dpad">
+						<button class="dpad-btn dpad-up" data-btn="up" aria-label="Up">
+							<span class="dpad-arrow">▲</span>
+						</button>
+						<button class="dpad-btn dpad-left" data-btn="left" aria-label="Left">
+							<span class="dpad-arrow">◀</span>
+						</button>
+						<div class="dpad-center"></div>
+						<button class="dpad-btn dpad-right" data-btn="right" aria-label="Right">
+							<span class="dpad-arrow">▶</span>
+						</button>
+						<button class="dpad-btn dpad-down" data-btn="down" aria-label="Down">
+							<span class="dpad-arrow">▼</span>
+						</button>
+					</div>
+				</div>
+
+				<!-- A/B Buttons -->
+				<div class="gb-ab-area">
+					<div class="gb-ab-buttons">
+						<div class="ab-btn-wrapper ab-b">
+							<button class="ab-btn" data-btn="b" aria-label="B Button">B</button>
+							<span class="ab-label">B</span>
+						</div>
+						<div class="ab-btn-wrapper ab-a">
+							<button class="ab-btn" data-btn="a" aria-label="A Button">A</button>
+							<span class="ab-label">A</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Start/Select section -->
+			<div class="gb-startselect-section">
+				<div class="gb-startselect">
+					<div class="ss-btn-wrapper">
+						<button class="ss-btn" data-btn="select" aria-label="Select">SELECT</button>
+					</div>
+					<div class="ss-btn-wrapper">
+						<button class="ss-btn" data-btn="start" aria-label="Start">START</button>
+					</div>
+				</div>
+			</div>
+
+			<!-- Speaker grille -->
+			<div class="gb-speaker-area">
+				<!-- Menu button (visible when game is running) -->
+				<div class="gb-menu-btn-wrapper">
+					<button
+						class="gb-menu-btn hidden"
+						id="back-to-menu"
+						aria-label="Back to game list"
+					>
+						MENU
+					</button>
+				</div>
+				<div class="gb-speaker" id="speaker" title="Click to toggle sound">
+					<div class="speaker-line"></div>
+					<div class="speaker-line"></div>
+					<div class="speaker-line"></div>
+					<div class="speaker-line"></div>
+					<div class="speaker-line"></div>
+					<div class="speaker-line"></div>
+				</div>
+				<div class="gb-brand">
+					<span class="brand-text">helmyl.com</span>
+				</div>
+			</div>
+
+			<!-- Hidden file input -->
+			<input type="file" id="rom-input" accept=".gb,.gbc" hidden />
+		</div>
+
+		<!-- Floating controls -->
+		<div class="floating-controls">
+			<button class="float-btn" id="shader-btn" title="Shader: None">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<circle cx="12" cy="12" r="3" />
+					<path
+						d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"
+					/>
+				</svg>
+			</button>
+			<button class="float-btn" id="load-btn" title="Load ROM (Click screen)">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" />
+				</svg>
+			</button>
+			<button class="float-btn" id="fullscreen-btn" title="Fullscreen">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<path
+						d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"
+					/>
+				</svg>
+			</button>
+			<button class="float-btn" id="reset-btn" title="Reset" disabled>
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<path d="M1 4v6h6M23 20v-6h-6" />
+					<path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15" />
+				</svg>
+			</button>
+		</div>
+
+		<!-- Status bar -->
+		<div class="status-bar" id="status-bar">
+			<span class="status-text" id="status">Ready</span>
+			<span class="status-fps"><span id="fps">0</span> FPS</span>
+		</div>
+
+		<!-- Keyboard legend (desktop only) -->
+		<div class="keyboard-legend">
+			<div class="legend-title">Keyboard Controls</div>
+			<div class="legend-grid">
+				<div class="legend-item">
+					<kbd>Arrow Keys</kbd>
+					<span>D-Pad</span>
+				</div>
+				<div class="legend-item">
+					<kbd>Z</kbd>
+					<span>A Button</span>
+				</div>
+				<div class="legend-item">
+					<kbd>X</kbd>
+					<span>B Button</span>
+				</div>
+				<div class="legend-item">
+					<kbd>Enter</kbd>
+					<span>Start</span>
+				</div>
+				<div class="legend-item">
+					<kbd>Shift</kbd>
+					<span>Select</span>
+				</div>
+				<div class="legend-item">
+					<kbd>S</kbd>
+					<span>Shader</span>
+				</div>
+			</div>
+		</div>
+
+		<script src="../../dist/gbemu.js"></script>
+		<script type="module" src="main.js"></script>
+	</body>
+</html>

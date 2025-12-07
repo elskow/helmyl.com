@@ -80,3 +80,4 @@ apps/src/lib/generated/
 
 # Generated OG images
 apps/static/og/
+.cache

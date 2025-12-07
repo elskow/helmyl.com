@@ -78,3 +78,9 @@
   Cache-Control: public, max-age=31536000, immutable
   # Override CSP for WebGL labs - allow blob: for shaders and data: for textures
   Content-Security-Policy: default-src 'self' blob: data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; connect-src 'self' blob: data: https:; worker-src 'self' blob:; object-src 'none'; base-uri 'self'
+
+# GameBoy Emulator - requires SharedArrayBuffer (COOP + COEP headers)
+/labs/gbemu/*
+  Cross-Origin-Embedder-Policy: require-corp
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: cross-origin

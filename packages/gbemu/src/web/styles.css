@@ -1,0 +1,1268 @@
+/* GameBoy DMG-01 Inspired Theme */
+:root {
+	/* DMG Colors */
+	--gb-shell: #c4c4b4;
+	--gb-shell-dark: #a8a898;
+	--gb-shell-light: #d4d4c8;
+	--gb-shell-shadow: #8b8b7a;
+
+	/* Screen colors */
+	--gb-screen-bezel: #5a5a5a;
+	--gb-screen-frame: #7a7a6a;
+	--gb-screen-bg: #8b9b5a;
+	--gb-screen-dark: #0f380f;
+
+	/* Button colors */
+	--gb-dpad: #2a2a3a;
+	--gb-dpad-shadow: #1a1a2a;
+	--gb-btn-ab: #8b2252;
+	--gb-btn-ab-shadow: #6a1a42;
+	--gb-btn-ss: #6a6a7a;
+	--gb-btn-ss-shadow: #4a4a5a;
+
+	/* Accent */
+	--gb-purple: #4a2a7a;
+	--gb-led-off: #3a4a3a;
+	--gb-led-on: #8bbc0f;
+
+	/* Text */
+	--text-dark: #2a2a3a;
+	--text-light: #e8e8e8;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	-webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+	height: 100%;
+}
+
+body {
+	font-family: 'Arial Rounded MT Bold', 'Helvetica Rounded', 'Arial', sans-serif;
+	background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 1rem;
+	overflow-x: hidden;
+}
+
+/* ==================== GAMEBOY SHELL ==================== */
+.gameboy {
+	background: linear-gradient(
+		180deg,
+		var(--gb-shell-light) 0%,
+		var(--gb-shell) 15%,
+		var(--gb-shell) 85%,
+		var(--gb-shell-dark) 100%
+	);
+	border-radius: 10px 10px 40px 10px;
+	padding: 15px;
+	box-shadow:
+		0 0 0 3px var(--gb-shell-shadow),
+		0 10px 30px rgba(0, 0, 0, 0.4),
+		inset 0 1px 0 rgba(255, 255, 255, 0.3),
+		inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+	position: relative;
+	width: 320px;
+	user-select: none;
+}
+
+/* Top ridge */
+.gb-top-ridge {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 80px;
+	height: 8px;
+	background: linear-gradient(180deg, var(--gb-shell-dark) 0%, var(--gb-shell) 100%);
+	border-radius: 0 0 4px 4px;
+}
+
+/* ==================== SCREEN SECTION ==================== */
+.gb-screen-section {
+	background: linear-gradient(180deg, #5a5a6a 0%, #4a4a5a 100%);
+	border-radius: 8px;
+	padding: 10px 15px 15px;
+	margin-bottom: 20px;
+	box-shadow:
+		inset 0 2px 4px rgba(0, 0, 0, 0.3),
+		0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.gb-screen-label {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 8px;
+	padding-left: 4px;
+}
+
+.gb-screen-label .dot {
+	width: 6px;
+	height: 6px;
+	background: var(--gb-purple);
+	border-radius: 50%;
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.gb-title {
+	font-size: 14px;
+	font-weight: bold;
+	font-style: italic;
+	color: var(--gb-purple);
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
+	letter-spacing: 1px;
+}
+
+.gb-screen-bezel {
+	background: var(--gb-screen-frame);
+	border-radius: 6px;
+	padding: 12px;
+	box-shadow:
+		inset 0 3px 8px rgba(0, 0, 0, 0.4),
+		0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.gb-screen-inner {
+	position: relative;
+	background: var(--gb-screen-dark);
+	border-radius: 4px;
+	overflow: hidden;
+	aspect-ratio: 160 / 144;
+	box-shadow:
+		inset 0 0 20px rgba(0, 0, 0, 0.5),
+		0 0 0 2px #3a4a3a;
+}
+
+#screen {
+	width: 100%;
+	height: 100%;
+	image-rendering: pixelated;
+	image-rendering: crisp-edges;
+	display: block;
+}
+
+/* Screen overlay */
+.screen-overlay {
+	position: absolute;
+	inset: 0;
+	background: rgba(15, 56, 15, 0.95);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: opacity 0.3s ease;
+	cursor: pointer;
+}
+
+.screen-overlay.hidden {
+	opacity: 0;
+	pointer-events: none;
+}
+
+.screen-overlay.dragover {
+	background: rgba(139, 188, 15, 0.3);
+}
+
+/* Game Library */
+.game-library {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 12px;
+	width: 100%;
+	height: 100%;
+	overflow-y: auto;
+}
+
+.library-title {
+	font-size: 11px;
+	font-family: 'JetBrains Mono', monospace;
+	font-weight: 600;
+	color: #9bbc0f;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	margin-bottom: 8px;
+}
+
+.game-list {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	width: 100%;
+	max-width: 180px;
+	padding-left: 18px;
+	overflow: hidden;
+	touch-action: none;
+	-webkit-overflow-scrolling: auto;
+	overscroll-behavior: none;
+}
+
+.game-item {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 2px;
+	padding: 8px 10px;
+	background: rgba(155, 188, 15, 0.1);
+	border: 1px solid rgba(155, 188, 15, 0.3);
+	border-radius: 4px;
+	cursor: pointer;
+	transition: all 0.15s ease;
+	text-align: left;
+	touch-action: none;
+	user-select: none;
+	-webkit-user-select: none;
+}
+
+.game-item.selected {
+	background: rgba(155, 188, 15, 0.35);
+	border-color: #9bbc0f;
+	box-shadow:
+		0 0 0 2px rgba(155, 188, 15, 0.3),
+		inset 0 0 8px rgba(155, 188, 15, 0.2);
+}
+
+/* Upload item styling */
+.game-item-upload {
+	border-style: dashed;
+	margin-top: 4px;
+}
+
+.game-item.selected::before {
+	content: '>';
+	position: absolute;
+	left: -16px;
+	color: #9bbc0f;
+	font-family: 'JetBrains Mono', monospace;
+	font-weight: bold;
+	animation: blink 0.8s infinite;
+}
+
+.game-item {
+	position: relative;
+}
+
+@keyframes blink {
+	0%,
+	50% {
+		opacity: 1;
+	}
+	51%,
+	100% {
+		opacity: 0;
+	}
+}
+
+.game-item:active {
+	transform: scale(0.98);
+}
+
+.game-item .game-name {
+	font-size: 11px;
+	font-family: 'JetBrains Mono', monospace;
+	font-weight: 600;
+	color: #9bbc0f;
+}
+
+.game-item .game-genre {
+	font-size: 9px;
+	font-family: 'JetBrains Mono', monospace;
+	color: rgba(155, 188, 15, 0.6);
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+}
+
+.game-list-loading,
+.game-list-error {
+	font-size: 10px;
+	font-family: 'JetBrains Mono', monospace;
+	color: rgba(155, 188, 15, 0.5);
+	text-align: center;
+	padding: 20px 10px;
+}
+
+.game-list-error {
+	color: rgba(255, 100, 100, 0.7);
+}
+
+.drop-hint {
+	font-size: 8px;
+	font-family: 'JetBrains Mono', monospace;
+	color: rgba(155, 188, 15, 0.4);
+	margin-top: 6px;
+}
+
+/* Show desktop hint by default, hide mobile hint */
+.hint-desktop {
+	display: inline;
+}
+
+.hint-mobile {
+	display: none;
+}
+
+/* Legacy drop content (keeping for compatibility) */
+.drop-content {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 8px;
+	color: #9bbc0f;
+}
+
+.cartridge-icon {
+	width: 40px;
+	height: 40px;
+	opacity: 0.7;
+}
+
+.drop-content span {
+	font-size: 12px;
+	font-family: 'JetBrains Mono', monospace;
+}
+
+.file-hint {
+	font-size: 10px !important;
+	opacity: 0.6;
+}
+
+/* Screen footer with power LED */
+.gb-screen-footer {
+	display: flex;
+	align-items: center;
+	margin-top: 10px;
+	padding-left: 4px;
+}
+
+.gb-power {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.gb-power span {
+	font-size: 8px;
+	font-weight: bold;
+	color: var(--gb-purple);
+	letter-spacing: 1px;
+}
+
+.power-led {
+	width: 8px;
+	height: 8px;
+	background: var(--gb-led-off);
+	border-radius: 50%;
+	box-shadow:
+		inset 0 1px 2px rgba(0, 0, 0, 0.5),
+		0 0 0 1px rgba(0, 0, 0, 0.3);
+	transition: all 0.3s ease;
+}
+
+.power-led.on {
+	background: var(--gb-led-on);
+	box-shadow:
+		inset 0 1px 2px rgba(255, 255, 255, 0.3),
+		0 0 8px var(--gb-led-on),
+		0 0 0 1px rgba(0, 0, 0, 0.3);
+}
+
+/* ==================== CONTROLS SECTION ==================== */
+.gb-controls-section {
+	display: flex;
+	justify-content: space-between;
+	padding: 0 10px;
+	margin-bottom: 10px;
+}
+
+/* D-Pad */
+.gb-dpad-area {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.gb-dpad {
+	display: grid;
+	grid-template-columns: repeat(3, 28px);
+	grid-template-rows: repeat(3, 28px);
+	gap: 0;
+	position: relative;
+}
+
+.dpad-btn {
+	background: var(--gb-dpad);
+	border: none;
+	color: rgba(255, 255, 255, 0.1);
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.1s ease;
+	position: relative;
+	z-index: 1;
+}
+
+.dpad-btn:active,
+.dpad-btn.pressed {
+	background: var(--gb-dpad-shadow);
+	transform: scale(0.95);
+}
+
+.dpad-arrow {
+	font-size: 10px;
+	opacity: 0.3;
+}
+
+.dpad-up {
+	grid-column: 2;
+	grid-row: 1;
+	border-radius: 4px 4px 0 0;
+	box-shadow:
+		inset 0 2px 0 rgba(255, 255, 255, 0.1),
+		0 -2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.dpad-left {
+	grid-column: 1;
+	grid-row: 2;
+	border-radius: 4px 0 0 4px;
+	box-shadow:
+		inset 2px 0 0 rgba(255, 255, 255, 0.1),
+		-2px 0 4px rgba(0, 0, 0, 0.3);
+}
+
+.dpad-center {
+	grid-column: 2;
+	grid-row: 2;
+	background: var(--gb-dpad);
+	box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.4);
+}
+
+.dpad-right {
+	grid-column: 3;
+	grid-row: 2;
+	border-radius: 0 4px 4px 0;
+	box-shadow:
+		inset -2px 0 0 rgba(255, 255, 255, 0.1),
+		2px 0 4px rgba(0, 0, 0, 0.3);
+}
+
+.dpad-down {
+	grid-column: 2;
+	grid-row: 3;
+	border-radius: 0 0 4px 4px;
+	box-shadow:
+		inset 0 -2px 0 rgba(255, 255, 255, 0.1),
+		0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* A/B Buttons */
+.gb-ab-area {
+	display: flex;
+	align-items: center;
+}
+
+.gb-ab-buttons {
+	display: flex;
+	gap: 12px;
+	transform: rotate(-25deg);
+}
+
+.ab-btn-wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 6px;
+}
+
+.ab-btn {
+	width: 40px;
+	height: 40px;
+	background: linear-gradient(145deg, #a03060, var(--gb-btn-ab));
+	border: none;
+	border-radius: 50%;
+	color: transparent;
+	font-size: 0;
+	cursor: pointer;
+	box-shadow:
+		0 4px 0 var(--gb-btn-ab-shadow),
+		0 6px 10px rgba(0, 0, 0, 0.3),
+		inset 0 2px 4px rgba(255, 255, 255, 0.2);
+	transition: all 0.1s ease;
+}
+
+.ab-btn:active,
+.ab-btn.pressed {
+	transform: translateY(3px);
+	box-shadow:
+		0 1px 0 var(--gb-btn-ab-shadow),
+		0 2px 4px rgba(0, 0, 0, 0.3),
+		inset 0 2px 4px rgba(255, 255, 255, 0.2);
+}
+
+.ab-label {
+	font-size: 10px;
+	font-weight: bold;
+	color: var(--gb-shell-shadow);
+	transform: rotate(25deg);
+}
+
+.ab-a {
+	margin-top: -10px;
+}
+
+/* ==================== START/SELECT ==================== */
+.gb-startselect-section {
+	display: flex;
+	justify-content: center;
+	margin-top: 15px;
+	margin-bottom: 20px;
+}
+
+.gb-startselect {
+	display: flex;
+	gap: 20px;
+	transform: rotate(-25deg);
+}
+
+.ss-btn-wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.ss-btn {
+	width: 36px;
+	height: 12px;
+	background: linear-gradient(180deg, var(--gb-btn-ss), #5a5a6a);
+	border: none;
+	border-radius: 6px;
+	color: transparent;
+	font-size: 0;
+	cursor: pointer;
+	box-shadow:
+		0 2px 0 var(--gb-btn-ss-shadow),
+		inset 0 1px 0 rgba(255, 255, 255, 0.2);
+	transition: all 0.1s ease;
+}
+
+.ss-btn:active,
+.ss-btn.pressed {
+	transform: translateY(2px);
+	box-shadow:
+		0 0 0 var(--gb-btn-ss-shadow),
+		inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.ss-btn::after {
+    content: attr(data-btn);
+    display: block;
+    font-size: 7px;
+    font-weight: bold;
+    color: var(--gb-shell-shadow);
+    text-transform: uppercase;
+    /* OLD: transform: rotate(25deg) translateY(14px); */
+    transform: translateY(14px); /* NEW: Removed rotation so it aligns with button slant */
+    letter-spacing: 0.5px;
+}
+
+/* ==================== SPEAKER ==================== */
+.gb-speaker-area {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+	padding: 5px 10px 5px 15px;
+}
+
+/* Menu button wrapper */
+.gb-menu-btn-wrapper {
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 4px;
+    transform: none;
+}
+
+/* Menu button - styled like Start/Select */
+.gb-menu-btn {
+	width: 40px;
+	height: 12px;
+	background: linear-gradient(180deg, var(--gb-btn-ss), #5a5a6a);
+	border: none;
+	border-radius: 6px;
+	color: transparent;
+	font-size: 0;
+	cursor: pointer;
+	box-shadow:
+		0 2px 0 var(--gb-btn-ss-shadow),
+		inset 0 1px 0 rgba(255, 255, 255, 0.2);
+	transition: all 0.1s ease;
+	position: relative;
+}
+
+.gb-menu-btn:active {
+	transform: translateY(2px);
+	box-shadow:
+		0 0 0 var(--gb-btn-ss-shadow),
+		inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.gb-menu-btn::after {
+    content: 'MENU';
+    display: block;
+    font-size: 7px;
+    font-weight: bold;
+    color: var(--gb-shell-shadow);
+    text-transform: uppercase;
+    transform: translateY(14px);
+    letter-spacing: 0.5px;
+    text-align: center;
+    width: 100%;
+}
+
+.gb-menu-btn.hidden {
+	visibility: hidden;
+}
+
+.gb-speaker {
+	display: flex;
+	gap: 5px;
+	transform: rotate(-25deg);
+	cursor: pointer;
+	padding: 8px;
+	border-radius: 4px;
+	transition: opacity 0.2s;
+}
+
+.gb-speaker:hover {
+	opacity: 0.8;
+}
+
+.gb-speaker.muted .speaker-line {
+	background: var(--gb-shell-shadow);
+}
+
+.speaker-line {
+	width: 4px;
+	height: 24px;
+	background: var(--gb-shell-dark);
+	border-radius: 2px;
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+	transition: background 0.2s;
+}
+
+.speaker-line:nth-child(1) {
+	height: 12px;
+	margin-top: 12px;
+}
+.speaker-line:nth-child(2) {
+	height: 18px;
+	margin-top: 6px;
+}
+.speaker-line:nth-child(3) {
+	height: 24px;
+}
+.speaker-line:nth-child(4) {
+	height: 24px;
+}
+.speaker-line:nth-child(5) {
+	height: 18px;
+	margin-top: 6px;
+}
+.speaker-line:nth-child(6) {
+	height: 12px;
+	margin-top: 12px;
+}
+
+.gb-brand {
+	padding-bottom: 4px;
+}
+
+.brand-text {
+	font-size: 9px;
+	color: var(--gb-shell-shadow);
+	letter-spacing: 0.5px;
+}
+
+/* ==================== FLOATING CONTROLS ==================== */
+.floating-controls {
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	z-index: 100;
+}
+
+.float-btn {
+	width: 44px;
+	height: 44px;
+	background: rgba(30, 30, 50, 0.9);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 12px;
+	color: #888;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.2s ease;
+	backdrop-filter: blur(8px);
+}
+
+.float-btn svg {
+	width: 20px;
+	height: 20px;
+}
+
+.float-btn:hover:not(:disabled) {
+	background: rgba(50, 50, 80, 0.9);
+	color: #fff;
+	transform: scale(1.05);
+}
+
+.float-btn:disabled {
+	opacity: 0.4;
+	cursor: not-allowed;
+}
+
+/* ==================== STATUS BAR ==================== */
+.status-bar {
+	position: fixed;
+	bottom: 20px;
+	left: 20px;
+	display: flex;
+	align-items: center;
+	gap: 15px;
+	padding: 8px 16px;
+	background: rgba(30, 30, 50, 0.9);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 8px;
+	font-family: 'JetBrains Mono', monospace;
+	font-size: 11px;
+	color: #888;
+	backdrop-filter: blur(8px);
+	z-index: 100;
+}
+
+.status-fps {
+	color: #9bbc0f;
+}
+
+/* ==================== KEYBOARD LEGEND ==================== */
+.keyboard-legend {
+	position: fixed;
+	top: 20px;
+	right: 20px;
+	background: rgba(30, 30, 50, 0.9);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 12px;
+	padding: 16px 20px;
+	backdrop-filter: blur(8px);
+	z-index: 100;
+	font-family: 'JetBrains Mono', monospace;
+}
+
+.legend-title {
+	font-size: 10px;
+	font-weight: 600;
+	color: #666;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	margin-bottom: 12px;
+}
+
+.legend-grid {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.legend-item {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	font-size: 11px;
+	color: #888;
+}
+
+.legend-item kbd {
+	background: rgba(0, 0, 0, 0.3);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 4px;
+	padding: 3px 8px;
+	font-family: inherit;
+	font-size: 10px;
+	color: #aaa;
+	min-width: 70px;
+	text-align: center;
+}
+
+.legend-item span {
+	color: #666;
+}
+
+/* Hide keyboard legend on touch devices and small screens */
+@media (max-width: 900px), (hover: none) {
+	.keyboard-legend {
+		display: none;
+	}
+}
+
+/* ==================== FULLSCREEN ==================== */
+.gameboy:fullscreen,
+.gameboy:-webkit-full-screen {
+	background: #0a0a0f;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 0;
+	padding: 0;
+	width: 100vw;
+	height: 100vh;
+}
+
+.gameboy:fullscreen .gb-screen-section,
+.gameboy:-webkit-full-screen .gb-screen-section {
+	margin: 0;
+	padding: 0;
+	background: transparent;
+	box-shadow: none;
+}
+
+.gameboy:fullscreen .gb-screen-bezel,
+.gameboy:-webkit-full-screen .gb-screen-bezel {
+	padding: 0;
+	background: transparent;
+	box-shadow: none;
+}
+
+.gameboy:fullscreen .gb-screen-inner,
+.gameboy:-webkit-full-screen .gb-screen-inner {
+	width: auto;
+	height: 90vh;
+	aspect-ratio: 160 / 144;
+	border-radius: 0;
+	box-shadow: 0 0 40px rgba(139, 188, 15, 0.2);
+}
+
+.gameboy:fullscreen .gb-top-ridge,
+.gameboy:fullscreen .gb-screen-label,
+.gameboy:fullscreen .gb-screen-footer,
+.gameboy:fullscreen .gb-controls-section,
+.gameboy:fullscreen .gb-startselect-section,
+.gameboy:fullscreen .gb-speaker-area,
+.gameboy:-webkit-full-screen .gb-top-ridge,
+.gameboy:-webkit-full-screen .gb-screen-label,
+.gameboy:-webkit-full-screen .gb-screen-footer,
+.gameboy:-webkit-full-screen .gb-controls-section,
+.gameboy:-webkit-full-screen .gb-startselect-section,
+.gameboy:-webkit-full-screen .gb-speaker-area {
+	display: none;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 360px) {
+	.gameboy {
+		width: 290px;
+		padding: 12px;
+	}
+
+	.gb-dpad {
+		grid-template-columns: repeat(3, 24px);
+		grid-template-rows: repeat(3, 24px);
+	}
+
+	.ab-btn {
+		width: 35px;
+		height: 35px;
+	}
+
+	.floating-controls {
+		bottom: 10px;
+		right: 10px;
+	}
+
+	.status-bar {
+		bottom: 10px;
+		left: 10px;
+		padding: 6px 12px;
+		font-size: 10px;
+	}
+}
+
+@media (min-width: 600px) {
+	.gameboy {
+		width: 380px;
+		padding: 20px;
+	}
+
+	.gb-dpad {
+		grid-template-columns: repeat(3, 32px);
+		grid-template-rows: repeat(3, 32px);
+	}
+
+	.ab-btn {
+		width: 48px;
+		height: 48px;
+	}
+}
+
+/* ==================== MOBILE FULL-SCREEN EXPERIENCE ==================== */
+@media (max-width: 480px), (hover: none) and (pointer: coarse) {
+    body {
+        padding: 0;
+        background: var(--gb-shell);
+        overflow: hidden;
+    }
+
+    /* Hide extraneous UI */
+    .floating-controls,
+    .status-bar,
+    .keyboard-legend,
+    .gb-top-ridge {
+        display: none !important;
+    }
+
+    /* 1. Main Container */
+    .gameboy {
+        width: 100vw;
+        height: 100vh;
+        height: 100dvh;
+        border-radius: 0;
+        padding: 0;
+        box-shadow: none;
+        display: flex;
+        flex-direction: column;
+        background: var(--gb-shell);
+    }
+
+    /* 2. Screen Section: Top 40-45% */
+    .gb-screen-section {
+        flex: 0 0 auto;
+        margin: 0;
+        border-radius: 0 0 20px 20px;
+        padding: 15px 15px 25px; /* Add space at bottom of bezel */
+        background: #4a4a5a;
+        z-index: 2;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    }
+
+    .gb-screen-label, 
+    .gb-screen-footer { display: none; }
+    
+    .gb-screen-bezel {
+        padding: 0;
+        background: transparent;
+        box-shadow: none;
+    }
+
+    .gb-screen-inner {
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+        border: 2px solid #333;
+    }
+
+    /* 3. Controls Area: Fills the rest */
+    .gb-controls-section {
+        flex: 1;
+        display: flex;
+        justify-content: space-between;
+        /* Center buttons vertically in the available space */
+        align-items: center; 
+        padding: 0 30px;
+        margin-bottom: 60px; /* Leave room at the very bottom for Start/Select */
+        position: relative;
+    }
+
+    /* 4. D-PAD */
+    .gb-dpad {
+        grid-template-columns: repeat(3, 48px);
+        grid-template-rows: repeat(3, 48px);
+    }
+
+    .dpad-btn:active {
+        background: #111; 
+        transform: scale(0.92);
+    }
+    .dpad-arrow { font-size: 16px; opacity: 0.5; }
+
+    /* 5. A/B Buttons */
+    .gb-ab-area {
+        align-items: center;
+    }
+
+    .gb-ab-buttons {
+        gap: 25px; /* Nice wide gap between buttons */
+        transform: rotate(-20deg);
+        margin-top: 20px; /* Align visually with D-pad center */
+    }
+
+    .ab-btn {
+        width: 65px;
+        height: 65px;
+        box-shadow: 0 4px 0 var(--gb-btn-ab-shadow), 0 5px 15px rgba(0,0,0,0.3);
+    }
+    
+    .ab-btn:active {
+        transform: translateY(4px);
+        box-shadow: 0 0 0 var(--gb-btn-ab-shadow);
+    }
+
+    .ab-label {
+        font-size: 14px;
+        margin-top: 8px;
+        font-weight: 900;
+        opacity: 0.6;
+    }
+    
+    .ab-a { margin-top: -20px; }
+
+    /* 6. Start/Select: Normalized (Horizontal & Centered) */
+    .gb-startselect-section {
+        position: absolute;
+        bottom: 25px; /* Position nicely at bottom */
+        left: 50%;
+        transform: translateX(-50%);
+        margin: 0;
+        z-index: 10;
+        width: auto;
+    }
+
+    .gb-startselect {
+        transform: none; /* REMOVED ROTATION ("Normalized") */
+        display: flex;
+        gap: 15px; /* Space between buttons */
+        background: rgba(0, 0, 0, 0.15); /* Subtle container background */
+        padding: 10px 20px;
+        border-radius: 30px; /* Pill shape */
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(2px);
+    }
+
+    .ss-btn-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0;
+    }
+
+    .ss-btn {
+        width: 50px;       /* Standard width */
+        height: 12px;      /* Standard height */
+        background: #333;  /* Dark button color */
+        border-radius: 10px; /* Rounded pill buttons */
+        box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
+        margin-bottom: 4px; /* Space between button and text */
+        
+        /* Ensure touch target is large */
+        position: relative;
+    }
+    
+    /* Large invisible touch area */
+    .ss-btn::before {
+        content: '';
+        position: absolute;
+        top: -15px; bottom: -20px;
+        left: -10px; right: -10px;
+    }
+
+    /* Label Text */
+    .ss-btn::after {
+        content: attr(data-btn);
+        display: block;
+        font-size: 9px;
+        font-weight: 700;
+        color: rgba(0, 0, 0, 0.5);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transform: none; /* Ensure text is not rotated */
+        text-align: center;
+        margin-top: 16px; /* Push text below the button */
+    }
+
+    /* 7. Menu & Speaker Buttons (Symmetrical Bottom Corners) */
+    .gb-speaker-area {
+        position: static;
+        padding: 0;
+    }
+    
+    .gb-brand { display: none; }
+    
+    /* Menu Button: Bottom Left */
+    .gb-menu-btn-wrapper {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        transform: none;
+        z-index: 20;
+    }
+    
+    .gb-menu-btn {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: rgba(0,0,0,0.1); /* Subtle background */
+        border: 2px solid rgba(0,0,0,0.2);
+        box-shadow: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .gb-menu-btn:active {
+        background: rgba(0,0,0,0.2);
+        transform: scale(0.95);
+    }
+
+    .gb-menu-btn::after {
+        content: 'MENU';
+        font-size: 9px;
+        color: rgba(0,0,0,0.5);
+        transform: none;
+        margin: 0;
+    }
+    
+    /* Speaker (Mute) Button: Bottom Right */
+    .gb-speaker {
+        display: flex;
+        position: absolute;
+        bottom: 20px; /* Align with Menu button */
+        right: 20px;  /* Align with Menu button */
+        top: auto;    /* Clear top position */
+        transform: none;
+        z-index: 30;
+        
+        /* Match Menu Button styling exactly */
+        width: 50px;
+        height: 50px;
+        background: rgba(0,0,0,0.1);
+        border-radius: 50%;
+        border: 2px solid rgba(0,0,0,0.2);
+        backdrop-filter: blur(4px);
+        
+        justify-content: center;
+        align-items: center;
+        gap: 3px;
+        padding: 0;
+    }
+    
+    .gb-speaker:active {
+        transform: scale(0.95);
+        background: rgba(0,0,0,0.2);
+    }
+
+    /* Sound Wave Icon Styles */
+    .gb-speaker .speaker-line {
+        background: rgba(0,0,0,0.5); /* Match text color of Menu */
+        width: 3px;
+        border-radius: 2px;
+        box-shadow: none;
+        margin: 0 !important;
+    }
+    
+    /* Shape the lines into a wave */
+    .gb-speaker .speaker-line:nth-child(1) { height: 8px; }
+    .gb-speaker .speaker-line:nth-child(2) { height: 14px; }
+    .gb-speaker .speaker-line:nth-child(3) { height: 20px; }
+    .gb-speaker .speaker-line:nth-child(4) { height: 14px; }
+    .gb-speaker .speaker-line:nth-child(5) { height: 8px; }
+    .gb-speaker .speaker-line:nth-child(6) { display: none; }
+
+    /* Muted State */
+    .gb-speaker.muted {
+        opacity: 0.6;
+        border-color: rgba(255, 100, 100, 0.3);
+    }
+    .gb-speaker.muted .speaker-line {
+        background: rgba(255, 100, 100, 0.6);
+        height: 4px; /* Flatten wave */
+    }
+
+    /* Game Library tweaks */
+    .game-library { padding: 15px; }
+    .game-list { max-width: 100%; }
+    .hint-desktop { display: none; }
+    .hint-mobile { display: block; font-size: 11px; }
+}
+
+/* Extra small phones */
+@media (max-width: 360px) and (hover: none) and (pointer: coarse) {
+	.gb-dpad {
+		grid-template-columns: repeat(3, 38px);
+		grid-template-rows: repeat(3, 38px);
+	}
+
+	.ab-btn {
+		width: 48px;
+		height: 48px;
+	}
+
+	.gb-controls-section {
+		padding: 10px 15px;
+	}
+}
+
+/* Landscape mobile - adjust layout */
+@media (max-height: 500px) and (hover: none) and (pointer: coarse) {
+	.gameboy {
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-items: center;
+		gap: 10px;
+		padding: 10px;
+	}
+
+	.gb-screen-section {
+		flex: 0 0 auto;
+		padding: 6px 8px 8px;
+	}
+
+	.gb-screen-inner {
+		max-width: 240px;
+	}
+
+	.gb-controls-section {
+		flex: 0 0 auto;
+		flex-direction: column;
+		gap: 20px;
+		padding: 10px;
+	}
+
+	.gb-dpad {
+		grid-template-columns: repeat(3, 32px);
+		grid-template-rows: repeat(3, 32px);
+	}
+
+	.ab-btn {
+		width: 44px;
+		height: 44px;
+	}
+
+	.gb-startselect-section {
+		position: absolute;
+		bottom: 10px;
+		left: 50%;
+		transform: translateX(-50%) rotate(-25deg);
+		margin: 0;
+	}
+
+	.gb-speaker-area {
+		display: none;
+	}
+
+	.gb-screen-label,
+	.gb-screen-footer {
+		display: none;
+	}
+}

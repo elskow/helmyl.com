@@ -1,0 +1,66 @@
+{
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"name": "gbemu",
+	"sourceRoot": "packages/gbemu/src",
+	"projectType": "library",
+	"tags": ["type:lab"],
+	"targets": {
+		"generate-games": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "npx tsx scripts/generate-games-json.ts",
+				"cwd": "packages/gbemu"
+			}
+		},
+		"build:wasm": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "mkdir -p build && cd build && emcmake cmake .. && emmake make",
+				"cwd": "packages/gbemu"
+			}
+		},
+		"build": {
+			"executor": "nx:run-commands",
+			"dependsOn": ["build:wasm", "generate-games"],
+			"options": {
+				"commands": [
+					"parcel build src/web/index.html --dist-dir ../../apps/static/labs/gbemu --public-url /labs/gbemu/ --no-cache",
+					"cp dist/gbemu.wasm ../../apps/static/labs/gbemu/",
+					"cp dist/gbemu.js ../../apps/static/labs/gbemu/",
+					"mkdir -p ../../apps/static/labs/gbemu/roms && cp roms/*.gb roms/*.gbc roms/games.json ../../apps/static/labs/gbemu/roms/ 2>/dev/null || true"
+				],
+				"cwd": "packages/gbemu",
+				"parallel": false
+			}
+		},
+		"copy-roms": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "mkdir -p dist/roms && cp roms/*.gb roms/*.gbc roms/games.json dist/roms/ 2>/dev/null || true",
+				"cwd": "packages/gbemu"
+			}
+		},
+		"dev": {
+			"executor": "nx:run-commands",
+			"dependsOn": ["build:wasm", "generate-games", "copy-roms"],
+			"options": {
+				"command": "parcel src/web/index.html --port 3004",
+				"cwd": "packages/gbemu"
+			}
+		},
+		"clean": {
+			"executor": "nx:run-commands",
+			"options": {
+				"commands": [
+					"rm -rf build",
+					"rm -rf dist",
+					"rm -rf .parcel-cache",
+					"rm -rf src/web/roms",
+					"rm -rf ../../apps/static/labs/gbemu"
+				],
+				"cwd": "packages/gbemu",
+				"parallel": false
+			}
+		}
+	}
+}

@@ -1,0 +1,16 @@
+{
+	"name": "@labs/gbemu",
+	"version": "1.0.0",
+	"description": "GameBoy emulator with Sharp LR35902 CPU compiled to WebAssembly",
+	"private": true,
+	"type": "module",
+	"source": "src/web/index.html",
+	"scripts": {
+		"generate-games": "tsx scripts/generate-games-json.ts"
+	},
+	"devDependencies": {
+		"@parcel/config-default": "^2.16.0",
+		"parcel": "^2.16.0",
+		"tsx": "^4.7.0"
+	}
+}

@@ -227,6 +227,21 @@ importers:
         specifier: ^2.16.0
         version: 2.16.0(@swc/helpers@0.5.17)
 
+  packages/gbemu:
+    devDependencies:
+      '@parcel/config-default':
+        specifier: ^2.16.0
+        version: 2.16.0(@parcel/core@2.16.0(@swc/helpers@0.5.17))(@swc/helpers@0.5.17)
+      parcel:
+        specifier: ^2.16.0
+        version: 2.16.0(@swc/helpers@0.5.17)
+      parcel-reporter-static-files-copy:
+        specifier: ^1.5.3
+        version: 1.5.3(@parcel/core@2.16.0(@swc/helpers@0.5.17))
+      tsx:
+        specifier: ^4.7.0
+        version: 4.20.6
+
   packages/marble-run:
     dependencies:
       gl-matrix:
@@ -5066,6 +5081,10 @@ packages:
 
   param-case@3.0.4:
     resolution: {integrity: sha512-RXlj7zCYokReqWpOPH9oYivUzLYZ5vAPIfEmCTNViosC78F8F0H9y7T7gG2M39ymgutxF5gcFEsyZQSph9Bp3A==}
+
+  parcel-reporter-static-files-copy@1.5.3:
+    resolution: {integrity: sha512-Ukq2SyJYn3GFIPCLamXuQ+2t+0j54llujjOUoRjtmVvfsuGnJDEpMznADeIoKuQDvy0jpxtWzWkQvxqI/j+U4A==}
+    engines: {parcel: ^2.0.0-beta.1}
 
   parcel@2.16.0:
     resolution: {integrity: sha512-4sgnoYixTR6Qq6265tjmufXQj7wxvZo4VJHrYfbnfWQWfW5CgF80IiM+dy050pYgtBAMvh+8vJDDYiSto1YPUA==}
@@ -11824,6 +11843,13 @@ snapshots:
     dependencies:
       dot-case: 3.0.4
       tslib: 2.8.1
+
+  parcel-reporter-static-files-copy@1.5.3(@parcel/core@2.16.0(@swc/helpers@0.5.17)):
+    dependencies:
+      '@parcel/plugin': 2.16.0(@parcel/core@2.16.0(@swc/helpers@0.5.17))
+    transitivePeerDependencies:
+      - '@parcel/core'
+      - napi-wasm
 
   parcel@2.16.0(@swc/helpers@0.5.17):
     dependencies:

@@ -1,0 +1,22 @@
+[
+  {
+    "file": "geometrix.gbc",
+    "name": "Geometrix",
+    "genre": "Puzzle"
+  },
+  {
+    "file": "legend-of-zelda.gb",
+    "name": "Legend Of Zelda",
+    "genre": "Game"
+  },
+  {
+    "file": "snake.gb",
+    "name": "Snake",
+    "genre": "Arcade"
+  },
+  {
+    "file": "tobu-tobu-girl.gb",
+    "name": "Tobu Tobu Girl",
+    "genre": "Platformer"
+  }
+]
