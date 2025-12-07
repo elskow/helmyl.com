@@ -5,8 +5,8 @@ importScripts(wasmJsUrl);
 
 let emu = null;
 let running = false;
-let targetFPS = 60;
-let frameInterval = 1000 / targetFPS;
+const targetFPS = 60;
+const frameInterval = 1000 / targetFPS;
 
 let sharedAudio = null;
 let sharedControl = null;
@@ -35,7 +35,8 @@ let uResolutionLoc = null;
 let uTimeLoc = null;
 let shaderStartTime = 0;
 
-let lastFrameTime = 0;
+let emulationStartTime = 0;
+let totalFramesRun = 0;
 let frameCount = 0;
 let fpsReportTime = 0;
 
@@ -312,47 +313,52 @@ function emulationLoop() {
 	if (!running || !emu) return;
 
 	const now = performance.now();
+	const expectedFrames = Math.floor((now - emulationStartTime) / frameInterval);
 
 	if (sharedControl) {
 		const cmd = Atomics.load(sharedControl, CTRL_COMMAND);
 		if (cmd !== CMD_NONE) {
 			Atomics.store(sharedControl, CTRL_COMMAND, CMD_NONE);
 			handleCommand(cmd);
+			if (!running) return;
 		}
 
 		const buttons = Atomics.load(sharedControl, CTRL_BUTTONS);
 		updateButtons(buttons);
 	}
 
-	emu.runFrame();
+	if (totalFramesRun < expectedFrames) {
+		emu.runFrame();
+		totalFramesRun++;
 
-	const fb = emu.getFramebuffer();
-	renderFrame(fb);
+		const fb = emu.getFramebuffer();
+		renderFrame(fb);
 
-	if (sharedAudio) {
-		const sampleCount = emu.getAudioSamplesCount();
-		if (sampleCount > 0) {
-			const audioBuffer = emu.getAudioBuffer();
-			const samplesToWrite = sampleCount * 2;
+		if (sharedAudio) {
+			const sampleCount = emu.getAudioSamplesCount();
+			if (sampleCount > 0) {
+				const audioBuffer = emu.getAudioBuffer();
+				const samplesToWrite = sampleCount * 2;
 
-			for (let i = 0; i < samplesToWrite; i++) {
-				sharedAudio[audioWritePos] = audioBuffer[i];
-				audioWritePos = (audioWritePos + 1) % AUDIO_BUFFER_SIZE;
+				for (let i = 0; i < samplesToWrite; i++) {
+					sharedAudio[audioWritePos] = audioBuffer[i];
+					audioWritePos = (audioWritePos + 1) % AUDIO_BUFFER_SIZE;
+				}
+
+				Atomics.store(sharedControl, CTRL_AUDIO_WRITE_POS, audioWritePos);
 			}
+		}
 
-			Atomics.store(sharedControl, CTRL_AUDIO_WRITE_POS, audioWritePos);
+		frameCount++;
+		if (now - fpsReportTime >= 1000) {
+			postMessage({ type: 'fps', fps: frameCount });
+			frameCount = 0;
+			fpsReportTime = now;
 		}
 	}
 
-	frameCount++;
-	if (now - fpsReportTime >= 1000) {
-		postMessage({ type: 'fps', fps: frameCount });
-		frameCount = 0;
-		fpsReportTime = now;
-	}
-
-	const elapsed = performance.now() - now;
-	const delay = Math.max(0, frameInterval - elapsed);
+	const nextFrameTime = emulationStartTime + (totalFramesRun + 1) * frameInterval;
+	const delay = Math.max(1, nextFrameTime - performance.now());
 	setTimeout(emulationLoop, delay);
 }
 
@@ -368,6 +374,8 @@ function handleCommand(cmd) {
 		case CMD_RESUME:
 			if (!running) {
 				running = true;
+				emulationStartTime = performance.now();
+				totalFramesRun = 0;
 				emulationLoop();
 				postMessage({ type: 'resumed' });
 			}
@@ -397,8 +405,9 @@ function updateButtons(bitmask) {
 function start() {
 	if (running) return;
 	running = true;
-	lastFrameTime = performance.now();
-	fpsReportTime = lastFrameTime;
+	emulationStartTime = performance.now();
+	totalFramesRun = 0;
+	fpsReportTime = emulationStartTime;
 	frameCount = 0;
 	emulationLoop();
 }
