@@ -18,6 +18,7 @@ void CPU::reset() {
     stopped = false;
     ime = false;
     imeScheduled = false;
+    haltBug = false;
 }
 
 // Flag operations
@@ -104,11 +105,12 @@ void CPU::sub8(uint8_t val) {
 
 void CPU::sbc8(uint8_t val) {
     uint8_t carry = getFlag(FLAG_C) ? 1 : 0;
-    uint16_t result = a - val - carry;
+    int result = (int)a - (int)val - (int)carry;
     setFlag(FLAG_Z, (result & 0xFF) == 0);
     setFlag(FLAG_N, true);
-    setFlag(FLAG_H, (a & 0x0F) < (val & 0x0F) + carry);
-    setFlag(FLAG_C, a < val + carry);
+    // Fix: Use signed arithmetic to avoid overflow when val + carry > 255
+    setFlag(FLAG_H, ((int)(a & 0x0F) - (int)(val & 0x0F) - (int)carry) < 0);
+    setFlag(FLAG_C, result < 0);
     a = result & 0xFF;
 }
 
@@ -277,18 +279,18 @@ void CPU::requestInterrupt(uint8_t interrupt) {
     mmu.write(0xFF0F, ifReg | interrupt);
 }
 
-void CPU::handleInterrupts() {
-    if (!ime && !halted) return;
+int CPU::handleInterrupts() {
+    if (!ime && !halted) return 0;
     
     uint8_t ifReg = mmu.read(0xFF0F);  // Interrupt Flag
     uint8_t ieReg = mmu.read(0xFFFF);  // Interrupt Enable
     uint8_t pending = ifReg & ieReg & 0x1F;
     
-    if (pending == 0) return;
+    if (pending == 0) return 0;
     
     halted = false;
     
-    if (!ime) return;
+    if (!ime) return 0;
     
     ime = false;
     
@@ -308,6 +310,9 @@ void CPU::handleInterrupts() {
     // Push PC and jump to vector
     push16(pc);
     pc = vector;
+    
+    // Interrupt dispatch takes 20 cycles (5 machine cycles)
+    return 20;
 }
 
 int CPU::step() {
@@ -317,16 +322,32 @@ int CPU::step() {
         imeScheduled = false;
     }
     
-    // Handle interrupts
-    handleInterrupts();
+    // Handle interrupts (returns cycles consumed if interrupt dispatched)
+    int interruptCycles = handleInterrupts();
+    if (interruptCycles > 0) {
+        return interruptCycles;
+    }
     
     // If halted, just consume a cycle
     if (halted) {
         return 4;
     }
     
+    // If stopped (STOP instruction executed), CPU is frozen until button press
+    if (stopped) {
+        return 4;
+    }
+    
     // Fetch and execute
     uint8_t opcode = fetch8();
+    
+    // HALT bug: when HALT was executed with IME=0 and interrupts pending,
+    // the next opcode byte is read twice (PC doesn't increment)
+    if (haltBug) {
+        pc--;  // Re-read the same byte
+        haltBug = false;
+    }
+    
     return executeOpcode(opcode);
 }
 
@@ -530,7 +551,18 @@ int CPU::executeOpcode(uint8_t opcode) {
         case 0x73: write8(getHL(), e); return 8;  // LD (HL),E
         case 0x74: write8(getHL(), h); return 8;  // LD (HL),H
         case 0x75: write8(getHL(), l); return 8;  // LD (HL),L
-        case 0x76: halted = true; return 4;  // HALT
+        case 0x76: {  // HALT
+            // HALT bug: if IME is disabled but there are pending interrupts,
+            // the CPU doesn't halt and the next byte is read twice
+            uint8_t ifReg = mmu.read(0xFF0F);
+            uint8_t ieReg = mmu.read(0xFFFF);
+            if (!ime && (ifReg & ieReg & 0x1F) != 0) {
+                haltBug = true;
+            } else {
+                halted = true;
+            }
+            return 4;
+        }
         case 0x77: write8(getHL(), a); return 8;  // LD (HL),A
         case 0x78: a = b; return 4;  // LD A,B
         case 0x79: a = c; return 4;  // LD A,C

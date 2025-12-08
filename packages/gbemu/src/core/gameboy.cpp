@@ -11,6 +11,8 @@ GameBoy::GameBoy()
 {
     // Set APU reference in MMU for register access
     mmu.setAPU(&apu);
+    // Set Timer reference in MMU for DIV write callback
+    mmu.setTimer(&timer);
 }
 
 bool GameBoy::loadROM(const uint8_t* data, size_t size) {
@@ -26,6 +28,7 @@ void GameBoy::reset() {
     ppu.reset();
     timer.reset();
     apu.reset();
+    apu.clearBuffer();  // Clear any buffered audio to prevent latency
     buttons = 0x0F;
     dpad = 0x0F;
     mmu.setJoypad(buttons, dpad);
@@ -33,6 +36,7 @@ void GameBoy::reset() {
 
 int GameBoy::step() {
     int cycles = cpu.step();
+    mmu.stepDMA(cycles);  // Step DMA transfer
     timer.step(cycles);
     ppu.step(cycles);
     apu.step(cycles);
@@ -49,6 +53,7 @@ void GameBoy::runFrame() {
     
     while (cyclesThisFrame < CYCLES_PER_FRAME) {
         int cycles = cpu.step();
+        mmu.stepDMA(cycles);  // Step DMA transfer
         timer.step(cycles);
         apu.step(cycles);
         
@@ -86,5 +91,10 @@ void GameBoy::setButton(int button, bool pressed) {
     // Request joypad interrupt if button pressed
     if (pressed) {
         mmu.setIF(mmu.getIF() | 0x10);
+        
+        // Wake CPU from STOP mode on button press
+        if (cpu.isStopped()) {
+            cpu.wakeFromStop();
+        }
     }
 }

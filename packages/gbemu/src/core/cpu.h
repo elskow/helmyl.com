@@ -38,7 +38,7 @@ public:
     
     // Interrupt handling
     void requestInterrupt(uint8_t interrupt);
-    void handleInterrupts();
+    int handleInterrupts();  // Returns cycles consumed (20 if interrupt dispatched, 0 otherwise)
     
     // State access for debugging/serialization
     uint16_t getPC() const { return pc; }
@@ -55,6 +55,10 @@ public:
     uint16_t getDE() const { return (d << 8) | e; }
     uint16_t getHL() const { return (h << 8) | l; }
     bool isHalted() const { return halted; }
+    bool isStopped() const { return stopped; }
+    
+    // Wake CPU from STOP mode (called on button press)
+    void wakeFromStop() { stopped = false; }
     
 private:
     // Registers
@@ -70,6 +74,7 @@ private:
     bool ime;               // Interrupt Master Enable
     bool imeScheduled;      // EI enables IME after next instruction
     bool stopped;
+    bool haltBug;           // HALT bug: when HALT with IME=0 and pending interrupts
     
     // Memory access
     MMU& mmu;

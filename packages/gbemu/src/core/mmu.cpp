@@ -1,6 +1,8 @@
 #include "mmu.h"
 #include "apu.h"
+#include "timer.h"
 #include <cstring>
+#include <ctime>
 
 MMU::MMU() 
     : vram(0x2000, 0)
@@ -13,6 +15,10 @@ MMU::MMU()
     , ramBank(0)
     , ramEnabled(false)
     , mbcMode(0)
+    , rtc{}
+    , rtcLatched{}
+    , rtcLatchState(0xFF)
+    , rtcSelected(false)
     , joypadReg(0xCF)
     , joypadButtons(0x0F)
     , joypadDpad(0x0F)
@@ -37,7 +43,13 @@ MMU::MMU()
     , wy(0)
     , wx(0)
     , ppuMode(0)
+    , dmaActive(false)
+    , dmaSource(0)
+    , dmaCyclesLeft(0)
+    , dmaIndex(0)
 {
+    // Initialize RTC with current time
+    rtc.lastTime = static_cast<uint64_t>(std::time(nullptr));
 }
 
 bool MMU::loadROM(const uint8_t* data, size_t size) {
@@ -95,6 +107,21 @@ void MMU::handleMBCWrite(uint16_t addr, uint8_t val) {
                 mbcMode = val & 0x01;
             }
             break;
+        
+        case 2:  // MBC2
+            // MBC2 uses bit 8 of the address to distinguish between RAM enable and ROM bank
+            if (addr < 0x4000) {
+                if ((addr & 0x0100) == 0) {
+                    // RAM enable (when bit 8 is 0)
+                    ramEnabled = (val & 0x0F) == 0x0A;
+                } else {
+                    // ROM bank select (when bit 8 is 1)
+                    uint8_t bank = val & 0x0F;
+                    if (bank == 0) bank = 1;
+                    romBank = bank;
+                }
+            }
+            break;
             
         case 3:  // MBC3
             if (addr < 0x2000) {
@@ -104,7 +131,23 @@ void MMU::handleMBCWrite(uint16_t addr, uint8_t val) {
                 if (bank == 0) bank = 1;
                 romBank = bank;
             } else if (addr < 0x6000) {
-                ramBank = val;
+                // RAM Bank or RTC Register Select
+                if (val <= 0x03) {
+                    ramBank = val;
+                    rtcSelected = false;
+                } else if (val >= 0x08 && val <= 0x0C) {
+                    ramBank = val;
+                    rtcSelected = true;
+                }
+            } else {
+                // RTC Latch Clock Data
+                // Writing 0x00 then 0x01 latches the RTC
+                if (rtcLatchState == 0x00 && val == 0x01) {
+                    // Latch current RTC values
+                    updateRTC();
+                    rtcLatched = rtc;
+                }
+                rtcLatchState = val;
             }
             break;
             
@@ -156,14 +199,58 @@ void MMU::setJoypad(uint8_t buttons, uint8_t dpad) {
     joypadDpad = dpad;
 }
 
-void MMU::doDMATransfer(uint8_t val) {
-    uint16_t src = val << 8;
-    for (int i = 0; i < 0xA0; i++) {
-        oam[i] = read(src + i);
+void MMU::startDMATransfer(uint8_t val) {
+    // Start DMA transfer - takes 160 M-cycles (640 T-cycles)
+    dmaSource = val << 8;
+    dmaActive = true;
+    dmaCyclesLeft = 160;  // 160 M-cycles = 640 T-cycles
+    dmaIndex = 0;
+}
+
+void MMU::stepDMA(int cycles) {
+    if (!dmaActive) return;
+    
+    // Transfer one byte per M-cycle
+    while (cycles > 0 && dmaIndex < 0xA0) {
+        // Read from source and write to OAM
+        // During DMA, we read directly to avoid blocking ourselves
+        uint16_t srcAddr = dmaSource + dmaIndex;
+        uint8_t val = 0xFF;
+        
+        // Read from source based on address range
+        if (srcAddr < 0x4000) {
+            val = (srcAddr < rom.size()) ? rom[getROMOffset(srcAddr)] : 0xFF;
+        } else if (srcAddr < 0x8000) {
+            uint32_t offset = getROMOffset(srcAddr);
+            val = (offset < rom.size()) ? rom[offset] : 0xFF;
+        } else if (srcAddr < 0xA000) {
+            val = vram[srcAddr - 0x8000];
+        } else if (srcAddr < 0xC000) {
+            val = ramEnabled ? eram[getRAMOffset(srcAddr)] : 0xFF;
+        } else if (srcAddr < 0xE000) {
+            val = wram[srcAddr - 0xC000];
+        } else if (srcAddr < 0xFE00) {
+            val = wram[srcAddr - 0xE000];  // Echo RAM
+        }
+        
+        oam[dmaIndex] = val;
+        dmaIndex++;
+        cycles--;
+        dmaCyclesLeft--;
+    }
+    
+    // Check if DMA is complete
+    if (dmaIndex >= 0xA0) {
+        dmaActive = false;
     }
 }
 
 uint8_t MMU::read(uint16_t addr) {
+    // During DMA, only HRAM is accessible
+    if (dmaActive && addr < 0xFF80) {
+        return 0xFF;
+    }
+    
     // ROM Bank 0
     if (addr < 0x4000) {
         if (addr < rom.size()) {
@@ -191,6 +278,14 @@ uint8_t MMU::read(uint16_t addr) {
     // External RAM
     if (addr < 0xC000) {
         if (!ramEnabled) return 0xFF;
+        // MBC2 has built-in 512x4 bit RAM (only lower 4 bits valid)
+        if (mbcType == 2) {
+            return eram[addr & 0x1FF] | 0xF0;  // Upper 4 bits always 1
+        }
+        // MBC3 RTC register access
+        if (mbcType == 3 && rtcSelected) {
+            return readRTC(ramBank);
+        }
         return eram[getRAMOffset(addr)];
     }
     
@@ -275,6 +370,11 @@ uint8_t MMU::read(uint16_t addr) {
 }
 
 void MMU::write(uint16_t addr, uint8_t val) {
+    // During DMA, only HRAM is accessible (except for DMA register itself)
+    if (dmaActive && addr < 0xFF80 && addr != 0xFF46) {
+        return;
+    }
+    
     // ROM area - MBC control
     if (addr < 0x8000) {
         handleMBCWrite(addr, val);
@@ -292,7 +392,15 @@ void MMU::write(uint16_t addr, uint8_t val) {
     // External RAM
     if (addr < 0xC000) {
         if (ramEnabled) {
-            eram[getRAMOffset(addr)] = val;
+            // MBC2 has built-in 512x4 bit RAM (only lower 4 bits stored)
+            if (mbcType == 2) {
+                eram[addr & 0x1FF] = val & 0x0F;
+            } else if (mbcType == 3 && rtcSelected) {
+                // MBC3 RTC register write
+                writeRTC(ramBank, val);
+            } else {
+                eram[getRAMOffset(addr)] = val;
+            }
         }
         return;
     }
@@ -328,7 +436,10 @@ void MMU::write(uint16_t addr, uint8_t val) {
             case 0xFF00: joypadReg = (val & 0x30) | (joypadReg & 0xCF); break;
             case 0xFF01: sb = val; break;
             case 0xFF02: sc = val; break;
-            case 0xFF04: div = 0; break;  // Writing any value resets DIV
+            case 0xFF04:  // Writing any value resets DIV
+                div = 0;
+                if (timer) timer->onDivWrite();
+                break;
             case 0xFF05: tima = val; break;
             case 0xFF06: tma = val; break;
             case 0xFF07: tac = val & 0x07; break;
@@ -354,7 +465,7 @@ void MMU::write(uint16_t addr, uint8_t val) {
             case 0xFF43: scx = val; break;
             case 0xFF44: break;  // LY is read-only
             case 0xFF45: lyc = val; break;
-            case 0xFF46: dma = val; doDMATransfer(val); break;
+            case 0xFF46: dma = val; startDMATransfer(val); break;
             case 0xFF47: bgp = val; break;
             case 0xFF48: obp0 = val; break;
             case 0xFF49: obp1 = val; break;
@@ -372,4 +483,63 @@ void MMU::write(uint16_t addr, uint8_t val) {
     
     // Interrupt Enable
     interruptEnable = val;
+}
+
+void MMU::updateRTC() {
+    // Only update if RTC is not halted
+    if (rtc.daysHigh & 0x40) return;
+    
+    uint64_t currentTime = static_cast<uint64_t>(std::time(nullptr));
+    uint64_t elapsed = currentTime - rtc.lastTime;
+    rtc.lastTime = currentTime;
+    
+    // Add elapsed seconds
+    uint32_t totalSeconds = rtc.seconds + elapsed;
+    rtc.seconds = totalSeconds % 60;
+    
+    uint32_t totalMinutes = rtc.minutes + (totalSeconds / 60);
+    rtc.minutes = totalMinutes % 60;
+    
+    uint32_t totalHours = rtc.hours + (totalMinutes / 60);
+    rtc.hours = totalHours % 24;
+    
+    uint32_t totalDays = ((rtc.daysHigh & 0x01) << 8) | rtc.daysLow;
+    totalDays += totalHours / 24;
+    
+    rtc.daysLow = totalDays & 0xFF;
+    rtc.daysHigh = (rtc.daysHigh & 0xFE) | ((totalDays >> 8) & 0x01);
+    
+    // Set day counter overflow flag if > 511 days
+    if (totalDays > 511) {
+        rtc.daysHigh |= 0x80;  // Set overflow flag
+        rtc.daysLow = 0;
+        rtc.daysHigh &= 0xFE;  // Clear day counter MSB
+    }
+}
+
+uint8_t MMU::readRTC(uint8_t reg) {
+    switch (reg) {
+        case 0x08: return rtcLatched.seconds;
+        case 0x09: return rtcLatched.minutes;
+        case 0x0A: return rtcLatched.hours;
+        case 0x0B: return rtcLatched.daysLow;
+        case 0x0C: return rtcLatched.daysHigh;
+        default: return 0xFF;
+    }
+}
+
+void MMU::writeRTC(uint8_t reg, uint8_t val) {
+    // Update the RTC time base when writing
+    updateRTC();
+    
+    switch (reg) {
+        case 0x08: rtc.seconds = val & 0x3F; break;  // 0-59
+        case 0x09: rtc.minutes = val & 0x3F; break;  // 0-59
+        case 0x0A: rtc.hours = val & 0x1F; break;    // 0-23
+        case 0x0B: rtc.daysLow = val; break;
+        case 0x0C: rtc.daysHigh = val & 0xC1; break; // Only bits 0, 6, 7 are used
+    }
+    
+    // Reset time base after write
+    rtc.lastTime = static_cast<uint64_t>(std::time(nullptr));
 }

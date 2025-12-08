@@ -211,7 +211,11 @@ function handleWorkerMessageOffscreen(e) {
 			powerLed.classList.add('on');
 			statusDisplay.textContent = 'Running';
 			running = true;
+			// Reset button state to avoid stuck buttons from menu navigation
+			buttonState = 0;
+			if (sharedControl) Atomics.store(sharedControl, CTRL_BUTTONS, 0);
 			initAudioOffscreenMode();
+			Audio.resetAudioBuffer(); // Clear any stale audio to prevent latency
 			Audio.resumeAudio();
 			break;
 
@@ -333,7 +337,11 @@ function handleWorkerMessage(e) {
 			powerLed.classList.add('on');
 			statusDisplay.textContent = 'Running';
 			running = true;
+			// Reset button state to avoid stuck buttons from menu navigation
+			buttonState = 0;
+			if (sharedControl) Atomics.store(sharedControl, CTRL_BUTTONS, 0);
 			Audio.initAudioWorkerMode(sharedAudioSAB, sharedControlSAB);
+			Audio.resetAudioBuffer(); // Clear any stale audio to prevent latency
 			Audio.resumeAudio();
 			startRenderLoopWorker();
 			break;
@@ -471,6 +479,8 @@ function loadROMFallback(arrayBuffer) {
 		resetBtn.disabled = false;
 		powerLed.classList.add('on');
 		statusDisplay.textContent = 'Running';
+		// Reset button state to avoid stuck buttons from menu navigation
+		buttonState = 0;
 		Audio.initAudioFallback(() => emu);
 		startEmulationFallback();
 		return true;

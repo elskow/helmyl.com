@@ -10,6 +10,7 @@ void APU::reset() {
     frameSequencerCycles = 0;
     frameSequencerStep = 0;
     sampleCycles = 0;
+    sampleCyclesFrac = 0;
     sampleBufferPos = 0;
     sampleBuffer.resize(SAMPLE_BUFFER_SIZE * 2); // Stereo
     
@@ -60,10 +61,18 @@ void APU::step(int cycles) {
         stepFrameSequencer();
     }
     
-    // Generate samples
+    // Generate samples with fractional accumulator for precise timing
     sampleCycles += cycles;
-    while (sampleCycles >= CYCLES_PER_SAMPLE) {
-        sampleCycles -= CYCLES_PER_SAMPLE;
+    while (sampleCycles >= CYCLES_PER_SAMPLE_INT) {
+        sampleCycles -= CYCLES_PER_SAMPLE_INT;
+        sampleCyclesFrac += CYCLES_PER_SAMPLE_FRAC;
+        
+        // Handle fractional overflow (every ~10 samples, we need an extra cycle)
+        if (sampleCyclesFrac >= 1000) {
+            sampleCyclesFrac -= 1000;
+            sampleCycles--;  // Borrow one cycle to correct drift
+        }
+        
         generateSample();
     }
     
@@ -199,6 +208,7 @@ int APU::calculateSweepFrequency() {
     
     if (ch1.sweepNegate) {
         newFreq = ch1.shadowFrequency - newFreq;
+        ch1.sweepNegateUsed = true;  // Mark that negate was used
     } else {
         newFreq = ch1.shadowFrequency + newFreq;
     }
@@ -216,15 +226,20 @@ void APU::triggerChannel1() {
     
     if (ch1.lengthCounter == 0) {
         ch1.lengthCounter = 64;
+        // Length counter extra clock bug: if length enable set and on length-clocking step
+        if ((ch1.nr14 & 0x40) && (frameSequencerStep & 1) == 0) {
+            ch1.lengthCounter--;
+        }
     }
     
     ch1.frequencyTimer = (2048 - ch1.frequency) * 4;
-    ch1.envelopeTimer = ch1.envelopePeriod;
+    ch1.envelopeTimer = ch1.envelopePeriod ? ch1.envelopePeriod : 8;
     ch1.volume = ch1.nr12 >> 4;
     
     ch1.shadowFrequency = ch1.frequency;
     ch1.sweepTimer = ch1.sweepPeriod ? ch1.sweepPeriod : 8;
     ch1.sweepEnabled = ch1.sweepPeriod > 0 || ch1.sweepShift > 0;
+    ch1.sweepNegateUsed = false;  // Reset negate flag on trigger
     
     if (ch1.sweepShift > 0) {
         calculateSweepFrequency();
@@ -236,10 +251,14 @@ void APU::triggerChannel2() {
     
     if (ch2.lengthCounter == 0) {
         ch2.lengthCounter = 64;
+        // Length counter extra clock bug: if length enable set and on length-clocking step
+        if ((ch2.nr24 & 0x40) && (frameSequencerStep & 1) == 0) {
+            ch2.lengthCounter--;
+        }
     }
     
     ch2.frequencyTimer = (2048 - ch2.frequency) * 4;
-    ch2.envelopeTimer = ch2.envelopePeriod;
+    ch2.envelopeTimer = ch2.envelopePeriod ? ch2.envelopePeriod : 8;
     ch2.volume = ch2.nr22 >> 4;
 }
 
@@ -248,6 +267,10 @@ void APU::triggerChannel3() {
     
     if (ch3.lengthCounter == 0) {
         ch3.lengthCounter = 256;
+        // Length counter extra clock bug: if length enable set and on length-clocking step
+        if ((ch3.nr34 & 0x40) && (frameSequencerStep & 1) == 0) {
+            ch3.lengthCounter--;
+        }
     }
     
     ch3.frequencyTimer = (2048 - ch3.frequency) * 2;
@@ -259,11 +282,15 @@ void APU::triggerChannel4() {
     
     if (ch4.lengthCounter == 0) {
         ch4.lengthCounter = 64;
+        // Length counter extra clock bug: if length enable set and on length-clocking step
+        if ((ch4.nr44 & 0x40) && (frameSequencerStep & 1) == 0) {
+            ch4.lengthCounter--;
+        }
     }
     
     int divisor = ch4.divisor == 0 ? 8 : ch4.divisor * 16;
     ch4.frequencyTimer = divisor << ch4.clockShift;
-    ch4.envelopeTimer = ch4.envelopePeriod;
+    ch4.envelopeTimer = ch4.envelopePeriod ? ch4.envelopePeriod : 8;
     ch4.volume = ch4.nr42 >> 4;
     ch4.lfsr = 0x7FFF;
 }
@@ -421,6 +448,10 @@ uint8_t APU::read(uint16_t addr) {
         case 0xFF34: case 0xFF35: case 0xFF36: case 0xFF37:
         case 0xFF38: case 0xFF39: case 0xFF3A: case 0xFF3B:
         case 0xFF3C: case 0xFF3D: case 0xFF3E: case 0xFF3F:
+            // Wave RAM corruption: if CH3 is playing, return the byte being accessed
+            if (ch3.enabled) {
+                return waveRam[ch3.positionCounter / 2];
+            }
             return waveRam[addr - 0xFF30];
         
         default:
@@ -436,12 +467,19 @@ void APU::write(uint16_t addr, uint8_t val) {
     
     switch (addr) {
         // Channel 1
-        case 0xFF10:
+        case 0xFF10: {
+            bool wasNegate = ch1.sweepNegate;
             ch1.nr10 = val;
             ch1.sweepPeriod = (val >> 4) & 7;
             ch1.sweepNegate = val & 0x08;
             ch1.sweepShift = val & 7;
+            
+            // Sweep negate quirk: if negate was used and now cleared, disable channel
+            if (ch1.sweepNegateUsed && wasNegate && !ch1.sweepNegate) {
+                ch1.enabled = false;
+            }
             break;
+        }
             
         case 0xFF11:
             ch1.nr11 = val;
@@ -449,13 +487,27 @@ void APU::write(uint16_t addr, uint8_t val) {
             ch1.lengthCounter = 64 - (val & 0x3F);
             break;
             
-        case 0xFF12:
+        case 0xFF12: {
+            uint8_t oldVal = ch1.nr12;
             ch1.nr12 = val;
             ch1.dacEnabled = (val & 0xF8) != 0;
             ch1.envelopePeriod = val & 7;
             ch1.envelopeIncreasing = val & 0x08;
+            
+            // Zombie mode: volume changes when writing while channel active
+            if (ch1.enabled) {
+                if ((val & 0x08) && !(oldVal & 0x08)) {
+                    // Switching to increment mode: volume++
+                    ch1.volume = (ch1.volume + 1) & 0x0F;
+                } else if (((oldVal ^ val) & 0x08) != 0) {
+                    // Direction changed: volume = 16 - volume
+                    ch1.volume = (16 - ch1.volume) & 0x0F;
+                }
+            }
+            
             if (!ch1.dacEnabled) ch1.enabled = false;
             break;
+        }
             
         case 0xFF13:
             ch1.nr13 = val;
@@ -477,13 +529,27 @@ void APU::write(uint16_t addr, uint8_t val) {
             ch2.lengthCounter = 64 - (val & 0x3F);
             break;
             
-        case 0xFF17:
+        case 0xFF17: {
+            uint8_t oldVal = ch2.nr22;
             ch2.nr22 = val;
             ch2.dacEnabled = (val & 0xF8) != 0;
             ch2.envelopePeriod = val & 7;
             ch2.envelopeIncreasing = val & 0x08;
+            
+            // Zombie mode: volume changes when writing while channel active
+            if (ch2.enabled) {
+                if ((val & 0x08) && !(oldVal & 0x08)) {
+                    // Switching to increment mode: volume++
+                    ch2.volume = (ch2.volume + 1) & 0x0F;
+                } else if (((oldVal ^ val) & 0x08) != 0) {
+                    // Direction changed: volume = 16 - volume
+                    ch2.volume = (16 - ch2.volume) & 0x0F;
+                }
+            }
+            
             if (!ch2.dacEnabled) ch2.enabled = false;
             break;
+        }
             
         case 0xFF18:
             ch2.nr23 = val;
@@ -533,13 +599,27 @@ void APU::write(uint16_t addr, uint8_t val) {
             ch4.lengthCounter = 64 - (val & 0x3F);
             break;
             
-        case 0xFF21:
+        case 0xFF21: {
+            uint8_t oldVal = ch4.nr42;
             ch4.nr42 = val;
             ch4.dacEnabled = (val & 0xF8) != 0;
             ch4.envelopePeriod = val & 7;
             ch4.envelopeIncreasing = val & 0x08;
+            
+            // Zombie mode: volume changes when writing while channel active
+            if (ch4.enabled) {
+                if ((val & 0x08) && !(oldVal & 0x08)) {
+                    // Switching to increment mode: volume++
+                    ch4.volume = (ch4.volume + 1) & 0x0F;
+                } else if (((oldVal ^ val) & 0x08) != 0) {
+                    // Direction changed: volume = 16 - volume
+                    ch4.volume = (16 - ch4.volume) & 0x0F;
+                }
+            }
+            
             if (!ch4.dacEnabled) ch4.enabled = false;
             break;
+        }
             
         case 0xFF22:
             ch4.nr43 = val;

@@ -49,11 +49,20 @@ export async function initAudioWorkerMode(sharedAudioSAB, sharedControlSAB) {
 							this.readPos = 0;
 							this.bufferSize = 16384;
 							this.ctrlAudioWritePos = 2;
+							this.lastLeft = 0;
+							this.lastRight = 0;
 							
 							this.port.onmessage = (e) => {
 								if (e.data.type === 'set-buffers') {
 									this.sharedAudio = new Float32Array(e.data.audio);
 									this.sharedControl = new Int32Array(e.data.control);
+									this.readPos = 0;
+									this.lastLeft = 0;
+									this.lastRight = 0;
+								} else if (e.data.type === 'reset') {
+									this.readPos = 0;
+									this.lastLeft = 0;
+									this.lastRight = 0;
 								}
 							};
 						}
@@ -68,16 +77,22 @@ export async function initAudioWorkerMode(sharedAudioSAB, sharedControlSAB) {
 							
 							for (let i = 0; i < left.length; i++) {
 								if (this.readPos !== writePos) {
-									left[i] = this.sharedAudio[this.readPos];
+									this.lastLeft = this.sharedAudio[this.readPos];
+									left[i] = this.lastLeft;
 									this.readPos = (this.readPos + 1) % this.bufferSize;
 								} else {
-									left[i] = 0;
+									// Underrun: fade to zero to avoid pops
+									this.lastLeft *= 0.95;
+									left[i] = this.lastLeft;
 								}
 								if (this.readPos !== writePos) {
-									right[i] = this.sharedAudio[this.readPos];
+									this.lastRight = this.sharedAudio[this.readPos];
+									right[i] = this.lastRight;
 									this.readPos = (this.readPos + 1) % this.bufferSize;
 								} else {
-									right[i] = 0;
+									// Underrun: fade to zero to avoid pops
+									this.lastRight *= 0.95;
+									right[i] = this.lastRight;
 								}
 							}
 							return true;
@@ -247,6 +262,14 @@ export async function resumeAudio() {
 	if (audioContext && audioContext.state === 'suspended') {
 		await audioContext.resume();
 		console.log('Audio context resumed');
+	}
+}
+
+export function resetAudioBuffer() {
+	// Reset the audio worklet's read position to sync with the new write position
+	audioReadPos = 0;
+	if (audioWorkletNode) {
+		audioWorkletNode.port.postMessage({ type: 'reset' });
 	}
 }
 

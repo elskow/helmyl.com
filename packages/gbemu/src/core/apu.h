@@ -41,6 +41,9 @@ public:
     // Buffer should be large enough for stereo samples (left, right, left, right...)
     int getSamples(float* buffer, int maxSamples);
     
+    // Clear audio buffer (call on ROM load to reset audio latency)
+    void clearBuffer() { sampleBufferPos = 0; }
+    
     // Sample rate for audio output
     static constexpr int SAMPLE_RATE = 44100;
     
@@ -49,9 +52,13 @@ private:
     int frameSequencerCycles;
     int frameSequencerStep;
     
-    // Sample generation
+    // Sample generation - use fractional accumulator for precise timing
     int sampleCycles;
-    static constexpr int CYCLES_PER_SAMPLE = 4194304 / SAMPLE_RATE; // ~95 cycles
+    int sampleCyclesFrac;  // Fractional part (scaled by 1000)
+    // Precise cycles per sample: 4194304 / 44100 = 95.1020408...
+    // We use 95102 / 1000 to avoid drift
+    static constexpr int CYCLES_PER_SAMPLE_INT = 95;
+    static constexpr int CYCLES_PER_SAMPLE_FRAC = 102;  // 0.102 * 1000
     
     // Audio buffer
     std::vector<float> sampleBuffer;
@@ -84,6 +91,7 @@ private:
         int sweepTimer;
         int sweepPeriod;
         bool sweepNegate;
+        bool sweepNegateUsed;  // Track if negate was used since trigger (for quirk)
         int sweepShift;
         int frequency;
         int shadowFrequency;

@@ -409,6 +409,13 @@ function start() {
 	totalFramesRun = 0;
 	fpsReportTime = emulationStartTime;
 	frameCount = 0;
+
+	// Reset audio write position to prevent latency from stale buffer data
+	audioWritePos = 0;
+	if (sharedControl) {
+		Atomics.store(sharedControl, CTRL_AUDIO_WRITE_POS, 0);
+	}
+
 	emulationLoop();
 }
 

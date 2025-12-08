@@ -3,8 +3,9 @@
 #include <cstdint>
 #include <vector>
 
-// Forward declaration
+// Forward declarations
 class APU;
+class Timer;
 
 /**
  * Memory Management Unit - Handles GameBoy's 64KB address space
@@ -57,10 +58,15 @@ public:
     void setPPUMode(uint8_t mode) { ppuMode = mode; }
     
     // DMA transfer
-    void doDMATransfer(uint8_t val);
+    void startDMATransfer(uint8_t val);
+    void stepDMA(int cycles);
+    bool isDMAActive() const { return dmaActive; }
     
     // APU reference for audio register access
     void setAPU(APU* apuPtr) { apu = apuPtr; }
+    
+    // Timer reference for DIV write callback
+    void setTimer(Timer* timerPtr) { timer = timerPtr; }
     
     // Debug: get current ROM bank
     uint8_t getROMBank() const { return romBank; }
@@ -93,6 +99,20 @@ private:
     uint8_t ramBank;
     bool ramEnabled;
     uint8_t mbcMode;
+    
+    // MBC3 RTC (Real-Time Clock) registers
+    struct RTC {
+        uint8_t seconds;      // 0-59
+        uint8_t minutes;      // 0-59
+        uint8_t hours;        // 0-23
+        uint8_t daysLow;      // Lower 8 bits of day counter
+        uint8_t daysHigh;     // Bit 0: Day counter MSB, Bit 6: Halt, Bit 7: Day overflow
+        uint64_t lastTime;    // System time at last latch
+    };
+    RTC rtc;
+    RTC rtcLatched;           // Latched RTC values
+    uint8_t rtcLatchState;    // 0x00 -> 0x01 latches RTC
+    bool rtcSelected;         // True when RTC register is selected instead of RAM
     
     // I/O Registers
     uint8_t joypadReg;      // 0xFF00 - Joypad
@@ -130,8 +150,17 @@ private:
     // PPU access control
     uint8_t ppuMode;
     
+    // DMA state
+    bool dmaActive;         // True during DMA transfer
+    uint16_t dmaSource;     // Source address for DMA
+    int dmaCyclesLeft;      // Cycles remaining in DMA transfer
+    int dmaIndex;           // Current byte being transferred
+    
     // APU reference
     APU* apu = nullptr;
+    
+    // Timer reference for DIV write callback
+    Timer* timer = nullptr;
     
     // Debug: bank switch history
     std::vector<BankSwitch> bankSwitchHistory;
@@ -140,6 +169,11 @@ private:
     void handleMBCWrite(uint16_t addr, uint8_t val);
     uint32_t getROMOffset(uint16_t addr);
     uint16_t getRAMOffset(uint16_t addr);
+    
+    // MBC3 RTC handling
+    void updateRTC();
+    uint8_t readRTC(uint8_t reg);
+    void writeRTC(uint8_t reg, uint8_t val);
     
     // Detect MBC type from ROM header
     void detectMBC();

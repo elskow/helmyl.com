@@ -12,6 +12,7 @@ void PPU::reset() {
     mode = 2;
     windowLine = false;
     windowLineCounter = 0;
+    mode3Duration = 172;
     mmu.ly = 0;
     mmu.stat = (mmu.stat & 0xFC) | 2;
 }
@@ -52,13 +53,15 @@ bool PPU::step(int cycles) {
         case 2:  // OAM Scan (80 cycles)
             if (modeClock >= 80) {
                 modeClock -= 80;
+                // Calculate variable Mode 3 duration before entering it
+                mode3Duration = calculateMode3Duration();
                 setMode(3);
             }
             break;
             
-        case 3:  // Drawing (172 cycles typical)
-            if (modeClock >= 172) {
-                modeClock -= 172;
+        case 3:  // Drawing (172-289 cycles depending on sprites and window)
+            if (modeClock >= mode3Duration) {
+                modeClock -= mode3Duration;
                 
                 // Render current scanline
                 renderScanline();
@@ -67,9 +70,11 @@ bool PPU::step(int cycles) {
             }
             break;
             
-        case 0:  // HBlank (204 cycles)
-            if (modeClock >= 204) {
-                modeClock -= 204;
+        case 0: {  // HBlank (remaining cycles to complete 456 per scanline)
+            // Total scanline = 456 cycles = 80 (Mode 2) + mode3Duration + HBlank
+            int hblankDuration = 456 - 80 - mode3Duration;
+            if (modeClock >= hblankDuration) {
+                modeClock -= hblankDuration;
                 ly++;
                 mmu.ly = ly;
                 
@@ -91,6 +96,7 @@ bool PPU::step(int cycles) {
                 }
             }
             break;
+        }
             
         case 1:  // VBlank (4560 cycles, 10 lines)
             if (modeClock >= 456) {
@@ -122,9 +128,10 @@ bool PPU::step(int cycles) {
 }
 
 void PPU::renderScanline() {
-    // Clear scanline with white
+    // Clear scanline with white and reset BG color indices
     for (int x = 0; x < SCREEN_WIDTH; x++) {
         framebuffer[ly * SCREEN_WIDTH + x] = COLORS[0];
+        bgColorIndices[x] = 0;  // Default BG color index is 0
     }
     
     if (mmu.lcdc & 0x01) {
@@ -181,7 +188,8 @@ void PPU::renderBackground() {
         uint8_t bit = 7 - tileX;
         uint8_t colorNum = ((hi >> bit) & 1) << 1 | ((lo >> bit) & 1);
         
-        // Apply palette and draw
+        // Store color index for sprite priority and apply palette
+        bgColorIndices[x] = colorNum;
         framebuffer[ly * SCREEN_WIDTH + x] = getColor(mmu.bgp, colorNum);
     }
 }
@@ -236,7 +244,8 @@ void PPU::renderWindow() {
         uint8_t bit = 7 - tileX;
         uint8_t colorNum = ((hi >> bit) & 1) << 1 | ((lo >> bit) & 1);
         
-        // Apply palette and draw
+        // Store color index for sprite priority and apply palette
+        bgColorIndices[x] = colorNum;
         framebuffer[ly * SCREEN_WIDTH + x] = getColor(mmu.bgp, colorNum);
     }
     
@@ -330,10 +339,9 @@ void PPU::renderSprites() {
             // Color 0 is transparent
             if (colorNum == 0) continue;
             
-            // BG priority: sprite behind BG colors 1-3
-            if (priority) {
-                uint32_t bgColor = framebuffer[ly * SCREEN_WIDTH + screenX];
-                if (bgColor != COLORS[(mmu.bgp >> 0) & 3]) continue;
+            // BG priority: sprite behind BG colors 1-3 (non-zero color indices)
+            if (priority && bgColorIndices[screenX] != 0) {
+                continue;
             }
             
             framebuffer[ly * SCREEN_WIDTH + screenX] = getColor(palette, colorNum);
@@ -344,4 +352,43 @@ void PPU::renderSprites() {
 uint32_t PPU::getColor(uint8_t palette, uint8_t colorNum) {
     uint8_t color = (palette >> (colorNum * 2)) & 0x03;
     return COLORS[color];
+}
+
+int PPU::calculateMode3Duration() {
+    // Base Mode 3 duration is 172 cycles
+    int duration = 172;
+    
+    // Add 12 cycles for SCX % 8 (background scroll penalty)
+    duration += (mmu.scx & 7);
+    
+    // Count sprites on this scanline and add penalty
+    uint8_t* oam = mmu.getOAM();
+    int spriteHeight = (mmu.lcdc & 0x04) ? 16 : 8;
+    int spriteCount = 0;
+    
+    if (mmu.lcdc & 0x02) {  // Sprites enabled
+        for (int i = 0; i < 40 && spriteCount < 10; i++) {
+            int y = oam[i * 4] - 16;
+            // Check if sprite is on this scanline
+            if (ly >= y && ly < y + spriteHeight) {
+                spriteCount++;
+                // Each sprite adds approximately 6 cycles (varies based on position)
+                duration += 6;
+            }
+        }
+    }
+    
+    // Window penalty: if window is active on this line, add extra cycles
+    if ((mmu.lcdc & 0x20) && (mmu.lcdc & 0x01)) {  // Window enabled
+        if (ly >= mmu.wy && mmu.wx <= 166) {
+            // Window adds 6 cycles when triggered
+            duration += 6;
+        }
+    }
+    
+    // Clamp to valid range (172-289 cycles)
+    if (duration < 172) duration = 172;
+    if (duration > 289) duration = 289;
+    
+    return duration;
 }

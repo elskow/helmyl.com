@@ -43,18 +43,25 @@ private:
     // Framebuffer (RGBA)
     std::array<uint32_t, SCREEN_WIDTH * SCREEN_HEIGHT> framebuffer;
     
+    // Background color indices for current scanline (for sprite priority)
+    std::array<uint8_t, SCREEN_WIDTH> bgColorIndices;
+    
     // PPU state
     uint8_t ly;         // Current scanline (0-153)
     int modeClock;      // Cycles in current mode
     uint8_t mode;       // Current mode (0-3)
     bool windowLine;    // Did window trigger on this frame
     int windowLineCounter;
+    int mode3Duration;  // Variable Mode 3 duration (172-289 cycles)
     
     // Scanline rendering
     void renderScanline();
     void renderBackground();
     void renderWindow();
     void renderSprites();
+    
+    // Calculate Mode 3 duration based on sprites and window
+    int calculateMode3Duration();
     
     // Color conversion
     uint32_t getColor(uint8_t palette, uint8_t colorNum);
