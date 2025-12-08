@@ -1,8 +1,7 @@
-# Serve OG images as static files, not SPA routes
+# Serve static assets directly
+# Cloudflare Pages automatically serves 404.html for missing HTML pages
+# and returns proper 404 for missing assets (no catch-all needed)
 /og/*  /og/:splat  200
 /favicons/*  /favicons/:splat  200
 /images/*  /images/:splat  200
 /labs/*  /labs/:splat  200
-
-# SPA fallback for everything else
-/*  /index.html  200

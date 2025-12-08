@@ -5,11 +5,10 @@ import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 const config = {
 	kit: {
 		adapter: adapter({
-			fallback: 'index.html',
 			pages: 'build',
 			assets: 'build',
 			precompress: true,
-			strict: true
+			strict: false
 		}),
 		inlineStyleThreshold: 4096,
 		prerender: {
@@ -21,7 +20,7 @@ const config = {
 
 				throw new Error(`${path} ${message}`);
 			},
-			entries: ['*'],
+			entries: ['*', '/404'],
 			handleMissingId: 'warn'
 		}
 	},

@@ -8,7 +8,7 @@
   Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()
 
   # Content Security Policy (helps with SEO trust signals)
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://platform.twitter.com https://www.googletagmanager.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' blob: https:; frame-src https://platform.twitter.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://platform.twitter.com https://www.googletagmanager.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' blob: https:; frame-src https://platform.twitter.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'
 
   # CORS Headers
   Access-Control-Allow-Origin: *
@@ -77,7 +77,7 @@
   Timing-Allow-Origin: *
   Cache-Control: public, max-age=31536000, immutable
   # Override CSP for WebGL labs - allow blob: for shaders and data: for textures
-  Content-Security-Policy: default-src 'self' blob: data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; connect-src 'self' blob: data: https:; worker-src 'self' blob:; object-src 'none'; base-uri 'self'
+  Content-Security-Policy: default-src 'self' blob: data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https:; connect-src 'self' blob: data: https:; worker-src 'self' blob:; object-src 'none'; base-uri 'self'
 
 # GameBoy Emulator - requires SharedArrayBuffer (COOP + COEP headers)
 /labs/gbemu/*

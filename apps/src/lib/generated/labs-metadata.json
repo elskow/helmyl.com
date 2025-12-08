@@ -1,5 +1,32 @@
 [
   {
+    "name": "blackhole",
+    "description": "Interactive black hole visualization with gravitational lensing, accretion disk, and relativistic effects - all GPU-rendered",
+    "version": "1.0.0",
+    "slug": "blackhole",
+    "author": "",
+    "homepage": "",
+    "repository": ""
+  },
+  {
+    "name": "gbemu",
+    "description": "GameBoy emulator with Sharp LR35902 CPU compiled to WebAssembly",
+    "version": "1.0.0",
+    "slug": "gbemu",
+    "author": "",
+    "homepage": "",
+    "repository": ""
+  },
+  {
+    "name": "marble-run",
+    "description": "3D marble run physics simulation with WebGL",
+    "version": "1.0.0",
+    "slug": "marble-run",
+    "author": "",
+    "homepage": "",
+    "repository": ""
+  },
+  {
     "name": "rotating-donut",
     "description": "WebGL rotating donut visualization",
     "version": "1.0.0",
@@ -13,6 +40,15 @@
     "description": "Interactive space shooter game",
     "version": "1.0.0",
     "slug": "space-shooter",
+    "author": "",
+    "homepage": "",
+    "repository": ""
+  },
+  {
+    "name": "uiia-cat",
+    "description": "3D rotating Uiia cat model viewer",
+    "version": "1.0.0",
+    "slug": "uiia-cat",
     "author": "",
     "homepage": "",
     "repository": ""
