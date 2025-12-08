@@ -186,4 +186,24 @@ private:
     void generateSample();
     
     int calculateSweepFrequency();
+    
+    // Audio filters for authentic sound
+    // Low-pass filter state (removes harshness/aliasing)
+    float lpfLeftPrev;
+    float lpfRightPrev;
+    static constexpr float LPF_CUTOFF = 14000.0f;  // 14kHz cutoff
+    
+    // High-pass filter state (removes DC offset, smooths clicks)
+    float hpfLeftPrev;
+    float hpfRightPrev;
+    float hpfLeftCapacitor;
+    float hpfRightCapacitor;
+    static constexpr float HPF_CUTOFF = 20.0f;  // 20Hz cutoff
+    
+    // Precomputed filter coefficients
+    float lpfAlpha;  // Low-pass coefficient
+    float hpfAlpha;  // High-pass coefficient
+    
+    void initFilters();
+    void applyFilters(float& left, float& right);
 };

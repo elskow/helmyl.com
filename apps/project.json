@@ -40,6 +40,14 @@
 				"cwd": "apps"
 			}
 		},
+		"serve": {
+			"executor": "nx:run-commands",
+			"dependsOn": ["build"],
+			"options": {
+				"command": "npx serve build -l 4173",
+				"cwd": "apps"
+			}
+		},
 		"clean": {
 			"executor": "nx:run-commands",
 			"options": {

@@ -174,8 +174,7 @@ function initWorkerOffscreen() {
 		type: 'classic'
 	});
 	worker.onmessage = handleWorkerMessageOffscreen;
-	worker.onerror = (e) => {
-		console.error('Worker error:', e);
+	worker.onerror = () => {
 		statusDisplay.textContent = 'Worker error';
 	};
 	worker.postMessage({ type: 'init' });
@@ -210,7 +209,6 @@ function handleWorkerMessageOffscreen(e) {
 			break;
 
 		case 'rom-loaded':
-			overlay.classList.add('hidden');
 			resetBtn.disabled = false;
 			powerLed.classList.add('on');
 			statusDisplay.textContent = 'Running';
@@ -236,7 +234,6 @@ function handleWorkerMessageOffscreen(e) {
 			break;
 
 		case 'error':
-			console.error('Worker error:', data.message);
 			statusDisplay.textContent = data.message;
 			break;
 	}
@@ -274,7 +271,11 @@ function handleKeyDownOffscreen(e) {
 	const bit = keyMap[e.code];
 	if (bit !== undefined) {
 		e.preventDefault();
-		if (isMenuActive && !handleMenuInput(getActionFromKeyCode(e.code))) return;
+		// When menu is active, handle menu input and don't send to emulator
+		if (isMenuActive) {
+			handleMenuInput(getActionFromKeyCode(e.code));
+			return;
+		}
 		buttonState |= 1 << bit;
 		if (sharedControl) Atomics.store(sharedControl, CTRL_BUTTONS, buttonState);
 	}
@@ -284,6 +285,8 @@ function handleKeyUpOffscreen(e) {
 	const bit = keyMap[e.code];
 	if (bit !== undefined) {
 		e.preventDefault();
+		// Don't update button state when menu is active
+		if (isMenuActive) return;
 		buttonState &= ~(1 << bit);
 		if (sharedControl) Atomics.store(sharedControl, CTRL_BUTTONS, buttonState);
 	}
@@ -308,7 +311,6 @@ function initWorker() {
 	worker = new Worker(new URL('./workers/sab-worker.js', import.meta.url), { type: 'classic' });
 	worker.onmessage = handleWorkerMessage;
 	worker.onerror = (e) => {
-		console.error('Worker error:', e);
 		statusDisplay.textContent = 'Worker error';
 	};
 	worker.postMessage({ type: 'init' });
@@ -334,7 +336,6 @@ function handleWorkerMessage(e) {
 			break;
 
 		case 'rom-loaded':
-			overlay.classList.add('hidden');
 			resetBtn.disabled = false;
 			powerLed.classList.add('on');
 			statusDisplay.textContent = 'Running';
@@ -353,15 +354,19 @@ function handleWorkerMessage(e) {
 		case 'paused':
 			running = false;
 			statusDisplay.textContent = 'Paused';
+			if (animationId) {
+				cancelAnimationFrame(animationId);
+				animationId = null;
+			}
 			break;
 
 		case 'resumed':
 			running = true;
 			statusDisplay.textContent = 'Running';
+			startRenderLoopWorker();
 			break;
 
 		case 'error':
-			console.error('Worker error:', data.message);
 			statusDisplay.textContent = data.message;
 			break;
 	}
@@ -369,7 +374,6 @@ function handleWorkerMessage(e) {
 
 function renderLoopWorker() {
 	if (!running) {
-		animationId = requestAnimationFrame(renderLoopWorker);
 		return;
 	}
 
@@ -419,7 +423,11 @@ function handleKeyDownWorker(e) {
 	const bit = keyMap[e.code];
 	if (bit !== undefined) {
 		e.preventDefault();
-		if (isMenuActive && !handleMenuInput(getActionFromKeyCode(e.code))) return;
+		// When menu is active, handle menu input and don't send to emulator
+		if (isMenuActive) {
+			handleMenuInput(getActionFromKeyCode(e.code));
+			return;
+		}
 		buttonState |= 1 << bit;
 		if (sharedControl) Atomics.store(sharedControl, CTRL_BUTTONS, buttonState);
 	}
@@ -429,6 +437,8 @@ function handleKeyUpWorker(e) {
 	const bit = keyMap[e.code];
 	if (bit !== undefined) {
 		e.preventDefault();
+		// Don't update button state when menu is active
+		if (isMenuActive) return;
 		buttonState &= ~(1 << bit);
 		if (sharedControl) Atomics.store(sharedControl, CTRL_BUTTONS, buttonState);
 	}
@@ -439,8 +449,7 @@ async function initEmulatorFallback() {
 		emu = await createGBEmu();
 		emu.init();
 		statusDisplay.textContent = 'Ready';
-	} catch (e) {
-		console.error('Failed to initialize emulator:', e);
+	} catch {
 		statusDisplay.textContent = 'Failed to load';
 	}
 }
@@ -469,13 +478,13 @@ function loadROMFallback(arrayBuffer) {
 	const ptr = emu.allocateROMBuffer(data.length);
 	if (!ptr) {
 		statusDisplay.textContent = 'Memory error';
+		showGameMenu();
 		return false;
 	}
 
 	emu.HEAPU8.set(data, ptr);
 
 	if (emu.loadROMFromBuffer(data.length)) {
-		overlay.classList.add('hidden');
 		resetBtn.disabled = false;
 		powerLed.classList.add('on');
 		statusDisplay.textContent = 'Running';
@@ -485,6 +494,7 @@ function loadROMFallback(arrayBuffer) {
 		return true;
 	} else {
 		statusDisplay.textContent = 'Invalid ROM';
+		showGameMenu();
 		return false;
 	}
 }
@@ -548,6 +558,8 @@ function handleKeyDownFallback(e) {
 }
 
 function handleKeyUpFallback(e) {
+	// Don't update button state when menu is active
+	if (isMenuActive) return;
 	if (!emu) return;
 	const button = keyMapFallback[e.code];
 	if (button) {
@@ -565,7 +577,7 @@ function showShaderNotification(shaderName) {
 
 function toggleFullscreen() {
 	if (!document.fullscreenElement) {
-		gameboy.requestFullscreen().catch((err) => console.error('Fullscreen error:', err));
+		gameboy.requestFullscreen().catch(() => {});
 	} else {
 		document.exitFullscreen();
 	}
@@ -589,6 +601,7 @@ function handleDrop(e) {
 
 function handleFileSelect(e) {
 	loadROMFromFile(e.target.files[0]);
+	e.target.value = '';
 }
 
 function handleScreenTap(e) {
@@ -626,6 +639,9 @@ function hideGameMenu() {
 
 function loadROMFromFile(file) {
 	if (!file) return;
+	statusDisplay.textContent = 'Loading...';
+	hideGameMenu();
+
 	const reader = new FileReader();
 	reader.onload = () => {
 		if (useOffscreenCanvas) {
@@ -635,6 +651,10 @@ function loadROMFromFile(file) {
 		} else {
 			loadROMFallback(reader.result);
 		}
+	};
+	reader.onerror = () => {
+		statusDisplay.textContent = 'Read error';
+		showGameMenu();
 	};
 	reader.readAsArrayBuffer(file);
 }
@@ -656,8 +676,7 @@ async function loadROMFromURL(url, gameName) {
 		} else {
 			loadROMFallback(arrayBuffer);
 		}
-	} catch (e) {
-		console.error('Failed to load ROM:', e);
+	} catch {
 		statusDisplay.textContent = 'Load failed';
 		showGameMenu();
 	}
@@ -689,18 +708,17 @@ async function loadGameList() {
 		`;
 		gameListEl.appendChild(uploadBtn);
 
+		// Setup event listeners once when game list is created
+		setupGameItemListeners();
 		setupGameLibraryNavigation();
-	} catch (e) {
-		console.error('Failed to load game list:', e);
+	} catch {
 		gameListEl.innerHTML = '<div class="game-list-error">Failed to load games</div>';
 	}
 }
 
-function setupGameLibraryNavigation() {
-	gameItems = Array.from(document.querySelectorAll('.game-item'));
-	if (gameItems.length > 0) updateGameSelection(0);
-
-	gameItems.forEach((item) => {
+function setupGameItemListeners() {
+	const items = document.querySelectorAll('.game-item');
+	items.forEach((item) => {
 		item.addEventListener('click', (e) => {
 			e.preventDefault();
 			e.stopPropagation();
@@ -714,6 +732,11 @@ function setupGameLibraryNavigation() {
 			{ passive: false }
 		);
 	});
+}
+
+function setupGameLibraryNavigation() {
+	gameItems = Array.from(document.querySelectorAll('.game-item'));
+	if (gameItems.length > 0) updateGameSelection(0);
 }
 
 function updateGameSelection(newIndex) {
@@ -781,7 +804,11 @@ function handleMenuInput(action) {
 }
 
 function handleScreenButtonDown(btnName) {
-	if (isMenuActive && !handleMenuInput(btnName)) return;
+	// When menu is active, handle menu input and don't send to emulator
+	if (isMenuActive) {
+		handleMenuInput(btnName);
+		return;
+	}
 
 	if (useOffscreenCanvas || useWorkerMode) {
 		const bit = screenButtonMap[btnName];
@@ -796,6 +823,9 @@ function handleScreenButtonDown(btnName) {
 }
 
 function handleScreenButtonUp(btnName) {
+	// Don't update button state when menu is active
+	if (isMenuActive) return;
+
 	if (useOffscreenCanvas || useWorkerMode) {
 		const bit = screenButtonMap[btnName];
 		if (bit !== undefined) {
@@ -956,7 +986,6 @@ window.toggleAudio = () => {
 
 window.audioStatus = () => {
 	const status = Audio.getAudioStatus();
-	console.log('Audio Status:', status);
 };
 
 window.getCapabilities = () => ({

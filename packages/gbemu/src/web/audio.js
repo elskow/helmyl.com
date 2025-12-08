@@ -287,6 +287,7 @@ function getMenuAudioContext() {
 }
 
 export function playMenuNavigateSound() {
+	if (isMuted) return;
 	try {
 		const ctx = getMenuAudioContext();
 		if (ctx.state === 'suspended') {
@@ -311,6 +312,7 @@ export function playMenuNavigateSound() {
 }
 
 export function playMenuConfirmSound() {
+	if (isMuted) return;
 	try {
 		const ctx = getMenuAudioContext();
 		if (ctx.state === 'suspended') {

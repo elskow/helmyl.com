@@ -51,7 +51,6 @@ export function initWebGL() {
 	gl = canvas.getContext('webgl', { antialias: false, alpha: false });
 
 	if (!gl) {
-		console.warn('WebGL not available, falling back to Canvas 2D');
 		useWebGL = false;
 		initCanvas2D();
 		return false;
@@ -96,7 +95,6 @@ export function initWebGL() {
 	gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 
 	shaderStartTime = performance.now();
-	console.log('WebGL renderer initialized with shader:', SHADER_NAMES[currentShader]);
 	return true;
 }
 
@@ -108,7 +106,6 @@ export function buildShaderProgram() {
 	gl.compileShader(vertexShader);
 
 	if (!gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS)) {
-		console.error('Vertex shader error:', gl.getShaderInfoLog(vertexShader));
 		return;
 	}
 
@@ -117,7 +114,6 @@ export function buildShaderProgram() {
 	gl.compileShader(fragmentShader);
 
 	if (!gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS)) {
-		console.error('Fragment shader error:', gl.getShaderInfoLog(fragmentShader));
 		return;
 	}
 
@@ -130,7 +126,6 @@ export function buildShaderProgram() {
 	gl.linkProgram(glProgram);
 
 	if (!gl.getProgramParameter(glProgram, gl.LINK_STATUS)) {
-		console.error('Shader program link error:', gl.getProgramInfoLog(glProgram));
 		return;
 	}
 
@@ -183,8 +178,6 @@ export function cycleShader(worker = null, useOffscreenCanvas = false) {
 		worker.postMessage({ type: 'set-shader', data: { shader: currentShader } });
 	}
 
-	console.log('Shader changed to:', SHADER_NAMES[currentShader]);
-
 	const shaderBtn = document.getElementById('shader-btn');
 	if (shaderBtn) {
 		shaderBtn.title = `Shader: ${SHADER_NAMES[currentShader]}`;
@@ -202,7 +195,6 @@ export function initCanvas2D() {
 	ctx.fillStyle = '#0f380f';
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 	useWebGL = false;
-	console.log('Canvas 2D renderer initialized (fallback)');
 }
 
 export function renderWebGLFromShared(sharedFramebuffer, offset) {

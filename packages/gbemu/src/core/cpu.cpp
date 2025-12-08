@@ -6,13 +6,12 @@ CPU::CPU(MMU& mmu) : mmu(mmu) {
 }
 
 void CPU::reset() {
-    // Post-bootrom state (DMG)
     a = 0x01; f = 0xB0;
     b = 0x00; c = 0x13;
     d = 0x00; e = 0xD8;
     h = 0x01; l = 0x4D;
     sp = 0xFFFE;
-    pc = 0x0100;  // Entry point after bootrom
+    pc = 0x0100;
     
     halted = false;
     stopped = false;
@@ -104,7 +103,6 @@ void CPU::sbc8(uint8_t val) {
     int result = (int)a - (int)val - (int)carry;
     setFlag(FLAG_Z, (result & 0xFF) == 0);
     setFlag(FLAG_N, true);
-    // Fix: Use signed arithmetic to avoid overflow when val + carry > 255
     setFlag(FLAG_H, ((int)(a & 0x0F) - (int)(val & 0x0F) - (int)carry) < 0);
     setFlag(FLAG_C, result < 0);
     a = result & 0xFF;
@@ -226,7 +224,7 @@ uint8_t CPU::sla(uint8_t val) {
 
 uint8_t CPU::sra(uint8_t val) {
     uint8_t carry = val & 1;
-    val = (val >> 1) | (val & 0x80);  // Preserve bit 7
+    val = (val >> 1) | (val & 0x80);
     setFlag(FLAG_Z, val == 0);
     setFlag(FLAG_N, false);
     setFlag(FLAG_H, false);
@@ -287,24 +285,20 @@ int CPU::handleInterrupts() {
     
     ime = false;
     
-    // Priority: VBlank > LCD STAT > Timer > Serial > Joypad
     uint16_t vector = 0;
     uint8_t interrupt = 0;
     
-    if (pending & 0x01) { vector = 0x40; interrupt = 0x01; }      // VBlank
-    else if (pending & 0x02) { vector = 0x48; interrupt = 0x02; } // LCD STAT
-    else if (pending & 0x04) { vector = 0x50; interrupt = 0x04; } // Timer
-    else if (pending & 0x08) { vector = 0x58; interrupt = 0x08; } // Serial
-    else if (pending & 0x10) { vector = 0x60; interrupt = 0x10; } // Joypad
+    if (pending & 0x01) { vector = 0x40; interrupt = 0x01; }
+    else if (pending & 0x02) { vector = 0x48; interrupt = 0x02; }
+    else if (pending & 0x04) { vector = 0x50; interrupt = 0x04; }
+    else if (pending & 0x08) { vector = 0x58; interrupt = 0x08; }
+    else if (pending & 0x10) { vector = 0x60; interrupt = 0x10; }
     
-    // Clear interrupt flag
     mmu.write(0xFF0F, ifReg & ~interrupt);
     
-    // Push PC and jump to vector
     push16(pc);
     pc = vector;
     
-    // Interrupt dispatch takes 20 cycles (5 machine cycles)
     return 20;
 }
 
@@ -706,15 +700,11 @@ int CPU::executeOpcode(uint8_t opcode) {
 }
 
 int CPU::executeCBOpcode(uint8_t opcode) {
-    // CB-prefixed opcodes: bit operations
-    // Format: upper 2 bits = operation, middle 3 bits = bit number, lower 3 bits = register
-    
     uint8_t* regs[] = { &b, &c, &d, &e, &h, &l, nullptr, &a };
     uint8_t reg = opcode & 0x07;
     uint8_t bitNum = (opcode >> 3) & 0x07;
     uint8_t op = (opcode >> 6) & 0x03;
     
-    // Get value (handle (HL) specially)
     uint8_t val;
     if (reg == 6) {
         val = read8(getHL());
@@ -722,7 +712,6 @@ int CPU::executeCBOpcode(uint8_t opcode) {
         val = *regs[reg];
     }
     
-    // Execute operation
     uint8_t result = val;
     switch (op) {
         case 0:  // Rotate/shift
@@ -748,7 +737,6 @@ int CPU::executeCBOpcode(uint8_t opcode) {
             break;
     }
     
-    // Write back
     if (reg == 6) {
         write8(getHL(), result);
         return 16;

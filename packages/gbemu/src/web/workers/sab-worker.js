@@ -88,21 +88,11 @@ function emulationLoop() {
 		updateButtons(buttons);
 	}
 
-	if (totalFramesRun < expectedFrames) {
+	// Run frames to catch up if behind (handles background tab throttling)
+	const framesToRun = Math.min(expectedFrames - totalFramesRun, 4); // Cap at 4 to prevent spiral
+	for (let f = 0; f < framesToRun; f++) {
 		emu.runFrame();
 		totalFramesRun++;
-
-		if (sharedFramebuffer) {
-			const fb = emu.getFramebuffer();
-			const offset = currentBuffer * FB_SIZE;
-
-			for (let i = 0; i < FB_SIZE; i++) {
-				sharedFramebuffer[offset + i] = fb[i];
-			}
-
-			Atomics.store(sharedControl, CTRL_FRAME_READY, currentBuffer);
-			currentBuffer = 1 - currentBuffer;
-		}
 
 		if (sharedAudio) {
 			const sampleCount = emu.getAudioSamplesCount();
@@ -110,16 +100,36 @@ function emulationLoop() {
 				const audioBuffer = emu.getAudioBuffer();
 				const samplesToWrite = sampleCount * 2;
 
-				for (let i = 0; i < samplesToWrite; i++) {
-					sharedAudio[audioWritePos] = audioBuffer[i];
-					audioWritePos = (audioWritePos + 1) % AUDIO_BUFFER_SIZE;
+				// Optimized copy with wrap-around handling (avoid modulo in loop)
+				const remaining = AUDIO_BUFFER_SIZE - audioWritePos;
+				if (samplesToWrite <= remaining) {
+					// No wrap - single copy
+					sharedAudio.set(audioBuffer.subarray(0, samplesToWrite), audioWritePos);
+					audioWritePos += samplesToWrite;
+				} else {
+					// Wrap around - two copies
+					sharedAudio.set(audioBuffer.subarray(0, remaining), audioWritePos);
+					sharedAudio.set(audioBuffer.subarray(remaining, samplesToWrite), 0);
+					audioWritePos = samplesToWrite - remaining;
 				}
 
 				Atomics.store(sharedControl, CTRL_AUDIO_WRITE_POS, audioWritePos);
 			}
 		}
+	}
 
-		frameCount++;
+	// Only send the last frame to main thread (no point sending skipped frames)
+	if (framesToRun > 0 && sharedFramebuffer) {
+		const fb = emu.getFramebuffer();
+		const offset = currentBuffer * FB_SIZE;
+
+		// Use optimized TypedArray.set() instead of loop
+		sharedFramebuffer.set(fb.subarray(0, FB_SIZE), offset);
+
+		Atomics.store(sharedControl, CTRL_FRAME_READY, currentBuffer);
+		currentBuffer = 1 - currentBuffer;
+
+		frameCount += framesToRun;
 		if (now - fpsReportTime >= 1000) {
 			postMessage({ type: 'fps', fps: frameCount });
 			frameCount = 0;
@@ -173,7 +183,7 @@ function updateButtons(bitmask) {
 }
 
 function start() {
-	if (running) return;
+	const wasRunning = running;
 	running = true;
 	emulationStartTime = performance.now();
 	totalFramesRun = 0;
@@ -185,7 +195,9 @@ function start() {
 		Atomics.store(sharedControl, CTRL_AUDIO_WRITE_POS, 0);
 	}
 
-	emulationLoop();
+	if (!wasRunning) {
+		emulationLoop();
+	}
 }
 
 function stop() {

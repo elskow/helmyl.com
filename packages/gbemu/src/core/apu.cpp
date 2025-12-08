@@ -1,6 +1,7 @@
 #include "apu.h"
 #include <cstring>
 #include <algorithm>
+#include <cmath>
 
 APU::APU() {
     reset();
@@ -12,7 +13,7 @@ void APU::reset() {
     sampleCycles = 0;
     sampleCyclesFrac = 0;
     sampleBufferPos = 0;
-    sampleBuffer.resize(SAMPLE_BUFFER_SIZE * 2); // Stereo
+    sampleBuffer.resize(SAMPLE_BUFFER_SIZE * 2);
     
     nr50 = 0x77;
     nr51 = 0xF3;
@@ -40,6 +41,7 @@ void APU::reset() {
     ch4.lfsr = 0x7FFF;
     
     waveRam.fill(0);
+    initFilters();
 }
 
 void APU::step(int cycles) {
@@ -107,16 +109,6 @@ void APU::step(int cycles) {
 }
 
 void APU::stepFrameSequencer() {
-    // Frame sequencer steps at 512 Hz
-    // Step 0: Length
-    // Step 1: -
-    // Step 2: Length, Sweep
-    // Step 3: -
-    // Step 4: Length
-    // Step 5: -
-    // Step 6: Length, Sweep
-    // Step 7: Envelope
-    
     switch (frameSequencerStep) {
         case 0:
         case 4:
@@ -179,8 +171,6 @@ void APU::stepSweep() {
             if (newFreq <= 2047 && ch1.sweepShift > 0) {
                 ch1.frequency = newFreq;
                 ch1.shadowFrequency = newFreq;
-                
-                // Overflow check again
                 calculateSweepFrequency();
             }
         }
@@ -197,7 +187,6 @@ int APU::calculateSweepFrequency() {
         newFreq = ch1.shadowFrequency + newFreq;
     }
     
-    // Overflow check
     if (newFreq > 2047) {
         ch1.enabled = false;
     }
@@ -304,7 +293,6 @@ float APU::getChannel3Sample() {
     uint8_t waveByte = waveRam[sampleIndex / 2];
     uint8_t sample = (sampleIndex & 1) ? (waveByte & 0x0F) : (waveByte >> 4);
     
-    // Volume shift: 0=mute, 1=100%, 2=50%, 3=25%
     int volumeShift = (ch3.nr32 >> 5) & 0x03;
     if (volumeShift == 0) return 0.0f;
     sample >>= (volumeShift - 1);
@@ -322,7 +310,7 @@ float APU::getChannel4Sample() {
 
 void APU::generateSample() {
     if (sampleBufferPos >= SAMPLE_BUFFER_SIZE * 2) {
-        return; // Buffer full
+        return;
     }
     
     float ch1Sample = getChannel1Sample();
@@ -330,7 +318,6 @@ void APU::generateSample() {
     float ch3Sample = getChannel3Sample();
     float ch4Sample = getChannel4Sample();
     
-    // Mix channels for left and right
     float left = 0.0f;
     float right = 0.0f;
     
@@ -348,6 +335,8 @@ void APU::generateSample() {
     
     left = left * leftVol / 32.0f;
     right = right * rightVol / 32.0f;
+    
+    applyFilters(left, right);
     
     left = std::max(-1.0f, std::min(1.0f, left));
     right = std::max(-1.0f, std::min(1.0f, right));
@@ -383,33 +372,28 @@ uint8_t APU::read(uint16_t addr) {
     };
     
     switch (addr) {
-        // Channel 1
         case 0xFF10: return ch1.nr10 | 0x80;
         case 0xFF11: return ch1.nr11 | 0x3F;
         case 0xFF12: return ch1.nr12;
-        case 0xFF13: return 0xFF; // Write-only
+        case 0xFF13: return 0xFF;
         case 0xFF14: return ch1.nr14 | 0xBF;
         
-        // Channel 2
         case 0xFF16: return ch2.nr21 | 0x3F;
         case 0xFF17: return ch2.nr22;
-        case 0xFF18: return 0xFF; // Write-only
+        case 0xFF18: return 0xFF;
         case 0xFF19: return ch2.nr24 | 0xBF;
         
-        // Channel 3
         case 0xFF1A: return ch3.nr30 | 0x7F;
-        case 0xFF1B: return 0xFF; // Write-only
+        case 0xFF1B: return 0xFF;
         case 0xFF1C: return ch3.nr32 | 0x9F;
-        case 0xFF1D: return 0xFF; // Write-only
+        case 0xFF1D: return 0xFF;
         case 0xFF1E: return ch3.nr34 | 0xBF;
         
-        // Channel 4
-        case 0xFF20: return 0xFF; // Write-only
+        case 0xFF20: return 0xFF;
         case 0xFF21: return ch4.nr42;
         case 0xFF22: return ch4.nr43;
         case 0xFF23: return ch4.nr44 | 0xBF;
         
-        // Master control
         case 0xFF24: return nr50;
         case 0xFF25: return nr51;
         case 0xFF26: {
@@ -421,7 +405,6 @@ uint8_t APU::read(uint16_t addr) {
             return status | 0x70;
         }
         
-        // Wave RAM
         case 0xFF30: case 0xFF31: case 0xFF32: case 0xFF33:
         case 0xFF34: case 0xFF35: case 0xFF36: case 0xFF37:
         case 0xFF38: case 0xFF39: case 0xFF3A: case 0xFF3B:
@@ -443,7 +426,6 @@ void APU::write(uint16_t addr, uint8_t val) {
     }
     
     switch (addr) {
-        // Channel 1
         case 0xFF10: {
             bool wasNegate = ch1.sweepNegate;
             ch1.nr10 = val;
@@ -499,7 +481,6 @@ void APU::write(uint16_t addr, uint8_t val) {
             }
             break;
         
-        // Channel 2
         case 0xFF16:
             ch2.nr21 = val;
             ch2.dutyCycle = val >> 6;
@@ -541,7 +522,6 @@ void APU::write(uint16_t addr, uint8_t val) {
             }
             break;
         
-        // Channel 3
         case 0xFF1A:
             ch3.nr30 = val;
             ch3.dacEnabled = val & 0x80;
@@ -570,7 +550,6 @@ void APU::write(uint16_t addr, uint8_t val) {
             }
             break;
         
-        // Channel 4
         case 0xFF20:
             ch4.nr41 = val;
             ch4.lengthCounter = 64 - (val & 0x3F);
@@ -612,7 +591,6 @@ void APU::write(uint16_t addr, uint8_t val) {
             }
             break;
         
-        // Master control
         case 0xFF24:
             nr50 = val;
             break;
@@ -633,7 +611,6 @@ void APU::write(uint16_t addr, uint8_t val) {
             }
             break;
         
-        // Wave RAM
         case 0xFF30: case 0xFF31: case 0xFF32: case 0xFF33:
         case 0xFF34: case 0xFF35: case 0xFF36: case 0xFF37:
         case 0xFF38: case 0xFF39: case 0xFF3A: case 0xFF3B:
@@ -641,4 +618,50 @@ void APU::write(uint16_t addr, uint8_t val) {
             waveRam[addr - 0xFF30] = val;
             break;
     }
+}
+
+void APU::initFilters() {
+    // Reset filter state
+    lpfLeftPrev = 0.0f;
+    lpfRightPrev = 0.0f;
+    hpfLeftPrev = 0.0f;
+    hpfRightPrev = 0.0f;
+    hpfLeftCapacitor = 0.0f;
+    hpfRightCapacitor = 0.0f;
+    
+    // Compute filter coefficients using the formula:
+    // alpha = dt / (RC + dt) for low-pass
+    // alpha = RC / (RC + dt) for high-pass
+    // where RC = 1 / (2 * PI * cutoff) and dt = 1 / sampleRate
+    
+    float dt = 1.0f / static_cast<float>(SAMPLE_RATE);
+    
+    // Low-pass filter coefficient (14kHz cutoff)
+    float lpfRC = 1.0f / (2.0f * 3.14159265f * LPF_CUTOFF);
+    lpfAlpha = dt / (lpfRC + dt);
+    
+    // High-pass filter coefficient (20Hz cutoff)
+    float hpfRC = 1.0f / (2.0f * 3.14159265f * HPF_CUTOFF);
+    hpfAlpha = hpfRC / (hpfRC + dt);
+}
+
+void APU::applyFilters(float& left, float& right) {
+    // Apply high-pass filter first (removes DC offset, smooths channel on/off clicks)
+    // This emulates the capacitor-coupled output of the real Game Boy
+    // Formula: output = alpha * (prevOutput + input - prevInput)
+    float hpfLeftOut = hpfAlpha * (hpfLeftCapacitor + left - hpfLeftPrev);
+    float hpfRightOut = hpfAlpha * (hpfRightCapacitor + right - hpfRightPrev);
+    hpfLeftPrev = left;
+    hpfRightPrev = right;
+    hpfLeftCapacitor = hpfLeftOut;
+    hpfRightCapacitor = hpfRightOut;
+    
+    // Apply low-pass filter (removes harshness/aliasing from square waves)
+    // This emulates the analog filtering in the Game Boy's audio path
+    // Formula: output = prevOutput + alpha * (input - prevOutput)
+    lpfLeftPrev = lpfLeftPrev + lpfAlpha * (hpfLeftOut - lpfLeftPrev);
+    lpfRightPrev = lpfRightPrev + lpfAlpha * (hpfRightOut - lpfRightPrev);
+    
+    left = lpfLeftPrev;
+    right = lpfRightPrev;
 }
