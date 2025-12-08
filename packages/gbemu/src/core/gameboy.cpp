@@ -33,7 +33,8 @@ void GameBoy::reset() {
 
 int GameBoy::step() {
     int cycles = cpu.step();
-    mmu.stepDMA(cycles);  // Step DMA transfer
+    mmu.stepDMA(cycles);
+    mmu.stepSerial(cycles);
     timer.step(cycles);
     ppu.step(cycles);
     apu.step(cycles);
@@ -41,7 +42,9 @@ int GameBoy::step() {
 }
 
 int GameBoy::stepCPU() {
-    return cpu.step();
+    int cycles = cpu.step();
+    mmu.stepDMA(cycles);  // Must step DMA to prevent it from blocking CPU reads forever
+    return cycles;
 }
 
 void GameBoy::runFrame() {
@@ -49,7 +52,8 @@ void GameBoy::runFrame() {
     
     while (cyclesThisFrame < CYCLES_PER_FRAME) {
         int cycles = cpu.step();
-        mmu.stepDMA(cycles);  // Step DMA transfer
+        mmu.stepDMA(cycles);
+        mmu.stepSerial(cycles);
         timer.step(cycles);
         apu.step(cycles);
         

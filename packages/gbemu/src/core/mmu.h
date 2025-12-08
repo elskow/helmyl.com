@@ -56,33 +56,21 @@ public:
     
     // PPU state for memory access control
     void setPPUMode(uint8_t mode) { ppuMode = mode; }
+    uint8_t getPPUMode() const { return ppuMode; }
     
     // DMA transfer
     void startDMATransfer(uint8_t val);
     void stepDMA(int cycles);
     bool isDMAActive() const { return dmaActive; }
     
+    // Serial transfer
+    void stepSerial(int cycles);
+    
     // APU reference for audio register access
     void setAPU(APU* apuPtr) { apu = apuPtr; }
     
     // Timer reference for DIV write callback
     void setTimer(Timer* timerPtr) { timer = timerPtr; }
-    
-    // Debug: get current ROM bank
-    uint8_t getROMBank() const { return romBank; }
-    uint8_t getMBCType() const { return mbcType; }
-    const std::vector<uint8_t>& getROM() const { return rom; }
-    
-    // Bank switch history for debugging
-    struct BankSwitch {
-        uint16_t addr;      // Address of the write
-        uint8_t value;      // Value written
-        uint8_t oldBank;    // Previous bank
-        uint8_t newBank;    // New bank after write
-    };
-    
-    std::vector<BankSwitch>& getBankSwitchHistory() { return bankSwitchHistory; }
-    void clearBankSwitchHistory() { bankSwitchHistory.clear(); }
     
 private:
     // Memory regions
@@ -125,9 +113,11 @@ private:
     uint8_t tma;            // 0xFF06 - Timer modulo
     uint8_t tac;            // 0xFF07 - Timer control
     
-    // Serial (stubbed)
+    // Serial transfer
     uint8_t sb;             // 0xFF01 - Serial data
     uint8_t sc;             // 0xFF02 - Serial control
+    int serialCycles;       // Cycles remaining for serial transfer
+    bool serialActive;      // True during serial transfer
     
     // Interrupt registers
     uint8_t interruptFlag;  // 0xFF0F - IF
@@ -161,9 +151,6 @@ private:
     
     // Timer reference for DIV write callback
     Timer* timer = nullptr;
-    
-    // Debug: bank switch history
-    std::vector<BankSwitch> bankSwitchHistory;
     
     // MBC handling
     void handleMBCWrite(uint16_t addr, uint8_t val);

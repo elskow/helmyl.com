@@ -28,6 +28,8 @@ MMU::MMU()
     , tac(0)
     , sb(0)
     , sc(0)
+    , serialCycles(0)
+    , serialActive(false)
     , interruptFlag(0xE1)
     , interruptEnable(0)
     , lcdc(0x91)
@@ -83,8 +85,6 @@ void MMU::detectMBC() {
 }
 
 void MMU::handleMBCWrite(uint16_t addr, uint8_t val) {
-    uint8_t oldBank = romBank;
-    
     switch (mbcType) {
         case 0:  // No MBC
             break;
@@ -162,16 +162,6 @@ void MMU::handleMBCWrite(uint16_t addr, uint8_t val) {
             }
             break;
     }
-    
-    // Log bank switch if bank changed
-    if (romBank != oldBank) {
-        MMU::BankSwitch bs;
-        bs.addr = addr;
-        bs.value = val;
-        bs.oldBank = oldBank;
-        bs.newBank = romBank;
-        bankSwitchHistory.push_back(bs);
-    }
 }
 
 uint32_t MMU::getROMOffset(uint16_t addr) {
@@ -245,8 +235,8 @@ void MMU::stepDMA(int cycles) {
 }
 
 uint8_t MMU::read(uint16_t addr) {
-    // During DMA, only HRAM is accessible
-    if (dmaActive && addr < 0xFF80) {
+    // During DMA, only HRAM (0xFF80-0xFFFE) and I/O registers (0xFF00-0xFF7F) are accessible
+    if (dmaActive && addr < 0xFF00) {
         return 0xFF;
     }
     
@@ -369,8 +359,8 @@ uint8_t MMU::read(uint16_t addr) {
 }
 
 void MMU::write(uint16_t addr, uint8_t val) {
-    // During DMA, only HRAM is accessible (except for DMA register itself)
-    if (dmaActive && addr < 0xFF80 && addr != 0xFF46) {
+    // During DMA, only HRAM (0xFF80-0xFFFE) and I/O registers (0xFF00-0xFF7F) are accessible
+    if (dmaActive && addr < 0xFF00) {
         return;
     }
     
@@ -434,7 +424,14 @@ void MMU::write(uint16_t addr, uint8_t val) {
         switch (addr) {
             case 0xFF00: joypadReg = (val & 0x30) | (joypadReg & 0xCF); break;
             case 0xFF01: sb = val; break;
-            case 0xFF02: sc = val; break;
+            case 0xFF02: 
+                sc = val;
+                // Start serial transfer if bit 7 set (transfer start) and bit 0 set (internal clock)
+                if ((val & 0x81) == 0x81) {
+                    serialActive = true;
+                    serialCycles = 512;  // 8 bits at 8192 Hz = 512 T-cycles
+                }
+                break;
             case 0xFF04:  // Writing any value resets DIV
                 div = 0;
                 if (timer) timer->onDivWrite();
@@ -541,4 +538,18 @@ void MMU::writeRTC(uint8_t reg, uint8_t val) {
     
     // Reset time base after write
     rtc.lastTime = static_cast<uint64_t>(std::time(nullptr));
+}
+
+void MMU::stepSerial(int cycles) {
+    if (!serialActive) return;
+    
+    serialCycles -= cycles;
+    
+    if (serialCycles <= 0) {
+        // Transfer complete
+        serialActive = false;
+        sc &= 0x7F;  // Clear transfer flag (bit 7)
+        sb = 0xFF;   // No external device, receive 0xFF
+        interruptFlag |= 0x08;  // Request serial interrupt
+    }
 }

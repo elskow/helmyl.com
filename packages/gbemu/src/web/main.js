@@ -906,8 +906,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	const hasSAB = isSharedArrayBufferAvailable();
 	const hasOffscreen = isOffscreenCanvasAvailable();
+	const forceDebug = new URLSearchParams(window.location.search).has('debug');
 
-	if (hasSAB && hasOffscreen) {
+	if (forceDebug) {
+		useOffscreenCanvas = false;
+		useWorkerMode = false;
+	} else if (hasSAB && hasOffscreen) {
 		useOffscreenCanvas = true;
 		useWorkerMode = true;
 	} else if (hasSAB) {
@@ -977,6 +981,32 @@ window.getMode = () => {
 	if (useOffscreenCanvas) return 'OffscreenCanvas mode';
 	if (useWorkerMode) return 'Worker mode';
 	return 'Fallback mode';
+};
+
+window.debug = () => {
+	if (!emu) return { error: 'Emulator not initialized' };
+	return {
+		cpu: emu.getCPUState(),
+		ppu: emu.getPPUState(),
+		mbc: emu.getMBCState(),
+		vram: emu.checkVRAM(),
+		framebuffer: emu.getFramebufferStats()
+	};
+};
+
+window.readMem = (addr, count = 16) => {
+	if (!emu) return null;
+	return Array.from(emu.readMemory(addr, count));
+};
+
+window.tracePC = (frames = 10) => {
+	if (!emu) return null;
+	let pcs = [];
+	for (let i = 0; i < frames; i++) {
+		pcs.push(emu.getCPUState().pc.toString(16));
+		emu.runFrame();
+	}
+	return pcs;
 };
 
 window.toggleAudio = () => {

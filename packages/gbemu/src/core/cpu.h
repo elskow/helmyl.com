@@ -56,6 +56,7 @@ public:
     uint16_t getHL() const { return (h << 8) | l; }
     bool isHalted() const { return halted; }
     bool isStopped() const { return stopped; }
+    bool getIME() const { return ime; }
     
     // Wake CPU from STOP mode (called on button press)
     void wakeFromStop() { stopped = false; }

@@ -626,7 +626,7 @@ int CPU::executeOpcode(uint8_t opcode) {
         case 0xC0: if (!getFlag(FLAG_Z)) { pc = pop16(); return 20; } return 8;  // RET NZ
         case 0xC1: setBC(pop16()); return 12;  // POP BC
         case 0xC2: { uint16_t addr = fetch16(); if (!getFlag(FLAG_Z)) { pc = addr; return 16; } return 12; }  // JP NZ,a16
-        case 0xC3: pc = fetch16(); return 16;  // JP a16
+        case 0xC3: { uint16_t addr = fetch16(); pc = addr; return 16; }  // JP a16
         case 0xC4: { uint16_t addr = fetch16(); if (!getFlag(FLAG_Z)) { push16(pc); pc = addr; return 24; } return 12; }  // CALL NZ,a16
         case 0xC5: push16(getBC()); return 16;  // PUSH BC
         case 0xC6: add8(fetch8()); return 8;  // ADD A,d8
