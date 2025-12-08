@@ -44,7 +44,6 @@ void Timer::step(int cycles) {
         // Increment internal counter
         internalCounter++;
         
-        // Update DIV register (upper 8 bits of internal counter)
         mmu.setDivider(internalCounter);
         
         // Check for falling edge on timer bit

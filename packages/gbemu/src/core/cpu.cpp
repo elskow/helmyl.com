@@ -21,7 +21,6 @@ void CPU::reset() {
     haltBug = false;
 }
 
-// Flag operations
 void CPU::setFlag(uint8_t flag, bool value) {
     if (value) {
         f |= flag;
@@ -34,7 +33,6 @@ bool CPU::getFlag(uint8_t flag) const {
     return (f & flag) != 0;
 }
 
-// Memory access through MMU
 uint8_t CPU::read8(uint16_t addr) {
     return mmu.read(addr);
 }
@@ -62,7 +60,6 @@ uint16_t CPU::fetch16() {
     return val;
 }
 
-// Stack operations
 void CPU::push16(uint16_t val) {
     sp -= 2;
     write16(sp, val);
@@ -74,7 +71,6 @@ uint16_t CPU::pop16() {
     return val;
 }
 
-// ALU operations
 void CPU::add8(uint8_t val) {
     uint16_t result = a + val;
     setFlag(FLAG_Z, (result & 0xFF) == 0);
@@ -176,7 +172,6 @@ void CPU::addSP(int8_t val) {
     sp = result;
 }
 
-// Rotate/shift operations
 uint8_t CPU::rlc(uint8_t val) {
     uint8_t carry = (val >> 7) & 1;
     val = (val << 1) | carry;
@@ -258,7 +253,6 @@ uint8_t CPU::srl(uint8_t val) {
     return val;
 }
 
-// Bit operations
 void CPU::bit(uint8_t bitNum, uint8_t val) {
     setFlag(FLAG_Z, ((val >> bitNum) & 1) == 0);
     setFlag(FLAG_N, false);
@@ -273,7 +267,6 @@ uint8_t CPU::set(uint8_t bitNum, uint8_t val) {
     return val | (1 << bitNum);
 }
 
-// Interrupt handling
 void CPU::requestInterrupt(uint8_t interrupt) {
     uint8_t ifReg = mmu.read(0xFF0F);
     mmu.write(0xFF0F, ifReg | interrupt);
@@ -316,29 +309,24 @@ int CPU::handleInterrupts() {
 }
 
 int CPU::step() {
-    // Handle delayed IME enable from EI
     if (imeScheduled) {
         ime = true;
         imeScheduled = false;
     }
     
-    // Handle interrupts (returns cycles consumed if interrupt dispatched)
     int interruptCycles = handleInterrupts();
     if (interruptCycles > 0) {
         return interruptCycles;
     }
     
-    // If halted, just consume a cycle
     if (halted) {
         return 4;
     }
     
-    // If stopped (STOP instruction executed), CPU is frozen until button press
     if (stopped) {
         return 4;
     }
     
-    // Fetch and execute
     uint8_t opcode = fetch8();
     
     // HALT bug: when HALT was executed with IME=0 and interrupts pending,
@@ -352,8 +340,6 @@ int CPU::step() {
 }
 
 int CPU::executeOpcode(uint8_t opcode) {
-    // This is where all 256 opcodes go
-    // Organized by opcode groups for clarity
     
     switch (opcode) {
         // ===== 0x00-0x0F =====

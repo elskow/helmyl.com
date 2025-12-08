@@ -14,70 +14,58 @@ void APU::reset() {
     sampleBufferPos = 0;
     sampleBuffer.resize(SAMPLE_BUFFER_SIZE * 2); // Stereo
     
-    // Master control
     nr50 = 0x77;
     nr51 = 0xF3;
     nr52 = 0xF1;
     
-    // Channel 1
     ch1 = {};
     ch1.nr10 = 0x80;
     ch1.nr11 = 0xBF;
     ch1.nr12 = 0xF3;
     ch1.nr14 = 0xBF;
     
-    // Channel 2
     ch2 = {};
     ch2.nr21 = 0x3F;
     ch2.nr24 = 0xBF;
     
-    // Channel 3
     ch3 = {};
     ch3.nr30 = 0x7F;
     ch3.nr31 = 0xFF;
     ch3.nr32 = 0x9F;
     ch3.nr34 = 0xBF;
     
-    // Channel 4
     ch4 = {};
     ch4.nr41 = 0xFF;
     ch4.nr44 = 0xBF;
     ch4.lfsr = 0x7FFF;
     
-    // Wave RAM - default pattern
     waveRam.fill(0);
 }
 
 void APU::step(int cycles) {
     if (!(nr52 & 0x80)) {
-        // APU disabled
         return;
     }
     
-    // Frame sequencer (512 Hz = 8192 cycles)
     frameSequencerCycles += cycles;
     while (frameSequencerCycles >= 8192) {
         frameSequencerCycles -= 8192;
         stepFrameSequencer();
     }
     
-    // Generate samples with fractional accumulator for precise timing
     sampleCycles += cycles;
     while (sampleCycles >= CYCLES_PER_SAMPLE_INT) {
         sampleCycles -= CYCLES_PER_SAMPLE_INT;
         sampleCyclesFrac += CYCLES_PER_SAMPLE_FRAC;
         
-        // Handle fractional overflow (every ~10 samples, we need an extra cycle)
         if (sampleCyclesFrac >= 1000) {
             sampleCyclesFrac -= 1000;
-            sampleCycles--;  // Borrow one cycle to correct drift
+            sampleCycles--;
         }
         
         generateSample();
     }
     
-    // Step channel frequency timers (optimized - batch update instead of per-cycle)
-    // Channel 1
     if (ch1.enabled) {
         ch1.frequencyTimer -= cycles;
         while (ch1.frequencyTimer <= 0) {
@@ -86,7 +74,6 @@ void APU::step(int cycles) {
         }
     }
     
-    // Channel 2
     if (ch2.enabled) {
         ch2.frequencyTimer -= cycles;
         while (ch2.frequencyTimer <= 0) {
@@ -95,7 +82,6 @@ void APU::step(int cycles) {
         }
     }
     
-    // Channel 3
     if (ch3.enabled) {
         ch3.frequencyTimer -= cycles;
         while (ch3.frequencyTimer <= 0) {
@@ -104,14 +90,12 @@ void APU::step(int cycles) {
         }
     }
     
-    // Channel 4
     if (ch4.enabled) {
         ch4.frequencyTimer -= cycles;
         while (ch4.frequencyTimer <= 0) {
             int divisor = ch4.divisor == 0 ? 8 : ch4.divisor * 16;
             ch4.frequencyTimer += divisor << ch4.clockShift;
             
-            // LFSR step
             uint8_t xorResult = (ch4.lfsr & 1) ^ ((ch4.lfsr >> 1) & 1);
             ch4.lfsr = (ch4.lfsr >> 1) | (xorResult << 14);
             if (ch4.widthMode) {
@@ -316,7 +300,6 @@ float APU::getChannel2Sample() {
 float APU::getChannel3Sample() {
     if (!ch3.enabled || !ch3.dacEnabled) return 0.0f;
     
-    // Get wave sample (4-bit)
     int sampleIndex = ch3.positionCounter;
     uint8_t waveByte = waveRam[sampleIndex / 2];
     uint8_t sample = (sampleIndex & 1) ? (waveByte & 0x0F) : (waveByte >> 4);
@@ -351,7 +334,6 @@ void APU::generateSample() {
     float left = 0.0f;
     float right = 0.0f;
     
-    // Panning (NR51)
     if (nr51 & 0x10) left += ch1Sample;
     if (nr51 & 0x01) right += ch1Sample;
     if (nr51 & 0x20) left += ch2Sample;
@@ -361,14 +343,12 @@ void APU::generateSample() {
     if (nr51 & 0x80) left += ch4Sample;
     if (nr51 & 0x08) right += ch4Sample;
     
-    // Master volume (NR50)
     int leftVol = ((nr50 >> 4) & 7) + 1;
     int rightVol = (nr50 & 7) + 1;
     
     left = left * leftVol / 32.0f;
     right = right * rightVol / 32.0f;
     
-    // Clamp
     left = std::max(-1.0f, std::min(1.0f, left));
     right = std::max(-1.0f, std::min(1.0f, right));
     
@@ -382,7 +362,6 @@ int APU::getSamples(float* buffer, int maxSamples) {
     if (samplesToReturn > 0) {
         std::memcpy(buffer, sampleBuffer.data(), samplesToReturn * sizeof(float));
         
-        // Shift remaining samples
         if (samplesToReturn < sampleBufferPos) {
             std::memmove(sampleBuffer.data(), 
                         sampleBuffer.data() + samplesToReturn,
@@ -391,11 +370,10 @@ int APU::getSamples(float* buffer, int maxSamples) {
         sampleBufferPos -= samplesToReturn;
     }
     
-    return samplesToReturn / 2; // Return number of stereo samples
+    return samplesToReturn / 2;
 }
 
 uint8_t APU::read(uint16_t addr) {
-    // OR masks for read-only bits
     static const uint8_t readMasks[] = {
         0x80, 0x3F, 0x00, 0xFF, 0xBF,  // NR10-NR14
         0xFF, 0x3F, 0x00, 0xFF, 0xBF,  // NR20-NR24
@@ -460,7 +438,6 @@ uint8_t APU::read(uint16_t addr) {
 }
 
 void APU::write(uint16_t addr, uint8_t val) {
-    // When APU is off, only NR52 and wave RAM can be written
     if (!(nr52 & 0x80) && addr != 0xFF26 && (addr < 0xFF30 || addr > 0xFF3F)) {
         return;
     }
@@ -647,7 +624,6 @@ void APU::write(uint16_t addr, uint8_t val) {
         case 0xFF26:
             nr52 = (nr52 & 0x0F) | (val & 0x80);
             if (!(val & 0x80)) {
-                // APU off - reset all registers
                 ch1 = {};
                 ch2 = {};
                 ch3 = {};

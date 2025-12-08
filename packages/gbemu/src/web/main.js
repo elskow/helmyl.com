@@ -19,7 +19,6 @@ let offscreenCanvas = null;
 
 const FB_SIZE = 160 * 144;
 const AUDIO_BUFFER_SIZE = 16384;
-const CTRL_RUNNING = 0;
 const CTRL_FRAME_READY = 1;
 const CTRL_BUTTONS = 3;
 const CTRL_COMMAND = 4;
@@ -77,6 +76,11 @@ const keyMapFallback = {
 };
 
 let buttonState = 0;
+
+function resetButtonState() {
+	buttonState = 0;
+	if (sharedControl) Atomics.store(sharedControl, CTRL_BUTTONS, 0);
+}
 
 const screenButtonMap = {
 	a: 0,
@@ -211,11 +215,9 @@ function handleWorkerMessageOffscreen(e) {
 			powerLed.classList.add('on');
 			statusDisplay.textContent = 'Running';
 			running = true;
-			// Reset button state to avoid stuck buttons from menu navigation
-			buttonState = 0;
-			if (sharedControl) Atomics.store(sharedControl, CTRL_BUTTONS, 0);
+			resetButtonState();
 			initAudioOffscreenMode();
-			Audio.resetAudioBuffer(); // Clear any stale audio to prevent latency
+			Audio.resetAudioBuffer();
 			Audio.resumeAudio();
 			break;
 
@@ -337,11 +339,9 @@ function handleWorkerMessage(e) {
 			powerLed.classList.add('on');
 			statusDisplay.textContent = 'Running';
 			running = true;
-			// Reset button state to avoid stuck buttons from menu navigation
-			buttonState = 0;
-			if (sharedControl) Atomics.store(sharedControl, CTRL_BUTTONS, 0);
+			resetButtonState();
 			Audio.initAudioWorkerMode(sharedAudioSAB, sharedControlSAB);
-			Audio.resetAudioBuffer(); // Clear any stale audio to prevent latency
+			Audio.resetAudioBuffer();
 			Audio.resumeAudio();
 			startRenderLoopWorker();
 			break;
@@ -479,8 +479,7 @@ function loadROMFallback(arrayBuffer) {
 		resetBtn.disabled = false;
 		powerLed.classList.add('on');
 		statusDisplay.textContent = 'Running';
-		// Reset button state to avoid stuck buttons from menu navigation
-		buttonState = 0;
+		resetButtonState();
 		Audio.initAudioFallback(() => emu);
 		startEmulationFallback();
 		return true;
@@ -910,12 +909,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	backToMenuBtn.addEventListener('click', showGameMenu);
 
 	loadGameList();
-
-	overlay.addEventListener('click', (e) => {
-		if (e.target === overlay || e.target.classList.contains('game-library')) {
-			// Let users interact with game items
-		}
-	});
 
 	setupScreenButtons();
 

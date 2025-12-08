@@ -72,7 +72,6 @@ void MMU::detectMBC() {
     
     uint8_t cartType = rom[0x147];
     
-    // Determine MBC type from cartridge type byte
     switch (cartType) {
         case 0x00: mbcType = 0; break;  // ROM Only
         case 0x01: case 0x02: case 0x03: mbcType = 1; break;  // MBC1

@@ -81,7 +81,6 @@ export async function initAudioWorkerMode(sharedAudioSAB, sharedControlSAB) {
 									left[i] = this.lastLeft;
 									this.readPos = (this.readPos + 1) % this.bufferSize;
 								} else {
-									// Underrun: fade to zero to avoid pops
 									this.lastLeft *= 0.95;
 									left[i] = this.lastLeft;
 								}
@@ -90,7 +89,6 @@ export async function initAudioWorkerMode(sharedAudioSAB, sharedControlSAB) {
 									right[i] = this.lastRight;
 									this.readPos = (this.readPos + 1) % this.bufferSize;
 								} else {
-									// Underrun: fade to zero to avoid pops
 									this.lastRight *= 0.95;
 									right[i] = this.lastRight;
 								}
@@ -114,11 +112,8 @@ export async function initAudioWorkerMode(sharedAudioSAB, sharedControlSAB) {
 				});
 				audioWorkletNode.connect(audioContext.destination);
 				audioEnabled = true;
-				console.log('AudioWorklet initialized with SharedArrayBuffer');
 				return;
-			} catch (e) {
-				console.warn('AudioWorklet failed:', e);
-			}
+			} catch {}
 		}
 
 		const bufferSize = 2048;
@@ -151,10 +146,7 @@ export async function initAudioWorkerMode(sharedAudioSAB, sharedControlSAB) {
 		};
 		scriptProcessorNode.connect(audioContext.destination);
 		audioEnabled = true;
-		console.log('ScriptProcessor audio initialized with SharedArrayBuffer');
-	} catch (e) {
-		console.error('Failed to initialize audio:', e);
-	}
+	} catch {}
 }
 
 export async function initAudioFallback(getEmu) {
@@ -216,11 +208,8 @@ export async function initAudioFallback(getEmu) {
 				audioWorkletNode = new AudioWorkletNode(audioContext, 'gb-audio-processor');
 				audioWorkletNode.connect(audioContext.destination);
 				audioEnabled = true;
-				console.log('AudioWorklet initialized (fallback mode)');
 				return;
-			} catch (e) {
-				console.warn('AudioWorklet failed, using ScriptProcessor:', e);
-			}
+			} catch {}
 		}
 
 		const bufferSize = 2048;
@@ -252,21 +241,16 @@ export async function initAudioFallback(getEmu) {
 
 		scriptProcessorNode.connect(audioContext.destination);
 		audioEnabled = true;
-		console.log('ScriptProcessor audio initialized (fallback mode)');
-	} catch (e) {
-		console.error('Failed to initialize audio:', e);
-	}
+	} catch {}
 }
 
 export async function resumeAudio() {
 	if (audioContext && audioContext.state === 'suspended') {
 		await audioContext.resume();
-		console.log('Audio context resumed');
 	}
 }
 
 export function resetAudioBuffer() {
-	// Reset the audio worklet's read position to sync with the new write position
 	audioReadPos = 0;
 	if (audioWorkletNode) {
 		audioWorkletNode.port.postMessage({ type: 'reset' });
@@ -279,7 +263,6 @@ export function toggleMute() {
 	if (speakerElement) {
 		speakerElement.classList.toggle('muted', isMuted);
 	}
-	console.log('Audio:', isMuted ? 'MUTED' : 'ON');
 }
 
 export function sendAudioSamples(emu) {
@@ -324,9 +307,7 @@ export function playMenuNavigateSound() {
 
 		oscillator.start(ctx.currentTime);
 		oscillator.stop(ctx.currentTime + 0.05);
-	} catch (e) {
-		// Audio not available
-	}
+	} catch {}
 }
 
 export function playMenuConfirmSound() {
@@ -358,9 +339,7 @@ export function playMenuConfirmSound() {
 		gain2.connect(ctx.destination);
 		osc2.start(ctx.currentTime + 0.06);
 		osc2.stop(ctx.currentTime + 0.12);
-	} catch (e) {
-		// Audio not available
-	}
+	} catch {}
 }
 
 export function getAudioStatus() {
