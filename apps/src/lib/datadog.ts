@@ -7,8 +7,8 @@ export function initDatadogRum() {
 	if (!browser || initialized) return;
 
 	datadogRum.init({
-		applicationId: '7ebe4038-109e-4258-9461-ff815190da50',
-		clientToken: 'pub27e5b0afb822abf2ba1575f494f608e0',
+		applicationId: '54816f95-1742-484b-a532-88242bc9f8e5',
+		clientToken: 'pub6891be17805c2e1650114c75ac87b0d6',
 		site: 'us5.datadoghq.com',
 		service: 'helmyl.com',
 		env: 'prod',
