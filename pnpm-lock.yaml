@@ -35,6 +35,9 @@ importers:
 
   apps:
     dependencies:
+      '@datadog/browser-rum':
+        specifier: ^6.24.1
+        version: 6.24.1
       '@expressive-code/plugin-frames':
         specifier: ^0.41.3
         version: 0.41.3
@@ -235,9 +238,6 @@ importers:
       parcel:
         specifier: ^2.16.0
         version: 2.16.0(@swc/helpers@0.5.17)
-      parcel-reporter-static-files-copy:
-        specifier: ^1.5.3
-        version: 1.5.3(@parcel/core@2.16.0(@swc/helpers@0.5.17))
       tsx:
         specifier: ^4.7.0
         version: 4.20.6
@@ -962,6 +962,20 @@ packages:
   '@ctrl/tinycolor@4.2.0':
     resolution: {integrity: sha512-kzyuwOAQnXJNLS9PSyrk0CWk35nWJW/zl/6KvnTBMFK65gm7U1/Z5BqjxeapjZCIhQcM/DsrEmcbRwDyXyXK4A==}
     engines: {node: '>=14'}
+
+  '@datadog/browser-core@6.24.1':
+    resolution: {integrity: sha512-ViLqvvCrZtKRCrSCcrZmSbc4Th7Y0rUQ7PruP1KGNgmE2fY4rrRP/n77zXuF8y/bmBce0na8kCdoCUkKzl/xuQ==}
+
+  '@datadog/browser-rum-core@6.24.1':
+    resolution: {integrity: sha512-wBc67Zseh/KvFVhDjM54w6Zm6fkTYnsfhMeVZIDlCYZ0s9T73CVIQtEF2GTp+PogRkQtFGffWGZDaW/xppUV8A==}
+
+  '@datadog/browser-rum@6.24.1':
+    resolution: {integrity: sha512-PKLCcyOtRROVGp5nagkxBNotP+VmMmBDYHR/C1uNM5ibU3R6AR5EFc6XAAKuWI/6lfcxJx0MeXUM0pdNNs2yMg==}
+    peerDependencies:
+      '@datadog/browser-logs': 6.24.1
+    peerDependenciesMeta:
+      '@datadog/browser-logs':
+        optional: true
 
   '@emnapi/core@1.6.0':
     resolution: {integrity: sha512-zq/ay+9fNIJJtJiZxdTnXS20PllcYMX3OE23ESc4HK/bdYu3cOWYVhsOhVnXALfU/uqJIxn5NBPd9z4v+SfoSg==}
@@ -5082,10 +5096,6 @@ packages:
   param-case@3.0.4:
     resolution: {integrity: sha512-RXlj7zCYokReqWpOPH9oYivUzLYZ5vAPIfEmCTNViosC78F8F0H9y7T7gG2M39ymgutxF5gcFEsyZQSph9Bp3A==}
 
-  parcel-reporter-static-files-copy@1.5.3:
-    resolution: {integrity: sha512-Ukq2SyJYn3GFIPCLamXuQ+2t+0j54llujjOUoRjtmVvfsuGnJDEpMznADeIoKuQDvy0jpxtWzWkQvxqI/j+U4A==}
-    engines: {parcel: ^2.0.0-beta.1}
-
   parcel@2.16.0:
     resolution: {integrity: sha512-4sgnoYixTR6Qq6265tjmufXQj7wxvZo4VJHrYfbnfWQWfW5CgF80IiM+dy050pYgtBAMvh+8vJDDYiSto1YPUA==}
     engines: {node: '>= 16.0.0'}
@@ -7120,6 +7130,17 @@ snapshots:
       '@jridgewell/trace-mapping': 0.3.9
 
   '@ctrl/tinycolor@4.2.0': {}
+
+  '@datadog/browser-core@6.24.1': {}
+
+  '@datadog/browser-rum-core@6.24.1':
+    dependencies:
+      '@datadog/browser-core': 6.24.1
+
+  '@datadog/browser-rum@6.24.1':
+    dependencies:
+      '@datadog/browser-core': 6.24.1
+      '@datadog/browser-rum-core': 6.24.1
 
   '@emnapi/core@1.6.0':
     dependencies:
@@ -11843,13 +11864,6 @@ snapshots:
     dependencies:
       dot-case: 3.0.4
       tslib: 2.8.1
-
-  parcel-reporter-static-files-copy@1.5.3(@parcel/core@2.16.0(@swc/helpers@0.5.17)):
-    dependencies:
-      '@parcel/plugin': 2.16.0(@parcel/core@2.16.0(@swc/helpers@0.5.17))
-    transitivePeerDependencies:
-      - '@parcel/core'
-      - napi-wasm
 
   parcel@2.16.0(@swc/helpers@0.5.17):
     dependencies:

@@ -1,12 +1,18 @@
 <script lang="ts">
 	import '@fontsource-variable/onest';
 	import '../app.css';
+	import { initDatadogRum } from '$lib/datadog';
+	import { onMount } from 'svelte';
 
 	interface Props {
 		children?: import('svelte').Snippet;
 	}
 
 	let { children }: Props = $props();
+
+	onMount(() => {
+		initDatadogRum();
+	});
 </script>
 
 <svelte:head>
