@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '@fontsource-variable/onest';
 	import '../app.css';
-	import { initDatadogRum } from '$lib/datadog';
+	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
 
 	interface Props {
@@ -10,8 +10,11 @@
 
 	let { children }: Props = $props();
 
-	onMount(() => {
-		initDatadogRum();
+	onMount(async () => {
+		if (browser) {
+			const { initDatadogRum } = await import('$lib/datadog');
+			initDatadogRum();
+		}
 	});
 </script>
 

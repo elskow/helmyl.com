@@ -68,6 +68,10 @@ export default defineConfig(({ mode }) => {
 					manualChunks: (id) => {
 						// Only split node_modules to avoid circular dependencies
 						if (id.includes('node_modules')) {
+							// Datadog RUM - keep separate for monitoring
+							if (id.includes('@datadog')) {
+								return 'datadog';
+							}
 							// Heavy markdown processing libraries
 							if (id.includes('rehype') || id.includes('remark') || id.includes('unified') || id.includes('katex')) {
 								return 'markdown';
