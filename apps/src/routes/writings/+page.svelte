@@ -17,8 +17,8 @@
 	<meta name="description" content={pageDescription} />
 </svelte:head>
 
-<main class="max-w-screen-xl mx-auto px-6 py-12 md:py-24 min-h-screen text-neutral-900 font-sans">
-	<div class="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-24">
+<main class="max-w-screen-xl mx-auto px-4 sm:px-6 py-12 md:py-24 min-h-screen text-neutral-900 font-sans overflow-x-hidden">
+	<div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 lg:gap-24">
 		<div class="md:col-span-7 lg:col-span-8">
 			<header class="mb-20">
 				<div class="mb-8">
@@ -65,28 +65,32 @@
 			</div>
 		</div>
 
-		<div class="md:col-span-5 lg:col-span-4 md:pl-12 lg:pl-24 space-y-12 hidden md:block">
-			<div class="text-neutral-300">
-				<PenLine class="w-6 h-6" strokeWidth={1.5} />
-			</div>
-
-			<nav class="space-y-8 text-sm">
-				<div>
-					<h3 class="text-xs text-neutral-400 mb-4 uppercase tracking-wide select-none">Topics</h3>
-					<div class="flex flex-wrap gap-2">
-						<span class="text-xs border border-neutral-200 px-2 py-1 rounded text-neutral-500"
-							>Engineering</span
-						>
-						<span class="text-xs border border-neutral-200 px-2 py-1 rounded text-neutral-500"
-							>DevOps</span
-						>
-						<span class="text-xs border border-neutral-200 px-2 py-1 rounded text-neutral-500"
-							>Life</span
-						>
-					</div>
+		<aside class="md:col-span-5 lg:col-span-4 md:pl-6 lg:pl-12 xl:pl-24 space-y-8 md:space-y-12 pt-8 md:pt-0 border-t border-neutral-100 md:border-t-0 mt-12 md:mt-0 min-w-0">
+			<div class="md:sticky md:top-24 space-y-8 md:space-y-12">
+				<div class="hidden md:block text-neutral-300">
+					<PenLine class="w-6 h-6" strokeWidth={1.5} />
 				</div>
-			</nav>
-		</div>
+
+				<nav class="space-y-8 text-sm">
+					<div>
+						<h3 class="text-xs text-neutral-400 mb-4 uppercase tracking-wide select-none">
+							Topics
+						</h3>
+						<div class="flex flex-wrap gap-2">
+							<span class="text-xs border border-neutral-200 px-2 py-1 rounded text-neutral-500"
+								>Engineering</span
+							>
+							<span class="text-xs border border-neutral-200 px-2 py-1 rounded text-neutral-500"
+								>DevOps</span
+							>
+							<span class="text-xs border border-neutral-200 px-2 py-1 rounded text-neutral-500"
+								>Life</span
+							>
+						</div>
+					</div>
+				</nav>
+			</div>
+		</aside>
 	</div>
 </main>
 <Footer />

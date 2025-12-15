@@ -18,9 +18,9 @@
 </svelte:head>
 
 <main
-	class="max-w-screen-xl mx-auto px-4 sm:px-6 py-10 md:py-24 min-h-screen text-neutral-900 font-sans"
+	class="max-w-screen-xl mx-auto px-4 sm:px-6 py-10 md:py-24 min-h-screen text-neutral-900 font-sans overflow-x-hidden"
 >
-	<div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-24">
+	<div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 lg:gap-24">
 		<div class="md:col-span-7 lg:col-span-8">
 			<header class="mb-12 md:mb-16">
 				<a
@@ -42,40 +42,19 @@
 			<article class="about-content">
 				{@html abouts.html}
 			</article>
-
-			<div class="md:hidden mt-16 pt-8 border-t border-neutral-100">
-				<h3 class="text-xs text-neutral-400 mb-6 uppercase tracking-wide select-none">Connect</h3>
-				<ul class="space-y-4 text-sm">
-					<li>
-						<a href="https://github.com/helmyl" class="flex justify-between items-center text-neutral-900"
-							>GitHub <ArrowUpRight class="w-3.5 h-3.5" /></a
-						>
-					</li>
-					<li>
-						<a href="https://linkedin.com/in/helmyl" class="flex justify-between items-center text-neutral-900"
-							>LinkedIn <ArrowUpRight class="w-3.5 h-3.5" /></a
-						>
-					</li>
-					<li>
-						<a href="mailto:contact@helmyl.com" class="flex justify-between items-center text-neutral-900"
-							>Email <AtSign class="w-3.5 h-3.5" /></a
-						>
-					</li>
-				</ul>
-			</div>
 		</div>
 
-		<div class="md:col-span-5 lg:col-span-4 md:pl-12 lg:pl-24 space-y-12 hidden md:block">
-			<div class="sticky top-24 space-y-12">
-				<div class="text-neutral-300">
+		<aside class="md:col-span-5 lg:col-span-4 md:pl-6 lg:pl-12 xl:pl-24 space-y-8 md:space-y-12 pt-8 md:pt-0 border-t border-neutral-100 md:border-t-0 mt-12 md:mt-0 min-w-0">
+			<div class="md:sticky md:top-24 space-y-8 md:space-y-12">
+				<div class="hidden md:block text-neutral-300">
 					<User class="w-6 h-6" strokeWidth={1.5} />
 				</div>
 
 				<div>
 					<h3 class="text-xs text-neutral-400 mb-6 uppercase tracking-wide select-none">Connect</h3>
-					<ul class="space-y-4 text-sm">
+					<ul class="flex flex-wrap gap-x-6 gap-y-4 md:block md:space-y-4 text-sm">
 						<li>
-							<a href="https://github.com/helmyl" target="_blank" class="flex justify-between group"
+							<a href="https://github.com/helmyl" target="_blank" class="flex items-center gap-2 md:justify-between group"
 								><span
 									class="text-neutral-900 group-hover:underline decoration-neutral-300 underline-offset-4"
 									>GitHub</span
@@ -86,7 +65,7 @@
 							<a
 								href="https://linkedin.com/in/helmyl"
 								target="_blank"
-								class="flex justify-between group"
+								class="flex items-center gap-2 md:justify-between group"
 								><span
 									class="text-neutral-900 group-hover:underline decoration-neutral-300 underline-offset-4"
 									>LinkedIn</span
@@ -97,7 +76,7 @@
 							<a
 								href="https://twitter.com/helmy_lh"
 								target="_blank"
-								class="flex justify-between group"
+								class="flex items-center gap-2 md:justify-between group"
 								><span
 									class="text-neutral-900 group-hover:underline decoration-neutral-300 underline-offset-4"
 									>Twitter</span
@@ -105,7 +84,7 @@
 							>
 						</li>
 						<li>
-							<a href="mailto:contact@helmyl.com" class="flex justify-between group"
+							<a href="mailto:contact@helmyl.com" class="flex items-center gap-2 md:justify-between group"
 								><span
 									class="text-neutral-900 group-hover:underline decoration-neutral-300 underline-offset-4"
 									>Email</span
@@ -115,7 +94,7 @@
 					</ul>
 				</div>
 			</div>
-		</div>
+		</aside>
 	</div>
 </main>
 <Footer />

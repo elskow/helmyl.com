@@ -15,9 +15,9 @@
 </svelte:head>
 
 <main
-	class="max-w-screen-xl mx-auto px-4 sm:px-6 py-10 md:py-24 min-h-screen text-neutral-900 font-sans"
+	class="max-w-screen-xl mx-auto px-4 sm:px-6 py-10 md:py-24 min-h-screen text-neutral-900 font-sans overflow-x-hidden"
 >
-	<div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-24">
+	<div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 lg:gap-24">
 		<div class="md:col-span-7 lg:col-span-8">
 			<header class="mb-12 md:mb-20">
 				<div class="mb-8">
@@ -67,9 +67,9 @@
 			</div>
 		</div>
 
-		<div class="md:col-span-5 lg:col-span-4 md:pl-12 lg:pl-24 space-y-16 hidden md:block">
-			<div class="sticky top-24 space-y-16">
-				<div class="text-neutral-300">
+		<aside class="md:col-span-5 lg:col-span-4 md:pl-6 lg:pl-12 xl:pl-24 space-y-8 md:space-y-16 pt-8 md:pt-0 border-t border-neutral-100 md:border-t-0 mt-12 md:mt-0 min-w-0">
+			<div class="md:sticky md:top-24 space-y-8 md:space-y-16">
+				<div class="hidden md:block text-neutral-300">
 					<FlaskConical class="w-6 h-6" strokeWidth={1.5} />
 				</div>
 
@@ -78,7 +78,7 @@
 					<p>Expect breaking changes.</p>
 				</div>
 			</div>
-		</div>
+		</aside>
 	</div>
 </main>
 <Footer />

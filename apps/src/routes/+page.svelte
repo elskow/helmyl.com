@@ -50,8 +50,8 @@
 	<meta name="description" content={pageDescription} />
 </svelte:head>
 
-<main class="max-w-screen-xl mx-auto px-6 py-12 md:py-24 min-h-screen text-neutral-900 font-sans">
-	<div class="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-24">
+<main class="max-w-screen-xl mx-auto px-4 sm:px-6 py-12 md:py-24 min-h-screen text-neutral-900 font-sans overflow-x-hidden">
+	<div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 lg:gap-24">
 		<div class="md:col-span-7 lg:col-span-8 space-y-24">
 			<section class="space-y-8">
 				<div class="w-12 h-12 bg-neutral-100 rounded-sm overflow-hidden border border-neutral-200">
@@ -206,62 +206,75 @@
 			</section>
 		</div>
 
-		<div class="md:col-span-5 lg:col-span-4 md:pl-12 lg:pl-24 space-y-12">
-			<div class="hidden md:block text-neutral-300">
-				<Globe class="w-6 h-6" strokeWidth={1.5} />
+		<aside class="md:col-span-5 lg:col-span-4 md:pl-6 lg:pl-12 xl:pl-24 space-y-8 md:space-y-12 pt-8 md:pt-0 border-t border-neutral-100 md:border-t-0 mt-12 md:mt-0 min-w-0">
+			<div class="md:sticky md:top-24 space-y-8 md:space-y-12">
+				<div class="hidden md:block text-neutral-300">
+					<Globe class="w-6 h-6" strokeWidth={1.5} />
+				</div>
+
+				<nav class="space-y-8 text-sm">
+					<div>
+						<h3 class="text-xs text-neutral-400 mb-4 uppercase tracking-wide select-none">Menu</h3>
+						<ul class="flex flex-wrap gap-x-6 gap-y-3 md:block md:space-y-3">
+							<li>
+								<a href="/about" class="block text-neutral-600 hover:text-black transition-colors">
+									<CornerDownRight class="w-3 h-3 hidden md:inline-block text-neutral-300 mr-2" />
+									About
+								</a>
+							</li>
+							<li>
+								<a
+									href="/projects"
+									class="block text-neutral-600 hover:text-black transition-colors"
+								>
+									<CornerDownRight class="w-3 h-3 hidden md:inline-block text-neutral-300 mr-2" />
+									Projects
+								</a>
+							</li>
+							<li>
+								<a
+									href="/writings"
+									class="block text-neutral-600 hover:text-black transition-colors"
+								>
+									<CornerDownRight class="w-3 h-3 hidden md:inline-block text-neutral-300 mr-2" />
+									Writings
+								</a>
+							</li>
+							<li>
+								<a href="/labs" class="block text-neutral-600 hover:text-black transition-colors">
+									<CornerDownRight class="w-3 h-3 hidden md:inline-block text-neutral-300 mr-2" />
+									Labs
+								</a>
+							</li>
+							<li>
+								<a href="/uses" class="block text-neutral-600 hover:text-black transition-colors">
+									<CornerDownRight class="w-3 h-3 hidden md:inline-block text-neutral-300 mr-2" />
+									Uses
+								</a>
+							</li>
+						</ul>
+					</div>
+
+					<div>
+						<div
+							class="inline-flex items-center gap-2 bg-neutral-50 border border-neutral-200 px-2 py-1 rounded-sm text-[10px] uppercase tracking-wider font-medium text-neutral-600"
+						>
+							<span class="relative flex h-1.5 w-1.5">
+								<span
+									class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"
+								></span>
+								<span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+							</span>
+							Open to work
+						</div>
+						<div class="mt-4 text-xs text-neutral-400 font-mono space-y-1">
+							<p>@helmyl</p>
+							<p>Jakarta, WIB (UTC+7)</p>
+						</div>
+					</div>
+				</nav>
 			</div>
-
-			<nav class="space-y-8 text-sm">
-				<div>
-					<h3 class="text-xs text-neutral-400 mb-4 uppercase tracking-wide select-none">Menu</h3>
-					<ul class="space-y-3">
-						<li>
-							<a href="/about" class="block text-neutral-600 hover:text-black transition-colors">
-								<CornerDownRight class="w-3 h-3 inline-block text-neutral-300 mr-2" /> About
-							</a>
-						</li>
-						<li>
-							<a href="/projects" class="block text-neutral-600 hover:text-black transition-colors">
-								<CornerDownRight class="w-3 h-3 inline-block text-neutral-300 mr-2" /> Projects
-							</a>
-						</li>
-						<li>
-							<a href="/writings" class="block text-neutral-600 hover:text-black transition-colors">
-								<CornerDownRight class="w-3 h-3 inline-block text-neutral-300 mr-2" /> Writings
-							</a>
-						</li>
-						<li>
-							<a href="/labs" class="block text-neutral-600 hover:text-black transition-colors">
-								<CornerDownRight class="w-3 h-3 inline-block text-neutral-300 mr-2" /> Labs
-							</a>
-						</li>
-						<li>
-							<a href="/uses" class="block text-neutral-600 hover:text-black transition-colors">
-								<CornerDownRight class="w-3 h-3 inline-block text-neutral-300 mr-2" /> Uses
-							</a>
-						</li>
-					</ul>
-				</div>
-
-				<div>
-					<div
-						class="inline-flex items-center gap-2 bg-neutral-50 border border-neutral-200 px-2 py-1 rounded-sm text-[10px] uppercase tracking-wider font-medium text-neutral-600"
-					>
-						<span class="relative flex h-1.5 w-1.5">
-							<span
-								class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"
-							></span>
-							<span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
-						</span>
-						Open to work
-					</div>
-					<div class="mt-4 text-xs text-neutral-400 font-mono space-y-1">
-						<p>@helmyl</p>
-						<p>Jakarta, WIB (UTC+7)</p>
-					</div>
-				</div>
-			</nav>
-		</div>
+		</aside>
 	</div>
 </main>
 <Footer />

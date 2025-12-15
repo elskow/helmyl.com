@@ -17,9 +17,9 @@
 </svelte:head>
 
 <main
-	class="max-w-screen-xl mx-auto px-4 sm:px-6 py-10 md:py-24 min-h-screen text-neutral-900 font-sans"
+	class="max-w-screen-xl mx-auto px-4 sm:px-6 py-10 md:py-24 min-h-screen text-neutral-900 font-sans overflow-x-hidden"
 >
-	<div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-24">
+	<div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 lg:gap-24">
 		<div class="md:col-span-7 lg:col-span-8">
 			<header class="mb-12 md:mb-20">
 				<div class="mb-8">
@@ -53,23 +53,11 @@
 					</time>
 				</div>
 			{/if}
-
-			<nav class="md:hidden mt-12 pt-8 border-t border-neutral-100">
-				<h3 class="text-xs text-neutral-400 mb-4 uppercase tracking-wide select-none">Menu</h3>
-				<div class="flex flex-wrap gap-6 text-sm">
-					<a href="/" class="text-neutral-600 hover:text-black transition-colors">Home</a>
-					<a href="/projects" class="text-neutral-600 hover:text-black transition-colors"
-						>Projects</a
-					>
-					<a href="/writings" class="text-neutral-600 hover:text-black transition-colors">Writing</a
-					>
-				</div>
-			</nav>
 		</div>
 
-		<div class="md:col-span-5 lg:col-span-4 md:pl-12 lg:pl-24 space-y-16 hidden md:block">
-			<div class="sticky top-24 space-y-16">
-				<div class="text-neutral-300">
+		<aside class="md:col-span-5 lg:col-span-4 md:pl-6 lg:pl-12 xl:pl-24 space-y-8 md:space-y-16 pt-8 md:pt-0 border-t border-neutral-100 md:border-t-0 mt-12 md:mt-0 min-w-0">
+			<div class="md:sticky md:top-24 space-y-8 md:space-y-16">
+				<div class="hidden md:block text-neutral-300">
 					<Monitor class="w-6 h-6" strokeWidth={1.5} />
 				</div>
 
@@ -77,7 +65,7 @@
 					<h3 class="text-[10px] text-neutral-400 mb-4 uppercase tracking-widest select-none">
 						Categories
 					</h3>
-					<ul class="space-y-2 text-sm text-neutral-500">
+					<ul class="flex flex-wrap gap-x-6 gap-y-2 md:block md:space-y-2 text-sm text-neutral-500">
 						<li>Workstation</li>
 						<li>Development Tools</li>
 						<li>Software</li>
@@ -85,7 +73,7 @@
 					</ul>
 				</div>
 			</div>
-		</div>
+		</aside>
 	</div>
 </main>
 <Footer />

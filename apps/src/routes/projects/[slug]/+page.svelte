@@ -32,9 +32,9 @@
 </svelte:head>
 
 <main
-	class="max-w-screen-xl mx-auto px-4 sm:px-6 py-10 md:py-24 min-h-screen text-neutral-900 font-sans"
+	class="max-w-screen-xl mx-auto px-4 sm:px-6 py-10 md:py-24 min-h-screen text-neutral-900 font-sans overflow-x-hidden"
 >
-	<div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-24">
+	<div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 lg:gap-24">
 		<div class="md:col-span-7 lg:col-span-8">
 			<header class="mb-12 md:mb-16">
 				<a
@@ -51,60 +51,6 @@
 				<p class="text-lg text-neutral-500 leading-relaxed font-light">
 					{project.description}
 				</p>
-
-				<div class="md:hidden border-t border-neutral-100 pt-6 mt-8 space-y-6">
-					<div class="flex gap-3">
-						{#if project.github}
-							<a
-								href={project.github}
-								target="_blank"
-								class="flex-1 py-2.5 text-center border border-neutral-200 rounded-sm text-sm font-medium hover:border-neutral-900 hover:text-neutral-900 transition-colors"
-							>
-								Code
-							</a>
-						{/if}
-						{#if project.demo}
-							<a
-								href={project.demo}
-								target="_blank"
-								class="flex-1 py-2.5 text-center bg-neutral-900 text-white rounded-sm text-sm font-medium hover:bg-neutral-800 transition-colors"
-							>
-								Demo
-							</a>
-						{/if}
-					</div>
-
-					<div class="space-y-3 text-sm">
-						{#if project.date}
-							<div class="flex justify-between items-baseline">
-								<span class="text-neutral-400 text-xs uppercase tracking-wide">Date</span>
-								<span class="text-neutral-900 font-mono">
-									{new Date(project.date).toLocaleDateString('en-US', {
-										year: 'numeric',
-										month: 'long'
-									})}
-								</span>
-							</div>
-						{/if}
-
-						{#if project.stacks && project.stacks.length > 0}
-							<div class="pt-1">
-								<span class="text-neutral-400 text-xs uppercase tracking-wide block mb-2"
-									>Technologies</span
-								>
-								<div class="flex flex-wrap gap-2">
-									{#each project.stacks as stack}
-										<span
-											class="text-xs border border-neutral-200 px-2 py-1 rounded-sm text-neutral-600 bg-neutral-50"
-										>
-											{stack}
-										</span>
-									{/each}
-								</div>
-							</div>
-						{/if}
-					</div>
-				</div>
 			</header>
 
 			{#if project.html && project.html.trim() !== ''}
@@ -116,24 +62,16 @@
 					Additional details available in the repository.
 				</div>
 			{/if}
-
-			<nav class="md:hidden mt-16 pt-8 border-t border-neutral-100">
-				<h3 class="text-xs text-neutral-400 mb-4 uppercase tracking-wide select-none">Menu</h3>
-				<div class="flex gap-6 text-sm">
-					<a href="/" class="text-neutral-600 hover:text-black transition-colors">Home</a>
-					<a href="/projects" class="text-neutral-900 font-medium">All Projects</a>
-				</div>
-			</nav>
 		</div>
 
-		<div class="md:col-span-5 lg:col-span-4 md:pl-12 lg:pl-24 space-y-12 hidden md:block">
-			<div class="sticky top-24 space-y-12">
-				<div class="flex gap-4">
+		<aside class="md:col-span-5 lg:col-span-4 md:pl-6 lg:pl-12 xl:pl-24 space-y-8 md:space-y-12 pt-8 md:pt-0 border-t border-neutral-100 md:border-t-0 mt-12 md:mt-0 min-w-0">
+			<div class="md:sticky md:top-24 space-y-8 md:space-y-12">
+				<div class="flex gap-3 md:gap-4">
 					{#if project.github}
 						<a
 							href={project.github}
 							target="_blank"
-							class="flex-1 py-3 text-center border border-neutral-200 rounded-sm text-sm font-medium hover:border-neutral-900 hover:text-neutral-900 transition-colors"
+							class="flex-1 py-2.5 md:py-3 text-center border border-neutral-200 rounded-sm text-sm font-medium hover:border-neutral-900 hover:text-neutral-900 transition-colors"
 						>
 							View Code
 						</a>
@@ -142,32 +80,32 @@
 						<a
 							href={project.demo}
 							target="_blank"
-							class="flex-1 py-3 text-center bg-neutral-900 text-white rounded-sm text-sm font-medium hover:bg-neutral-800 transition-colors"
+							class="flex-1 py-2.5 md:py-3 text-center bg-neutral-900 text-white rounded-sm text-sm font-medium hover:bg-neutral-800 transition-colors"
 						>
 							Live Demo
 						</a>
 					{/if}
 				</div>
 
-				<dl class="space-y-8 text-sm">
+				<dl class="grid grid-cols-2 gap-4 md:block md:space-y-8 text-sm">
 					{#if project.date}
 						<div>
 							<dt class="text-neutral-400 text-xs mb-1.5 uppercase tracking-wide">Date</dt>
 							<dd class="text-neutral-900 font-mono">
 								{new Date(project.date).toLocaleDateString('en-US', {
 									year: 'numeric',
-									month: 'long'
+									month: 'short'
 								})}
 							</dd>
 						</div>
 					{/if}
 
 					{#if project.stacks && project.stacks.length > 0}
-						<div>
+						<div class="col-span-2 md:col-span-1">
 							<dt class="text-neutral-400 text-xs mb-3 uppercase tracking-wide">Technologies</dt>
-							<dd class="flex flex-col gap-2">
+							<dd class="flex flex-wrap gap-2 md:flex-col md:gap-2">
 								{#each project.stacks as stack}
-									<span class="text-neutral-600 border-b border-neutral-100 pb-1 w-full"
+									<span class="text-neutral-600 md:border-b md:border-neutral-100 md:pb-1 text-xs md:text-sm px-2 py-1 md:px-0 md:py-0 border border-neutral-200 md:border-0 rounded-sm md:rounded-none bg-neutral-50 md:bg-transparent"
 										>{stack}</span
 									>
 								{/each}
@@ -175,22 +113,8 @@
 						</div>
 					{/if}
 				</dl>
-
-				<nav class="border-t border-neutral-100 pt-8">
-					<h3 class="text-xs text-neutral-400 mb-4 uppercase tracking-wide select-none">Menu</h3>
-					<ul class="space-y-2 text-sm">
-						<li>
-							<a href="/" class="text-neutral-600 hover:text-black transition-colors block py-1">
-								Home
-							</a>
-						</li>
-						<li>
-							<a href="/projects" class="text-neutral-900 font-medium block py-1"> All Projects </a>
-						</li>
-					</ul>
-				</nav>
 			</div>
-		</div>
+		</aside>
 	</div>
 </main>
 <Footer />

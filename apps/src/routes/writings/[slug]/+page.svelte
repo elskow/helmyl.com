@@ -155,9 +155,9 @@
 ></div>
 
 <main
-	class="max-w-screen-xl mx-auto px-4 sm:px-6 py-10 md:py-24 min-h-screen text-neutral-900 font-sans"
+	class="max-w-screen-xl mx-auto px-4 sm:px-6 py-10 md:py-24 min-h-screen text-neutral-900 font-sans overflow-x-hidden"
 >
-	<div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-24">
+	<div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 lg:gap-24">
 		<div class="md:col-span-7 lg:col-span-8">
 			<article>
 				<header class="mb-12 md:mb-16">
@@ -167,48 +167,12 @@
 					>
 						<ArrowLeft class="w-3 h-3" /> Back to writings
 					</a>
-					<h1
-						class="text-3xl sm:text-4xl font-medium tracking-tight leading-[1.15] text-neutral-950 mb-6"
-					>
-						{post.title}
-					</h1>
-
-					<div class="md:hidden border-t border-neutral-100 pt-6 mt-6 space-y-4">
-						<div class="flex justify-between items-baseline text-sm">
-							<span class="text-neutral-400 text-xs uppercase tracking-wide">Published</span>
-							<span class="text-neutral-900 font-mono">
-								{post.date
-									? new Date(post.date).toLocaleDateString('en-US', {
-											year: 'numeric',
-											month: 'long',
-											day: 'numeric'
-										})
-									: 'N/A'}
-							</span>
-						</div>
-
-						{#if post.readTime}
-							<div class="flex justify-between items-baseline text-sm">
-								<span class="text-neutral-400 text-xs uppercase tracking-wide">Reading Time</span>
-								<span class="text-neutral-900 font-mono">{post.readTime}</span>
-							</div>
-						{/if}
-
-						{#if post.tags && post.tags.length > 0}
-							<div class="pt-2">
-								<div class="flex flex-wrap gap-2">
-									{#each post.tags as tag}
-										<span
-											class="text-xs border border-neutral-200 px-2 py-1 rounded-sm text-neutral-600 bg-neutral-50"
-										>
-											{tag}
-										</span>
-									{/each}
-								</div>
-							</div>
-						{/if}
-					</div>
-				</header>
+				<h1
+					class="text-3xl sm:text-4xl font-medium tracking-tight leading-[1.15] text-neutral-950 mb-6"
+				>
+					{post.title}
+				</h1>
+			</header>
 
 				<div class="post-content">
 					{@html post.html}
@@ -218,37 +182,22 @@
 			{#if relatedArticles.length > 0}
 				<RelatedContent currentItem={post} allItems={relatedArticles} type="writings" />
 			{/if}
-
-			<nav class="mt-16 pt-8 border-t border-neutral-100">
-				<h3 class="text-[10px] text-neutral-400 mb-4 uppercase tracking-widest select-none">
-					Menu
-				</h3>
-				<div class="flex flex-wrap gap-6 text-sm">
-					<a href="/" class="text-neutral-600 hover:text-black transition-colors">Home</a>
-					<a href="/projects" class="text-neutral-600 hover:text-black transition-colors"
-						>Projects</a
-					>
-					<a href="/writings" class="text-neutral-600 hover:text-black transition-colors">Writing</a
-					>
-					<a href="/about" class="text-neutral-600 hover:text-black transition-colors">About</a>
-				</div>
-			</nav>
 		</div>
 
-		<div class="md:col-span-5 lg:col-span-4 md:pl-12 lg:pl-24 space-y-12 hidden md:block">
-			<div class="sticky top-24 space-y-16">
+		<aside class="md:col-span-5 lg:col-span-4 md:pl-6 lg:pl-12 xl:pl-24 space-y-8 md:space-y-12 pt-8 md:pt-0 border-t border-neutral-100 md:border-t-0 mt-12 md:mt-0 min-w-0">
+			<div class="md:sticky md:top-24 space-y-8 md:space-y-16">
 				<div>
 					<h3 class="text-[10px] text-neutral-400 mb-6 uppercase tracking-widest select-none">
 						About this post
 					</h3>
-					<dl class="space-y-6 text-sm">
+					<dl class="grid grid-cols-2 gap-4 md:block md:space-y-6 text-sm">
 						<div>
 							<dt class="text-neutral-400 text-xs mb-1.5">Published</dt>
-							<dd class="text-neutral-900 font-mono">
+							<dd class="text-neutral-900 font-mono text-sm">
 								{post.date
 									? new Date(post.date).toLocaleDateString('en-US', {
 											year: 'numeric',
-											month: 'long',
+											month: 'short',
 											day: 'numeric'
 										})
 									: 'N/A'}
@@ -263,7 +212,7 @@
 						{/if}
 
 						{#if post.tags && post.tags.length > 0}
-							<div>
+							<div class="col-span-2 md:col-span-1">
 								<dt class="text-neutral-400 text-xs mb-2">Topics</dt>
 								<dd class="flex flex-wrap gap-2">
 									{#each post.tags as tag}
@@ -280,16 +229,16 @@
 				</div>
 
 				<div>
-					<h3 class="text-[10px] text-neutral-400 mb-6 uppercase tracking-widest select-none">
+					<h3 class="text-[10px] text-neutral-400 mb-4 md:mb-6 uppercase tracking-widest select-none">
 						Share
 					</h3>
-					<ul class="space-y-3 text-sm">
+					<ul class="flex flex-wrap gap-4 md:block md:space-y-3 text-sm">
 						<li>
 							<a
 								href={`https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`}
 								target="_blank"
 								rel="noopener noreferrer"
-								class="flex justify-between group"
+								class="flex items-center gap-2 md:justify-between group"
 							>
 								<span class="text-neutral-600 group-hover:text-black transition-colors"
 									>Twitter</span
@@ -302,7 +251,7 @@
 								href={`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`}
 								target="_blank"
 								rel="noopener noreferrer"
-								class="flex justify-between group"
+								class="flex items-center gap-2 md:justify-between group"
 							>
 								<span class="text-neutral-600 group-hover:text-black transition-colors"
 									>LinkedIn</span
@@ -311,9 +260,9 @@
 							</a>
 						</li>
 						<li>
-							<button onclick={copyLink} class="flex justify-between group w-full text-left">
+							<button onclick={copyLink} class="flex items-center gap-2 md:justify-between group md:w-full text-left">
 								<span class="text-neutral-600 group-hover:text-black transition-colors">
-									{isCopied ? 'Link Copied' : 'Copy Link'}
+									{isCopied ? 'Copied' : 'Copy Link'}
 								</span>
 								{#if isCopied}
 									<Check class="w-3.5 h-3.5 text-neutral-300 group-hover:text-black transition-colors" />
@@ -325,7 +274,7 @@
 					</ul>
 				</div>
 
-				<div class="border-t border-neutral-100 pt-8">
+				<div class="border-t border-neutral-100 pt-6 md:pt-8">
 					<h3 class="text-[10px] text-neutral-400 mb-4 uppercase tracking-widest select-none">
 						Written by
 					</h3>
@@ -352,7 +301,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</aside>
 	</div>
 </main>
 <Footer />
