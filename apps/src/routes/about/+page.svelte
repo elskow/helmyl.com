@@ -44,7 +44,9 @@
 			</article>
 		</div>
 
-		<aside class="md:col-span-5 lg:col-span-4 md:pl-6 lg:pl-12 xl:pl-24 space-y-8 md:space-y-12 pt-8 md:pt-0 border-t border-neutral-100 md:border-t-0 mt-12 md:mt-0 min-w-0">
+		<aside
+			class="md:col-span-5 lg:col-span-4 md:pl-6 lg:pl-12 xl:pl-24 space-y-8 md:space-y-12 pt-8 md:pt-0 border-t border-neutral-100 md:border-t-0 mt-12 md:mt-0 min-w-0"
+		>
 			<div class="md:sticky md:top-24 space-y-8 md:space-y-12">
 				<div class="hidden md:block text-neutral-300">
 					<User class="w-6 h-6" strokeWidth={1.5} />
@@ -54,7 +56,10 @@
 					<h3 class="text-xs text-neutral-400 mb-6 uppercase tracking-wide select-none">Connect</h3>
 					<ul class="flex flex-wrap gap-x-6 gap-y-4 md:block md:space-y-4 text-sm">
 						<li>
-							<a href="https://github.com/helmyl" target="_blank" class="flex items-center gap-2 md:justify-between group"
+							<a
+								href="https://github.com/helmyl"
+								target="_blank"
+								class="flex items-center gap-2 md:justify-between group"
 								><span
 									class="text-neutral-900 group-hover:underline decoration-neutral-300 underline-offset-4"
 									>GitHub</span
@@ -84,7 +89,9 @@
 							>
 						</li>
 						<li>
-							<a href="mailto:contact@helmyl.com" class="flex items-center gap-2 md:justify-between group"
+							<a
+								href="mailto:helmyl.work@gmail.com"
+								class="flex items-center gap-2 md:justify-between group"
 								><span
 									class="text-neutral-900 group-hover:underline decoration-neutral-300 underline-offset-4"
 									>Email</span

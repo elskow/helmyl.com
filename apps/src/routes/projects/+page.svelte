@@ -58,7 +58,7 @@
 					Projects
 				</h1>
 				<p class="text-lg text-neutral-500 max-w-md leading-relaxed font-light">
-					Selected works, open source contributions, and developer tools.
+					Selected works, and developer tools.
 				</p>
 			</header>
 
@@ -126,7 +126,9 @@
 			</div>
 		</div>
 
-		<aside class="md:col-span-5 lg:col-span-4 md:pl-6 lg:pl-12 xl:pl-24 space-y-8 md:space-y-16 pt-8 md:pt-0 border-t border-neutral-100 md:border-t-0 mt-12 md:mt-0 min-w-0">
+		<aside
+			class="md:col-span-5 lg:col-span-4 md:pl-6 lg:pl-12 xl:pl-24 space-y-8 md:space-y-16 pt-8 md:pt-0 border-t border-neutral-100 md:border-t-0 mt-12 md:mt-0 min-w-0"
+		>
 			<div class="md:sticky md:top-24 space-y-8 md:space-y-16">
 				<div class="hidden md:block text-neutral-300">
 					<LayoutPanelLeft class="w-6 h-6" strokeWidth={1.5} />

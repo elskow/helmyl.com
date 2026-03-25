@@ -2,13 +2,7 @@
 	import { technologies } from '$lib/technologies';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import Footer from '$lib/components/Footer.svelte';
-	import {
-		ArrowUpRight,
-		AtSign,
-		ArrowRight,
-		CornerDownRight,
-		Globe
-	} from '@lucide/svelte';
+	import { ArrowUpRight, AtSign, ArrowRight, CornerDownRight, Globe } from '@lucide/svelte';
 
 	interface Props {
 		data: import('./$types').PageData;
@@ -21,22 +15,49 @@
 	// Experience Data
 	const experience = [
 		{
+			role: 'Scala Software Engineer',
+			company: 'Ziverge (Zio)',
+			date: 'Dec 2025 — Mar 2026',
+			location: 'New York, US · Remote, Freelance',
+			description:
+				'Maintained zio-blocks, a Scala library for compositional, type-safe data schemas in the ZIO ecosystem.',
+			link: 'https://www.ziverge.com/'
+		},
+		{
 			role: 'Application Developer',
 			company: 'Bank Central Asia',
-			date: 'Mar 2025 — Present',
+			date: 'Mar 2025 — Dec 2025',
+			location: 'Central Jakarta, ID · On-site',
+			description:
+				'Developed enterprise banking applications using Java EE and EJB for B2B financial systems.',
 			link: 'https://www.bca.co.id/'
+		},
+		{
+			role: 'DevOps Engineer',
+			company: 'Prequel',
+			date: 'Jun 2025 — Oct 2025',
+			location: 'New York, US · Remote',
+			description:
+				'Worked on Cloud Native service degradation rules (CRE) for reliability problem detection.',
+			link: 'https://www.prequel.co/'
+		},
+		{
+			role: 'Open Source Developer',
+			company: 'GitLab',
+			date: 'Apr 2025 — Jun 2025',
+			location: 'San Francisco, US · Remote',
+			description:
+				'Contributed to GLQL, ported the GraphQL language parser from JavaScript to Rust.',
+			link: 'https://gitlab.com/'
 		},
 		{
 			role: 'Machine Learning Cohort',
 			company: 'Bangkit Academy',
 			date: 'Sep 2024 — Jan 2025',
+			location: 'Jakarta, ID · Remote',
+			description:
+				'Google-backed program focused on machine learning, TensorFlow, and cloud deployment.',
 			link: 'https://grow.google/intl/id_id/bangkit/'
-		},
-		{
-			role: 'PowerBI Data Analyst',
-			company: 'Biji-biji Initiative',
-			date: 'Apr 2024 — May 2024',
-			link: 'https://www.biji-biji.com/'
 		}
 	];
 
@@ -50,7 +71,9 @@
 	<meta name="description" content={pageDescription} />
 </svelte:head>
 
-<main class="max-w-screen-xl mx-auto px-4 sm:px-6 py-12 md:py-24 min-h-screen text-neutral-900 font-sans overflow-x-hidden">
+<main
+	class="max-w-screen-xl mx-auto px-4 sm:px-6 py-12 md:py-24 min-h-screen text-neutral-900 font-sans overflow-x-hidden"
+>
 	<div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 lg:gap-24">
 		<div class="md:col-span-7 lg:col-span-8 space-y-24">
 			<section class="space-y-8">
@@ -70,8 +93,15 @@
 
 				<div class="space-y-4 max-w-lg text-base leading-relaxed text-neutral-600">
 					<p>
-						I build high-performance web systems and data infrastructure. Currently an Application
-						Developer at
+						I build high-performance web systems and data infrastructure. Previously Writing Scala
+						at
+						<a
+							href="https://www.ziverge.com"
+							target="_blank"
+							class="text-neutral-900 border-b border-neutral-200 hover:border-neutral-900 transition-colors"
+							>Ziverge</a
+						>
+						and Java at
 						<a
 							href="https://www.bca.co.id"
 							target="_blank"
@@ -113,22 +143,25 @@
 							>
 								{String(i + 1).padStart(2, '0')}
 							</span>
-
-							<div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
-								<h3 class="text-base font-medium text-neutral-900">
-									{job.role}
-									<span class="text-neutral-400 font-normal mx-1 text-sm">at</span>
-									<a
-										href={job.link}
-										target="_blank"
-										class="hover:text-black hover:underline decoration-neutral-200 underline-offset-4 transition-all"
+							<div class="space-y-1.5">
+								<div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
+									<h3 class="text-base font-medium text-neutral-900">
+										{job.role}
+										<span class="text-neutral-400 font-normal mx-1 text-sm">at</span>
+										<a
+											href={job.link}
+											target="_blank"
+											class="hover:text-black hover:underline decoration-neutral-200 underline-offset-4 transition-all"
+										>
+											{job.company}
+										</a>
+									</h3>
+									<span class="text-xs text-neutral-400 font-mono shrink-0 pt-1 sm:pt-0"
+										>{job.date}</span
 									>
-										{job.company}
-									</a>
-								</h3>
-								<span class="text-xs text-neutral-400 font-mono shrink-0 pt-1 sm:pt-0"
-									>{job.date}</span
-								>
+								</div>
+								<p class="text-xs text-neutral-400">{job.location}</p>
+								<p class="text-sm text-neutral-500 leading-relaxed">{job.description}</p>
 							</div>
 						</div>
 					{/each}
@@ -206,7 +239,9 @@
 			</section>
 		</div>
 
-		<aside class="md:col-span-5 lg:col-span-4 md:pl-6 lg:pl-12 xl:pl-24 space-y-8 md:space-y-12 pt-8 md:pt-0 border-t border-neutral-100 md:border-t-0 mt-12 md:mt-0 min-w-0">
+		<aside
+			class="md:col-span-5 lg:col-span-4 md:pl-6 lg:pl-12 xl:pl-24 space-y-8 md:space-y-12 pt-8 md:pt-0 border-t border-neutral-100 md:border-t-0 mt-12 md:mt-0 min-w-0"
+		>
 			<div class="md:sticky md:top-24 space-y-8 md:space-y-12">
 				<div class="hidden md:block text-neutral-300">
 					<Globe class="w-6 h-6" strokeWidth={1.5} />
