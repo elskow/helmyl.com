@@ -19,7 +19,7 @@
 	"devDependencies": {
 		"@nx/js": "^22.0.1",
 		"@nx/vite": "^22.0.1",
-		"@parcel/transformer-glsl": "^2.16.0",
+		"@parcel/transformer-glsl": "^2.16.4",
 		"@parcel/transformer-sass": "^2.16.0",
 		"nx": "^22.6.5",
 		"prettier": "^3.8.2",
