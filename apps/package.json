@@ -27,7 +27,7 @@
 		"@types/node": "^24.9.1",
 		"@types/object-hash": "3.0.6",
 		"@types/remark-oembed": "^1.2.4",
-		"eslint": "^9.38.0",
+		"eslint": "^10.2.0",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-svelte": "^3.12.5",
 		"globals": "^16.4.0",
