@@ -48,7 +48,7 @@
 		"sharp": "^0.34.4",
 		"super-sitemap": "^1.0.5",
 		"svelte": "^5.41.1",
-		"svelte-check": "^4.3.3",
+		"svelte-check": "^4.4.6",
 		"tailwindcss": "^4.1.15",
 		"terser": "^5.44.0",
 		"tsx": "^4.20.3",
