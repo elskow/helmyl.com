@@ -45,8 +45,8 @@ importers:
         specifier: ^5.2.11
         version: 5.2.11
       '@lucide/svelte':
-        specifier: ^0.546.0
-        version: 0.546.0(svelte@5.41.1)
+        specifier: ^1.8.0
+        version: 1.8.0(svelte@5.41.1)
       feed:
         specifier: ^5.2.0
         version: 5.2.0
@@ -1920,8 +1920,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@lucide/svelte@0.546.0':
-    resolution: {integrity: sha512-qFVQ+BUJH9Swns7cag3Wik7VqKZfN2hwDZ2VazbZJc8VSqI0kgOZCZ2OVwrvNxdkl8Mw9M9H1ROB0BXh/WH/sA==}
+  '@lucide/svelte@1.8.0':
+    resolution: {integrity: sha512-+zYQUKqEOVP5lxbGmxL1OVgGMQtRK91eIJ0bR+3Cr1ts4oQEsQfxyzzd5X47psJlblAuGFrl2xm4YuATjR9oaA==}
     peerDependencies:
       svelte: ^5
 
@@ -8442,7 +8442,7 @@ snapshots:
   '@lmdb/lmdb-win32-x64@2.8.5':
     optional: true
 
-  '@lucide/svelte@0.546.0(svelte@5.41.1)':
+  '@lucide/svelte@1.8.0(svelte@5.41.1)':
     dependencies:
       svelte: 5.41.1
 
