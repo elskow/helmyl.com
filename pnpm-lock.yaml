@@ -36,8 +36,8 @@ importers:
   apps:
     dependencies:
       '@datadog/browser-rum':
-        specifier: ^6.24.1
-        version: 6.24.1
+        specifier: ^6.32.0
+        version: 6.32.0
       '@expressive-code/plugin-frames':
         specifier: ^0.41.3
         version: 0.41.3
@@ -1249,16 +1249,16 @@ packages:
     resolution: {integrity: sha512-kzyuwOAQnXJNLS9PSyrk0CWk35nWJW/zl/6KvnTBMFK65gm7U1/Z5BqjxeapjZCIhQcM/DsrEmcbRwDyXyXK4A==}
     engines: {node: '>=14'}
 
-  '@datadog/browser-core@6.24.1':
-    resolution: {integrity: sha512-ViLqvvCrZtKRCrSCcrZmSbc4Th7Y0rUQ7PruP1KGNgmE2fY4rrRP/n77zXuF8y/bmBce0na8kCdoCUkKzl/xuQ==}
+  '@datadog/browser-core@6.32.0':
+    resolution: {integrity: sha512-ikok4zYmoZFcOcIlzFFtImgJXUzAKc1j2zQ6JvAMso7L9xs0BmgFPF1E2Kag03PJ6jddB7QJ7ADjiOTwt6hW+Q==}
 
-  '@datadog/browser-rum-core@6.24.1':
-    resolution: {integrity: sha512-wBc67Zseh/KvFVhDjM54w6Zm6fkTYnsfhMeVZIDlCYZ0s9T73CVIQtEF2GTp+PogRkQtFGffWGZDaW/xppUV8A==}
+  '@datadog/browser-rum-core@6.32.0':
+    resolution: {integrity: sha512-VK1xa4bd8zxkbkkh53yhbiKy0rPqOP+YWcqGHoJguhRuUwY45rBa+iBSCn+MBdPmTI1cbfBjc6hxNuBxWHkN1Q==}
 
-  '@datadog/browser-rum@6.24.1':
-    resolution: {integrity: sha512-PKLCcyOtRROVGp5nagkxBNotP+VmMmBDYHR/C1uNM5ibU3R6AR5EFc6XAAKuWI/6lfcxJx0MeXUM0pdNNs2yMg==}
+  '@datadog/browser-rum@6.32.0':
+    resolution: {integrity: sha512-frBWGQSbxMmE9nA0A2PF9Y4kHe4MjaFQxSmFrJUCAVEkwQh//Cp1+vW+FoxIJaR14Sah9zIWzIQF3DiuBzMCqw==}
     peerDependencies:
-      '@datadog/browser-logs': 6.24.1
+      '@datadog/browser-logs': 6.32.0
     peerDependenciesMeta:
       '@datadog/browser-logs':
         optional: true
@@ -8832,16 +8832,16 @@ snapshots:
 
   '@ctrl/tinycolor@4.2.0': {}
 
-  '@datadog/browser-core@6.24.1': {}
+  '@datadog/browser-core@6.32.0': {}
 
-  '@datadog/browser-rum-core@6.24.1':
+  '@datadog/browser-rum-core@6.32.0':
     dependencies:
-      '@datadog/browser-core': 6.24.1
+      '@datadog/browser-core': 6.32.0
 
-  '@datadog/browser-rum@6.24.1':
+  '@datadog/browser-rum@6.32.0':
     dependencies:
-      '@datadog/browser-core': 6.24.1
-      '@datadog/browser-rum-core': 6.24.1
+      '@datadog/browser-core': 6.32.0
+      '@datadog/browser-rum-core': 6.32.0
 
   '@emnapi/core@1.9.2':
     dependencies:

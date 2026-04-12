@@ -63,7 +63,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@datadog/browser-rum": "^6.24.1",
+		"@datadog/browser-rum": "^6.32.0",
 		"@expressive-code/plugin-frames": "^0.41.3",
 		"@fontsource-variable/onest": "^5.2.11",
 		"@lucide/svelte": "^1.8.0",
