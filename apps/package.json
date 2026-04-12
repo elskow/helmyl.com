@@ -47,7 +47,7 @@
 		"satori": "^0.18.3",
 		"sharp": "^0.34.4",
 		"super-sitemap": "^1.0.5",
-		"svelte": "^5.41.1",
+		"svelte": "^5.55.3",
 		"svelte-check": "^4.4.6",
 		"tailwindcss": "^4.1.15",
 		"terser": "^5.44.0",
