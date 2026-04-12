@@ -79,8 +79,8 @@ importers:
         specifier: ^1.2.4
         version: 1.2.4
       '@iconify-json/devicon':
-        specifier: ^1.2.45
-        version: 1.2.45
+        specifier: ^1.2.62
+        version: 1.2.62
       '@iconify-json/skill-icons':
         specifier: ^1.2.0
         version: 1.2.3
@@ -1538,8 +1538,8 @@ packages:
   '@iconify-json/bxl@1.2.4':
     resolution: {integrity: sha512-R6gVQSxB1+XeVClK7KdACnk1SfP8xiAu6LHuKZmp6Ro5zwMQbpe9vFBv30F6eHMDL8lZ7eXuac5SRJ9C8DKehQ==}
 
-  '@iconify-json/devicon@1.2.45':
-    resolution: {integrity: sha512-EgowZDawRGJb72FlKKcOPwoMpdDkrqAVWNHhK7qSLI9sYAm7OkfLm/Vvjuqul1XCWA4KBylFv0szWPVpTkzVIg==}
+  '@iconify-json/devicon@1.2.62':
+    resolution: {integrity: sha512-X0o0+fOJL2t5JTbDCGLRzrmvf8Pv5q8dr86+fW+F/VJ9qvXTtny6lqGIwjE9AY4VTLm3i8f/N+VtRheSW6OkEg==}
 
   '@iconify-json/skill-icons@1.2.3':
     resolution: {integrity: sha512-wyoP8uwox80jEi1ABZ3Z+I+ETtIr2brAERPPDzpJ9iALk8hyeg4/kdoC7M8HduhNkSkyq5kwBF8xvbqjNldnBQ==}
@@ -7967,7 +7967,7 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
-  '@iconify-json/devicon@1.2.45':
+  '@iconify-json/devicon@1.2.62':
     dependencies:
       '@iconify/types': 2.0.0
 
