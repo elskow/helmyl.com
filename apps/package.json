@@ -55,7 +55,7 @@
 		"typescript": "^5.5.0",
 		"typescript-eslint": "^8.58.1",
 		"unist-util-visit": "^5.0.0",
-		"unplugin-icons": "^22.5.0",
+		"unplugin-icons": "^23.0.1",
 		"unplugin-tailwindcss-mangle": "^5.1.2",
 		"vite": "^8.0.8",
 		"vite-plugin-webfont-dl": "^3.11.1",
