@@ -1,0 +1,254 @@
+{
+  "main": {
+    "id": "81b97af37ae80d00",
+    "type": "split",
+    "children": [
+      {
+        "id": "7c5efd31a13ac1dd",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "d62e563073b04d49",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "uses.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "uses"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "e207df38bf2eb664",
+    "type": "split",
+    "children": [
+      {
+        "id": "b448d904f4c4b610",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "cb57a587608b7875",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "byModifiedTime",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "3d683e068fdf93cd",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "64c187dedd91ea92",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          },
+          {
+            "id": "73d3891b811db810",
+            "type": "leaf",
+            "state": {
+              "type": "mk-path-view",
+              "state": {},
+              "icon": "layout-grid",
+              "title": "Navigator"
+            }
+          }
+        ],
+        "currentTab": 3
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "072066db0b9888c6",
+    "type": "split",
+    "children": [
+      {
+        "id": "dbea87c69718d8e4",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "19f209acb7c9e3b4",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "uses.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for uses"
+            }
+          },
+          {
+            "id": "f84d309dc981af84",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "uses.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from uses"
+            }
+          },
+          {
+            "id": "59d4d2851d913f14",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "52ac5fc893ff777e",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "uses.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of uses"
+            }
+          },
+          {
+            "id": "8227bb43e6c8fd30",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {},
+              "icon": "git-pull-request",
+              "title": "Source Control"
+            }
+          },
+          {
+            "id": "c993c29689075d62",
+            "type": "leaf",
+            "state": {
+              "type": "footnotes",
+              "state": {
+                "file": "uses.md"
+              },
+              "icon": "lucide-file-signature",
+              "title": "Footnotes"
+            }
+          },
+          {
+            "id": "4a10a4d094a200f5",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          }
+        ],
+        "currentTab": 4
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false,
+      "obsidian-git:Open Git source control": false,
+      "obsidian-excalidraw-plugin:New drawing": false,
+      "markdown-importer:Open format converter": false,
+      "publish:Publish changes...": false,
+      "random-note:Open random note": false,
+      "zk-prefixer:Create new unique note": false,
+      "workspaces:Manage workspace layouts": false
+    }
+  },
+  "active": "d62e563073b04d49",
+  "lastOpenFiles": [
+    "notes/notes.md",
+    "posts/hadoop-tutor.md",
+    "image.png",
+    "uses-test.md",
+    "about.md",
+    "notes/202510071326.md",
+    "Vault.md",
+    "Excalidraw/Drawing 2025-10-07 13.26.01.excalidraw.md",
+    "Excalidraw",
+    "projects/ocr-plate-num.md",
+    "notes/Untitled.md",
+    "uses.md",
+    "notes",
+    "posts/realtime-videochat.md",
+    "posts/processing-1br-under-2sec.md",
+    "posts/traffic-violation-system.md",
+    "posts/Hadoop-Tutor/add-input-data.png",
+    "posts/Hadoop-Tutor/admin-access-bash.png",
+    "my-desktop.png",
+    "test.md",
+    "Tags",
+    "posts/understand-c-threads.md",
+    "Untitled.base",
+    "Excalidraw/Drawing 2025-10-07 10.51.48.excalidraw.md",
+    "posts/1brc-under-2sec/1brc-logo.png"
+  ]
+}
