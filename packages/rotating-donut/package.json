@@ -8,6 +8,6 @@
 		"gl-matrix": "^3.4.3"
 	},
 	"devDependencies": {
-		"parcel": "^2.16.0"
+		"parcel": "^2.16.4"
 	}
 }

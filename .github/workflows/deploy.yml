@@ -16,23 +16,12 @@ jobs:
     name: Deploy to Cloudflare Pages
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0 # Get full git history for last modified dates
-          submodules: recursive # Initialize and update git submodules
-          token: ${{ secrets.GITHUB_TOKEN }} # Use token for submodule access
-
-      - name: Initialize and update submodules to latest
-        run: |
-          git submodule init
-          git submodule update --init --recursive --remote
-          cd apps/contents
-          git checkout master || git checkout main
-          git pull origin master || git pull origin main
-          cd ../..
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: '20'
 
