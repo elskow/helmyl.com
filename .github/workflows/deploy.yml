@@ -77,7 +77,7 @@ jobs:
           actions-cache-folder: 'emsdk-cache'
 
       - name: Install Dependencies
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install --no-frozen-lockfile --config.strict-dep-builds=false
 
       - name: Install tsx globally
         run: pnpm add -g tsx
@@ -95,6 +95,7 @@ jobs:
 
       - name: Deploy to Cloudflare Pages
         id: deploy
+        if: ${{ secrets.CLOUDFLARE_API_TOKEN != '' && secrets.CLOUDFLARE_ACCOUNT_ID != '' }}
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
