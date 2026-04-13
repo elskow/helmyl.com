@@ -77,7 +77,9 @@
 	<div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 lg:gap-24">
 		<div class="md:col-span-7 lg:col-span-8 space-y-24">
 			<section class="space-y-8">
-				<div class="w-12 h-12 bg-neutral-100 rounded-sm overflow-hidden border border-neutral-200">
+				<div
+					class="w-12 h-12 bg-neutral-100 rounded-sm overflow-hidden border border-neutral-200"
+				>
 					<img
 						src="https://avatars.githubusercontent.com/u/103118501?v=4"
 						alt="Helmy Luqmanulhakim"
@@ -86,15 +88,17 @@
 				</div>
 
 				<div class="space-y-1">
-					<h1 class="text-xl font-medium tracking-tight text-neutral-950">Helmy Luqmanulhakim</h1>
+					<h1 class="text-xl font-medium tracking-tight text-neutral-950">
+						Helmy Luqmanulhakim
+					</h1>
 					<p class="text-base text-neutral-500">Software design & engineering</p>
 					<p class="text-sm text-neutral-400">South Jakarta, ID</p>
 				</div>
 
 				<div class="space-y-4 max-w-lg text-base leading-relaxed text-neutral-600">
 					<p>
-						I build high-performance web systems and data infrastructure. Previously Writing Scala
-						at
+						I build high-performance web systems and data infrastructure. Previously
+						Writing Scala at
 						<a
 							href="https://www.ziverge.com"
 							target="_blank"
@@ -144,10 +148,14 @@
 								{String(i + 1).padStart(2, '0')}
 							</span>
 							<div class="space-y-1.5">
-								<div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
+								<div
+									class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1"
+								>
 									<h3 class="text-base font-medium text-neutral-900">
 										{job.role}
-										<span class="text-neutral-400 font-normal mx-1 text-sm">at</span>
+										<span class="text-neutral-400 font-normal mx-1 text-sm"
+											>at</span
+										>
 										<a
 											href={job.link}
 											target="_blank"
@@ -156,12 +164,15 @@
 											{job.company}
 										</a>
 									</h3>
-									<span class="text-xs text-neutral-400 font-mono shrink-0 pt-1 sm:pt-0"
+									<span
+										class="text-xs text-neutral-400 font-mono shrink-0 pt-1 sm:pt-0"
 										>{job.date}</span
 									>
 								</div>
 								<p class="text-xs text-neutral-400">{job.location}</p>
-								<p class="text-sm text-neutral-500 leading-relaxed">{job.description}</p>
+								<p class="text-sm text-neutral-500 leading-relaxed">
+									{job.description}
+								</p>
 							</div>
 						</div>
 					{/each}
@@ -197,13 +208,15 @@
 			</section>
 
 			<section>
-				<h2 class="text-neutral-400 text-xs uppercase tracking-wider mb-6 select-none">Stack</h2>
-				<div class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-neutral-500">
+				<h2 class="text-neutral-400 text-xs uppercase tracking-wider mb-6 select-none">
+					Stack
+				</h2>
+				<div class="flex flex-wrap gap-3">
 					{#each technologies as { name, link }}
 						<a
 							href={link}
 							target="_blank"
-							class="hover:text-neutral-900 hover:underline decoration-neutral-200 underline-offset-4 transition-all"
+							class="px-2 py-1 text-xs text-neutral-600 bg-neutral-50 hover:bg-neutral-100 border border-neutral-200/60 hover:border-neutral-300 rounded-lg transition-all"
 						>
 							{name}
 						</a>
@@ -212,12 +225,20 @@
 			</section>
 
 			<section>
-				<h2 class="text-neutral-400 text-xs uppercase tracking-wider mb-8 select-none">Writing</h2>
+				<h2 class="text-neutral-400 text-xs uppercase tracking-wider mb-8 select-none">
+					Writing
+				</h2>
 				<div class="space-y-6">
 					{#each posts as post}
 						<a href={`/writings/${post.slug}`} class="block group">
-							<article class="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-6">
-								<span class="text-xs text-neutral-400 font-mono shrink-0 w-24">{post.date}</span>
+							<article
+								class="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-6"
+							>
+								<span
+									class="text-xs text-neutral-400 font-mono shrink-0 w-28 whitespace-nowrap"
+								>
+									{post.date}
+								</span>
 								<h3
 									class="text-base font-medium text-neutral-900 group-hover:underline decoration-neutral-300 underline-offset-4 transition-all"
 								>
@@ -249,11 +270,20 @@
 
 				<nav class="space-y-8 text-sm">
 					<div>
-						<h3 class="text-xs text-neutral-400 mb-4 uppercase tracking-wide select-none">Menu</h3>
+						<h3
+							class="text-xs text-neutral-400 mb-4 uppercase tracking-wide select-none"
+						>
+							Menu
+						</h3>
 						<ul class="flex flex-wrap gap-x-6 gap-y-3 md:block md:space-y-3">
 							<li>
-								<a href="/about" class="block text-neutral-600 hover:text-black transition-colors">
-									<CornerDownRight class="w-3 h-3 hidden md:inline-block text-neutral-300 mr-2" />
+								<a
+									href="/about"
+									class="block text-neutral-600 hover:text-black transition-colors"
+								>
+									<CornerDownRight
+										class="w-3 h-3 hidden md:inline-block text-neutral-300 mr-2"
+									/>
 									About
 								</a>
 							</li>
@@ -262,7 +292,9 @@
 									href="/projects"
 									class="block text-neutral-600 hover:text-black transition-colors"
 								>
-									<CornerDownRight class="w-3 h-3 hidden md:inline-block text-neutral-300 mr-2" />
+									<CornerDownRight
+										class="w-3 h-3 hidden md:inline-block text-neutral-300 mr-2"
+									/>
 									Projects
 								</a>
 							</li>
@@ -271,19 +303,31 @@
 									href="/writings"
 									class="block text-neutral-600 hover:text-black transition-colors"
 								>
-									<CornerDownRight class="w-3 h-3 hidden md:inline-block text-neutral-300 mr-2" />
+									<CornerDownRight
+										class="w-3 h-3 hidden md:inline-block text-neutral-300 mr-2"
+									/>
 									Writings
 								</a>
 							</li>
 							<li>
-								<a href="/labs" class="block text-neutral-600 hover:text-black transition-colors">
-									<CornerDownRight class="w-3 h-3 hidden md:inline-block text-neutral-300 mr-2" />
+								<a
+									href="/labs"
+									class="block text-neutral-600 hover:text-black transition-colors"
+								>
+									<CornerDownRight
+										class="w-3 h-3 hidden md:inline-block text-neutral-300 mr-2"
+									/>
 									Labs
 								</a>
 							</li>
 							<li>
-								<a href="/uses" class="block text-neutral-600 hover:text-black transition-colors">
-									<CornerDownRight class="w-3 h-3 hidden md:inline-block text-neutral-300 mr-2" />
+								<a
+									href="/uses"
+									class="block text-neutral-600 hover:text-black transition-colors"
+								>
+									<CornerDownRight
+										class="w-3 h-3 hidden md:inline-block text-neutral-300 mr-2"
+									/>
 									Uses
 								</a>
 							</li>
@@ -298,7 +342,9 @@
 								<span
 									class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"
 								></span>
-								<span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+								<span
+									class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"
+								></span>
 							</span>
 							Open to work
 						</div>

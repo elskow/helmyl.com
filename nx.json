@@ -5,12 +5,6 @@
 			"dependsOn": ["^build"],
 			"cache": true,
 			"inputs": ["production", "^production"]
-		},
-		"dev": {
-			"cache": false
-		},
-		"clean": {
-			"cache": false
 		}
 	},
 	"namedInputs": {
@@ -23,14 +17,8 @@
 		],
 		"sharedGlobals": ["{workspaceRoot}/pnpm-lock.yaml"]
 	},
-	"targetDefaults": {
-		"build": {
-			"dependsOn": ["^build"],
-			"cache": true,
-			"inputs": ["production", "^production"]
-		}
-	},
 	"defaultProject": "website",
 	"parallel": 3,
-	"cacheDirectory": ".nx/cache"
+	"cacheDirectory": ".nx/cache",
+	"analytics": false
 }

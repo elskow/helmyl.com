@@ -50,13 +50,17 @@
 	</div>
 
 	<div class="block">
-		<p class="text-sm text-neutral-600 leading-relaxed mb-3 max-w-lg">
+		<p class="text-sm text-neutral-600 leading-relaxed mb-4 max-w-lg">
 			{description}
 		</p>
 
-		<div class="flex flex-wrap gap-3 text-xs text-neutral-400 font-mono">
-			{#each visibleStacks as tech, i}
-				<span>{tech}{i < visibleStacks.length - 1 ? '' : ''}</span>
+		<div class="flex flex-wrap gap-2 font-mono">
+			{#each visibleStacks as tech}
+				<span
+					class="px-2 py-1 text-[11px] text-neutral-500 bg-neutral-100/50 border border-neutral-200/50 rounded-md"
+				>
+					{tech}
+				</span>
 			{/each}
 		</div>
 	</div>

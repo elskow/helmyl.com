@@ -11,16 +11,6 @@ export default defineConfig(({ mode }) => {
 	return {
 		css: {
 			devSourcemap: true,
-			transformer: 'lightningcss',
-			lightningcss: {
-				minify: true,
-				targets: {
-					chrome: 90,
-					firefox: 88,
-					safari: 14,
-					edge: 90
-				}
-			},
 			modules: {
 				generateScopedName: isProduction
 					? '[hash:base64:5]'

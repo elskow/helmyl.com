@@ -5,12 +5,12 @@ Software engineer who doesn't really care what language or framework you throw a
 
 ### Skills & Expertise
 
-- **Languages**: Scala, Go, Python, Java, Rust, TypeScript.
-- **Databases**: MySQL (MariaDB), PostgreSQL, Redis, MongoDB.
-- **Streaming Platforms**: Kafka, RabbitMQ.
-- **Containerization**: Docker, Podman, Kubernetes.
-- **Cloud Providers**: Google Cloud Platform, Microsoft Azure, AWS (LocalStack).
-- **Technical Skills**: Git Conventional Commits, CI/CD, System Design, Performance Optimization, Clean Code, Functional Programming.
+- **Languages** Scala, Go, Python, Java, Rust, TypeScript.
+- **Databases** MySQL (MariaDB), PostgreSQL, Redis, MongoDB.
+- **Streaming Platforms** Kafka, RabbitMQ.
+- **Containerization** Docker, Podman, Kubernetes.
+- **Cloud Providers** Google Cloud Platform, Microsoft Azure, AWS (LocalStack).
+- **Technical Skills** Git Conventional Commits, CI/CD, System Design, Performance Optimization, Clean Code, Functional Programming.
 
 ### Experience
 
