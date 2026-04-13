@@ -17,25 +17,29 @@
 	<meta name="description" content={pageDescription} />
 </svelte:head>
 
-<main class="max-w-screen-xl mx-auto px-4 sm:px-6 py-12 md:py-24 min-h-screen text-neutral-900 font-sans overflow-x-hidden">
+<main
+	class="max-w-screen-xl mx-auto px-4 sm:px-6 py-12 md:py-24 min-h-screen text-neutral-900 font-sans overflow-x-hidden"
+>
 	<div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 lg:gap-24">
 		<div class="md:col-span-7 lg:col-span-8">
-			<header class="mb-20">
-				<div class="mb-8">
-					<a
-						href="/"
-						class="text-xs text-neutral-400 hover:text-neutral-900 transition-colors flex items-center gap-1"
-					>
-						<ArrowLeft class="w-3 h-3" /> Back home
-					</a>
-				</div>
-				<h1 class="text-lg font-medium tracking-tight text-neutral-950 mb-2">Writing</h1>
-				<p class="text-neutral-500 max-w-md text-sm leading-relaxed">
+			<header class="mb-12 md:mb-16">
+				<a
+					href="/"
+					class="text-xs text-neutral-400 hover:text-neutral-900 mb-6 md:mb-8 inline-flex items-center gap-1 transition-colors"
+				>
+					<ArrowLeft class="w-3 h-3" /> Back home
+				</a>
+				<h1
+					class="text-3xl sm:text-4xl font-medium tracking-tight leading-[1.15] text-neutral-950 mb-4"
+				>
+					Writing
+				</h1>
+				<p class="text-lg text-neutral-500 leading-relaxed font-light">
 					{pageDescription}
 				</p>
 			</header>
 
-			<div class="space-y-0 border-t border-neutral-100">
+			<div class="space-y-0 border-t border-neutral-100 mt-8">
 				{#each posts as post}
 					<a
 						href="/writings/{post.slug}"
@@ -52,9 +56,9 @@
 									: ''}
 							</time>
 
-							<div>
+							<div class="min-w-0">
 								<h2
-									class="text-base font-medium text-neutral-900 group-hover:underline decoration-neutral-300 underline-offset-4 transition-all mb-1"
+									class="text-base font-medium text-neutral-900 group-hover:underline decoration-neutral-300 underline-offset-4 transition-all mb-1 break-words"
 								>
 									{post.title}
 								</h2>
@@ -65,7 +69,9 @@
 			</div>
 		</div>
 
-		<aside class="md:col-span-5 lg:col-span-4 md:pl-6 lg:pl-12 xl:pl-24 space-y-8 md:space-y-12 pt-8 md:pt-0 border-t border-neutral-100 md:border-t-0 mt-12 md:mt-0 min-w-0">
+		<aside
+			class="md:col-span-5 lg:col-span-4 md:pl-6 lg:pl-12 xl:pl-24 space-y-8 md:space-y-12 pt-8 md:pt-0 border-t border-neutral-100 md:border-t-0 mt-12 md:mt-0 min-w-0"
+		>
 			<div class="md:sticky md:top-24 space-y-8 md:space-y-12">
 				<div class="hidden md:block text-neutral-300">
 					<PenLine class="w-6 h-6" strokeWidth={1.5} />
@@ -73,19 +79,27 @@
 
 				<nav class="space-y-8 text-sm">
 					<div>
-						<h3 class="text-xs text-neutral-400 mb-4 uppercase tracking-wide select-none">
+						<h3
+							class="text-xs text-neutral-400 mb-4 uppercase tracking-wide select-none"
+						>
 							Topics
 						</h3>
 						<div class="flex flex-wrap gap-2">
-							<span class="text-xs border border-neutral-200 px-2 py-1 rounded text-neutral-500"
-								>Engineering</span
+							<span
+								class="text-xs border border-neutral-200 px-2 py-1 rounded text-neutral-500"
 							>
-							<span class="text-xs border border-neutral-200 px-2 py-1 rounded text-neutral-500"
-								>DevOps</span
+								Engineering
+							</span>
+							<span
+								class="text-xs border border-neutral-200 px-2 py-1 rounded text-neutral-500"
 							>
-							<span class="text-xs border border-neutral-200 px-2 py-1 rounded text-neutral-500"
-								>Life</span
+								DevOps
+							</span>
+							<span
+								class="text-xs border border-neutral-200 px-2 py-1 rounded text-neutral-500"
 							>
+								Life
+							</span>
 						</div>
 					</div>
 				</nav>
