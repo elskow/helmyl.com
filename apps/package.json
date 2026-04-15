@@ -45,7 +45,7 @@
 		"remark-gfm": "^4.0.1",
 		"remark-oembed": "^1.2.2",
 		"satori": "^0.18.3",
-		"sharp": "^0.34.4",
+		"sharp": "^0.34.5",
 		"super-sitemap": "^1.0.5",
 		"svelte": "^5.55.3",
 		"svelte-check": "^4.4.6",
