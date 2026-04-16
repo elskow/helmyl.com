@@ -50,7 +50,7 @@
 		"svelte": "^5.55.3",
 		"svelte-check": "^4.4.6",
 		"tailwindcss": "^4.1.15",
-		"terser": "^5.44.0",
+		"terser": "^5.46.1",
 		"tsx": "^4.20.3",
 		"typescript": "^5.5.0",
 		"typescript-eslint": "^8.58.1",
