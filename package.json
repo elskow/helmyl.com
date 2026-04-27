@@ -23,7 +23,7 @@
 		"@parcel/transformer-sass": "^2.16.4",
 		"nx": "^22.6.5",
 		"prettier": "^3.8.2",
-		"tsx": "^4.20.3",
+		"tsx": "^4.21.0",
 		"wrangler": "^4.81.1"
 	},
 	"engines": {
