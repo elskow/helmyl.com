@@ -24,6 +24,7 @@
 			"dependsOn": ["build:wasm", "generate-games"],
 			"options": {
 				"commands": [
+					"mkdir -p ../../apps/static/labs/gbemu",
 					"parcel build src/web/index.html --dist-dir ../../apps/static/labs/gbemu --public-url /labs/gbemu/",
 					"cp dist/gbemu.wasm ../../apps/static/labs/gbemu/",
 					"cp dist/gbemu.js ../../apps/static/labs/gbemu/",
