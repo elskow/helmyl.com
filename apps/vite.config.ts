@@ -29,29 +29,14 @@ export default defineConfig(({ mode }) => {
 		].filter(Boolean),
 		build: {
 			chunkSizeWarningLimit: 500,
-			minify: 'terser',
+			minify: 'esbuild',
 			target: 'es2020',
 			assetsInlineLimit: 4096,
 			modulePreload: {
 				polyfill: false
 			},
-			terserOptions: {
-				compress: {
-					drop_console: true,
-					drop_debugger: true,
-					pure_funcs: ['console.log', 'console.info', 'console.debug'],
-					passes: 2,
-					dead_code: true,
-					unused: true
-				},
-				mangle: {
-					safari10: true,
-					toplevel: true
-				},
-				format: {
-					comments: false,
-					ecma: 2020
-				}
+			esbuild: {
+				drop: ['console', 'debugger']
 			},
 			rollupOptions: {
 				output: {

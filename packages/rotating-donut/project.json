@@ -10,10 +10,9 @@
 			"options": {
 				"commands": [
 					"mkdir -p ../../apps/static/labs/rotating-donut",
-					"parcel build src/index.html --dist-dir ../../apps/static/labs/rotating-donut --public-url /labs/rotating-donut/ --no-cache"
+					"parcel build src/index.html --dist-dir ../../apps/static/labs/rotating-donut --public-url /labs/rotating-donut/"
 				],
-				"cwd": "packages/rotating-donut",
-				"parallel": false
+				"cwd": "packages/rotating-donut"
 			}
 		},
 		"dev": {

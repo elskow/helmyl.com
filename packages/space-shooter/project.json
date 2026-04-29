@@ -10,11 +10,10 @@
 			"options": {
 				"commands": [
 					"mkdir -p ../../apps/static/labs/space-shooter",
-					"parcel build src/index.html --dist-dir ../../apps/static/labs/space-shooter --public-url /labs/space-shooter/ --no-cache --no-content-hash --no-source-maps",
+					"parcel build src/index.html --dist-dir ../../apps/static/labs/space-shooter --public-url /labs/space-shooter/",
 					"cp -r public/* ../../apps/static/labs/space-shooter/"
 				],
-				"cwd": "packages/space-shooter",
-				"parallel": false
+				"cwd": "packages/space-shooter"
 			}
 		},
 		"dev": {

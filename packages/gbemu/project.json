@@ -24,13 +24,12 @@
 			"dependsOn": ["build:wasm", "generate-games"],
 			"options": {
 				"commands": [
-					"parcel build src/web/index.html --dist-dir ../../apps/static/labs/gbemu --public-url /labs/gbemu/ --no-cache",
+					"parcel build src/web/index.html --dist-dir ../../apps/static/labs/gbemu --public-url /labs/gbemu/",
 					"cp dist/gbemu.wasm ../../apps/static/labs/gbemu/",
 					"cp dist/gbemu.js ../../apps/static/labs/gbemu/",
 					"mkdir -p ../../apps/static/labs/gbemu/roms && cp roms/*.gb roms/*.gbc roms/games.json ../../apps/static/labs/gbemu/roms/ 2>/dev/null || true"
 				],
-				"cwd": "packages/gbemu",
-				"parallel": false
+				"cwd": "packages/gbemu"
 			}
 		},
 		"copy-roms": {

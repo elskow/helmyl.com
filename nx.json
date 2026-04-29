@@ -5,6 +5,16 @@
 			"dependsOn": ["^build"],
 			"cache": true,
 			"inputs": ["production", "^production"]
+		},
+		"generate:labs": {
+			"cache": true,
+			"inputs": ["default", "^production"],
+			"outputs": ["{projectRoot}/static/labs"]
+		},
+		"generate:og": {
+			"cache": true,
+			"inputs": ["default", "^production"],
+			"outputs": ["{projectRoot}/static/og"]
 		}
 	},
 	"namedInputs": {

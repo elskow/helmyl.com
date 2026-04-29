@@ -4,6 +4,21 @@
 	"sourceRoot": "apps/src",
 	"projectType": "application",
 	"targets": {
+		"generate:labs": {
+			"executor": "nx:run-commands",
+			"dependsOn": ["^build"],
+			"options": {
+				"command": "tsx scripts/generate-labs-metadata.ts",
+				"cwd": "apps"
+			}
+		},
+		"generate:og": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "tsx scripts/generate-og-images.ts",
+				"cwd": "apps"
+			}
+		},
 		"build": {
 			"executor": "nx:run-commands",
 			"dependsOn": ["^build"],
