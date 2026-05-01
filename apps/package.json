@@ -67,7 +67,7 @@
 		"@expressive-code/plugin-frames": "^0.41.3",
 		"@fontsource-variable/onest": "^5.2.11",
 		"@lucide/svelte": "^1.8.0",
-		"feed": "^5.2.0",
+		"feed": "^5.2.1",
 		"rehype-autolink-headings": "^7.1.0",
 		"rehype-slug": "^6.0.0",
 		"remark-toc": "^9.0.0",
