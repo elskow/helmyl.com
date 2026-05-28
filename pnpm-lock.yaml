@@ -36,8 +36,8 @@ importers:
   apps:
     dependencies:
       '@datadog/browser-rum':
-        specifier: ^6.32.0
-        version: 6.32.0
+        specifier: ^7.0.0
+        version: 7.0.0
       '@expressive-code/plugin-frames':
         specifier: ^0.41.3
         version: 0.41.3
@@ -936,16 +936,16 @@ packages:
     resolution: {integrity: sha512-kzyuwOAQnXJNLS9PSyrk0CWk35nWJW/zl/6KvnTBMFK65gm7U1/Z5BqjxeapjZCIhQcM/DsrEmcbRwDyXyXK4A==}
     engines: {node: '>=14'}
 
-  '@datadog/browser-core@6.32.0':
-    resolution: {integrity: sha512-ikok4zYmoZFcOcIlzFFtImgJXUzAKc1j2zQ6JvAMso7L9xs0BmgFPF1E2Kag03PJ6jddB7QJ7ADjiOTwt6hW+Q==}
+  '@datadog/browser-core@7.0.0':
+    resolution: {integrity: sha512-msymElyeqNhpiWbQhSo7Dr9YJneZu7L60NOEclW1JCpvscM0Fyj940kz6/GcOU/5Azt7PAWv4ZCBhHwnmf0DcQ==}
 
-  '@datadog/browser-rum-core@6.32.0':
-    resolution: {integrity: sha512-VK1xa4bd8zxkbkkh53yhbiKy0rPqOP+YWcqGHoJguhRuUwY45rBa+iBSCn+MBdPmTI1cbfBjc6hxNuBxWHkN1Q==}
+  '@datadog/browser-rum-core@7.0.0':
+    resolution: {integrity: sha512-+WMly+KBAts9vmBRY1sVMzuG2iTrkxplb4H6U0QBNHMmf3ZEkXy+hbl6DT4WF1ieMogLNaiLmidz1eUOWSH/zQ==}
 
-  '@datadog/browser-rum@6.32.0':
-    resolution: {integrity: sha512-frBWGQSbxMmE9nA0A2PF9Y4kHe4MjaFQxSmFrJUCAVEkwQh//Cp1+vW+FoxIJaR14Sah9zIWzIQF3DiuBzMCqw==}
+  '@datadog/browser-rum@7.0.0':
+    resolution: {integrity: sha512-f+pckXe4L47Fic/NbRIfg1hEwhfenP2Y2iBhqodgwTD1MVSQK9bk7c/LRFTWRStqZcZ3S8zAh+U9ULyf13ZDwA==}
     peerDependencies:
-      '@datadog/browser-logs': 6.32.0
+      '@datadog/browser-logs': 7.0.0
     peerDependenciesMeta:
       '@datadog/browser-logs':
         optional: true
@@ -5454,6 +5454,11 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
+  nanoid@3.3.12:
+    resolution: {integrity: sha512-ZB9RH/39qpq5Vu6Y+NmUaFhQR6pp+M2Xt76XBnEwDaGcVAqhlvxrl3B2bKS5D3NH3QR76v3aSrKaF/Kiy7lEtQ==}
+    engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
+    hasBin: true
+
   natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
 
@@ -5718,6 +5723,10 @@ packages:
 
   postcss@8.5.12:
     resolution: {integrity: sha512-W62t/Se6rA0Az3DfCL0AqJwXuKwBeYg6nOaIgzP+xZ7N5BFCI7DYi1qs6ygUYT6rvfi6t9k65UMLJC+PHZpDAA==}
+    engines: {node: ^10 || ^12 || >=14}
+
+  postcss@8.5.13:
+    resolution: {integrity: sha512-qif0+jGGZoLWdHey3UFHHWP0H7Gbmsk8T5VEqyYFbWqPr1XqvLGBbk/sl8V5exGmcYJklJOhOQq1pV9IcsiFag==}
     engines: {node: ^10 || ^12 || >=14}
 
   prelude-ls@1.2.1:
@@ -7578,16 +7587,16 @@ snapshots:
 
   '@ctrl/tinycolor@4.2.0': {}
 
-  '@datadog/browser-core@6.32.0': {}
+  '@datadog/browser-core@7.0.0': {}
 
-  '@datadog/browser-rum-core@6.32.0':
+  '@datadog/browser-rum-core@7.0.0':
     dependencies:
-      '@datadog/browser-core': 6.32.0
+      '@datadog/browser-core': 7.0.0
 
-  '@datadog/browser-rum@6.32.0':
+  '@datadog/browser-rum@7.0.0':
     dependencies:
-      '@datadog/browser-core': 6.32.0
-      '@datadog/browser-rum-core': 6.32.0
+      '@datadog/browser-core': 7.0.0
+      '@datadog/browser-rum-core': 7.0.0
 
   '@emnapi/core@1.10.0':
     dependencies:
@@ -12788,6 +12797,8 @@ snapshots:
 
   nanoid@3.3.11: {}
 
+  nanoid@3.3.12: {}
+
   natural-compare@1.4.0: {}
 
   no-case@3.0.4:
@@ -13104,6 +13115,12 @@ snapshots:
   postcss@8.5.12:
     dependencies:
       nanoid: 3.3.11
+      picocolors: 1.1.1
+      source-map-js: 1.2.1
+
+  postcss@8.5.13:
+    dependencies:
+      nanoid: 3.3.12
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
@@ -14206,7 +14223,7 @@ snapshots:
       esbuild: 0.27.7
       fdir: 6.5.0(picomatch@4.0.4)
       picomatch: 4.0.4
-      postcss: 8.5.12
+      postcss: 8.5.13
       rollup: 4.60.2
       tinyglobby: 0.2.16
     optionalDependencies:
