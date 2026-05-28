@@ -22,7 +22,7 @@
 		"@sveltejs/kit": "^2.57.1",
 		"@sveltejs/vite-plugin-svelte": "^7.0.0",
 		"@tailwindcss/typography": "^0.5.16",
-		"@tailwindcss/vite": "^4.2.2",
+		"@tailwindcss/vite": "^4.2.4",
 		"@types/eslint": "^9.6.1",
 		"@types/node": "^25.6.0",
 		"@types/object-hash": "3.0.6",
