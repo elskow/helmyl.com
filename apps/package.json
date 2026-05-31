@@ -49,7 +49,7 @@
 		"super-sitemap": "^1.0.12",
 		"svelte": "^5.55.3",
 		"svelte-check": "^4.4.6",
-		"tailwindcss": "^4.1.15",
+		"tailwindcss": "^4.3.0",
 		"terser": "^5.46.1",
 		"tsx": "^4.21.0",
 		"typescript": "^5.5.0",
