@@ -11,7 +11,7 @@
 		"@content-collections/core": "^0.14.3",
 		"@content-collections/markdown": "^0.1.4",
 		"@content-collections/vite": "^0.3.0",
-		"@expressive-code/plugin-collapsible-sections": "^0.41.7",
+		"@expressive-code/plugin-collapsible-sections": "^0.42.0",
 		"@iconify-json/bxl": "^1.2.4",
 		"@iconify-json/devicon": "^1.2.62",
 		"@iconify-json/skill-icons": "^1.2.0",
