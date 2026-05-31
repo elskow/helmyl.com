@@ -10,7 +10,6 @@ updates:
       prefix: 'chore(deps)'
     labels:
       - 'dependencies'
-      - 'automerge'
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
@@ -19,4 +18,3 @@ updates:
       prefix: 'chore(deps)'
     labels:
       - 'dependencies'
-      - 'automerge'
