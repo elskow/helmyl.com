@@ -44,7 +44,7 @@
 		"rehype-unwrap-images": "^1.0.0",
 		"remark-gfm": "^4.0.1",
 		"remark-oembed": "^1.2.2",
-		"satori": "^0.18.3",
+		"satori": "^0.26.0",
 		"sharp": "^0.34.5",
 		"super-sitemap": "^1.0.12",
 		"svelte": "^5.55.3",
