@@ -36,8 +36,8 @@ importers:
   apps:
     dependencies:
       '@datadog/browser-rum':
-        specifier: ^7.0.0
-        version: 7.0.0
+        specifier: ^7.2.0
+        version: 7.2.0
       '@expressive-code/plugin-frames':
         specifier: ^0.41.3
         version: 0.41.3
@@ -942,16 +942,16 @@ packages:
     resolution: {integrity: sha512-kzyuwOAQnXJNLS9PSyrk0CWk35nWJW/zl/6KvnTBMFK65gm7U1/Z5BqjxeapjZCIhQcM/DsrEmcbRwDyXyXK4A==}
     engines: {node: '>=14'}
 
-  '@datadog/browser-core@7.0.0':
-    resolution: {integrity: sha512-msymElyeqNhpiWbQhSo7Dr9YJneZu7L60NOEclW1JCpvscM0Fyj940kz6/GcOU/5Azt7PAWv4ZCBhHwnmf0DcQ==}
+  '@datadog/browser-core@7.2.0':
+    resolution: {integrity: sha512-/KOJiLyLP149qZTMs8W8P8MBKxmbrYYramChTDAplhbIXR+nBE+g97RRbluIBDec4GngnA1j13JWDEXBmT0AJw==}
 
-  '@datadog/browser-rum-core@7.0.0':
-    resolution: {integrity: sha512-+WMly+KBAts9vmBRY1sVMzuG2iTrkxplb4H6U0QBNHMmf3ZEkXy+hbl6DT4WF1ieMogLNaiLmidz1eUOWSH/zQ==}
+  '@datadog/browser-rum-core@7.2.0':
+    resolution: {integrity: sha512-xYgKmBzgpPdXNWxGKBGgJc/EUq6387USzM3Tq22kSD843QTzgzG2jYWkBZZ1FAel1T/0hF2FMJ8Mxo5BwxpoJQ==}
 
-  '@datadog/browser-rum@7.0.0':
-    resolution: {integrity: sha512-f+pckXe4L47Fic/NbRIfg1hEwhfenP2Y2iBhqodgwTD1MVSQK9bk7c/LRFTWRStqZcZ3S8zAh+U9ULyf13ZDwA==}
+  '@datadog/browser-rum@7.2.0':
+    resolution: {integrity: sha512-cPNTtSyrKSDcwtsWOq7C7662dseUoYmSqK3bJh2rJ0IPW/nVDTZrxt1a6cuGHLFjcE6KFCQJLrnC2YDdw8uJGw==}
     peerDependencies:
-      '@datadog/browser-logs': 7.0.0
+      '@datadog/browser-logs': 7.2.0
     peerDependenciesMeta:
       '@datadog/browser-logs':
         optional: true
@@ -7660,16 +7660,16 @@ snapshots:
 
   '@ctrl/tinycolor@4.2.0': {}
 
-  '@datadog/browser-core@7.0.0': {}
+  '@datadog/browser-core@7.2.0': {}
 
-  '@datadog/browser-rum-core@7.0.0':
+  '@datadog/browser-rum-core@7.2.0':
     dependencies:
-      '@datadog/browser-core': 7.0.0
+      '@datadog/browser-core': 7.2.0
 
-  '@datadog/browser-rum@7.0.0':
+  '@datadog/browser-rum@7.2.0':
     dependencies:
-      '@datadog/browser-core': 7.0.0
-      '@datadog/browser-rum-core': 7.0.0
+      '@datadog/browser-core': 7.2.0
+      '@datadog/browser-rum-core': 7.2.0
 
   '@emnapi/core@1.10.0':
     dependencies:
