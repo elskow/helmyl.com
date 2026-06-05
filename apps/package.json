@@ -57,7 +57,7 @@
 		"unist-util-visit": "^5.1.0",
 		"unplugin-icons": "^23.0.1",
 		"unplugin-tailwindcss-mangle": "^5.1.3",
-		"vite": "^8.0.10",
+		"vite": "^8.0.16",
 		"vite-plugin-webfont-dl": "^3.12.0",
 		"zod": "^4.3.6"
 	},
