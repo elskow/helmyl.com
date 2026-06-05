@@ -8,7 +8,7 @@
 		"generate:og": "tsx scripts/generate-og-images.ts"
 	},
 	"devDependencies": {
-		"@content-collections/core": "^0.14.3",
+		"@content-collections/core": "^0.15.1",
 		"@content-collections/markdown": "^0.1.4",
 		"@content-collections/vite": "^0.3.0",
 		"@expressive-code/plugin-collapsible-sections": "^0.42.0",
