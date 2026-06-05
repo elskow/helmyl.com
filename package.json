@@ -21,7 +21,7 @@
 		"@nx/vite": "^22.7.5",
 		"@parcel/transformer-glsl": "^2.16.4",
 		"@parcel/transformer-sass": "^2.16.4",
-		"nx": "^22.6.5",
+		"nx": "^22.7.5",
 		"prettier": "^3.8.2",
 		"tsx": "^4.21.0",
 		"wrangler": "^4.81.1"
