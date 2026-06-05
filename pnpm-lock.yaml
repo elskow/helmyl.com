@@ -64,14 +64,14 @@ importers:
         version: 11.0.5
     devDependencies:
       '@content-collections/core':
-        specifier: ^0.14.3
-        version: 0.14.3(typescript@5.9.3)
+        specifier: ^0.15.1
+        version: 0.15.1(typescript@5.9.3)
       '@content-collections/markdown':
         specifier: ^0.1.4
-        version: 0.1.4(@content-collections/core@0.14.3(typescript@5.9.3))
+        version: 0.1.4(@content-collections/core@0.15.1(typescript@5.9.3))
       '@content-collections/vite':
         specifier: ^0.3.0
-        version: 0.3.0(@content-collections/core@0.14.3(typescript@5.9.3))(vite@8.0.10(@types/node@25.9.1)(esbuild@0.27.7)(jiti@2.7.0)(sass@1.99.0)(terser@5.48.0)(tsx@4.21.0)(yaml@2.9.0))
+        version: 0.3.0(@content-collections/core@0.15.1(typescript@5.9.3))(vite@8.0.10(@types/node@25.9.1)(esbuild@0.27.7)(jiti@2.7.0)(sass@1.99.0)(terser@5.48.0)(tsx@4.21.0)(yaml@2.9.0))
       '@expressive-code/plugin-collapsible-sections':
         specifier: ^0.42.0
         version: 0.42.0
@@ -913,10 +913,10 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@content-collections/core@0.14.3':
-    resolution: {integrity: sha512-nbgfRswxudlKDBEO2AXVGGfsFMlenV2iVjNDddQGWD0qk3lBDkTRJy0AqdBvBOccB8/cj95nJyXEVocRRNyUcA==}
+  '@content-collections/core@0.15.1':
+    resolution: {integrity: sha512-uQmhvvsSgNJs7QOi4+IgvDhv7v1yueCr6n7WgMahUDFeVchML/WFl9D2vrklxUnXY+YaBGTkc2+q8PcEVM19WA==}
     peerDependencies:
-      typescript: ^5.0.2
+      typescript: ^5.0.2 || ^6.0.0
 
   '@content-collections/integrations@0.5.0':
     resolution: {integrity: sha512-1en7r518sct0Y8CQ5IsuuBN4uAmtNLaWuxmseW43OxeXyj43Uu2aPBfbopjL4b5xH8WZBdDrrPmikgOl42U46A==}
@@ -6667,11 +6667,6 @@ packages:
     resolution: {integrity: sha512-vIYeF1u3CjlhAFekPPAk2h/Kv4T3mAkMox5OymRiJQB0spDP10LHvt+K7G9Ny6NuuMAb25/6n1qyUjAcGNf/AA==}
     engines: {node: '>= 6'}
 
-  yaml@2.8.3:
-    resolution: {integrity: sha512-AvbaCLOO2Otw/lW5bmh9d/WEdcDFdQp2Z2ZUH3pX9U2ihyUY0nvLv7J6TrWowklRGPYbB/IuIMfYgxaCPg5Bpg==}
-    engines: {node: '>= 14.6'}
-    hasBin: true
-
   yaml@2.9.0:
     resolution: {integrity: sha512-2AvhNX3mb8zd6Zy7INTtSpl1F15HW6Wnqj0srWlkKLcpYl/gMIMJiyuGq2KeI2YFxUPjdlB+3Lc10seMLtL4cA==}
     engines: {node: '>= 14.6'}
@@ -7502,7 +7497,7 @@ snapshots:
   '@cloudflare/workerd-windows-64@1.20260409.1':
     optional: true
 
-  '@content-collections/core@0.14.3(typescript@5.9.3)':
+  '@content-collections/core@0.15.1(typescript@5.9.3)':
     dependencies:
       '@standard-schema/spec': 1.1.0
       camelcase: 8.0.0
@@ -7513,17 +7508,17 @@ snapshots:
       picomatch: 4.0.4
       pluralize: 8.0.0
       serialize-javascript: 7.0.5
-      tinyglobby: 0.2.16
+      tinyglobby: 0.2.17
       typescript: 5.9.3
-      yaml: 2.8.3
+      yaml: 2.9.0
 
-  '@content-collections/integrations@0.5.0(@content-collections/core@0.14.3(typescript@5.9.3))':
+  '@content-collections/integrations@0.5.0(@content-collections/core@0.15.1(typescript@5.9.3))':
     dependencies:
-      '@content-collections/core': 0.14.3(typescript@5.9.3)
+      '@content-collections/core': 0.15.1(typescript@5.9.3)
 
-  '@content-collections/markdown@0.1.4(@content-collections/core@0.14.3(typescript@5.9.3))':
+  '@content-collections/markdown@0.1.4(@content-collections/core@0.15.1(typescript@5.9.3))':
     dependencies:
-      '@content-collections/core': 0.14.3(typescript@5.9.3)
+      '@content-collections/core': 0.15.1(typescript@5.9.3)
       rehype-raw: 7.0.0
       rehype-stringify: 10.0.1
       remark-parse: 11.0.0
@@ -7532,10 +7527,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@content-collections/vite@0.3.0(@content-collections/core@0.14.3(typescript@5.9.3))(vite@8.0.10(@types/node@25.9.1)(esbuild@0.27.7)(jiti@2.7.0)(sass@1.99.0)(terser@5.48.0)(tsx@4.21.0)(yaml@2.9.0))':
+  '@content-collections/vite@0.3.0(@content-collections/core@0.15.1(typescript@5.9.3))(vite@8.0.10(@types/node@25.9.1)(esbuild@0.27.7)(jiti@2.7.0)(sass@1.99.0)(terser@5.48.0)(tsx@4.21.0)(yaml@2.9.0))':
     dependencies:
-      '@content-collections/core': 0.14.3(typescript@5.9.3)
-      '@content-collections/integrations': 0.5.0(@content-collections/core@0.14.3(typescript@5.9.3))
+      '@content-collections/core': 0.15.1(typescript@5.9.3)
+      '@content-collections/integrations': 0.5.0(@content-collections/core@0.15.1(typescript@5.9.3))
       vite: 8.0.10(@types/node@25.9.1)(esbuild@0.27.7)(jiti@2.7.0)(sass@1.99.0)(terser@5.48.0)(tsx@4.21.0)(yaml@2.9.0)
 
   '@cspotcode/source-map-support@0.8.1':
@@ -14374,8 +14369,6 @@ snapshots:
   yallist@3.1.1: {}
 
   yaml@1.10.3: {}
-
-  yaml@2.8.3: {}
 
   yaml@2.9.0: {}
 
