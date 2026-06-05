@@ -16,7 +16,7 @@
 		"@iconify-json/devicon": "^1.2.62",
 		"@iconify-json/skill-icons": "^1.2.4",
 		"@iconify-json/vscode-icons": "^1.2.45",
-		"@playwright/test": "^1.59.1",
+		"@playwright/test": "^1.60.0",
 		"@resvg/resvg-js": "^2.6.2",
 		"@sveltejs/adapter-static": "^3.0.10",
 		"@sveltejs/kit": "^2.61.1",
