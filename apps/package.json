@@ -52,7 +52,7 @@
 		"tailwindcss": "^4.3.0",
 		"terser": "^5.48.0",
 		"tsx": "^4.22.4",
-		"typescript": "^5.5.0",
+		"typescript": "^6.0.3",
 		"typescript-eslint": "^8.58.1",
 		"unist-util-visit": "^5.1.0",
 		"unplugin-icons": "^23.0.1",
