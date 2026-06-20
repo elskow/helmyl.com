@@ -6,7 +6,6 @@
 	"targets": {
 		"generate:labs": {
 			"executor": "nx:run-commands",
-			"dependsOn": ["^build"],
 			"options": {
 				"command": "tsx scripts/generate-labs-metadata.ts",
 				"cwd": "apps"
@@ -40,7 +39,6 @@
 		},
 		"dev": {
 			"executor": "nx:run-commands",
-			"dependsOn": ["^build"],
 			"options": {
 				"commands": ["pnpm generate:labs", "vite dev"],
 				"cwd": "apps",

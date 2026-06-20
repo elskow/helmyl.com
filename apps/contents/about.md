@@ -9,7 +9,7 @@ Software engineer who doesn't really care what language or framework you throw a
 - **Databases** MySQL (MariaDB), PostgreSQL, Redis, MongoDB.
 - **Streaming Platforms** Kafka, RabbitMQ.
 - **Containerization** Docker, Podman, Kubernetes.
-- **Cloud Providers** Google Cloud Platform, Microsoft Azure, AWS (LocalStack).
+- **Cloud Providers** Google Cloud Platform, Microsoft Azure, AWS.
 - **Technical Skills** Git Conventional Commits, CI/CD, System Design, Performance Optimization, Clean Code, Functional Programming.
 
 ### Experience

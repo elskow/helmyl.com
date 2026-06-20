@@ -10,7 +10,8 @@ export const load: PageServerLoad = async () => {
 		title: post.title,
 		slug: post.slug,
 		date: post.date,
-		readTime: post.readTime
+		readTime: post.readTime,
+		excerpt: post.excerpt
 		// html field is NOT included - this saves ~400KB+ in bundle size
 	}));
 

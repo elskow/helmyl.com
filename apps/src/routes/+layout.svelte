@@ -91,7 +91,7 @@
 	/* Adjust for mobile screens */
 	@media (max-width: 640px) {
 		.depth-of-field-overlay {
-			height: 120px;
+			display: none;
 		}
 	}
 </style>

@@ -55,3 +55,12 @@ The build system automatically includes it.
 ## Deployment
 
 Build generates static output in `apps/build/` for deployment.
+
+helmy@station01:~$ sudo cd ..
+^C^C^C^C^Z^Z^Z^Z
+
+sudo: unable to resolve host station01.infra.labrpl.net: Temporary failure in name resolution
+sudo: cd: command not found
+sudo: "cd" is a shell built-in command, it cannot be run directly.
+sudo: the -s option may be used to run a privileged shell.
+sudo: the -D option may be used to run a command in a specific directory.
