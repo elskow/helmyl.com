@@ -182,7 +182,7 @@ int APU::calculateSweepFrequency() {
     
     if (ch1.sweepNegate) {
         newFreq = ch1.shadowFrequency - newFreq;
-        ch1.sweepNegateUsed = true;  // Mark that negate was used
+        ch1.sweepNegateUsed = true;  
     } else {
         newFreq = ch1.shadowFrequency + newFreq;
     }
@@ -199,7 +199,6 @@ void APU::triggerChannel1() {
     
     if (ch1.lengthCounter == 0) {
         ch1.lengthCounter = 64;
-        // Length counter extra clock bug: if length enable set and on length-clocking step
         if ((ch1.nr14 & 0x40) && (frameSequencerStep & 1) == 0) {
             ch1.lengthCounter--;
         }
@@ -212,7 +211,7 @@ void APU::triggerChannel1() {
     ch1.shadowFrequency = ch1.frequency;
     ch1.sweepTimer = ch1.sweepPeriod ? ch1.sweepPeriod : 8;
     ch1.sweepEnabled = ch1.sweepPeriod > 0 || ch1.sweepShift > 0;
-    ch1.sweepNegateUsed = false;  // Reset negate flag on trigger
+    ch1.sweepNegateUsed = false;  
     
     if (ch1.sweepShift > 0) {
         calculateSweepFrequency();
@@ -224,7 +223,6 @@ void APU::triggerChannel2() {
     
     if (ch2.lengthCounter == 0) {
         ch2.lengthCounter = 64;
-        // Length counter extra clock bug: if length enable set and on length-clocking step
         if ((ch2.nr24 & 0x40) && (frameSequencerStep & 1) == 0) {
             ch2.lengthCounter--;
         }
@@ -240,7 +238,6 @@ void APU::triggerChannel3() {
     
     if (ch3.lengthCounter == 0) {
         ch3.lengthCounter = 256;
-        // Length counter extra clock bug: if length enable set and on length-clocking step
         if ((ch3.nr34 & 0x40) && (frameSequencerStep & 1) == 0) {
             ch3.lengthCounter--;
         }
@@ -255,7 +252,6 @@ void APU::triggerChannel4() {
     
     if (ch4.lengthCounter == 0) {
         ch4.lengthCounter = 64;
-        // Length counter extra clock bug: if length enable set and on length-clocking step
         if ((ch4.nr44 & 0x40) && (frameSequencerStep & 1) == 0) {
             ch4.lengthCounter--;
         }
@@ -364,11 +360,11 @@ int APU::getSamples(float* buffer, int maxSamples) {
 
 uint8_t APU::read(uint16_t addr) {
     static const uint8_t readMasks[] = {
-        0x80, 0x3F, 0x00, 0xFF, 0xBF,  // NR10-NR14
-        0xFF, 0x3F, 0x00, 0xFF, 0xBF,  // NR20-NR24
-        0x7F, 0xFF, 0x9F, 0xFF, 0xBF,  // NR30-NR34
-        0xFF, 0xFF, 0x00, 0x00, 0xBF,  // NR40-NR44
-        0x00, 0x00, 0x70               // NR50-NR52
+        0x80, 0x3F, 0x00, 0xFF, 0xBF,  
+        0xFF, 0x3F, 0x00, 0xFF, 0xBF,  
+        0x7F, 0xFF, 0x9F, 0xFF, 0xBF,  
+        0xFF, 0xFF, 0x00, 0x00, 0xBF,  
+        0x00, 0x00, 0x70               
     };
     
     switch (addr) {
@@ -409,7 +405,6 @@ uint8_t APU::read(uint16_t addr) {
         case 0xFF34: case 0xFF35: case 0xFF36: case 0xFF37:
         case 0xFF38: case 0xFF39: case 0xFF3A: case 0xFF3B:
         case 0xFF3C: case 0xFF3D: case 0xFF3E: case 0xFF3F:
-            // Wave RAM corruption: if CH3 is playing, return the byte being accessed
             if (ch3.enabled) {
                 return waveRam[ch3.positionCounter / 2];
             }
@@ -433,7 +428,6 @@ void APU::write(uint16_t addr, uint8_t val) {
             ch1.sweepNegate = val & 0x08;
             ch1.sweepShift = val & 7;
             
-            // Sweep negate quirk: if negate was used and now cleared, disable channel
             if (ch1.sweepNegateUsed && wasNegate && !ch1.sweepNegate) {
                 ch1.enabled = false;
             }
@@ -453,13 +447,10 @@ void APU::write(uint16_t addr, uint8_t val) {
             ch1.envelopePeriod = val & 7;
             ch1.envelopeIncreasing = val & 0x08;
             
-            // Zombie mode: volume changes when writing while channel active
             if (ch1.enabled) {
                 if ((val & 0x08) && !(oldVal & 0x08)) {
-                    // Switching to increment mode: volume++
                     ch1.volume = (ch1.volume + 1) & 0x0F;
                 } else if (((oldVal ^ val) & 0x08) != 0) {
-                    // Direction changed: volume = 16 - volume
                     ch1.volume = (16 - ch1.volume) & 0x0F;
                 }
             }
@@ -494,13 +485,10 @@ void APU::write(uint16_t addr, uint8_t val) {
             ch2.envelopePeriod = val & 7;
             ch2.envelopeIncreasing = val & 0x08;
             
-            // Zombie mode: volume changes when writing while channel active
             if (ch2.enabled) {
                 if ((val & 0x08) && !(oldVal & 0x08)) {
-                    // Switching to increment mode: volume++
                     ch2.volume = (ch2.volume + 1) & 0x0F;
                 } else if (((oldVal ^ val) & 0x08) != 0) {
-                    // Direction changed: volume = 16 - volume
                     ch2.volume = (16 - ch2.volume) & 0x0F;
                 }
             }
@@ -562,13 +550,10 @@ void APU::write(uint16_t addr, uint8_t val) {
             ch4.envelopePeriod = val & 7;
             ch4.envelopeIncreasing = val & 0x08;
             
-            // Zombie mode: volume changes when writing while channel active
             if (ch4.enabled) {
                 if ((val & 0x08) && !(oldVal & 0x08)) {
-                    // Switching to increment mode: volume++
                     ch4.volume = (ch4.volume + 1) & 0x0F;
                 } else if (((oldVal ^ val) & 0x08) != 0) {
-                    // Direction changed: volume = 16 - volume
                     ch4.volume = (16 - ch4.volume) & 0x0F;
                 }
             }
@@ -621,34 +606,23 @@ void APU::write(uint16_t addr, uint8_t val) {
 }
 
 void APU::initFilters() {
-    // Reset filter state
     lpfLeftPrev = 0.0f;
     lpfRightPrev = 0.0f;
     hpfLeftPrev = 0.0f;
     hpfRightPrev = 0.0f;
     hpfLeftCapacitor = 0.0f;
     hpfRightCapacitor = 0.0f;
-    
-    // Compute filter coefficients using the formula:
-    // alpha = dt / (RC + dt) for low-pass
-    // alpha = RC / (RC + dt) for high-pass
-    // where RC = 1 / (2 * PI * cutoff) and dt = 1 / sampleRate
-    
+
     float dt = 1.0f / static_cast<float>(SAMPLE_RATE);
     
-    // Low-pass filter coefficient (14kHz cutoff)
     float lpfRC = 1.0f / (2.0f * 3.14159265f * LPF_CUTOFF);
     lpfAlpha = dt / (lpfRC + dt);
     
-    // High-pass filter coefficient (20Hz cutoff)
     float hpfRC = 1.0f / (2.0f * 3.14159265f * HPF_CUTOFF);
     hpfAlpha = hpfRC / (hpfRC + dt);
 }
 
 void APU::applyFilters(float& left, float& right) {
-    // Apply high-pass filter first (removes DC offset, smooths channel on/off clicks)
-    // This emulates the capacitor-coupled output of the real Game Boy
-    // Formula: output = alpha * (prevOutput + input - prevInput)
     float hpfLeftOut = hpfAlpha * (hpfLeftCapacitor + left - hpfLeftPrev);
     float hpfRightOut = hpfAlpha * (hpfRightCapacitor + right - hpfRightPrev);
     hpfLeftPrev = left;
@@ -656,9 +630,6 @@ void APU::applyFilters(float& left, float& right) {
     hpfLeftCapacitor = hpfLeftOut;
     hpfRightCapacitor = hpfRightOut;
     
-    // Apply low-pass filter (removes harshness/aliasing from square waves)
-    // This emulates the analog filtering in the Game Boy's audio path
-    // Formula: output = prevOutput + alpha * (input - prevOutput)
     lpfLeftPrev = lpfLeftPrev + lpfAlpha * (hpfLeftOut - lpfLeftPrev);
     lpfRightPrev = lpfRightPrev + lpfAlpha * (hpfRightOut - lpfRightPrev);
     

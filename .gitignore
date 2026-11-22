@@ -10,17 +10,15 @@ dist/
 .svelte-kit/
 .parcel-cache/
 .nx/
-static/images
-static/labs
-static/og
 
 dependency-graph.html
 
 # Development
-.content-collections/
+.obsidian/
 .tw-patch/
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+.astro/
 
 # Environment variables
 .env
@@ -74,10 +72,9 @@ temp/
 
 # pre-commit
 .pre-commit-config.yaml
-apps/static/labs/*
-!apps/static/labs/.gitkeep
-apps/src/lib/generated/
 
-# Generated OG images
-apps/static/og/
+# Generated content
+apps/web/src/lib/generated/
 .cache
+apps/web/public/labs/
+apps/web/pnpm-lock.yaml

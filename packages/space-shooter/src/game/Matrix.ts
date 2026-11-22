@@ -8,7 +8,7 @@ export class Matrix {
 	}
 
 	static createView(): mat4 {
-		return mat4.create(); // Identity matrix for 2D
+		return mat4.create();
 	}
 
 	static createModel(

@@ -140,7 +140,6 @@ body {
 	color: #ff6b4a;
 }
 
-/* Mobile adjustments */
 @media (max-width: 600px) {
 	#ui {
 		padding: 12px;

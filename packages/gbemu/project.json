@@ -25,7 +25,7 @@
 			"options": {
 				"commands": [
 					"mkdir -p ../../apps/static/labs/gbemu",
-					"parcel build src/web/index.html --dist-dir ../../apps/static/labs/gbemu --public-url /labs/gbemu/",
+					"parcel build src/web/index.html --dist-dir ../../apps/web/public/labs/gbemu --public-url /labs/gbemu/",
 					"cp dist/gbemu.wasm ../../apps/static/labs/gbemu/",
 					"cp dist/gbemu.js ../../apps/static/labs/gbemu/",
 					"mkdir -p ../../apps/static/labs/gbemu/roms && cp roms/*.gb roms/*.gbc roms/games.json ../../apps/static/labs/gbemu/roms/ 2>/dev/null || true"

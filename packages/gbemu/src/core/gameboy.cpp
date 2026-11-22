@@ -43,7 +43,7 @@ int GameBoy::step() {
 
 int GameBoy::stepCPU() {
     int cycles = cpu.step();
-    mmu.stepDMA(cycles);  // Must step DMA to prevent it from blocking CPU reads forever
+    mmu.stepDMA(cycles);  
     return cycles;
 }
 
@@ -58,7 +58,6 @@ void GameBoy::runFrame() {
         apu.step(cycles);
         
         if (ppu.step(cycles)) {
-            // Frame complete
             break;
         }
         
@@ -67,18 +66,15 @@ void GameBoy::runFrame() {
 }
 
 void GameBoy::setButton(int button, bool pressed) {
-    // Buttons are active LOW
     uint8_t mask = 1 << (button & 0x03);
     
     if (button < 4) {
-        // A, B, Select, Start
         if (pressed) {
             buttons &= ~mask;
         } else {
             buttons |= mask;
         }
     } else {
-        // D-pad
         if (pressed) {
             dpad &= ~mask;
         } else {

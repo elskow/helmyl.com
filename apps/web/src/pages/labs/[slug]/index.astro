@@ -1,0 +1,160 @@
+---
+import Base from '@/layouts/Base.astro';
+import Footer from '@/components/Footer.astro';
+import Icon from '@/components/Icon.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import labsMetadata from '@/lib/generated/labs-metadata.json';
+
+export function getStaticPaths() {
+	return labsMetadata.map((project) => ({ params: { slug: project.slug }, props: { project } }));
+}
+
+const { project } = Astro.props;
+
+const labMeta: Record<string, { categories: string[]; blurb: string }> = {
+	blackhole: {
+		categories: ['graphics', 'webgl', 'physics'],
+		blurb:
+			'A real-time general relativity simulation rendered in WebGL. Light rays are geodesically integrated around a Kerr black hole, producing gravitational lensing, frame dragging, relativistic Doppler beaming, and a physically-shaded accretion disk.'
+	},
+	gbemu: {
+		categories: ['game', 'wasm', 'systems'],
+		blurb:
+			'A Cycle-accurate Game Boy and Game Boy Color emulator. The Sharp LR35902 CPU, PPU, APU, timers, and MBC cartridge mappers are compiled to WebAssembly, running full commercial ROMs with sound at 60fps in a browser tab.'
+	},
+	'marble-run': {
+		categories: ['graphics', 'webgl', 'physics'],
+		blurb:
+			'An interactive 3D marble-run playground with real rigid-body physics. Rolling friction, angular momentum, and track collisions are simulated per-frame, with PBR rendering and a fully deformable spline-based track editor.'
+	},
+	'rotating-donut': {
+		categories: ['graphics', 'webgl', '3d'],
+		blurb:
+			'The classic torus visualization, rebuilt in WebGL. A parametric torus is rasterized with per-fragment lighting and depth-buffered shading, rendered entirely on the GPU.'
+	},
+	'space-shooter': {
+		categories: ['game', 'canvas', 'arcade'],
+		blurb:
+			'An arcade space shooter with hand-tuned physics. Delta-time movement, contact-damage collision, shield regen, and heat-based rapid-fire penalties, rendered on a fixed-size canvas.'
+	},
+	'uiia-cat': {
+		categories: ['graphics', '3d', 'model'],
+		blurb:
+			'A 3D cat model viewer built with Three.js. Studio lighting, soft shadows, and orbit controls showcase GLB models in the browser without any server-side rendering.'
+	}
+};
+
+const meta = labMeta[project.slug];
+const categories = meta?.categories || ['experiment'];
+const blurb = meta?.blurb || project.description;
+
+const breadcrumbs = [
+	{ label: 'Home', url: '/' },
+	{ label: 'Labs', url: '/labs' },
+	{ label: project.name, url: `/labs/${project.slug}` }
+];
+
+const createdAt = new Date(project.createdAt.replace(' ', 'T').replace(/(\d{2})(\d{2})$/, '$1:$2'));
+const editedAt = new Date(project.editedAt.replace(' ', 'T').replace(/(\d{2})(\d{2})$/, '$1:$2'));
+const fmt = (d: Date) =>
+	d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+const jsonLd = [
+	{
+		'@type': 'WebApplication',
+		name: project.name,
+		url: `https://helmyl.com/labs/${project.slug}`,
+		description: blurb,
+		applicationCategory: meta?.categories.includes('game') ? 'GameApplication' : 'DeveloperApplication',
+		operatingSystem: 'Web browser',
+		browserRequirements: 'Requires JavaScript and WebGL',
+		dateCreated: createdAt.toISOString().split('T')[0],
+		dateModified: editedAt.toISOString().split('T')[0],
+		version: project.version,
+		author: { '@id': 'https://helmyl.com/#person' },
+		keywords: categories.join(', ')
+	}
+];
+---
+
+<Base
+	title={`${project.name} - Labs - Helmy Luqmanulhakim`}
+	description={blurb.slice(0, 160)}
+	path={`/labs/${project.slug}`}
+	ogType="article"
+	ogImage={`/og/lab-${project.slug}.png`}
+	jsonLd={jsonLd}
+>
+	<div class="min-h-screen flex items-center justify-center p-6 bg-white text-neutral-900 font-sans">
+		<div class="w-full max-w-md">
+			<Breadcrumbs items={breadcrumbs} />
+
+			<header class="mb-8">
+				<h1 class="text-2xl font-medium tracking-tight mb-3">
+					{project.name}
+				</h1>
+				<p class="text-neutral-500 text-sm leading-relaxed">
+					{blurb}
+				</p>
+			</header>
+
+			<div class="flex flex-wrap gap-2 mb-8" aria-label="Technology categories">
+				{
+					categories.map((cat) => (
+						<span class="text-[10px] uppercase tracking-wider font-mono text-neutral-500 bg-neutral-50 border border-neutral-200 rounded-sm px-2 py-1">
+							{cat}
+						</span>
+					))
+				}
+			</div>
+
+			<dl class="grid grid-cols-2 gap-x-6 gap-y-4 text-sm mb-8 border-t border-neutral-100 pt-6">
+				<div>
+					<dt class="text-neutral-400 text-xs uppercase tracking-wide mb-1">Created</dt>
+					<dd class="text-neutral-700 font-mono text-xs">
+						<time datetime={createdAt.toISOString().split('T')[0]}>{fmt(createdAt)}</time>
+					</dd>
+				</div>
+				<div>
+					<dt class="text-neutral-400 text-xs uppercase tracking-wide mb-1">Last edited</dt>
+					<dd class="text-neutral-700 font-mono text-xs">
+						<time datetime={editedAt.toISOString().split('T')[0]}>{fmt(editedAt)}</time>
+					</dd>
+				</div>
+				{
+					project.version && (
+						<div>
+							<dt class="text-neutral-400 text-xs uppercase tracking-wide mb-1">Version</dt>
+							<dd class="text-neutral-700 font-mono text-xs">v{project.version}</dd>
+						</div>
+					)
+				}
+				<div>
+					<dt class="text-neutral-400 text-xs uppercase tracking-wide mb-1">Runs on</dt>
+					<dd class="text-neutral-700 text-xs">Web browser (WebGL / WASM)</dd>
+				</div>
+			</dl>
+
+			<div class="space-y-3">
+				<a
+					href={`/labs/${project.slug}/index.html`}
+					class="w-full px-4 py-3 bg-neutral-900 text-white text-sm font-medium rounded-sm transition-colors flex items-center justify-center gap-2 hover:bg-neutral-800"
+					aria-label={`Launch the ${project.name} experiment in fullscreen`}
+				>
+					Launch Experiment <Icon name="arrow-up-right" class="w-3.5 h-3.5" />
+				</a>
+				<a
+					href="/labs"
+					class="w-full px-4 py-3 border border-neutral-200 text-neutral-600 text-sm font-medium rounded-sm hover:border-neutral-900 hover:text-neutral-900 transition-colors flex items-center justify-center"
+				>
+					Cancel
+				</a>
+			</div>
+
+			<div class="mt-8 pt-8 border-t border-neutral-100 text-center">
+				<p class="text-xs text-neutral-400">This experiment runs in an isolated environment.</p>
+			</div>
+		</div>
+	</div>
+	<Footer />
+</Base>

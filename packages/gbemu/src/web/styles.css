@@ -1,18 +1,14 @@
-/* GameBoy DMG-01 Inspired Theme */
 :root {
-	/* DMG Colors */
 	--gb-shell: #c4c4b4;
 	--gb-shell-dark: #a8a898;
 	--gb-shell-light: #d4d4c8;
 	--gb-shell-shadow: #8b8b7a;
 
-	/* Screen colors */
 	--gb-screen-bezel: #5a5a5a;
 	--gb-screen-frame: #7a7a6a;
 	--gb-screen-bg: #8b9b5a;
 	--gb-screen-dark: #0f380f;
 
-	/* Button colors */
 	--gb-dpad: #2a2a3a;
 	--gb-dpad-shadow: #1a1a2a;
 	--gb-btn-ab: #8b2252;
@@ -20,12 +16,10 @@
 	--gb-btn-ss: #6a6a7a;
 	--gb-btn-ss-shadow: #4a4a5a;
 
-	/* Accent */
 	--gb-purple: #4a2a7a;
 	--gb-led-off: #3a4a3a;
 	--gb-led-on: #8bbc0f;
 
-	/* Text */
 	--text-dark: #2a2a3a;
 	--text-light: #e8e8e8;
 }
@@ -54,7 +48,6 @@ body {
 	overflow-x: hidden;
 }
 
-/* ==================== GAMEBOY SHELL ==================== */
 .gameboy {
 	background: linear-gradient(
 		180deg,
@@ -75,7 +68,6 @@ body {
 	user-select: none;
 }
 
-/* Top ridge */
 .gb-top-ridge {
 	position: absolute;
 	top: 0;
@@ -87,7 +79,6 @@ body {
 	border-radius: 0 0 4px 4px;
 }
 
-/* ==================== SCREEN SECTION ==================== */
 .gb-screen-section {
 	background: linear-gradient(180deg, #5a5a6a 0%, #4a4a5a 100%);
 	border-radius: 8px;
@@ -151,7 +142,6 @@ body {
 	display: block;
 }
 
-/* Screen overlay */
 .screen-overlay {
 	position: absolute;
 	inset: 0;
@@ -172,7 +162,6 @@ body {
 	background: rgba(139, 188, 15, 0.3);
 }
 
-/* Game Library */
 .game-library {
 	display: flex;
 	flex-direction: column;
@@ -231,7 +220,6 @@ body {
 		inset 0 0 8px rgba(155, 188, 15, 0.2);
 }
 
-/* Upload item styling */
 .game-item-upload {
 	border-style: dashed;
 	margin-top: 4px;
@@ -301,7 +289,6 @@ body {
 	margin-top: 6px;
 }
 
-/* Show desktop hint by default, hide mobile hint */
 .hint-desktop {
 	display: inline;
 }
@@ -310,7 +297,6 @@ body {
 	display: none;
 }
 
-/* Legacy drop content (keeping for compatibility) */
 .drop-content {
 	display: flex;
 	flex-direction: column;
@@ -335,7 +321,6 @@ body {
 	opacity: 0.6;
 }
 
-/* Screen footer with power LED */
 .gb-screen-footer {
 	display: flex;
 	align-items: center;
@@ -375,7 +360,6 @@ body {
 		0 0 0 1px rgba(0, 0, 0, 0.3);
 }
 
-/* ==================== CONTROLS SECTION ==================== */
 .gb-controls-section {
 	display: flex;
 	justify-content: space-between;
@@ -383,7 +367,6 @@ body {
 	margin-bottom: 10px;
 }
 
-/* D-Pad */
 .gb-dpad-area {
 	display: flex;
 	align-items: center;
@@ -465,7 +448,6 @@ body {
 		0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-/* A/B Buttons */
 .gb-ab-area {
 	display: flex;
 	align-items: center;
@@ -520,7 +502,6 @@ body {
 	margin-top: -10px;
 }
 
-/* ==================== START/SELECT ==================== */
 .gb-startselect-section {
 	display: flex;
 	justify-content: center;
@@ -570,12 +551,10 @@ body {
     font-weight: bold;
     color: var(--gb-shell-shadow);
     text-transform: uppercase;
-    /* OLD: transform: rotate(25deg) translateY(14px); */
-    transform: translateY(14px); /* NEW: Removed rotation so it aligns with button slant */
+    transform: translateY(14px); 
     letter-spacing: 0.5px;
 }
 
-/* ==================== SPEAKER ==================== */
 .gb-speaker-area {
 	display: flex;
 	justify-content: space-between;
@@ -583,7 +562,6 @@ body {
 	padding: 5px 10px 5px 15px;
 }
 
-/* Menu button wrapper */
 .gb-menu-btn-wrapper {
     display: flex;
     align-items: flex-end;
@@ -591,7 +569,6 @@ body {
     transform: none;
 }
 
-/* Menu button - styled like Start/Select */
 .gb-menu-btn {
 	width: 40px;
 	height: 12px;
@@ -692,7 +669,6 @@ body {
 	letter-spacing: 0.5px;
 }
 
-/* ==================== FLOATING CONTROLS ==================== */
 .floating-controls {
 	position: fixed;
 	bottom: 20px;
@@ -734,7 +710,6 @@ body {
 	cursor: not-allowed;
 }
 
-/* ==================== STATUS BAR ==================== */
 .status-bar {
 	position: fixed;
 	bottom: 20px;
@@ -757,7 +732,6 @@ body {
 	color: #9bbc0f;
 }
 
-/* ==================== KEYBOARD LEGEND ==================== */
 .keyboard-legend {
 	position: fixed;
 	top: 20px;
@@ -810,14 +784,12 @@ body {
 	color: #666;
 }
 
-/* Hide keyboard legend on touch devices and small screens */
 @media (max-width: 900px), (hover: none) {
 	.keyboard-legend {
 		display: none;
 	}
 }
 
-/* ==================== FULLSCREEN ==================== */
 .gameboy:fullscreen,
 .gameboy:-webkit-full-screen {
 	background: #0a0a0f;
@@ -869,7 +841,6 @@ body {
 	display: none;
 }
 
-/* ==================== RESPONSIVE ==================== */
 @media (max-width: 360px) {
 	.gameboy {
 		width: 290px;
@@ -916,7 +887,6 @@ body {
 	}
 }
 
-/* ==================== MOBILE FULL-SCREEN EXPERIENCE ==================== */
 @media (max-width: 480px), (hover: none) and (pointer: coarse) {
     body {
         padding: 0;
@@ -924,7 +894,6 @@ body {
         overflow: hidden;
     }
 
-    /* Hide extraneous UI */
     .floating-controls,
     .status-bar,
     .keyboard-legend,
@@ -932,7 +901,6 @@ body {
         display: none !important;
     }
 
-    /* 1. Main Container */
     .gameboy {
         width: 100vw;
         height: 100vh;
@@ -945,12 +913,11 @@ body {
         background: var(--gb-shell);
     }
 
-    /* 2. Screen Section: Top 40-45% */
     .gb-screen-section {
         flex: 0 0 auto;
         margin: 0;
         border-radius: 0 0 20px 20px;
-        padding: 15px 15px 25px; /* Add space at bottom of bezel */
+        padding: 15px 15px 25px; 
         background: #4a4a5a;
         z-index: 2;
         box-shadow: 0 4px 15px rgba(0,0,0,0.4);
@@ -972,19 +939,16 @@ body {
         border: 2px solid #333;
     }
 
-    /* 3. Controls Area: Fills the rest */
     .gb-controls-section {
         flex: 1;
         display: flex;
         justify-content: space-between;
-        /* Center buttons vertically in the available space */
         align-items: center; 
         padding: 0 30px;
-        margin-bottom: 60px; /* Leave room at the very bottom for Start/Select */
+        margin-bottom: 60px; 
         position: relative;
     }
 
-    /* 4. D-PAD */
     .gb-dpad {
         grid-template-columns: repeat(3, 48px);
         grid-template-rows: repeat(3, 48px);
@@ -996,15 +960,14 @@ body {
     }
     .dpad-arrow { font-size: 16px; opacity: 0.5; }
 
-    /* 5. A/B Buttons */
     .gb-ab-area {
         align-items: center;
     }
 
     .gb-ab-buttons {
-        gap: 25px; /* Nice wide gap between buttons */
+        gap: 25px; 
         transform: rotate(-20deg);
-        margin-top: 20px; /* Align visually with D-pad center */
+        margin-top: 20px; 
     }
 
     .ab-btn {
@@ -1027,10 +990,9 @@ body {
     
     .ab-a { margin-top: -20px; }
 
-    /* 6. Start/Select: Normalized (Horizontal & Centered) */
     .gb-startselect-section {
         position: absolute;
-        bottom: 25px; /* Position nicely at bottom */
+        bottom: 25px; 
         left: 50%;
         transform: translateX(-50%);
         margin: 0;
@@ -1039,12 +1001,12 @@ body {
     }
 
     .gb-startselect {
-        transform: none; /* REMOVED ROTATION ("Normalized") */
+        transform: none; 
         display: flex;
-        gap: 15px; /* Space between buttons */
-        background: rgba(0, 0, 0, 0.15); /* Subtle container background */
+        gap: 15px; 
+        background: rgba(0, 0, 0, 0.15); 
         padding: 10px 20px;
-        border-radius: 30px; /* Pill shape */
+        border-radius: 30px; 
         border: 1px solid rgba(255, 255, 255, 0.05);
         backdrop-filter: blur(2px);
     }
@@ -1057,18 +1019,16 @@ body {
     }
 
     .ss-btn {
-        width: 50px;       /* Standard width */
-        height: 12px;      /* Standard height */
-        background: #333;  /* Dark button color */
-        border-radius: 10px; /* Rounded pill buttons */
+        width: 50px;       
+        height: 12px;      
+        background: #333;  
+        border-radius: 10px; 
         box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
-        margin-bottom: 4px; /* Space between button and text */
+        margin-bottom: 4px; 
         
-        /* Ensure touch target is large */
         position: relative;
     }
     
-    /* Large invisible touch area */
     .ss-btn::before {
         content: '';
         position: absolute;
@@ -1076,7 +1036,6 @@ body {
         left: -10px; right: -10px;
     }
 
-    /* Label Text */
     .ss-btn::after {
         content: attr(data-btn);
         display: block;
@@ -1085,12 +1044,11 @@ body {
         color: rgba(0, 0, 0, 0.5);
         text-transform: uppercase;
         letter-spacing: 0.5px;
-        transform: none; /* Ensure text is not rotated */
+        transform: none; 
         text-align: center;
-        margin-top: 16px; /* Push text below the button */
+        margin-top: 16px; 
     }
 
-    /* 7. Menu & Speaker Buttons (Symmetrical Bottom Corners) */
     .gb-speaker-area {
         position: static;
         padding: 0;
@@ -1098,7 +1056,6 @@ body {
     
     .gb-brand { display: none; }
     
-    /* Menu Button: Bottom Left */
     .gb-menu-btn-wrapper {
         position: absolute;
         bottom: 20px;
@@ -1111,7 +1068,7 @@ body {
         width: 50px;
         height: 50px;
         border-radius: 50%;
-        background: rgba(0,0,0,0.1); /* Subtle background */
+        background: rgba(0,0,0,0.1); 
         border: 2px solid rgba(0,0,0,0.2);
         box-shadow: none;
         display: flex;
@@ -1132,17 +1089,15 @@ body {
         margin: 0;
     }
     
-    /* Speaker (Mute) Button: Bottom Right */
     .gb-speaker {
         display: flex;
         position: absolute;
-        bottom: 20px; /* Align with Menu button */
-        right: 20px;  /* Align with Menu button */
-        top: auto;    /* Clear top position */
+        bottom: 20px; 
+        right: 20px;  
+        top: auto;    
         transform: none;
         z-index: 30;
         
-        /* Match Menu Button styling exactly */
         width: 50px;
         height: 50px;
         background: rgba(0,0,0,0.1);
@@ -1161,16 +1116,14 @@ body {
         background: rgba(0,0,0,0.2);
     }
 
-    /* Sound Wave Icon Styles */
     .gb-speaker .speaker-line {
-        background: rgba(0,0,0,0.5); /* Match text color of Menu */
+        background: rgba(0,0,0,0.5); 
         width: 3px;
         border-radius: 2px;
         box-shadow: none;
         margin: 0 !important;
     }
     
-    /* Shape the lines into a wave */
     .gb-speaker .speaker-line:nth-child(1) { height: 8px; }
     .gb-speaker .speaker-line:nth-child(2) { height: 14px; }
     .gb-speaker .speaker-line:nth-child(3) { height: 20px; }
@@ -1178,24 +1131,21 @@ body {
     .gb-speaker .speaker-line:nth-child(5) { height: 8px; }
     .gb-speaker .speaker-line:nth-child(6) { display: none; }
 
-    /* Muted State */
     .gb-speaker.muted {
         opacity: 0.6;
         border-color: rgba(255, 100, 100, 0.3);
     }
     .gb-speaker.muted .speaker-line {
         background: rgba(255, 100, 100, 0.6);
-        height: 4px; /* Flatten wave */
+        height: 4px; 
     }
 
-    /* Game Library tweaks */
     .game-library { padding: 15px; }
     .game-list { max-width: 100%; }
     .hint-desktop { display: none; }
     .hint-mobile { display: block; font-size: 11px; }
 }
 
-/* Extra small phones */
 @media (max-width: 360px) and (hover: none) and (pointer: coarse) {
 	.gb-dpad {
 		grid-template-columns: repeat(3, 38px);
@@ -1212,7 +1162,6 @@ body {
 	}
 }
 
-/* Landscape mobile - adjust layout */
 @media (max-height: 500px) and (hover: none) and (pointer: coarse) {
 	.gameboy {
 		flex-direction: row;

@@ -1,0 +1,22 @@
+{
+	"name": "@helmyl/web",
+	"version": "1.0.0",
+	"description": "Personal website built with Astro",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"dev": "astro dev",
+		"build": "astro build",
+		"preview": "astro preview",
+		"check": "astro check"
+	},
+	"dependencies": {
+		"astro": "^5.14.0"
+	},
+	"devDependencies": {
+		"@astrojs/check": "^0.9.4",
+		"@tailwindcss/vite": "^4.3.1",
+		"tailwindcss": "^4.3.0",
+		"typescript": "^6.0.3"
+	}
+}

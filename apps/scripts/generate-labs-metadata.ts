@@ -79,10 +79,11 @@ function generateLabsMetadata() {
 			return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
 		});
 
-		fs.writeFileSync(
-			path.join(PROJECT_ROOT, 'apps/src/lib/generated/labs-metadata.json'),
-			JSON.stringify(labs, null, 2)
-		);
+		const outPath = process.argv.includes('--out')
+			? path.resolve(PROJECT_ROOT, process.argv[process.argv.indexOf('--out') + 1])
+			: path.join(PROJECT_ROOT, 'apps/web/src/lib/generated/labs-metadata.json');
+		fs.mkdirSync(path.dirname(outPath), { recursive: true });
+		fs.writeFileSync(outPath, JSON.stringify(labs, null, 2));
 
 		console.log(`\nLabs metadata generated successfully! (${labs.length} labs found)`);
 	} catch (error) {

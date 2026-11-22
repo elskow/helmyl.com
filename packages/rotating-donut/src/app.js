@@ -12,7 +12,6 @@ function init() {
 		return;
 	}
 
-	// Vertex shader program
 	const vsSource = `
         attribute vec4 aVertexPosition;
         attribute vec4 aVertexColor;
@@ -28,7 +27,6 @@ function init() {
         }
     `;
 
-	// Fragment shader program
 	const fsSource = `
         varying lowp vec4 vColor;
 
@@ -37,7 +35,6 @@ function init() {
         }
     `;
 
-	// Initialize shader program
 	const shaderProgram = initShaderProgram(gl, vsSource, fsSource);
 
 	const programInfo = {
@@ -52,12 +49,10 @@ function init() {
 		}
 	};
 
-	// Create torus buffers
 	const buffers = initBuffers(gl);
 
 	let rotation = 0.0;
 
-	// Render loop
 	function render() {
 		drawScene(gl, programInfo, buffers, rotation);
 		rotation += 0.01;
@@ -71,12 +66,11 @@ function initBuffers(gl) {
 	const colors = [];
 	const indices = [];
 
-	const R = 1.0; // Major radius
-	const r = 0.3; // Minor radius
+	const R = 1.0;
+	const r = 0.3;
 	const segments = 32;
 	const rings = 32;
 
-	// Generate vertices
 	for (let i = 0; i <= rings; i++) {
 		const phi = (i * 2 * Math.PI) / rings;
 		for (let j = 0; j <= segments; j++) {
@@ -88,13 +82,11 @@ function initBuffers(gl) {
 
 			positions.push(x, y, z);
 
-			// Add colors (gradient)
 			const color = [(Math.cos(phi) + 1) / 2, (Math.sin(theta) + 1) / 2, 0.5, 1.0];
 			colors.push(...color);
 		}
 	}
 
-	// Generate indices
 	for (let i = 0; i < rings; i++) {
 		for (let j = 0; j < segments; j++) {
 			const first = i * (segments + 1) + j;
@@ -146,17 +138,14 @@ function drawScene(gl, programInfo, buffers, rotation) {
 	mat4.rotate(modelViewMatrix, modelViewMatrix, rotation, [0, 1, 0]);
 	mat4.rotate(modelViewMatrix, modelViewMatrix, rotation * 0.7, [1, 0, 0]);
 
-	// Bind position buffer
 	gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
 	gl.vertexAttribPointer(programInfo.attribLocations.vertexPosition, 3, gl.FLOAT, false, 0, 0);
 	gl.enableVertexAttribArray(programInfo.attribLocations.vertexPosition);
 
-	// Bind color buffer
 	gl.bindBuffer(gl.ARRAY_BUFFER, buffers.color);
 	gl.vertexAttribPointer(programInfo.attribLocations.vertexColor, 4, gl.FLOAT, false, 0, 0);
 	gl.enableVertexAttribArray(programInfo.attribLocations.vertexColor);
 
-	// Bind index buffer
 	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffers.indices);
 
 	gl.useProgram(programInfo.program);

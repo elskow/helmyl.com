@@ -1,0 +1,21 @@
+# Helmy Luqmanulhakim
+
+> Personal website of Helmy Luqmanulhakim, a software engineer based in South Jakarta, Indonesia, specializing in web systems, data engineering, and browser-based experiments.
+
+The site documents professional experience (Scala/ZIO, Java/EE at scale, DevOps), open-source projects, and a "labs" section of interactive browser experiments: a Game Boy emulator in WebAssembly, general-relativity black hole rendering in WebGL, a physics marble-run, and other graphics/game simulations.
+
+## Pages
+
+- [Home](https://helmyl.com/): Overview, experience timeline, selected projects, tech stack.
+- [About](https://helmyl.com/about): Full bio, skills, work history, certifications, social links.
+- [Projects](https://helmyl.com/projects): Chronological list of open-source projects with stack and GitHub links.
+- [Labs](https://helmyl.com/labs): Interactive browser experiments, each with a detail page and a live runnable build.
+
+## Open source
+
+GitHub: https://github.com/elskow
+
+## Contact
+
+- Email: helmyl.work@gmail.com
+- LinkedIn: https://www.linkedin.com/in/helmyl/

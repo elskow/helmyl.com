@@ -12,20 +12,18 @@ export class PlayerShip {
 		this.gl = gl;
 		this.shaderProgram = shaderProgram;
 
-		// Modern spaceship shape (flipped vertically)
 		const shipPath = `
-            M 0 0.08     // Top point
-            L -0.06 -0.08  // Bottom left
+            M 0 0.08
+            L -0.06 -0.08
             L -0.04 -0.06
             L -0.02 -0.08
             L 0 -0.06
             L 0.02 -0.08
             L 0.04 -0.06
-            L 0.06 -0.08  // Bottom right
+            L 0.06 -0.08
             Z
         `;
 
-		// Create vertices from SVG path
 		this.vertices = SvgPath.parsePathToVertices(shipPath, 1);
 
 		this.buffer = gl.createBuffer()!;
@@ -42,12 +40,11 @@ export class PlayerShip {
 			modelMatrix
 		);
 
-		// Player ship gradient colors
 		gl.uniform3f(
 			this.shaderProgram.getUniformLocation('uColor'),
 			0.4,
 			0.6,
-			1.0 // Blue-ish color
+			1.0
 		);
 		gl.uniform1f(this.shaderProgram.getUniformLocation('uAlpha'), 1.0);
 

@@ -1,0 +1,151 @@
+---
+import '../styles/app.css';
+
+export interface Breadcrumb {
+	label: string;
+	url: string;
+}
+
+interface Props {
+	title: string;
+	description?: string;
+	/** Page path for canonical URL, e.g. '/about' (empty for home) */
+	path?: string;
+	/** Open Graph type: 'website' | 'profile' | 'article' */
+	ogType?: 'website' | 'profile' | 'article';
+	/** Optional structured-data graph merged after the base Person/WebSite nodes */
+	jsonLd?: object[];
+	/** Override default OG image, e.g. '/og/projects.png' */
+	ogImage?: string;
+	/** robots directive, defaults to 'index, follow' */
+	robots?: string;
+}
+
+const {
+	title,
+	description = '',
+	path = '',
+	ogType = 'website',
+	jsonLd = [],
+	ogImage = '/og/home.png',
+	robots = 'index, follow'
+} = Astro.props;
+const SITE = 'https://helmyl.com';
+const canonical = `${SITE}${path || '/'}`;
+
+const baseGraph = [
+	{
+		'@type': 'Person',
+		'@id': `${SITE}/#person`,
+		name: 'Helmy Luqmanulhakim',
+		jobTitle: 'Software Engineer',
+		url: SITE,
+		sameAs: [
+			'https://github.com/elskow',
+			'https://linkedin.com/in/helmyl',
+			'https://twitter.com/helmy_lh'
+		],
+		knowsAbout: [
+			'Software Engineering',
+			'Web Development',
+			'Data Engineering',
+			'Full Stack Development',
+			'React',
+			'Svelte',
+			'TypeScript',
+			'Node.js'
+		]
+	},
+	{
+		'@type': 'WebSite',
+		'@id': `${SITE}/#website`,
+		name: 'Helmy Luqmanulhakim',
+		url: SITE,
+		description:
+			'Software engineer exploring and sharing insights on development, data engineering, and tech solutions.',
+		author: { '@id': `${SITE}/#person` },
+		publisher: { '@id': `${SITE}/#person` },
+		inLanguage: 'en-US'
+	}
+];
+
+const structuredData = {
+	'@context': 'https://schema.org',
+	'@graph': [...baseGraph, ...jsonLd]
+};
+
+const socialImageUrl = `${SITE}${ogImage}`;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta content="width=device-width, initial-scale=1" name="viewport" />
+
+		<title>{title}</title>
+		{description && <meta name="description" content={description} />}
+		<link rel="canonical" href={canonical} />
+
+		<meta name="author" content="Helmy Luqmanulhakim" />
+		<meta name="robots" content={robots} />
+		<meta
+			name="googlebot"
+			content={`${robots}, max-snippet:-1, max-image-preview:large, max-video-preview:-1`}
+		/>
+		<meta name="bingbot" content={`${robots}, max-snippet:-1, max-image-preview:large, max-video-preview:-1`} />
+
+		<meta name="theme-color" content="#ffffff" />
+		<meta name="color-scheme" content="light" />
+		<meta name="format-detection" content="telephone=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="mobile-web-app-capable" content="yes" />
+
+		<meta http-equiv="content-language" content="en" />
+
+		<meta property="og:type" content={ogType} />
+		<meta property="og:site_name" content="Helmy Luqmanulhakim" />
+		<meta property="og:title" content={title} />
+		{description && <meta property="og:description" content={description} />}
+		<meta property="og:url" content={canonical} />
+		<meta property="og:image" content={socialImageUrl} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta property="og:image:alt" content={title} />
+		<meta property="og:locale" content="en_US" />
+
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:site" content="@helmy_lh" />
+		<meta name="twitter:creator" content="@helmy_lh" />
+		<meta name="twitter:title" content={title} />
+		{description && <meta name="twitter:description" content={description} />}
+		<meta name="twitter:image" content={socialImageUrl} />
+		<meta name="twitter:image:alt" content={title} />
+		<meta name="twitter:domain" content="helmyl.com" />
+
+		<link rel="icon" sizes="32x32" type="image/png" href="/favicons/favicon-32x32.png" />
+		<link rel="icon" href="/favicons/favicon.ico" />
+		<link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-icon-180x180.png" />
+		<link rel="icon" sizes="192x192" type="image/png" href="/favicons/android-icon-192x192.png" />
+
+		<link
+			rel="preload"
+			href="/fonts/onest-latin.woff2"
+			as="font"
+			type="font/woff2"
+			crossorigin
+		/>
+
+		<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+	</head>
+
+	<body>
+		<a
+			href="#main-content"
+			class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:bg-neutral-900 focus:text-white focus:px-4 focus:py-2 focus:rounded-sm"
+		>
+			Skip to main content
+		</a>
+		<slot />
+	</body>
+</html>

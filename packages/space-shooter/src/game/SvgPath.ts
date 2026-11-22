@@ -14,12 +14,12 @@ export class SvgPath {
 				.map(Number);
 
 			switch (type) {
-				case 'M': // Move to
+				case 'M':
 					currentX = args[0] * scale;
 					currentY = args[1] * scale;
 					vertices.push(currentX, currentY, 0);
 					break;
-				case 'L': // Line to
+				case 'L':
 					currentX = args[0] * scale;
 					currentY = args[1] * scale;
 					vertices.push(currentX, currentY, 0);

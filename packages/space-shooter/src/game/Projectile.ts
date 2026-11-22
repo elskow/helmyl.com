@@ -17,7 +17,7 @@ export class Projectile extends Entity implements ProjectileType {
 		this.velocity.y = this.speed;
 		this.shaderProgram = shaderProgram;
 
-		// Create a more interesting projectile shape (energy bolt)
+
 		const projectilePath = `
             M 0 -0.03
             L -0.01 0
@@ -36,7 +36,6 @@ export class Projectile extends Entity implements ProjectileType {
 	update(deltaTime: number): void {
 		super.update(deltaTime);
 		this.lifeTime -= deltaTime;
-		// Check both upper and lower boundaries
 		if (this.lifeTime <= 0 || this.position.y > 1.2 || this.position.y < -1.2) {
 			this.active = false;
 		}
@@ -55,11 +54,11 @@ export class Projectile extends Entity implements ProjectileType {
 			modelMatrix
 		);
 
-		// Different color for enemy projectiles
+
 		if (this.velocity.y < 0) {
-			gl.uniform3f(this.shaderProgram.getUniformLocation('uColor'), 1.0, 0.2, 0.2); // Red for enemy projectiles
+			gl.uniform3f(this.shaderProgram.getUniformLocation('uColor'), 1.0, 0.2, 0.2);
 		} else {
-			gl.uniform3f(this.shaderProgram.getUniformLocation('uColor'), 1.0, 0.9, 0.2); // Yellow for player projectiles
+			gl.uniform3f(this.shaderProgram.getUniformLocation('uColor'), 1.0, 0.9, 0.2);
 		}
 
 		gl.uniform1f(this.shaderProgram.getUniformLocation('uAlpha'), 1.0);

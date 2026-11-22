@@ -6,58 +6,43 @@
 
 using namespace emscripten;
 
-/**
- * Emscripten bindings for GameBoy emulator
- * 
- * Exposes the emulator to JavaScript with a clean API
- */
-
-// Global emulator instance
 static std::unique_ptr<GameBoy> gb;
 
-// Buffer for ROM data transfer
 static std::vector<uint8_t> romBuffer;
 
-// Initialize emulator
 void init() {
     gb = std::make_unique<GameBoy>();
 }
 
-// Allocate ROM buffer and return pointer for direct memory access
 uintptr_t allocateROMBuffer(size_t size) {
     romBuffer.resize(size);
     return reinterpret_cast<uintptr_t>(romBuffer.data());
 }
 
-// Load ROM from pre-filled buffer
 bool loadROMFromBuffer(size_t size) {
     if (!gb) return false;
     if (romBuffer.size() < size) return false;
     return gb->loadROM(romBuffer.data(), size);
 }
 
-// Run one frame
 void runFrame() {
     if (gb) {
         gb->runFrame();
     }
 }
 
-// Reset emulator
 void reset() {
     if (gb) {
         gb->reset();
     }
 }
 
-// Button handling
 void setButton(int button, bool pressed) {
     if (gb) {
         gb->setButton(button, pressed);
     }
 }
 
-// Get framebuffer as JavaScript Uint32Array view
 val getFramebuffer() {
     if (!gb) {
         return val::null();
@@ -70,7 +55,6 @@ val getFramebuffer() {
     ));
 }
 
-// Get screen dimensions
 int getScreenWidth() {
     return GameBoy::SCREEN_WIDTH;
 }
@@ -79,7 +63,6 @@ int getScreenHeight() {
     return GameBoy::SCREEN_HEIGHT;
 }
 
-// Get CPU state for debugging/display
 val getCPUState() {
     if (!gb) return val::null();
     
@@ -102,7 +85,6 @@ val getCPUState() {
     return state;
 }
 
-// Get PPU state for debugging/display
 val getPPUState() {
     if (!gb) return val::null();
     
@@ -133,21 +115,17 @@ val getPPUState() {
     return state;
 }
 
-// Audio buffer for samples
 static std::vector<float> audioBuffer(8192);
 
-// Get audio samples (returns number of stereo sample pairs)
 int getAudioSamplesCount() {
     if (!gb) return 0;
     return gb->getAPU().getSamples(audioBuffer.data(), audioBuffer.size() / 2);
 }
 
-// Get audio sample buffer as Float32Array view
 val getAudioBuffer() {
     return val(typed_memory_view(audioBuffer.size(), audioBuffer.data()));
 }
 
-// Get audio sample rate
 int getAudioSampleRate() {
     return APU::SAMPLE_RATE;
 }
@@ -165,12 +143,10 @@ EMSCRIPTEN_BINDINGS(gbemu) {
     function("getCPUState", &getCPUState);
     function("getPPUState", &getPPUState);
     
-    // Audio functions
     function("getAudioSamplesCount", &getAudioSamplesCount);
     function("getAudioBuffer", &getAudioBuffer);
     function("getAudioSampleRate", &getAudioSampleRate);
     
-    // Button constants
     constant("BUTTON_A", static_cast<int>(GameBoy::BUTTON_A));
     constant("BUTTON_B", static_cast<int>(GameBoy::BUTTON_B));
     constant("BUTTON_SELECT", static_cast<int>(GameBoy::BUTTON_SELECT));

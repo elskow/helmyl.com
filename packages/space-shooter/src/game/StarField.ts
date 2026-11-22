@@ -21,14 +21,12 @@ export class StarField {
 		this.gl = gl;
 		this.shaderProgram = shaderProgram;
 
-		// Create square vertices for stars
 		this.vertices = new Float32Array([-1, 1, 0, -1, -1, 0, 1, 1, 0, 1, -1, 0]);
 
 		this.buffer = gl.createBuffer()!;
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
 		gl.bufferData(gl.ARRAY_BUFFER, this.vertices, gl.STATIC_DRAW);
 
-		// Initialize stars
 		for (let i = 0; i < starCount; i++) {
 			this.stars.push(this.createStar());
 		}
@@ -36,11 +34,11 @@ export class StarField {
 
 	private createStar(): Star {
 		const colors = [
-			{ r: 1.0, g: 1.0, b: 1.0 }, // White
-			{ r: 0.9, g: 0.9, b: 1.0 }, // Blue-white
-			{ r: 1.0, g: 0.9, b: 0.9 }, // Red-white
-			{ r: 0.4, g: 0.6, b: 1.0 }, // Blue
-			{ r: 1.0, g: 0.6, b: 0.4 } // Orange
+			{ r: 1.0, g: 1.0, b: 1.0 },
+			{ r: 0.9, g: 0.9, b: 1.0 },
+			{ r: 1.0, g: 0.9, b: 0.9 },
+			{ r: 0.4, g: 0.6, b: 1.0 },
+			{ r: 1.0, g: 0.6, b: 0.4 }
 		];
 
 		return {
@@ -57,7 +55,6 @@ export class StarField {
 		this.stars.forEach((star) => {
 			star.y -= star.speed * deltaTime;
 
-			// Reset star position when it goes off screen
 			if (star.y < -1) {
 				star.y = 1;
 				star.x = Math.random() * 2 - 1;

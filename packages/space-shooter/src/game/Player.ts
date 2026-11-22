@@ -18,12 +18,12 @@ export class Player extends Entity implements PlayerType {
 
 	private heatLevel: number = 0;
 	private maxHeat: number = 100;
-	private heatPerShot: number = 10; // Increased heat per shot
-	private coolingRate: number = 40; // Adjusted cooling rate
+	private heatPerShot: number = 10;
+	private coolingRate: number = 40;
 	private overheatCooldown: boolean = false;
-	private overheatCooldownTime: number = 1500; // 1.5 seconds cooldown
-	private lastTimeShot: number = 0; // Track last shot time
-	private rapidFireThreshold: number = 200; // ms between shots for rapid fire
+	private overheatCooldownTime: number = 1500;
+	private lastTimeShot: number = 0;
+	private rapidFireThreshold: number = 200;
 
 	constructor(x: number, y: number, gl: WebGLRenderingContext, shaderProgram: ShaderProgram) {
 		super(x, y);
@@ -35,29 +35,25 @@ export class Player extends Entity implements PlayerType {
 	update(deltaTime: number): void {
 		super.update(deltaTime);
 
-		// Keep player within screen bounds with proper stopping
 		const nextX = this.position.x + this.velocity.x * deltaTime;
 
 		if (nextX <= this.SCREEN_LEFT) {
-			// Stop at left boundary
 			this.position.x = this.SCREEN_LEFT;
 			this.velocity.x = 0;
 		} else if (nextX >= this.SCREEN_RIGHT) {
-			// Stop at right boundary
 			this.position.x = this.SCREEN_RIGHT;
 			this.velocity.x = 0;
 		} else {
-			// Normal movement within bounds
 			this.position.x = nextX;
 		}
 
-		// Shield regeneration
+
 		if (this.shield < 100) {
 			this.shield += deltaTime * 5;
 			if (this.shield > 100) this.shield = 100;
 		}
 
-		// Handle weapon cooling
+
 		if (!this.overheatCooldown) {
 			const coolingAmount = this.coolingRate * deltaTime;
 			const timeSinceLastShot = performance.now() - this.lastTimeShot;
@@ -78,13 +74,12 @@ export class Player extends Entity implements PlayerType {
 	canShoot(): boolean {
 		if (this.overheatCooldown) return false;
 
-		// Check rapid fire heat penalty
 		const currentTime = performance.now();
 		const timeSinceLastShot = currentTime - this.lastTimeShot;
 
-		// Add extra heat for rapid firing
+
 		if (timeSinceLastShot < this.rapidFireThreshold) {
-			this.heatLevel += 10; // Penalty for rapid firing
+			this.heatLevel += 10;
 		}
 
 		return this.heatLevel < this.maxHeat;
@@ -94,20 +89,16 @@ export class Player extends Entity implements PlayerType {
 		const currentTime = performance.now();
 		this.lastTimeShot = currentTime;
 
-		// Calculate heat increase based on firing rate
-		let heatIncrease = this.heatPerShot;
+		this.heatLevel += this.heatPerShot;
 
-		this.heatLevel += heatIncrease;
-
-		// Check for overheat
 		if (this.heatLevel >= this.maxHeat) {
 			this.overheatCooldown = true;
 			this.heatLevel = this.maxHeat;
 
-			// Start overheat recovery
+
 			setTimeout(() => {
 				this.overheatCooldown = false;
-				this.heatLevel = this.maxHeat * 0.6; // Start at 60% heat after cooldown
+				this.heatLevel = this.maxHeat * 0.6;
 			}, this.overheatCooldownTime);
 		}
 	}

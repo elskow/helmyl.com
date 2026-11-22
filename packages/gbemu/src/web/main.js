@@ -271,7 +271,6 @@ function handleKeyDownOffscreen(e) {
 	const bit = keyMap[e.code];
 	if (bit !== undefined) {
 		e.preventDefault();
-		// When menu is active, handle menu input and don't send to emulator
 		if (isMenuActive) {
 			handleMenuInput(getActionFromKeyCode(e.code));
 			return;
@@ -285,7 +284,6 @@ function handleKeyUpOffscreen(e) {
 	const bit = keyMap[e.code];
 	if (bit !== undefined) {
 		e.preventDefault();
-		// Don't update button state when menu is active
 		if (isMenuActive) return;
 		buttonState &= ~(1 << bit);
 		if (sharedControl) Atomics.store(sharedControl, CTRL_BUTTONS, buttonState);
@@ -423,7 +421,6 @@ function handleKeyDownWorker(e) {
 	const bit = keyMap[e.code];
 	if (bit !== undefined) {
 		e.preventDefault();
-		// When menu is active, handle menu input and don't send to emulator
 		if (isMenuActive) {
 			handleMenuInput(getActionFromKeyCode(e.code));
 			return;
@@ -437,7 +434,6 @@ function handleKeyUpWorker(e) {
 	const bit = keyMap[e.code];
 	if (bit !== undefined) {
 		e.preventDefault();
-		// Don't update button state when menu is active
 		if (isMenuActive) return;
 		buttonState &= ~(1 << bit);
 		if (sharedControl) Atomics.store(sharedControl, CTRL_BUTTONS, buttonState);
@@ -558,7 +554,6 @@ function handleKeyDownFallback(e) {
 }
 
 function handleKeyUpFallback(e) {
-	// Don't update button state when menu is active
 	if (isMenuActive) return;
 	if (!emu) return;
 	const button = keyMapFallback[e.code];
@@ -708,7 +703,6 @@ async function loadGameList() {
 		`;
 		gameListEl.appendChild(uploadBtn);
 
-		// Setup event listeners once when game list is created
 		setupGameItemListeners();
 		setupGameLibraryNavigation();
 	} catch {
@@ -804,7 +798,6 @@ function handleMenuInput(action) {
 }
 
 function handleScreenButtonDown(btnName) {
-	// When menu is active, handle menu input and don't send to emulator
 	if (isMenuActive) {
 		handleMenuInput(btnName);
 		return;
@@ -823,7 +816,6 @@ function handleScreenButtonDown(btnName) {
 }
 
 function handleScreenButtonUp(btnName) {
-	// Don't update button state when menu is active
 	if (isMenuActive) return;
 
 	if (useOffscreenCanvas || useWorkerMode) {

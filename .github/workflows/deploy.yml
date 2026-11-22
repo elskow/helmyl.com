@@ -71,9 +71,6 @@ jobs:
       - name: Install tsx globally
         run: pnpm add -g tsx
 
-      - name: Install Playwright in apps workspace
-        run: cd apps && pnpm exec playwright install --with-deps chromium
-
       - name: Set GitHub token environment variable
         run: echo "GITHUB_API_TOKEN=${{ secrets.GITHUB_TOKEN }}" >> $GITHUB_ENV
 
@@ -89,6 +86,6 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy apps/build --project-name=helmyl-com --branch=${{ github.ref_name == 'master' && 'main' || github.head_ref || github.ref_name }}
+          command: pages deploy apps/web/dist --project-name=helmyl-com --branch=${{ github.ref_name == 'master' && 'main' || github.head_ref || github.ref_name }}
           packageManager: pnpm
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}

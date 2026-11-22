@@ -8,7 +8,7 @@
     "build": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "parcel build src/index.html --dist-dir ../../apps/static/labs/blackhole --public-url /labs/blackhole/",
+        "command": "parcel build src/index.html --dist-dir ../../apps/web/public/labs/blackhole --public-url /labs/blackhole/",
         "cwd": "packages/blackhole"
       }
     },

@@ -1,0 +1,50 @@
+---
+interface Props {
+	name: string;
+	description: string;
+	github: string;
+	stacks: string[];
+}
+
+const { name, description, github, stacks } = Astro.props;
+const visibleStacks = stacks.slice(0, 3);
+---
+
+<article class="group mb-10 last:mb-0">
+	<div class="flex items-baseline justify-between mb-2">
+		<h3 class="text-base font-medium text-neutral-900">
+			{name}
+		</h3>
+
+		<div class="flex gap-4 text-sm">
+			{
+				github && (
+					<a
+						href={github}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="text-neutral-400 hover:text-neutral-900 transition-colors text-xs"
+					>
+						Code
+					</a>
+				)
+			}
+		</div>
+	</div>
+
+	<div class="block">
+		<p class="text-sm text-neutral-600 leading-relaxed mb-4 max-w-lg">
+			{description}
+		</p>
+
+		<div class="flex flex-wrap gap-2 font-mono">
+			{
+				visibleStacks.map((tech) => (
+					<span class="px-2 py-1 text-[11px] text-neutral-500 bg-neutral-100/50 border border-neutral-200/50 rounded-md">
+						{tech}
+					</span>
+				))
+			}
+		</div>
+	</div>
+</article>

@@ -10,7 +10,7 @@
 			"options": {
 				"commands": [
 					"mkdir -p ../../apps/static/labs/marble-run",
-					"parcel build src/index.html --dist-dir ../../apps/static/labs/marble-run --public-url /labs/marble-run/"
+					"parcel build src/index.html --dist-dir ../../apps/web/public/labs/marble-run --public-url /labs/marble-run/"
 				],
 				"cwd": "packages/marble-run"
 			}

@@ -9,42 +9,32 @@ export class Track {
 	}
 
 	buildTrack() {
-		// Define control points for a Catmull-Rom spline
-		// This ensures smooth continuous curvature throughout
 		const controlPoints = [
-			// Start - very high for lots of speed
 			[0, 28, -12],
 			[0, 26, -8],
 			[0, 24, -4],
 			[0, 21, 0],
 
-			// First curve - steeper descent
 			[1, 18, 4],
 			[3, 15, 7],
 			[6, 12, 9],
 			[10, 9, 10],
 
-			// Continue curving, maintain slope
 			[14, 7, 9],
 			[17, 5, 6],
 			[18, 3.5, 2],
 
-			// S-curve with good slope
 			[17, 2.5, -1],
 			[14, 1.8, -3],
 
-			// Final steep drop to end
 			[10, 1.0, -2],
 			[6, 0.5, 0]
 		];
 
-		// Generate smooth path using Catmull-Rom interpolation
-		let points = this.catmullRomSpline(controlPoints, 15); // 15 points per segment
+		let points = this.catmullRomSpline(controlPoints, 15);
 
-		// Additional smoothing pass
 		points = this.smoothPath(points, 3);
 
-		// Ensure minimum height
 		for (let i = 0; i < points.length; i++) {
 			if (points[i][1] < 0.4) {
 				points[i][1] = 0.4;
@@ -83,18 +73,14 @@ export class Track {
 	catmullRomSpline(controlPoints, pointsPerSegment) {
 		const result = [];
 
-		// Convert control points to vec3
 		const pts = controlPoints.map((p) => vec3.fromValues(p[0], p[1], p[2]));
 
-		// For each segment between control points
 		for (let i = 0; i < pts.length - 1; i++) {
-			// Get 4 control points (with clamping at ends)
 			const p0 = pts[Math.max(0, i - 1)];
 			const p1 = pts[i];
 			const p2 = pts[Math.min(pts.length - 1, i + 1)];
 			const p3 = pts[Math.min(pts.length - 1, i + 2)];
 
-			// Generate points along this segment
 			for (let j = 0; j < pointsPerSegment; j++) {
 				const t = j / pointsPerSegment;
 				const point = this.catmullRomPoint(p0, p1, p2, p3, t);
@@ -102,20 +88,17 @@ export class Track {
 			}
 		}
 
-		// Add final point
 		result.push(vec3.clone(pts[pts.length - 1]));
 
 		return result;
 	}
 
 	catmullRomPoint(p0, p1, p2, p3, t) {
-		// Catmull-Rom spline formula
 		const t2 = t * t;
 		const t3 = t2 * t;
 
 		const result = vec3.create();
 
-		// Coefficients for Catmull-Rom (tension = 0.5)
 		for (let i = 0; i < 3; i++) {
 			result[i] =
 				0.5 *
@@ -129,27 +112,24 @@ export class Track {
 	}
 
 	createTrackMeshes() {
-		const railOffset = 0.14; // Wider track - more room for marble
+		const railOffset = 0.14;
 		const railRadius = 0.04;
 		const guardHeight = 0.25;
 		const guardThickness = 0.02;
-		const floorThickness = 0.03; // Thickness of the floor
+		const floorThickness = 0.03;
 
 		const leftPath = this.offsetPath(this.path, -railOffset);
 		const rightPath = this.offsetPath(this.path, railOffset);
 
-		// Store paths for collision detection
 		this.leftRailPath = leftPath;
 		this.rightRailPath = rightPath;
 		this.railOffset = railOffset;
 		this.railRadius = railRadius;
 		this.guardHeight = guardHeight;
 
-		// === CREATE SOLID TRACK CHANNEL (U-shape) ===
 		const trackColor = [0.35, 0.35, 0.38];
 		const floorColor = [0.28, 0.28, 0.3];
 
-		// Floor surface (top of floor where marble rolls)
 		const leftFloorTop = [];
 		const rightFloorTop = [];
 		const leftFloorBottom = [];
@@ -163,7 +143,6 @@ export class Track {
 			const frame = this.frames[i];
 			const center = this.path[i];
 
-			// Floor top surface (where marble rolls)
 			leftFloorTop.push(
 				vec3.fromValues(
 					center[0] - frame.binormal[0] * railOffset + frame.normal[0] * railRadius,
@@ -179,7 +158,6 @@ export class Track {
 				)
 			);
 
-			// Floor bottom surface
 			leftFloorBottom.push(
 				vec3.fromValues(
 					center[0] -
@@ -207,7 +185,6 @@ export class Track {
 				)
 			);
 
-			// Wall outer edges (at guard wall outer surface)
 			leftWallOuter.push(
 				vec3.fromValues(
 					center[0] -
@@ -235,7 +212,6 @@ export class Track {
 				)
 			);
 
-			// Wall tops
 			leftWallTop.push(
 				vec3.fromValues(
 					center[0] -
@@ -264,35 +240,30 @@ export class Track {
 			);
 		}
 
-		// Floor top surface (where marble rolls)
 		this.meshes.push({
 			mesh: createWallMesh(this.renderer, leftFloorTop, rightFloorTop, floorColor, 1),
 			metallic: 0.2,
 			roughness: 0.6
 		});
 
-		// Floor bottom surface
 		this.meshes.push({
 			mesh: createWallMesh(this.renderer, leftFloorBottom, rightFloorBottom, trackColor, -1),
 			metallic: 0.3,
 			roughness: 0.7
 		});
 
-		// Left guard wall (outer surface)
 		this.meshes.push({
 			mesh: createWallMesh(this.renderer, leftWallOuter, leftWallTop, trackColor, -1),
 			metallic: 0.4,
 			roughness: 0.5
 		});
 
-		// Right guard wall (outer surface)
 		this.meshes.push({
 			mesh: createWallMesh(this.renderer, rightWallOuter, rightWallTop, trackColor, 1),
 			metallic: 0.4,
 			roughness: 0.5
 		});
 
-		// Inner wall surfaces (facing the marble)
 		const leftWallInner = [];
 		const rightWallInner = [];
 		for (let i = 0; i < this.path.length; i++) {
@@ -315,7 +286,6 @@ export class Track {
 			);
 		}
 
-		// Left inner wall
 		const leftInnerTop = [];
 		for (let i = 0; i < this.path.length; i++) {
 			const frame = this.frames[i];
@@ -333,7 +303,6 @@ export class Track {
 			roughness: 0.5
 		});
 
-		// Right inner wall
 		const rightInnerTop = [];
 		for (let i = 0; i < this.path.length; i++) {
 			const frame = this.frames[i];
@@ -351,7 +320,6 @@ export class Track {
 			roughness: 0.5
 		});
 
-		// Top caps for walls
 		this.meshes.push({
 			mesh: createWallMesh(this.renderer, leftInnerTop, leftWallTop, trackColor, 1),
 			metallic: 0.5,
@@ -436,36 +404,25 @@ export class Track {
 		};
 	}
 
-	/**
-	 * Calculate track curvature at a given distance
-	 * Curvature κ = |dT/ds| where T is unit tangent and s is arc length
-	 * Returns: { curvature, curvatureVector, radius }
-	 */
 	getCurvatureAtDistance(distance) {
-		const delta = 0.1; // Sample distance for derivative
+		const delta = 0.1;
 
-		// Get tangents at nearby points
 		const pos0 = this.getPositionAtDistance(Math.max(0, distance - delta));
 		const pos1 = this.getPositionAtDistance(Math.min(this.pathLength, distance + delta));
 
 		const frame0 = this.getFrameAt(pos0.index, pos0.t);
 		const frame1 = this.getFrameAt(pos1.index, pos1.t);
 
-		// Normalize tangents
 		vec3.normalize(frame0.tangent, frame0.tangent);
 		vec3.normalize(frame1.tangent, frame1.tangent);
 
-		// dT/ds approximation
 		const dT = vec3.sub(vec3.create(), frame1.tangent, frame0.tangent);
 		const ds = 2 * delta;
 
-		// Curvature magnitude
 		const curvature = vec3.length(dT) / ds;
 
-		// Curvature vector (points toward center of curvature)
 		const curvatureVector = vec3.scale(vec3.create(), dT, 1 / ds);
 
-		// Radius of curvature (1/κ), clamped to avoid infinity
 		const radius = curvature > 0.001 ? 1 / curvature : 1000;
 
 		return {
@@ -475,22 +432,14 @@ export class Track {
 		};
 	}
 
-	/**
-	 * Get banking angle for a given curvature and design speed
-	 * Bank angle θ = atan(v² / (r * g))
-	 * Returns angle in radians
-	 */
 	getBankingAngle(curvature, designSpeed = 3.0) {
-		if (curvature < 0.01) return 0; // No banking on straight sections
+		if (curvature < 0.01) return 0;
 
 		const radius = 1 / curvature;
 		const g = 9.81;
 
-		// Calculate ideal banking angle
-		// tan(θ) = v² / (r * g)
 		const tanTheta = (designSpeed * designSpeed) / (radius * g);
 
-		// Clamp to reasonable range (-45° to 45°)
 		const maxBank = Math.PI / 4;
 		const angle = Math.atan(tanTheta);
 
@@ -500,7 +449,6 @@ export class Track {
 	draw(renderer) {
 		const identity = mat4.create();
 		for (const { mesh, metallic, roughness } of this.meshes) {
-			// isMarble=false, isGround=false, doubleSided=true for proper wall lighting
 			renderer.drawMesh(mesh, identity, metallic, roughness, false, false, true);
 		}
 	}

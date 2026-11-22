@@ -6,9 +6,6 @@ import { Camera } from './camera.js';
 import { ParticleSystem } from './particles.js';
 import { createGroundMesh } from './geometry.js';
 
-// ============================================
-// Main Application
-// ============================================
 class App {
 	constructor() {
 		this.canvas = document.getElementById('canvas');
@@ -35,7 +32,6 @@ class App {
 			this.marble.reset();
 		});
 
-		// Camera mode buttons
 		const cameraContainer = document.getElementById('camera-modes');
 		if (cameraContainer) {
 			cameraContainer.querySelectorAll('button').forEach((btn) => {
@@ -56,59 +52,47 @@ class App {
 		this.lastTime = now;
 		this.totalTime += dt;
 
-		// Update
 		const marbleData = this.marble.update(dt);
 		this.camera.update(this.marble, this.track, dt);
 
-		// Emit particles when moving fast
 		const speed = marbleData.speed;
 		if (speed > 3 && marbleData.frame) {
 			const emitRate = Math.floor(speed / 3);
-			// Use opposite of velocity direction for particle emission
 			const vel = vec3.create();
 			vec3.scale(vel, this.marble.velocity, -0.5);
 			this.particles.emit(this.marble.position, vel, emitRate);
 		}
 		this.particles.update(dt);
 
-		// Update UI
 		const debugInfo = this.marble.getDebugInfo();
 		this.speedDisplay.textContent = debugInfo.speed.toFixed(1);
 		this.spinDisplay.textContent = debugInfo.angularSpeed.toFixed(1);
 		this.energyDisplay.textContent = (debugInfo.energyConservation * 100).toFixed(0);
 
-		// State display: Rolling, Sliding, or Flying
 		let state = 'Flying';
 		if (debugInfo.isOnTrack || debugInfo.isOnGround) {
 			state = debugInfo.isSlipping ? 'Sliding' : 'Rolling';
 		}
 		this.stateDisplay.textContent = state;
 
-		// Render
 		this.renderer.updateTime(this.totalTime);
 		this.renderer.clear();
 		this.renderer.setCamera(this.camera.getPosition(), this.camera.getTarget());
 
-		// Draw sky first
 		this.renderer.drawSky();
 
-		// Main pass for objects
 		this.renderer.beginMainPass();
 
-		// Ground (with isGround flag for contact shadows)
 		const groundMatrix = mat4.create();
 		this.renderer.drawMesh(this.ground, groundMatrix, 0.0, 0.85, false, true);
 
-		// Track and marble
 		this.track.draw(this.renderer);
 		this.marble.draw(this.renderer);
 
-		// Particles (after main pass with blending)
 		this.particles.draw();
 
 		requestAnimationFrame(() => this.animate());
 	}
 }
 
-// Start
 new App();

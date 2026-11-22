@@ -20,7 +20,5 @@ export class Entity implements GameObject {
 		this.position.y += this.velocity.y * deltaTime;
 	}
 
-	draw(ctx: WebGLRenderingContext): void {
-		// Base draw method - to be overridden
-	}
+	draw(ctx: WebGLRenderingContext): void {}
 }

@@ -10,7 +10,7 @@
 			"options": {
 				"commands": [
 					"mkdir -p ../../apps/static/labs/space-shooter",
-					"parcel build src/index.html --dist-dir ../../apps/static/labs/space-shooter --public-url /labs/space-shooter/",
+					"parcel build src/index.html --dist-dir ../../apps/web/public/labs/space-shooter --public-url /labs/space-shooter/",
 					"cp -r public/* ../../apps/static/labs/space-shooter/"
 				],
 				"cwd": "packages/space-shooter"

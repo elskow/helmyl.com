@@ -10,11 +10,6 @@
 			"cache": true,
 			"inputs": ["default", "^production"],
 			"outputs": ["{projectRoot}/static/labs"]
-		},
-		"generate:og": {
-			"cache": true,
-			"inputs": ["default", "^production"],
-			"outputs": ["{projectRoot}/static/og"]
 		}
 	},
 	"namedInputs": {
@@ -27,7 +22,7 @@
 		],
 		"sharedGlobals": ["{workspaceRoot}/pnpm-lock.yaml"]
 	},
-	"defaultProject": "website",
+	"defaultProject": "web",
 	"parallel": 3,
 	"cacheDirectory": ".nx/cache",
 	"analytics": false

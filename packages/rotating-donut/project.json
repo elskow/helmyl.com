@@ -10,7 +10,7 @@
 			"options": {
 				"commands": [
 					"mkdir -p ../../apps/static/labs/rotating-donut",
-					"parcel build src/index.html --dist-dir ../../apps/static/labs/rotating-donut --public-url /labs/rotating-donut/"
+					"parcel build src/index.html --dist-dir ../../apps/web/public/labs/rotating-donut --public-url /labs/rotating-donut/"
 				],
 				"cwd": "packages/rotating-donut"
 			}

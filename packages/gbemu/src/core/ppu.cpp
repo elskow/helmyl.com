@@ -27,21 +27,18 @@ void PPU::setMode(uint8_t newMode) {
 void PPU::checkSTATInterrupt() {
     bool interrupt = false;
     
-    // Mode interrupts
-    if ((mmu.stat & 0x08) && mode == 0) interrupt = true;  // HBlank
-    if ((mmu.stat & 0x10) && mode == 1) interrupt = true;  // VBlank
-    if ((mmu.stat & 0x20) && mode == 2) interrupt = true;  // OAM
+    if ((mmu.stat & 0x08) && mode == 0) interrupt = true;  
+    if ((mmu.stat & 0x10) && mode == 1) interrupt = true;  
+    if ((mmu.stat & 0x20) && mode == 2) interrupt = true;  
     
-    // LYC=LY interrupt
     if ((mmu.stat & 0x40) && (mmu.stat & 0x04)) interrupt = true;
     
     if (interrupt) {
-        mmu.setIF(mmu.getIF() | 0x02);  // LCD STAT interrupt
+        mmu.setIF(mmu.getIF() | 0x02);  
     }
 }
 
 bool PPU::step(int cycles) {
-    // Check if LCD is enabled
     if (!(mmu.lcdc & 0x80)) {
         return false;
     }
@@ -121,7 +118,7 @@ bool PPU::step(int cycles) {
 void PPU::renderScanline() {
     for (int x = 0; x < SCREEN_WIDTH; x++) {
         framebuffer[ly * SCREEN_WIDTH + x] = COLORS[0];
-        bgColorIndices[x] = 0;  // Default BG color index is 0
+        bgColorIndices[x] = 0;  
     }
     
     if (mmu.lcdc & 0x01) {
@@ -246,7 +243,6 @@ void PPU::renderSprites() {
         int y = oam[i * 4] - 16;
         int x = oam[i * 4 + 1] - 8;
         
-        // Check if sprite is on this scanline
         if (ly >= y && ly < y + spriteHeight) {
             sprites[spriteCount].x = x;
             sprites[spriteCount].y = y;

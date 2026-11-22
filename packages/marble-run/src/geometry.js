@@ -80,11 +80,9 @@ export function buildRMF(path) {
 	let tangent = vec3.sub(vec3.create(), path[1], path[0]);
 	vec3.normalize(tangent, tangent);
 
-	// Initial normal - always start with world up projected onto the plane perpendicular to tangent
 	const worldUp = vec3.fromValues(0, 1, 0);
 	let binormal = vec3.cross(vec3.create(), tangent, worldUp);
 
-	// Handle case where tangent is nearly vertical
 	if (vec3.length(binormal) < 0.1) {
 		binormal = vec3.fromValues(1, 0, 0);
 	}
@@ -109,7 +107,6 @@ export function buildRMF(path) {
 		}
 		vec3.normalize(tangent, tangent);
 
-		// RMF: rotate the previous frame to align with new tangent
 		const axis = vec3.cross(vec3.create(), prevFrame.tangent, tangent);
 		const axisLen = vec3.length(axis);
 
@@ -129,13 +126,10 @@ export function buildRMF(path) {
 		vec3.normalize(normal, normal);
 		vec3.normalize(binormal, binormal);
 
-		// Bias normal towards world up to prevent excessive track rotation
-		// This keeps the track floor more horizontal
 		const upBias = 0.15;
 		const biasedNormal = vec3.create();
 		vec3.scaleAndAdd(biasedNormal, normal, worldUp, upBias);
 
-		// Re-orthogonalize after biasing
 		binormal = vec3.cross(vec3.create(), tangent, biasedNormal);
 		vec3.normalize(binormal, binormal);
 		normal = vec3.cross(vec3.create(), binormal, tangent);
@@ -164,25 +158,20 @@ export function createGroundMesh(renderer, size, divisions) {
 			positions.push(x, 0, z);
 			normals.push(0, 1, 0);
 
-			// Improved grid pattern with depth
 			const distFromCenter = Math.sqrt(x * x + z * z) / half;
 
-			// Grid lines - subtle
 			const gridX = Math.abs(Math.sin(x * 0.4)) < 0.05;
 			const gridZ = Math.abs(Math.sin(z * 0.4)) < 0.05;
 			const isGrid = gridX || gridZ;
 
-			// Major grid lines every 5 units
 			const majorGridX = Math.abs(x % 10) < 0.3;
 			const majorGridZ = Math.abs(z % 10) < 0.3;
 			const isMajorGrid = majorGridX || majorGridZ;
 
-			// Base color - darker, more contrast
 			let r = 0.12;
 			let g = 0.13;
 			let b = 0.15;
 
-			// Add grid pattern
 			if (isMajorGrid) {
 				r += 0.08;
 				g += 0.09;
@@ -193,7 +182,6 @@ export function createGroundMesh(renderer, size, divisions) {
 				b += 0.05;
 			}
 
-			// Distance fade - darker at edges
 			const edgeFade = 1.0 - distFromCenter * 0.6;
 			r *= edgeFade;
 			g *= edgeFade;
@@ -209,7 +197,6 @@ export function createGroundMesh(renderer, size, divisions) {
 			const b = a + 1;
 			const c = a + divisions + 1;
 			const d = c + 1;
-			// CCW winding when viewed from above (normal pointing up)
 			indices.push(a, b, c);
 			indices.push(b, d, c);
 		}
@@ -218,21 +205,16 @@ export function createGroundMesh(renderer, size, divisions) {
 	return renderer.createMesh(positions, normals, colors, indices);
 }
 
-// Creates a continuous wall mesh following a path (double-sided)
-// bottomPath: array of vec3 points at the base
-// topPath: array of vec3 points at the top (same length as bottomPath)
 export function createWallMesh(renderer, bottomPath, topPath, color, normalDir = 1) {
 	const positions = [];
 	const normals = [];
 	const colors = [];
 	const indices = [];
 
-	// First pass: front faces
 	for (let i = 0; i < bottomPath.length; i++) {
 		const bottom = bottomPath[i];
 		const top = topPath[i];
 
-		// Calculate normal for this segment
 		let wallNormal;
 		if (i < bottomPath.length - 1) {
 			const nextBottom = bottomPath[i + 1];
@@ -252,18 +234,15 @@ export function createWallMesh(renderer, bottomPath, topPath, color, normalDir =
 			wallNormal = vec3.fromValues(normalDir, 0, 0);
 		}
 
-		// Bottom vertex
 		positions.push(bottom[0], bottom[1], bottom[2]);
 		normals.push(wallNormal[0], wallNormal[1], wallNormal[2]);
 		colors.push(color[0], color[1], color[2]);
 
-		// Top vertex
 		positions.push(top[0], top[1], top[2]);
 		normals.push(wallNormal[0], wallNormal[1], wallNormal[2]);
 		colors.push(color[0], color[1], color[2]);
 	}
 
-	// Create front face triangles
 	for (let i = 0; i < bottomPath.length - 1; i++) {
 		const bl = i * 2;
 		const tl = i * 2 + 1;
@@ -274,7 +253,6 @@ export function createWallMesh(renderer, bottomPath, topPath, color, normalDir =
 		indices.push(br, tr, tl);
 	}
 
-	// Second pass: back faces (reverse winding, opposite normals)
 	const vertexOffset = bottomPath.length * 2;
 	for (let i = 0; i < bottomPath.length; i++) {
 		const bottom = bottomPath[i];
@@ -287,7 +265,7 @@ export function createWallMesh(renderer, bottomPath, topPath, color, normalDir =
 			const up = vec3.sub(vec3.create(), top, bottom);
 			wallNormal = vec3.cross(vec3.create(), tangent, up);
 			vec3.normalize(wallNormal, wallNormal);
-			vec3.scale(wallNormal, wallNormal, -normalDir); // Opposite direction
+			vec3.scale(wallNormal, wallNormal, -normalDir);
 		} else if (i > 0) {
 			const prevBottom = bottomPath[i - 1];
 			const tangent = vec3.sub(vec3.create(), bottom, prevBottom);
@@ -301,14 +279,13 @@ export function createWallMesh(renderer, bottomPath, topPath, color, normalDir =
 
 		positions.push(bottom[0], bottom[1], bottom[2]);
 		normals.push(wallNormal[0], wallNormal[1], wallNormal[2]);
-		colors.push(color[0] * 0.8, color[1] * 0.8, color[2] * 0.8); // Slightly darker back
+		colors.push(color[0] * 0.8, color[1] * 0.8, color[2] * 0.8);
 
 		positions.push(top[0], top[1], top[2]);
 		normals.push(wallNormal[0], wallNormal[1], wallNormal[2]);
 		colors.push(color[0] * 0.8, color[1] * 0.8, color[2] * 0.8);
 	}
 
-	// Create back face triangles (reverse winding)
 	for (let i = 0; i < bottomPath.length - 1; i++) {
 		const bl = vertexOffset + i * 2;
 		const tl = vertexOffset + i * 2 + 1;

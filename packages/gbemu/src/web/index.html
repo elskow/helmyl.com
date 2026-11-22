@@ -8,10 +8,8 @@
 	</head>
 	<body>
 		<div class="gameboy">
-			<!-- Top ridge/edge -->
 			<div class="gb-top-ridge"></div>
 
-			<!-- Screen section -->
 			<div class="gb-screen-section">
 				<div class="gb-screen-label">
 					<span class="dot"></span>
@@ -25,7 +23,6 @@
 							<div class="game-library">
 								<div class="library-title">Select a Game</div>
 								<div class="game-list" id="game-list">
-									<!-- Games loaded dynamically from games.json -->
 									<div class="game-list-loading">Loading...</div>
 								</div>
 								<div class="drop-hint">
@@ -47,9 +44,7 @@
 				</div>
 			</div>
 
-			<!-- Controls section -->
 			<div class="gb-controls-section">
-				<!-- D-Pad -->
 				<div class="gb-dpad-area">
 					<div class="gb-dpad">
 						<button class="dpad-btn dpad-up" data-btn="up" aria-label="Up">
@@ -68,7 +63,6 @@
 					</div>
 				</div>
 
-				<!-- A/B Buttons -->
 				<div class="gb-ab-area">
 					<div class="gb-ab-buttons">
 						<div class="ab-btn-wrapper ab-b">
@@ -83,7 +77,6 @@
 				</div>
 			</div>
 
-			<!-- Start/Select section -->
 			<div class="gb-startselect-section">
 				<div class="gb-startselect">
 					<div class="ss-btn-wrapper">
@@ -95,9 +88,7 @@
 				</div>
 			</div>
 
-			<!-- Speaker grille -->
 			<div class="gb-speaker-area">
-				<!-- Menu button (visible when game is running) -->
 				<div class="gb-menu-btn-wrapper">
 					<button
 						class="gb-menu-btn hidden"
@@ -120,11 +111,9 @@
 				</div>
 			</div>
 
-			<!-- Hidden file input -->
 			<input type="file" id="rom-input" accept=".gb,.gbc" hidden />
 		</div>
 
-		<!-- Floating controls -->
 		<div class="floating-controls">
 			<button class="float-btn" id="shader-btn" title="Shader: None">
 				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -154,13 +143,11 @@
 			</button>
 		</div>
 
-		<!-- Status bar -->
 		<div class="status-bar" id="status-bar">
 			<span class="status-text" id="status">Ready</span>
 			<span class="status-fps"><span id="fps">0</span> FPS</span>
 		</div>
 
-		<!-- Keyboard legend (desktop only) -->
 		<div class="keyboard-legend">
 			<div class="legend-title">Keyboard Controls</div>
 			<div class="legend-grid">

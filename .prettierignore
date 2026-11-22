@@ -5,22 +5,24 @@ dist/
 .vercel/
 .svelte-kit/
 .parcel-cache/
+.astro/
 
 # Dependencies
 node_modules/
 pnpm-lock.yaml
 
 # Generated files
-.content-collections/
 labs-metadata.json
 
 # Static assets
 static/
 public/
+packages/*/dist/
 
 # Configuration files
 *.config.js
 *.config.ts
+*.config.mjs
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
@@ -34,3 +36,5 @@ vite.config.ts.timestamp-*
 .DS_Store
 .idea/
 .vscode/
+apps/web/public/labs/
+apps/web/dist/

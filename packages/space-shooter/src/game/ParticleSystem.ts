@@ -14,20 +14,19 @@ export class ParticleSystem {
 		this.gl = gl;
 		this.shaderProgram = shaderProgram;
 
-		// Create square vertices for particles
 		this.vertices = new Float32Array([
 			-1,
 			1,
-			0, // top left
+			0,
 			-1,
 			-1,
-			0, // bottom left
+			0,
 			1,
 			1,
-			0, // top right
+			0,
 			1,
 			-1,
-			0 // bottom right
+			0
 		]);
 
 		this.buffer = gl.createBuffer()!;
@@ -63,7 +62,7 @@ export class ParticleSystem {
 
 			particle.position.x += particle.velocity.x * deltaTime;
 			particle.position.y += particle.velocity.y * deltaTime;
-			particle.velocity.y += 0.5 * deltaTime; // Gravity
+			particle.velocity.y += 0.5 * deltaTime;
 			return true;
 		});
 	}
@@ -80,7 +79,7 @@ export class ParticleSystem {
 			const modelMatrix = mat4.create();
 			mat4.translate(modelMatrix, modelMatrix, [particle.position.x, particle.position.y, 0]);
 			mat4.scale(modelMatrix, modelMatrix, [particle.size, particle.size, 1]);
-			mat4.rotate(modelMatrix, modelMatrix, particle.rotation, [0, 0, 1]); // Add rotation
+			mat4.rotate(modelMatrix, modelMatrix, particle.rotation, [0, 0, 1]);
 
 			gl.uniformMatrix4fv(
 				this.shaderProgram.getUniformLocation('uModelMatrix'),
@@ -90,8 +89,8 @@ export class ParticleSystem {
 
 			const alpha = particle.life / particle.maxLife;
 
-			// Use different colors for celebration particles
-			const brightness = 0.5 + alpha * 0.5; // Fade out smoothly
+
+			const brightness = 0.5 + alpha * 0.5;
 			gl.uniform3f(
 				this.shaderProgram.getUniformLocation('uColor'),
 				1.0 * brightness,
@@ -107,16 +106,16 @@ export class ParticleSystem {
 
 	spawnCelebration(x: number, y: number, count: number = 50): void {
 		const colors = [
-			{ r: 1.0, g: 0.8, b: 0.0 }, // Gold
-			{ r: 1.0, g: 0.6, b: 0.0 }, // Orange
-			{ r: 1.0, g: 0.4, b: 0.0 }, // Dark Orange
-			{ r: 0.8, g: 0.8, b: 1.0 }, // Light Blue
-			{ r: 1.0, g: 1.0, b: 1.0 } // White
+			{ r: 1.0, g: 0.8, b: 0.0 },
+			{ r: 1.0, g: 0.6, b: 0.0 },
+			{ r: 1.0, g: 0.4, b: 0.0 },
+			{ r: 0.8, g: 0.8, b: 1.0 },
+			{ r: 1.0, g: 1.0, b: 1.0 }
 		];
 
 		for (let i = 0; i < count; i++) {
 			const angle = Math.random() * Math.PI * 2;
-			const speed = Math.random() * 0.5 + 0.2; // Faster than normal particles
+			const speed = Math.random() * 0.5 + 0.2;
 			const color = colors[Math.floor(Math.random() * colors.length)];
 
 			this.particles.push({
@@ -129,8 +128,8 @@ export class ParticleSystem {
 				scale: { x: 1, y: 1 },
 				active: true,
 				color: '#ffeb3b',
-				size: Math.random() * 0.03 + 0.02, // Bigger than normal particles
-				life: 2.0, // Longer life than normal particles
+				size: Math.random() * 0.03 + 0.02,
+				life: 2.0,
 				maxLife: 2.0
 			});
 		}
