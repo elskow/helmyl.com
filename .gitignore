@@ -78,3 +78,6 @@ apps/web/src/lib/generated/
 .cache
 apps/web/public/labs/
 apps/web/pnpm-lock.yaml
+
+# Legacy lab output path (pre-Astro)
+apps/static/
