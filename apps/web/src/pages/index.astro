@@ -1,6 +1,7 @@
 ---
 import Base from '@/layouts/Base.astro';
 import ProjectCard from '@/components/ProjectCard.astro';
+import HeroHalftone from '@/components/HeroHalftone.astro';
 import Footer from '@/components/Footer.astro';
 import Icon from '@/components/Icon.astro';
 import { technologies } from '@/data/technologies';
@@ -62,13 +63,16 @@ const pageDescription =
 ---
 
 <Base title={pageTitle} description={pageDescription} path="/" ogImage="/og/home.png">
+	<div class="relative">
+		<HeroHalftone />
+	</div>
 	<main
 		id="main-content"
-		class="max-w-3xl mx-auto px-4 sm:px-6 py-12 md:py-24 min-h-screen text-neutral-900 font-sans"
+		class="relative max-w-3xl mx-auto px-4 sm:px-6 pt-0 pb-12 md:pb-24 min-h-screen text-neutral-900 font-sans"
 	>
-		<div class="space-y-24">
-			<section class="space-y-8">
-					<div class="w-12 h-12 bg-neutral-100 rounded-sm overflow-hidden border border-neutral-200">
+		<div class="relative space-y-24">
+			<section class="space-y-8 pt-40 md:pt-64">
+				<div class="w-12 h-12 bg-neutral-100 rounded-sm overflow-hidden border border-neutral-200">
 						<img
 							src="/images/avatar.jpg"
 							alt="Helmy Luqmanulhakim"
@@ -91,16 +95,15 @@ const pageDescription =
 					<div class="space-y-4 max-w-lg text-base leading-relaxed text-neutral-600">
 						<p>
 							I build high-performance web systems and data infrastructure. Previously
-							Writing Scala at
+							writing Scala at{' '}
 							<a
 								href="https://www.ziverge.com"
 								target="_blank"
 								class="text-neutral-900 border-b border-neutral-200 hover:border-neutral-900 transition-colors"
 							>
-								{' '}
 								Ziverge
 							</a>
-							and Java at
+							{' '}and Java at{' '}
 							<a
 								href="https://www.bca.co.id"
 								target="_blank"
