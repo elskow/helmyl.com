@@ -99,7 +99,7 @@ void main(){
 				return s;
 			};
 
-			try {
+			const setup = () => {
 				const prog = gl.createProgram()!;
 				gl.attachShader(prog, compile(gl.VERTEX_SHADER, VERT));
 				gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, FRAG));
@@ -119,10 +119,19 @@ void main(){
 				gl.enableVertexAttribArray(loc);
 				gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
 
-				const uRes = gl.getUniformLocation(prog, 'uRes');
-				const uTime = gl.getUniformLocation(prog, 'uTime');
-				const uMouse = gl.getUniformLocation(prog, 'uMouse');
-				const uMouseStr = gl.getUniformLocation(prog, 'uMouseStr');
+				uRes = gl.getUniformLocation(prog, 'uRes');
+				uTime = gl.getUniformLocation(prog, 'uTime');
+				uMouse = gl.getUniformLocation(prog, 'uMouse');
+				uMouseStr = gl.getUniformLocation(prog, 'uMouseStr');
+			};
+
+			let uRes: WebGLUniformLocation | null = null;
+			let uTime: WebGLUniformLocation | null = null;
+			let uMouse: WebGLUniformLocation | null = null;
+			let uMouseStr: WebGLUniformLocation | null = null;
+
+			try {
+				setup();
 
 				const dpr = Math.min(devicePixelRatio || 1, 1.5);
 				const resize = () => {
@@ -159,40 +168,58 @@ void main(){
 				const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 				let raf = 0;
+				let running = false;
 				const start = performance.now();
-				let hidden = document.hidden;
+				let lost = false;
 
-				const frame = (now: number) => {
-					if (hidden) {
-						raf = requestAnimationFrame(frame);
-						return;
-					}
-
+				const draw = () => {
 					mx += (tmx - mx) * 0.06;
 					my += (tmy - my) * 0.06;
 					mStr += (tmStr - mStr) * 0.04;
-
 					gl.uniform2f(uRes, canvas.width, canvas.height);
-					gl.uniform1f(uTime, reduced ? 0 : (now - start) / 1000);
+					gl.uniform1f(uTime, reduced ? 0 : (performance.now() - start) / 1000);
 					gl.uniform2f(uMouse, mx, my);
 					gl.uniform1f(uMouseStr, mStr);
 					gl.drawArrays(gl.TRIANGLES, 0, 3);
+				};
+
+				const frame = () => {
+					raf = 0;
+					if (document.hidden || lost) return;
+					draw();
 					raf = requestAnimationFrame(frame);
 				};
 
-				raf = requestAnimationFrame(frame);
+				const play = () => {
+					if (running || document.hidden || lost) return;
+					running = true;
+					if (!raf) raf = requestAnimationFrame(frame);
+				};
+
+				const pause = () => {
+					running = false;
+					if (raf) { cancelAnimationFrame(raf); raf = 0; }
+				};
+
+				draw();
+				play();
 
 				document.addEventListener('visibilitychange', () => {
-					hidden = document.hidden;
+					document.hidden ? pause() : play();
+				});
+
+				canvas.addEventListener('webglcontextlost', (e) => {
+					e.preventDefault();
+					lost = true;
+					pause();
+				});
+				canvas.addEventListener('webglcontextrestored', () => {
+					lost = false;
+					try { setup(); draw(); play(); } catch {}
 				});
 
 				if (reduced) {
-					cancelAnimationFrame(raf);
-					gl.uniform2f(uRes, canvas.width, canvas.height);
-					gl.uniform1f(uTime, 0);
-					gl.uniform2f(uMouse, 0.5, 0.5);
-					gl.uniform1f(uMouseStr, 0);
-					gl.drawArrays(gl.TRIANGLES, 0, 3);
+					pause();
 				}
 			} catch {
 				gl.getExtension('WEBGL_lose_context')?.loseContext();

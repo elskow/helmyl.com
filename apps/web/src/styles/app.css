@@ -73,3 +73,33 @@ body {
 a[target='_blank'] svg {
 	vertical-align: text-bottom;
 }
+
+::selection {
+	background: #171717;
+	color: #ffffff;
+}
+
+::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #d4d4d4;
+	border-radius: 999px;
+	border: 2px solid #ffffff;
+	background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background-color: #a3a3a3;
+}
+
+html {
+	scrollbar-width: thin;
+	scrollbar-color: #d4d4d4 transparent;
+}

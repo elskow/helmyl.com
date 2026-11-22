@@ -1,0 +1,379 @@
+---
+const socials = [
+	{
+		href: 'mailto:helmyl.work@gmail.com',
+		label: 'Email',
+		svg: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>'
+	},
+	{
+		href: 'https://github.com/elskow',
+		label: 'GitHub',
+		svg: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.55v-2.17c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.72-1.54-2.55-.29-5.23-1.28-5.23-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.25 5.67.41.35.77 1.05.77 2.12v3.14c0 .3.21.66.8.55A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>'
+	},
+	{
+		href: 'https://twitter.com/helmy_lh',
+		label: 'Twitter',
+		svg: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.66l-5.21-6.82-5.97 6.82H1.67l7.73-8.84L1.25 2.25h6.83l4.71 6.23 5.45-6.23Zm-1.16 17.52h1.83L7.08 4.13H5.12l11.96 15.64Z"/></svg>'
+	},
+	{
+		href: 'https://linkedin.com/in/helmyl',
+		label: 'LinkedIn',
+		svg: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45Z"/></svg>'
+	}
+];
+
+const lastUpdated = new Date().toLocaleDateString('en-US', {
+	year: 'numeric',
+	month: 'short',
+	day: 'numeric'
+});
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+	<canvas id="footer-halftone" aria-hidden="true" class="footer-canvas" data-halftone></canvas>
+	<div class="footer-scrim" aria-hidden="true"></div>
+
+	<div class="footer-content">
+		<div class="footer-top">
+			<p class="footer-location">
+				<span class="footer-dot" aria-hidden="true"></span>
+				Jakarta, Indonesia
+				<span class="footer-time" data-footer-time>
+					–:– WIB
+				</span>
+			</p>
+		</div>
+
+		<div class="footer-bottom">
+			<p class="footer-legal">
+				&copy; {year} Helmy Luqmanulhakim
+				<span class="footer-sep" aria-hidden="true">
+					&middot;
+				</span>
+				Last updated {lastUpdated}
+			</p>
+			<nav class="footer-socials" aria-label="Social links">
+				{socials.map(({ href, label, svg }) => (
+					<a
+						href={href}
+						aria-label={label}
+						title={label}
+						target={href.startsWith('mailto') ? undefined : '_blank'}
+						rel={href.startsWith('mailto') ? undefined : 'noopener noreferrer'}
+					>
+						<Fragment set:html={svg} />
+					</a>
+				))}
+			</nav>
+		</div>
+	</div>
+</footer>
+
+<style>
+	.site-footer {
+		position: relative;
+		background: #ffffff;
+		overflow: hidden;
+	}
+
+	.footer-canvas {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		pointer-events: none;
+		-webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 45%);
+		mask-image: linear-gradient(to bottom, transparent 0%, black 45%);
+	}
+
+	.footer-scrim {
+		position: absolute;
+		inset: 0;
+		background: radial-gradient(
+			ellipse 70% 95% at 50% 50%,
+			rgba(255, 255, 255, 0.92),
+			rgba(255, 255, 255, 0.45) 65%,
+			rgba(255, 255, 255, 0) 100%
+		);
+		pointer-events: none;
+	}
+
+	.footer-content {
+		position: relative;
+		max-width: 48rem;
+		margin: 0 auto;
+		padding: 2.75rem 1.5rem 2rem;
+	}
+
+	.footer-top,
+	.footer-bottom {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		gap: 0.75rem 1.5rem;
+	}
+
+	.footer-bottom {
+		margin-top: 2.25rem;
+		padding-top: 1.25rem;
+		border-top: 1px solid rgba(0, 0, 0, 0.08);
+	}
+
+	.footer-location {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		margin: 0;
+		font-size: 0.8125rem;
+		color: #404040;
+	}
+
+	.footer-dot {
+		width: 6px;
+		height: 6px;
+		border-radius: 50%;
+		background: #171717;
+		box-shadow: 0 0 8px rgba(23, 23, 23, 0.4);
+	}
+
+	.footer-time {
+		font-family: inherit;
+		font-size: 0.75rem;
+		color: #737373;
+	}
+
+	.footer-legal {
+		margin: 0;
+		font-size: 0.75rem;
+		color: #737373;
+	}
+
+	.footer-sep {
+		margin: 0 0.35rem;
+		color: #a3a3a3;
+	}
+
+	.footer-socials {
+		display: flex;
+		align-items: center;
+		gap: 0.35rem;
+	}
+
+	.footer-socials a {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 2rem;
+		height: 2rem;
+		border-radius: 999px;
+		color: #525252;
+		background: rgba(0, 0, 0, 0.03);
+		border: 1px solid rgba(0, 0, 0, 0.1);
+		transition:
+			color 0.2s,
+			background 0.2s,
+			border-color 0.2s,
+			transform 0.2s;
+	}
+
+	.footer-socials a:hover {
+		color: #171717;
+		background: rgba(0, 0, 0, 0.06);
+		border-color: rgba(0, 0, 0, 0.25);
+		transform: translateY(-2px);
+	}
+
+	@media (max-width: 640px) {
+		.footer-top,
+		.footer-bottom {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 0.75rem;
+		}
+
+		.footer-socials {
+			flex-wrap: wrap;
+		}
+	}
+</style>
+
+<script>
+	const timeEl = document.querySelector('[data-footer-time]');
+	if (timeEl) {
+		const fmt = new Intl.DateTimeFormat('en-GB', {
+			hour: '2-digit',
+			minute: '2-digit',
+			hour12: false,
+			timeZone: 'Asia/Jakarta'
+		});
+		const tick = () => {
+			timeEl.textContent = fmt.format(new Date()) + ' WIB';
+		};
+		tick();
+		setInterval(tick, 30_000);
+	}
+
+	const canvas = document.getElementById('footer-halftone') as HTMLCanvasElement | null;
+	const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+	if (canvas) {
+		const gl = canvas.getContext('webgl', { alpha: true, antialias: false });
+		if (gl) {
+			const VERT = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
+			const FRAG = `precision highp float;
+uniform vec2 uRes;
+uniform float uTime;
+float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+float noise(vec2 p){
+  vec2 i=floor(p),f=fract(p);
+  vec2 u=f*f*(3.-2.*f);
+  return mix(mix(hash(i),hash(i+vec2(1,0)),u.x),
+             mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),u.x),u.y);
+}
+float fbm(vec2 p){
+  float v=0.,a=.5;
+  for(int i=0;i<4;i++){v+=a*noise(p);p=p*2.03+vec2(11.7,7.3);a*=.5;}
+  return v;
+}
+float bayer(vec2 px){
+  int x=int(mod(px.x,4.)),y=int(mod(px.y,4.));
+  float m[16];m[0]=0.;m[1]=8.;m[2]=2.;m[3]=10.;
+  m[4]=12.;m[5]=4.;m[6]=14.;m[7]=6.;
+  m[8]=3.;m[9]=11.;m[10]=1.;m[11]=9.;
+  m[12]=15.;m[13]=7.;m[14]=13.;m[15]=5.;
+  int idx=y*4+x;
+  for(int i=0;i<16;i++){if(i==idx)return m[i]/16.;}
+  return .5;
+}
+void main(){
+  vec2 uv=gl_FragCoord.xy/uRes;
+  float t=uTime*.12;
+  vec2 st=vec2(uv.x*uRes.x/uRes.y,uv.y);
+  float n=fbm(st*2.0+vec2(t*.5,-t*.3));
+  float density=smoothstep(.30,.85,n);
+  density*=mix(.75,.2,uv.y);
+  vec2 march=vec2(t*40.,0.);
+  vec2 cell=floor((gl_FragCoord.xy+march)/8.);
+  float halftone=step(.35,fract(sin(dot(cell,vec2(12.9898,78.233)))*43758.5453)+density*.9);
+  density=max(density*.85,halftone*.25*mix(1.,.15,uv.y));
+  float d=smoothstep(bayer((gl_FragCoord.xy+march))-.02,bayer((gl_FragCoord.xy+march))+.02,density);
+  vec2 grid=floor((gl_FragCoord.xy+march)/6.);
+  float cluster=bayer(grid*6.+3.);
+  d=max(d,smoothstep(cluster-.03,cluster+.03,density*.8));
+  vec3 dot2=vec3(.45);
+  vec3 bg=vec3(1.);
+  gl_FragColor=vec4(mix(bg,dot2,d),1.);
+}`;
+
+			const compile = (type: number, src: string) => {
+				const s = gl.createShader(type)!;
+				gl.shaderSource(s, src);
+				gl.compileShader(s);
+				if (!gl.getShaderParameter(s, gl.COMPILE_STATUS))
+					throw new Error(gl.getShaderInfoLog(s) ?? '');
+				return s;
+			};
+
+			const setup = () => {
+				const prog = gl.createProgram()!;
+				gl.attachShader(prog, compile(gl.VERTEX_SHADER, VERT));
+				gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, FRAG));
+				gl.linkProgram(prog);
+				if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error('link');
+				gl.useProgram(prog);
+
+				const buf = gl.createBuffer();
+				gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+				gl.bufferData(
+					gl.ARRAY_BUFFER,
+					new Float32Array([-1, -1, 3, -1, -1, 3]),
+					gl.STATIC_DRAW
+				);
+				const loc = gl.getAttribLocation(prog, 'p');
+				gl.enableVertexAttribArray(loc);
+				gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+				uRes = gl.getUniformLocation(prog, 'uRes');
+				uTime = gl.getUniformLocation(prog, 'uTime');
+			};
+
+			let uRes: WebGLUniformLocation | null = null;
+			let uTime: WebGLUniformLocation | null = null;
+
+			try {
+				setup();
+
+				const dpr = Math.min(devicePixelRatio || 1, 1.5);
+				const resize = () => {
+					const r = canvas.getBoundingClientRect();
+					canvas.width = Math.max(1, Math.round(r.width * dpr));
+					canvas.height = Math.max(1, Math.round(r.height * dpr));
+					gl.viewport(0, 0, canvas.width, canvas.height);
+				};
+				resize();
+				new ResizeObserver(resize).observe(canvas);
+
+				const start = performance.now();
+				let raf = 0;
+				let running = false;
+				let lost = false;
+
+				const draw = () => {
+					gl.uniform2f(uRes, canvas.width, canvas.height);
+					gl.uniform1f(uTime, (performance.now() - start) / 1000);
+					gl.drawArrays(gl.TRIANGLES, 0, 3);
+				};
+
+				const frame = () => {
+					raf = 0;
+					if (document.hidden || lost) return;
+					draw();
+					raf = requestAnimationFrame(frame);
+				};
+
+				const play = () => {
+					if (running || document.hidden || lost) return;
+					running = true;
+					if (!raf) raf = requestAnimationFrame(frame);
+				};
+
+				const pause = () => {
+					running = false;
+					if (raf) {
+						cancelAnimationFrame(raf);
+						raf = 0;
+					}
+				};
+
+				draw();
+				play();
+
+				document.addEventListener('visibilitychange', () => {
+					document.hidden ? pause() : play();
+				});
+
+				canvas.addEventListener('webglcontextlost', (e) => {
+					e.preventDefault();
+					lost = true;
+					pause();
+				});
+				canvas.addEventListener('webglcontextrestored', () => {
+					lost = false;
+					try {
+						setup();
+						draw();
+						play();
+					} catch {}
+				});
+
+				if (reduced) {
+					pause();
+				}
+			} catch {
+				gl.getExtension('WEBGL_lose_context')?.loseContext();
+			}
+		}
+	}
+</script>
