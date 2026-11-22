@@ -17,8 +17,8 @@
 			"executor": "nx:run-commands",
 			"options": {
 				"commands": [
-					"tsx apps/scripts/generate-labs-metadata.ts --out apps/web/src/lib/generated/labs-metadata.json",
-					"cd apps/web && npx astro dev"
+					"pnpm exec tsx apps/scripts/generate-labs-metadata.ts --out apps/web/src/lib/generated/labs-metadata.json",
+					"cd apps/web && pnpm exec astro dev"
 				],
 				"cwd": ".",
 				"parallel": false

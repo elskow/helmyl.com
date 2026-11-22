@@ -8,7 +8,7 @@
     "build": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "parcel build src/index.html --dist-dir ../../apps/web/public/labs/blackhole --public-url /labs/blackhole/",
+        "command": "pnpm exec parcel build src/index.html --dist-dir ../../apps/web/public/labs/blackhole --public-url /labs/blackhole/",
         "cwd": "packages/blackhole"
       }
     },
@@ -22,7 +22,7 @@
     "clean": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["rm -rf dist", "rm -rf ../../apps/static/labs/blackhole"],
+        "commands": ["rm -rf dist", "rm -rf ../../apps/web/public/labs/blackhole"],
         "cwd": "packages/blackhole",
         "parallel": false
       }

@@ -9,8 +9,8 @@
 		"generate-games": "tsx scripts/generate-games-json.ts"
 	},
 	"devDependencies": {
-		"@parcel/config-default": "^2.16.0",
+		"@parcel/config-default": "^2.16.4",
 		"parcel": "^2.16.4",
-		"tsx": "^4.7.0"
+		"tsx": "^4.23.15"
 	}
 }

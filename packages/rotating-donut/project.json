@@ -6,11 +6,11 @@
 	"targets": {
 		"build": {
 			"executor": "nx:run-commands",
-			"outputs": ["{workspaceRoot}/apps/static/labs/rotating-donut"],
+			"outputs": ["{workspaceRoot}/apps/web/public/labs/rotating-donut"],
 			"options": {
 				"commands": [
-					"mkdir -p ../../apps/static/labs/rotating-donut",
-					"parcel build src/index.html --dist-dir ../../apps/web/public/labs/rotating-donut --public-url /labs/rotating-donut/"
+					"mkdir -p ../../apps/web/public/labs/rotating-donut",
+					"pnpm exec parcel build src/index.html --dist-dir ../../apps/web/public/labs/rotating-donut --public-url /labs/rotating-donut/"
 				],
 				"cwd": "packages/rotating-donut"
 			}
@@ -25,7 +25,7 @@
 		"clean": {
 			"executor": "nx:run-commands",
 			"options": {
-				"commands": ["rm -rf dist .parcel-cache", "rm -rf ../../apps/static/labs/rotating-donut"],
+				"commands": ["rm -rf dist .parcel-cache", "rm -rf ../../apps/web/public/labs/rotating-donut"],
 				"cwd": "packages/rotating-donut",
 				"parallel": false
 			}

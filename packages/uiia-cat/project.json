@@ -8,7 +8,7 @@
     "build": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "parcel build src/index.html --dist-dir ../../apps/web/public/labs/uiia-cat --public-url /labs/uiia-cat/",
+        "command": "pnpm exec parcel build src/index.html --dist-dir ../../apps/web/public/labs/uiia-cat --public-url /labs/uiia-cat/",
         "cwd": "packages/uiia-cat"
       }
     },
@@ -22,7 +22,7 @@
     "clean": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["rm -rf dist", "rm -rf ../../apps/static/labs/uiia-cat"],
+        "commands": ["rm -rf dist", "rm -rf ../../apps/web/public/labs/uiia-cat"],
         "cwd": "packages/uiia-cat",
         "parallel": false
       }

@@ -27,11 +27,11 @@
 		"wrangler": "^4.81.1"
 	},
 	"engines": {
-		"node": ">=20.18.0",
+		"node": ">=22.12.0",
 		"pnpm": ">=10.0.0"
 	},
 	"workspaces": [
-		"apps",
+		"apps/*",
 		"packages/*"
 	]
 }

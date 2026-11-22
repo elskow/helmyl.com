@@ -8,7 +8,7 @@
 		"generate-games": {
 			"executor": "nx:run-commands",
 			"options": {
-				"command": "npx tsx scripts/generate-games-json.ts",
+				"command": "pnpm exec tsx scripts/generate-games-json.ts",
 				"cwd": "packages/gbemu"
 			}
 		},
@@ -24,11 +24,10 @@
 			"dependsOn": ["build:wasm", "generate-games"],
 			"options": {
 				"commands": [
-					"mkdir -p ../../apps/static/labs/gbemu",
-					"parcel build src/web/index.html --dist-dir ../../apps/web/public/labs/gbemu --public-url /labs/gbemu/",
-					"cp dist/gbemu.wasm ../../apps/static/labs/gbemu/",
-					"cp dist/gbemu.js ../../apps/static/labs/gbemu/",
-					"mkdir -p ../../apps/static/labs/gbemu/roms && cp roms/*.gb roms/*.gbc roms/games.json ../../apps/static/labs/gbemu/roms/ 2>/dev/null || true"
+					"pnpm exec parcel build src/web/index.html --dist-dir ../../apps/web/public/labs/gbemu --public-url /labs/gbemu/",
+					"cp dist/gbemu.wasm ../../apps/web/public/labs/gbemu/",
+					"cp dist/gbemu.js ../../apps/web/public/labs/gbemu/",
+					"mkdir -p ../../apps/web/public/labs/gbemu/roms && cp roms/*.gb roms/*.gbc roms/games.json ../../apps/web/public/labs/gbemu/roms/ 2>/dev/null || true"
 				],
 				"cwd": "packages/gbemu"
 			}
@@ -56,7 +55,7 @@
 					"rm -rf dist",
 					"rm -rf .parcel-cache",
 					"rm -rf src/web/roms",
-					"rm -rf ../../apps/static/labs/gbemu"
+					"rm -rf ../../apps/web/public/labs/gbemu"
 				],
 				"cwd": "packages/gbemu",
 				"parallel": false
