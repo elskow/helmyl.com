@@ -6,29 +6,24 @@
 	"targets": {
 		"build": {
 			"executor": "nx:run-commands",
-			"dependsOn": ["^build"],
-			"outputs": ["{projectRoot}/dist", "{workspaceRoot}/apps/web/src/lib/generated/labs-metadata.json"],
+			"outputs": ["{projectRoot}/dist"],
 			"options": {
-				"command": "./scripts/build-web.sh",
-				"cwd": "."
+				"command": "pnpm exec astro build",
+				"cwd": "apps/web"
 			}
 		},
 		"dev": {
 			"executor": "nx:run-commands",
 			"options": {
-				"commands": [
-					"pnpm exec tsx apps/scripts/generate-labs-metadata.ts --out apps/web/src/lib/generated/labs-metadata.json",
-					"cd apps/web && pnpm exec astro dev"
-				],
-				"cwd": ".",
-				"parallel": false
+				"command": "pnpm exec astro dev",
+				"cwd": "apps/web"
 			}
 		},
 		"preview": {
 			"executor": "nx:run-commands",
 			"dependsOn": ["build"],
 			"options": {
-				"command": "npx serve dist -l 4173",
+				"command": "pnpm exec serve dist -l 4173",
 				"cwd": "apps/web"
 			}
 		},
@@ -42,7 +37,7 @@
 		"check": {
 			"executor": "nx:run-commands",
 			"options": {
-				"command": "npx astro sync && npx astro check",
+				"command": "pnpm exec astro sync && pnpm exec astro check",
 				"cwd": "apps/web"
 			}
 		},
@@ -61,6 +56,5 @@
 			}
 		}
 	},
-	"tags": ["type:app"],
-	"implicitDependencies": ["tag:type:lab"]
+	"tags": ["type:app"]
 }

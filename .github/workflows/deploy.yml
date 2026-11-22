@@ -52,19 +52,6 @@ jobs:
             ${{ runner.os }}-nx-${{ hashFiles('**/pnpm-lock.yaml') }}-
             ${{ runner.os }}-nx-
 
-      - name: Setup Emscripten cache
-        uses: actions/cache@v5
-        id: emsdk-cache
-        with:
-          path: ~/emsdk
-          key: ${{ runner.os }}-emsdk-3.1.51
-
-      - name: Setup Emscripten
-        uses: mymindstorm/setup-emsdk@v16
-        with:
-          version: '3.1.51'
-          actions-cache-folder: 'emsdk-cache'
-
       - name: Install Dependencies
         run: pnpm install --no-frozen-lockfile --config.strict-dep-builds=false
 

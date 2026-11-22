@@ -1,37 +1,36 @@
 {
-	"name": "helmyl.com",
-	"version": "1.0.0",
-	"description": "Personal website and labs monorepo",
-	"private": true,
-	"scripts": {
-		"dev": "nx run web:dev",
-		"build": "nx run web:build",
-		"preview": "nx run web:preview",
-		"clean": "nx run-many -t clean",
-		"clean:all": "pnpm clean && rm -rf node_modules apps/node_modules packages/*/node_modules .nx",
-		"format": "prettier --write .",
-		"format:check": "prettier --check .",
-		"lint": "nx run web:lint",
-		"check": "nx run web:check",
-		"test": "echo \"No tests specified\" && exit 0",
-		"postinstall": "echo 'Dependencies installed'"
-	},
-	"devDependencies": {
-		"@nx/js": "^22.7.5",
-		"@nx/vite": "^22.7.5",
-		"@parcel/transformer-glsl": "^2.16.4",
-		"@parcel/transformer-sass": "^2.16.4",
-		"nx": "^22.7.5",
-		"prettier": "^3.8.4",
-		"tsx": "^4.22.4",
-		"wrangler": "^4.81.1"
-	},
-	"engines": {
-		"node": ">=22.12.0",
-		"pnpm": ">=10.0.0"
-	},
-	"workspaces": [
-		"apps/*",
-		"packages/*"
-	]
+  "name": "helmyl.com",
+  "version": "1.0.0",
+  "description": "Personal website",
+  "private": true,
+  "scripts": {
+    "dev": "nx run web:dev",
+    "build": "nx run web:build",
+    "preview": "nx run web:preview",
+    "clean": "nx run-many -t clean",
+    "clean:all": "pnpm clean && rm -rf node_modules apps/node_modules packages/*/node_modules .nx",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "nx run web:lint",
+    "check": "nx run web:check",
+    "test": "echo \"No tests specified\" && exit 0",
+    "postinstall": "echo 'Dependencies installed'"
+  },
+  "devDependencies": {
+    "@nx/js": "^22.7.5",
+    "@nx/vite": "^22.7.5",
+    "@parcel/transformer-glsl": "^2.16.4",
+    "@parcel/transformer-sass": "^2.16.4",
+    "nx": "^22.7.5",
+    "prettier": "^3.8.4",
+    "tsx": "^4.22.4",
+    "wrangler": "^4.81.1"
+  },
+  "engines": {
+    "node": ">=22.12.0",
+    "pnpm": ">=10.0.0"
+  },
+  "workspaces": [
+    "apps/*"
+  ]
 }
