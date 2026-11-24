@@ -38,7 +38,7 @@ const year = new Date().getFullYear();
 		<div class="footer-top">
 			<p class="footer-location">
 				<span class="footer-dot" aria-hidden="true"></span>
-				Jakarta, Indonesia
+				Surabaya, Indonesia
 				<span class="footer-time" data-footer-time>
 					–:– WIB
 				</span>
@@ -165,8 +165,8 @@ const year = new Date().getFullYear();
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		width: 2rem;
-		height: 2rem;
+		width: 2.75rem;
+		height: 2.75rem;
 		border-radius: 999px;
 		color: #525252;
 		background: rgba(0, 0, 0, 0.03);
@@ -178,6 +178,13 @@ const year = new Date().getFullYear();
 			transform 0.2s;
 	}
 
+	@media (min-width: 640px) {
+		.footer-socials a {
+			width: 2rem;
+			height: 2rem;
+		}
+	}
+
 	.footer-socials a:hover {
 		color: #171717;
 		background: rgba(0, 0, 0, 0.06);
@@ -186,6 +193,10 @@ const year = new Date().getFullYear();
 	}
 
 	@media (max-width: 640px) {
+		.footer-content {
+			padding: 2.25rem 1.25rem 1.75rem;
+		}
+
 		.footer-top,
 		.footer-bottom {
 			flex-direction: column;

@@ -81,3 +81,6 @@ apps/web/pnpm-lock.yaml
 
 # Legacy lab output path (pre-Astro)
 apps/static/
+.wrangler
+# env files with secrets
+.dev.vars

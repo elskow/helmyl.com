@@ -1,4 +1,4 @@
-name: Deploy to Cloudflare Pages
+name: Deploy to Cloudflare Workers
 
 on:
   push:
@@ -13,7 +13,7 @@ jobs:
     permissions:
       contents: read
       deployments: write
-    name: Deploy to Cloudflare Pages
+    name: Deploy to Cloudflare Workers
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -55,21 +55,16 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --no-frozen-lockfile --config.strict-dep-builds=false
 
-      - name: Set GitHub token environment variable
-        run: echo "GITHUB_API_TOKEN=${{ secrets.GITHUB_TOKEN }}" >> $GITHUB_ENV
-
       - name: Build with Nx
         run: pnpm build
-        env:
-          GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Deploy to Cloudflare Pages
+      - name: Deploy to Cloudflare Workers
         id: deploy
         if: ${{ github.event_name != 'pull_request' || github.event.pull_request.user.login != 'dependabot[bot]' }}
         uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy apps/web/dist --project-name=helmyl-com --branch=${{ github.ref_name == 'master' && 'main' || github.head_ref || github.ref_name }}
+          command: deploy apps/web --project-name=helmyl-com --branch=${{ github.ref_name == 'master' && 'main' || github.head_ref || github.ref_name }}
           packageManager: pnpm
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}

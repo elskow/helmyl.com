@@ -1,0 +1,194 @@
+---
+interface Props {
+	city: string;
+	region: string;
+	lat: number;
+	lon: number;
+	zoom?: number;
+	tz?: string;
+	href?: string;
+}
+
+const { city, region, lat, lon, zoom = 12, tz = 'Asia/Jakarta', href } = Astro.props;
+
+const n = 2 ** zoom;
+const x = Math.floor(((lon + 180) / 360) * n);
+const y = Math.floor(
+	((1 - Math.log(Math.tan((lat * Math.PI) / 180) + 1 / Math.cos((lat * Math.PI) / 180)) / Math.PI) / 2) * n
+);
+
+const offsetX = -21;
+const offsetY = -25;
+
+const TILES = [1, 0, -1].flatMap((dy) => [1, 0, -1].map((dx) => ({ x: x + dx, y: y + dy, dx, dy })));
+const TILE_URL = (tx: number, ty: number) => `https://tile.openstreetmap.org/${zoom}/${tx}/${ty}.png`;
+
+const tileDataUris: (string | null)[] = await Promise.all(
+	TILES.map(async (t) => {
+		try {
+			const res = await fetch(TILE_URL(t.x, t.y), {
+				headers: { 'User-Agent': 'helmyl.com/1.0 (https://helmyl.com; contact hello@helmyl.com)' },
+				cf: { cacheTtl: 86400, cacheEverything: true }
+			} as RequestInit);
+			if (!res.ok) return null;
+			const buf = await res.arrayBuffer();
+			let bin = '';
+			const bytes = new Uint8Array(buf);
+			const chunk = 0x8000;
+			for (let i = 0; i < bytes.length; i += chunk) {
+				bin += String.fromCharCode(...bytes.subarray(i, i + chunk));
+			}
+			return `data:image/png;base64,${btoa(bin)}`;
+		} catch {
+			return null;
+		}
+	})
+);
+
+const utcOffset = (() => {
+	const dtf = new Intl.DateTimeFormat('en-US', { timeZone: tz, timeZoneName: 'shortOffset' });
+	const part = dtf.formatToParts(new Date()).find((p) => p.type === 'timeZoneName');
+	return part?.value ?? '';
+})();
+
+const mapsUrl = href ?? `https://www.google.com/maps/place/${encodeURIComponent(`${city}, ${region}`)}`;
+const attribution = 'Map data © OpenStreetMap contributors';
+---
+
+<div class="loc-card">
+	<a href={mapsUrl} target="_blank" rel="noopener noreferrer" class="loc-body group" title={attribution}>
+		<div class="loc-map" aria-hidden="true">
+			<div class="loc-vignette"></div>
+			<div class="loc-grid" style={`--crop-x: ${offsetX}px; --crop-y: ${offsetY}px`}>
+				{TILES.map((t, i) =>
+					tileDataUris[i] ? (
+						<img
+							src={tileDataUris[i]!}
+							alt=""
+							width="256"
+							height="256"
+							decoding="async"
+							draggable="false"
+						/>
+					) : (
+						<div class="loc-tile-empty" aria-hidden="true"></div>
+					)
+				)}
+			</div>
+			<div class="loc-pin">
+				<svg width="26" height="34" viewBox="0 0 26 34" fill="none">
+					<path
+						d="M13 1C6.4 1 1 6.4 1 13c0 8.7 10.7 17.8 11.2 18.2a1.2 1.2 0 0 0 1.6 0C14.3 30.8 25 21.7 25 13 25 6.4 19.6 1 13 1Z"
+						fill="#FF3B30"
+					/>
+					<circle cx="13" cy="12.6" r="4.4" fill="#fff" />
+				</svg>
+			</div>
+		</div>
+		<div class="loc-caption">
+			<p class="loc-label">Based in</p>
+			<p class="loc-city">{city}</p>
+			<p class="loc-region">{region} · {utcOffset}</p>
+		</div>
+	</a>
+</div>
+
+<style>
+	.loc-card {
+		display: flex;
+		height: 100%;
+	}
+
+	.loc-body {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+	}
+
+	.loc-map {
+		position: relative;
+		flex: 1;
+		min-height: 0;
+		overflow: hidden;
+	}
+
+	.loc-vignette {
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+		background: radial-gradient(ellipse at center, transparent 55%, rgb(10 14 28 / 0.45) 100%);
+		pointer-events: none;
+	}
+
+	.loc-grid {
+		position: absolute;
+		inset: 50% auto auto 50%;
+		width: 768px;
+		height: 768px;
+		transform: translate(calc(-50% + var(--crop-x)), calc(-50% + var(--crop-y)));
+		filter: grayscale(1) invert(0.92) sepia(0.4) hue-rotate(180deg) saturate(2) brightness(0.72)
+			contrast(1.05);
+		display: grid;
+		grid-template-columns: repeat(3, 256px);
+		grid-template-rows: repeat(3, 256px);
+	}
+
+	.loc-grid img {
+		display: block;
+		user-select: none;
+	}
+
+	.loc-tile-empty {
+		background: #f2efe9;
+	}
+
+	.loc-pin {
+		position: absolute;
+		z-index: 2;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -78%);
+		filter: drop-shadow(0 2px 3px rgb(0 0 0 / 0.35));
+		transition: transform 0.25s ease-out;
+	}
+
+	.group:hover .loc-pin {
+		transform: translate(-50%, -88%);
+	}
+
+	.loc-caption {
+		padding: 0.9rem 1.25rem 1.05rem;
+		background: #fff;
+	}
+
+	.loc-label {
+		display: flex;
+		align-items: center;
+		gap: 0.45rem;
+		font-size: 0.6875rem;
+		color: #a3a3a3;
+		margin: 0;
+	}
+
+	.loc-city {
+		font-size: 0.875rem;
+		font-weight: 550;
+		color: #171717;
+		margin: 0.2rem 0 0;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.loc-region {
+		font-size: 0.75rem;
+		color: #737373;
+		margin: 0.1rem 0 0;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.loc-pin {
+			transition: none;
+		}
+	}
+</style>

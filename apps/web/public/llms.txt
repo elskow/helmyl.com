@@ -1,6 +1,6 @@
 # Helmy Luqmanulhakim
 
-> Personal website of Helmy Luqmanulhakim, a software engineer based in South Jakarta, Indonesia, specializing in web systems and data engineering.
+> Personal website of Helmy Luqmanulhakim, a software engineer based in Surabaya, Indonesia, specializing in web systems and data engineering.
 
 The site documents professional experience (Scala/ZIO, Java/EE at scale, DevOps) and open-source projects.
 

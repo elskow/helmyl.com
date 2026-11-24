@@ -1,0 +1,415 @@
+---
+import Icon from '@/components/Icon.astro';
+
+interface JobLink {
+	label: string;
+	href: string;
+}
+
+interface Job {
+	role: string;
+	company: string;
+	logo: string;
+	link: string;
+	location: string;
+	description: string;
+	start: string;
+	end: string | null;
+	highlights?: string[];
+	tags?: string[];
+	links?: JobLink[];
+}
+
+const { jobs } = Astro.props as { jobs: Job[] };
+
+const toIndex = (ym: string) => {
+	const [y, m] = ym.split('-').map(Number);
+	return y * 12 + (m - 1);
+};
+
+const today = new Date();
+const NOW = today.getFullYear() * 12 + today.getMonth();
+const ORIGIN = jobs.length ? Math.min(...jobs.map((j) => toIndex(j.start))) : NOW;
+const END = Math.max(NOW, ...jobs.map((j) => toIndex(j.end ?? '1970-01'))) + 1;
+const SPAN = END - ORIGIN;
+
+const fmt = (ym: string) => {
+	const [y, m] = ym.split('-').map(Number);
+	return new Date(y, m - 1).toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
+};
+
+const fmtDuration = (months: number) => {
+	const y = Math.floor(months / 12);
+	const m = months % 12;
+	return [y ? `${y} yr` : '', m ? `${m} mo` : ''].filter(Boolean).join(' ');
+};
+
+const rows = jobs
+	.map((j) => {
+		const s = toIndex(j.start);
+		const e = j.end ? toIndex(j.end) + 1 : NOW + 1;
+		return {
+			...j,
+			s,
+			e,
+			left: ((s - ORIGIN) / SPAN) * 100,
+			width: ((e - s) / SPAN) * 100,
+			ongoing: !j.end,
+			duration: fmtDuration(e - s),
+			label: `${fmt(j.start)} – ${j.end ? fmt(j.end) : 'Present'}`
+		};
+	})
+	.sort((a, b) => a.s - b.s);
+
+const ticks: number[] = [];
+for (let y = Math.ceil(ORIGIN / 12); y * 12 < END; y++) ticks.push(y * 12 - ORIGIN);
+const yearOf = (i: number) => Math.floor((ORIGIN + i) / 12);
+
+const gridlines = ticks.includes(0) ? ticks : [0, ...ticks];
+
+const hasCurrent = rows.some((r) => r.ongoing);
+const hasPast = rows.some((r) => !r.ongoing);
+---
+
+<div class="experience-timeline">
+	<div
+		class="overflow-x-auto -mx-4 px-4 sm:-mx-6 sm:px-6 thin-scrollbar"
+		role="group"
+		aria-label="Timeline of professional experience"
+	>
+		<div class="min-w-[430px] sm:min-w-[540px]">
+			<div class="flex h-4 mb-2">
+				<div class="w-28 sm:w-44 shrink-0"></div>
+				<div class="relative flex-1">
+					{ticks.map((t) => (
+						<span
+							class="text-[10px] text-neutral-300 tabular-nums absolute pl-1.5"
+							style={`left: ${(t / SPAN) * 100}%`}
+						>
+							{yearOf(t)}
+						</span>
+					))}
+				</div>
+			</div>
+
+			<div class="relative pb-3">
+				<div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+					{gridlines.map((t) => (
+						<span
+							class="absolute top-0 bottom-0 w-px bg-neutral-100"
+							style={`left: calc(var(--exp-label-w) + (100% - var(--exp-label-w)) * ${t / SPAN})`}
+						/>
+					))}
+				</div>
+
+				<div class="relative space-y-0.5">
+					{rows.map((j, i) => (
+						<div class="exp-row flex items-center h-8" data-exp-row={i}>
+							<button
+								type="button"
+								class="exp-name-btn shrink-0 pr-4 flex items-center gap-2 min-w-0 text-left cursor-pointer rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900/30"
+								style={`width: var(--exp-label-w)`}
+								aria-expanded="false"
+								aria-controls={`exp-panel-${i}`}
+								data-exp-toggle={i}
+							>
+								<img
+									src={j.logo}
+									alt=""
+									width="20"
+									height="20"
+									loading="lazy"
+									decoding="async"
+									class="w-5 h-5 shrink-0 rounded object-contain bg-white border border-neutral-200/60"
+								/>
+								<span class="exp-name text-xs text-neutral-500 truncate transition-colors">
+									{j.company}
+								</span>
+							</button>
+
+							<div class="relative flex-1 h-full">
+								<button
+									type="button"
+									tabindex="-1"
+									aria-hidden="true"
+									class="absolute top-1/2 -translate-y-1/2 h-6 flex items-center cursor-pointer"
+									style={`left: ${j.left}%; width: ${Math.max(j.width, 1.5)}%`}
+									data-exp-toggle={i}
+								>
+									<span
+										class="exp-bar absolute left-0 right-0 h-2 rounded-full"
+										data-ongoing={j.ongoing ? '' : undefined}
+									></span>
+									<span
+										class:list={[
+											'exp-date absolute top-1/2 -translate-y-1/2 text-[10px] text-neutral-400 tabular-nums whitespace-nowrap pointer-events-none transition-colors',
+											j.left + j.width > 82
+												? 'right-full mr-2'
+												: 'left-full ml-2'
+										]}
+									>
+										{j.label}
+									</span>
+								</button>
+							</div>
+						</div>
+					))}
+				</div>
+			</div>
+
+			<p class="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-neutral-400">
+				{hasCurrent && (
+					<span class="inline-flex items-center gap-1.5">
+						<span class="inline-block w-4 h-2 rounded-full bg-neutral-800"></span>
+						current
+					</span>
+				)}
+				{hasPast && (
+					<span class="inline-flex items-center gap-1.5">
+						<span class="inline-block w-4 h-2 rounded-full bg-neutral-200"></span>past
+					</span>
+				)}
+				<span class="text-neutral-300">click a name or bar for details</span>
+			</p>
+		</div>
+	</div>
+
+	<div class="mt-4">
+		{rows.map((j, i) => (
+			<div
+				id={`exp-panel-${i}`}
+				class="exp-panel"
+				role="region"
+				aria-label={`${j.role} at ${j.company}`}
+				data-exp-panel={i}
+				inert
+			>
+				<div class="overflow-hidden min-h-0">
+					<div class="exp-inner border-l-2 border-neutral-900/70 pl-4 sm:pl-5 py-1 my-1.5">
+						<div class="flex items-start gap-3.5 py-2">
+							<img
+								src={j.logo}
+								alt=""
+								width="28"
+								height="28"
+								loading="lazy"
+								decoding="async"
+								class="w-7 h-7 shrink-0 rounded object-contain bg-white border border-neutral-200/60"
+							/>
+							<div class="min-w-0 flex-1">
+								<h3 class="text-sm sm:text-base font-medium text-neutral-900 leading-snug">
+									{j.role}
+									<span class="text-neutral-400 font-normal"> at </span>
+									<a
+										href={j.link}
+										target="_blank"
+										rel="noopener noreferrer"
+										class="exp-link inline-flex items-center gap-0.5"
+									>
+										<span class="link-draw">{j.company}</span>
+										<Icon
+											name="arrow-up-right"
+											class="w-3.5 h-3.5 text-neutral-400"
+										/>
+									</a>
+								</h3>
+
+								<p class="text-xs text-neutral-400 mt-1 tabular-nums">
+									{j.label} · {j.duration} · {j.location}
+								</p>
+
+								<p class="text-sm text-neutral-500 leading-relaxed mt-2.5 max-w-prose text-pretty">
+									{j.description}
+								</p>
+
+								{j.highlights?.length ? (
+									<ul class="mt-3 space-y-1.5 max-w-prose">
+										{j.highlights.map((h) => (
+											<li class="flex gap-2.5 text-sm text-neutral-600 leading-relaxed">
+												<span
+													class="mt-[0.8em] h-px w-2.5 shrink-0 bg-neutral-300"
+													aria-hidden="true"
+												/>
+												<span class="text-pretty">{h}</span>
+											</li>
+										))}
+									</ul>
+								) : null}
+
+								{j.tags?.length ? (
+									<ul
+										class="mt-3.5 flex flex-wrap gap-2"
+										aria-label="Technologies"
+									>
+										{j.tags.map((tag) => (
+											<li class="px-2 py-1 text-xs text-neutral-600 bg-neutral-50 border border-neutral-200/60 rounded-lg">
+												{tag}
+											</li>
+										))}
+									</ul>
+								) : null}
+
+								{j.links?.length ? (
+									<div class="mt-3.5 flex flex-wrap gap-x-4 gap-y-1">
+										{j.links.map((l) => (
+											<a
+												href={l.href}
+												target="_blank"
+												rel="noopener noreferrer"
+												class="inline-flex items-center gap-1 text-xs text-neutral-500 hover:text-neutral-900 transition-colors"
+											>
+												{l.label}
+												<Icon
+													name="arrow-up-right"
+													class="w-3 h-3 text-neutral-400"
+												/>
+											</a>
+										))}
+									</div>
+								) : null}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		))}
+	</div>
+</div>
+
+<style>
+	.experience-timeline {
+		--exp-label-w: 11rem;
+	}
+	@media (max-width: 640px) {
+		.experience-timeline {
+			--exp-label-w: 7rem;
+		}
+	}
+	.exp-bar {
+		background-color: #e5e5e5;
+		transition:
+			background-color 150ms ease-out,
+			box-shadow 150ms ease-out;
+	}
+	.exp-bar[data-ongoing] {
+		background-color: #262626;
+	}
+	.exp-row:hover .exp-bar {
+		background-color: #a3a3a3;
+	}
+	.exp-row:hover .exp-bar[data-ongoing] {
+		background-color: #171717;
+	}
+	.exp-row.exp-active .exp-bar {
+		background-color: #525252;
+		box-shadow: 0 0 0 4px rgb(23 23 23 / 0.08);
+	}
+	.exp-row.exp-active .exp-bar[data-ongoing] {
+		background-color: #171717;
+	}
+
+	.exp-row:hover .exp-name,
+	.exp-row.exp-active .exp-name {
+		color: #171717;
+	}
+	.exp-row:hover .exp-date,
+	.exp-row.exp-active .exp-date {
+		color: #525252;
+	}
+	.exp-panel {
+		display: grid;
+		grid-template-rows: 0fr;
+		transition: grid-template-rows 300ms ease-out;
+	}
+	.exp-panel[data-open] {
+		grid-template-rows: 1fr;
+	}
+	.exp-inner {
+		opacity: 0;
+		transform: translateY(-4px);
+		transition:
+			opacity 200ms ease-out,
+			transform 200ms ease-out;
+	}
+	.exp-panel[data-open] .exp-inner {
+		opacity: 1;
+		transform: none;
+		transition-duration: 300ms;
+		transition-delay: 60ms;
+	}
+	.link-draw {
+		background-image: linear-gradient(currentColor, currentColor);
+		background-size: 0% 1px;
+		background-repeat: no-repeat;
+		background-position: 0 100%;
+		transition: background-size 300ms ease-out;
+	}
+	.exp-link:hover .link-draw,
+	.exp-link:focus-visible .link-draw {
+		background-size: 100% 1px;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.exp-panel,
+		.exp-inner,
+		.exp-bar,
+		.link-draw {
+			transition: none;
+		}
+	}
+</style>
+
+<script>
+	const toggles = document.querySelectorAll<HTMLElement>('[data-exp-toggle]');
+	const panels = document.querySelectorAll<HTMLElement>('[data-exp-panel]');
+	const rows = document.querySelectorAll<HTMLElement>('[data-exp-row]');
+	const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+	let activeIdx: string | null = null;
+
+	const closeAll = () => {
+		panels.forEach((p) => {
+			p.removeAttribute('data-open');
+			p.toggleAttribute('inert', true);
+		});
+		toggles.forEach((b) => b.setAttribute('aria-expanded', 'false'));
+		rows.forEach((r) => r.classList.remove('exp-active'));
+		activeIdx = null;
+	};
+
+	const open = (idx: string) => {
+		const panel = document.querySelector<HTMLElement>(`[data-exp-panel="${idx}"]`);
+		if (!panel) return;
+
+		panel.setAttribute('data-open', '');
+		panel.toggleAttribute('inert', false);
+		document
+			.querySelectorAll<HTMLElement>(`[data-exp-toggle="${idx}"]`)
+			.forEach((b) => b.setAttribute('aria-expanded', 'true'));
+		document.querySelector(`[data-exp-row="${idx}"]`)?.classList.add('exp-active');
+		activeIdx = idx;
+
+		const reduced = reduceMotion.matches;
+		setTimeout(
+			() => panel.scrollIntoView({ block: 'nearest', behavior: reduced ? 'auto' : 'smooth' }),
+			reduced ? 0 : 320
+		);
+	};
+
+	toggles.forEach((btn) => {
+		btn.addEventListener('click', () => {
+			const idx = btn.dataset.expToggle;
+			if (idx == null) return;
+			const wasOpen = activeIdx === idx;
+			closeAll();
+			if (!wasOpen) open(idx);
+		});
+	});
+
+	document.addEventListener('keydown', (e) => {
+		if (e.key !== 'Escape' || activeIdx == null) return;
+		const idx = activeIdx;
+		closeAll();
+		document.querySelector<HTMLElement>(`.exp-name-btn[data-exp-toggle="${idx}"]`)?.focus();
+	});
+</script>

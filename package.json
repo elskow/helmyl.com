@@ -17,6 +17,7 @@
     "postinstall": "echo 'Dependencies installed'"
   },
   "devDependencies": {
+    "@astrojs/cloudflare": "^14.4.9",
     "@nx/js": "^22.7.5",
     "@nx/vite": "^22.7.5",
     "@parcel/transformer-glsl": "^2.16.4",

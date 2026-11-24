@@ -6,11 +6,13 @@ export interface Project {
 	stacks: string[];
 	date: string;
 	priority: number;
+	screenshot?: string;
 }
 
 export const projects: Project[] = [
 	{
 		slug: 'microservices-for-bank-loan-use-cases',
+		screenshot: '/images/projects/microservices-for-bank-loan-use-cases.png',
 		name: 'Microservices for Bank Loan Use Cases',
 		description:
 			'This project explores the microservices architecture for Account, Card, and Loan services. It is part of a self-paced learning module focused on understanding microservices principles.',
@@ -21,6 +23,7 @@ export const projects: Project[] = [
 	},
 	{
 		slug: 'code-pair',
+		screenshot: '/images/projects/code-pair.png',
 		name: 'Code Pair',
 		description:
 			'Pair to pair coding platform for developers to collaborate on coding problems and interview preparation.',
@@ -31,6 +34,7 @@ export const projects: Project[] = [
 	},
 	{
 		slug: 'tonesync',
+		screenshot: '/images/projects/tonesync.png',
 		name: 'ToneSync',
 		description:
 			'Smart webcam optimization tool for Hackintosh systems, enhancing video quality and color accuracy',
@@ -41,6 +45,7 @@ export const projects: Project[] = [
 	},
 	{
 		slug: 'tutortoise',
+		screenshot: '/images/projects/tutortoise.png',
 		name: 'Tutortoise',
 		description:
 			'AI-Driven Educational platform that connects learners with tutors, with sysrec and content moderation.',

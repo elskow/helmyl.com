@@ -103,3 +103,46 @@ html {
 	scrollbar-width: thin;
 	scrollbar-color: #d4d4d4 transparent;
 }
+
+/* compact horizontal scrollbar inside scrollable content blocks */
+.thin-scrollbar::-webkit-scrollbar {
+	height: 6px;
+}
+.thin-scrollbar::-webkit-scrollbar-thumb {
+	background: #e0e0e0;
+	border: none;
+	border-radius: 999px;
+	background-clip: border-box;
+}
+.thin-scrollbar::-webkit-scrollbar-thumb:hover {
+	background-color: #c4c4c4;
+}
+.thin-scrollbar::-webkit-scrollbar-track {
+	background: transparent;
+}
+.thin-scrollbar {
+	scrollbar-width: thin;
+	scrollbar-color: #e0e0e0 transparent;
+}
+
+.skeleton {
+	background: linear-gradient(90deg, #ededed 25%, #f5f5f5 50%, #ededed 75%);
+	background-size: 200% 100%;
+	animation: skeleton-pulse 1.4s ease infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.skeleton {
+		animation: none;
+		background: #ededed;
+	}
+}
+
+@keyframes skeleton-pulse {
+	0% {
+		background-position: 200% 0;
+	}
+	100% {
+		background-position: -200% 0;
+	}
+}

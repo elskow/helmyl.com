@@ -1,0 +1,401 @@
+---
+import Icon from '@/components/Icon.astro';
+import LocationCard from '@/components/LocationCard.astro';
+import { technologies } from '@/data/technologies';
+import { sortedProjects } from '@/data/projects';
+import { layout, type BentoInput } from '@/lib/bento';
+
+type Project = (typeof sortedProjects)[number];
+
+type BentoTile = BentoInput &
+	({ kind: 'project'; project: Project } | { kind: 'location' } | { kind: 'stack' });
+
+interface Props {
+	projects?: Project[];
+}
+
+const projects = Astro.props.projects ?? sortedProjects;
+
+const SHOT = { width: 1200, height: 675 };
+
+const tiles: BentoTile[] = projects.map(
+	(project, i): BentoTile => ({
+		kind: 'project',
+		project,
+		featured: i === 0,
+		media: SHOT
+	})
+);
+tiles.splice(1, 0, { kind: 'location', size: '1x1' });
+tiles.push({ kind: 'stack', size: '2x1' });
+
+const { styles } = layout(tiles);
+---
+
+<div class="bento-wrap">
+	<ul class="bento" role="list">
+		{
+			tiles.map((tile, i) => (
+				<li class="tile" data-kind={tile.kind} style={styles[i]}>
+					{tile.kind === 'project' ? (
+						<a
+							class="tile-link group"
+							href={tile.project.github}
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							{tile.project.screenshot && (
+								<img
+									class="tile-shot"
+									src={tile.project.screenshot}
+									alt=""
+									width={SHOT.width}
+									height={SHOT.height}
+									loading="lazy"
+									decoding="async"
+								/>
+							)}
+							<span class="tile-cap">
+								<span class="tile-desc">{tile.project.description}</span>
+								<span class="tile-row">
+									<span class="tile-name">
+										{tile.project.name}
+										<Icon
+											name="arrow-up-right"
+											class="w-3.5 h-3.5 text-white/70 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+										/>
+									</span>
+								</span>
+							</span>
+						</a>
+					) : tile.kind === 'location' ? (
+						<LocationCard
+							city="Surabaya"
+							region="East Java, Indonesia"
+							lat={-7.2575}
+							lon={112.7521}
+							server:defer
+						>
+							<div slot="fallback" class="loc-skeleton" aria-hidden="true"></div>
+						</LocationCard>
+					) : (
+						<div class="bento-stack" aria-label="Technologies">
+							<div class="bento-marquee" aria-hidden="false">
+								<div class="bento-track bento-track--a">
+									{
+										[...technologies, ...technologies].map(({ name, link }, i) => (
+											<a
+												href={link}
+												target="_blank"
+												rel="noopener noreferrer"
+												class="bento-tech"
+												tabindex={i >= technologies.length ? -1 : 0}
+												aria-hidden={i >= technologies.length ? 'true' : undefined}
+											>
+												{name}
+											</a>
+										))
+									}
+								</div>
+							</div>
+							<div class="bento-marquee" aria-hidden="true">
+								<div class="bento-track bento-track--b">
+									{
+										[...technologies.slice(8), ...technologies.slice(0, 8), ...technologies]
+											.map(({ name, link }) => (
+												<a
+													href={link}
+													target="_blank"
+													rel="noopener noreferrer"
+													class="bento-tech"
+													tabindex={-1}
+												>
+													{name}
+												</a>
+											))
+									}
+								</div>
+							</div>
+						</div>
+					)}
+				</li>
+			))
+		}
+	</ul>
+</div>
+
+<style>
+	.bento-wrap {
+		container: bento / inline-size;
+	}
+
+	.bento {
+		--gap: 0.625rem;
+		--cols: 2;
+		--cell: calc((100cqw - (var(--cols) - 1) * var(--gap)) / var(--cols));
+		display: grid;
+		grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+		grid-auto-rows: var(--cell);
+		gap: var(--gap);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.tile {
+		container: tile / inline-size;
+		position: relative;
+		grid-column: var(--c2) / span var(--w2);
+		grid-row: var(--r2) / span var(--h2);
+		border-radius: 1.25rem;
+		overflow: hidden;
+		isolation: isolate;
+		background: #fff;
+	}
+
+	@container bento (min-width: 600px) {
+		.bento {
+			--cols: 4;
+			--gap: 0.75rem;
+		}
+
+		.tile {
+			grid-column: var(--c4) / span var(--w4);
+			grid-row: var(--r4) / span var(--h4);
+		}
+	}
+
+	.tile::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		z-index: 2;
+		border-radius: inherit;
+		box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.07);
+		pointer-events: none;
+	}
+
+	.tile:has(:focus-visible) {
+		outline: 2px solid #171717;
+		outline-offset: 2px;
+	}
+
+	.tile-link {
+		position: absolute;
+		inset: 0;
+		display: block;
+		color: #fff;
+		text-decoration: none;
+		background: #171717;
+	}
+
+	.tile-shot {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: 50% 0;
+		transition: transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1);
+	}
+
+	.tile-link:hover .tile-shot {
+		transform: scale(1.04);
+	}
+
+	.tile-cap {
+		position: absolute;
+		inset: auto 0 0 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.35rem;
+		padding: 2.75rem 1rem 0.9rem;
+		background: linear-gradient(to top, rgb(0 0 0 / 0.72), rgb(0 0 0 / 0.34) 60%, transparent);
+	}
+
+	.tile-row {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 1rem;
+	}
+
+	.tile-name {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.3rem;
+		font-size: 0.875rem;
+		font-weight: 550;
+	}
+
+	.tile-desc {
+		display: none;
+		max-width: 42ch;
+		font-size: 0.75rem;
+		line-height: 1.5;
+		color: rgb(255 255 255 / 0.8);
+		text-wrap: pretty;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+
+	@container tile (min-width: 300px) {
+		.tile-desc {
+			display: -webkit-box;
+		}
+	}
+
+	.tile[data-kind='location'] {
+		background: #fafafa;
+	}
+
+	.tile[data-kind='location'] :global(.loc-card),
+	.tile[data-kind='location'] :global(.loc-body) {
+		height: 100%;
+	}
+
+	.tile[data-kind='location'] :global(.loc-skeleton) {
+		height: 100%;
+		min-height: 120px;
+		background: linear-gradient(100deg, #f0f0f0 40%, #fafafa 50%, #f0f0f0 60%);
+		background-size: 200% 100%;
+		animation: loc-shimmer 1.4s ease-in-out infinite;
+	}
+
+	@keyframes loc-shimmer {
+		from {
+			background-position: 200% 0;
+		}
+		to {
+			background-position: -200% 0;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.tile[data-kind='location'] :global(.loc-skeleton) {
+			animation: none;
+		}
+	}
+
+	.bento-stack {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		gap: 0.65rem;
+		height: 100%;
+		overflow: hidden;
+		padding: 1rem 0;
+	}
+
+	.bento-marquee {
+		overflow: hidden;
+		width: 100%;
+		-webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+		mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+	}
+
+	.bento-track {
+		display: flex;
+		gap: 0.65rem;
+		width: max-content;
+	}
+
+	.bento-track--a {
+		animation: bento-scroll-a 46s linear infinite;
+	}
+
+	.bento-track--b {
+		animation: bento-scroll-b 52s linear infinite;
+	}
+
+	.bento-marquee:hover .bento-track {
+		animation-play-state: paused;
+	}
+
+	@keyframes bento-scroll-a {
+		from {
+			transform: translateX(0);
+		}
+		to {
+			transform: translateX(-50%);
+		}
+	}
+
+	@keyframes bento-scroll-b {
+		from {
+			transform: translateX(-50%);
+		}
+		to {
+			transform: translateX(0);
+		}
+	}
+
+	.bento-tech {
+		white-space: nowrap;
+		padding: 0.55rem 1rem;
+		font-size: 0.8125rem;
+		font-weight: 500;
+		color: #3d3d3d;
+		background: rgb(255 255 255 / 0.35);
+		backdrop-filter: blur(10px) saturate(160%);
+		-webkit-backdrop-filter: blur(10px) saturate(160%);
+		border: 1px solid rgb(0 0 0 / 0.1);
+		box-shadow:
+			inset 0 1px 1px rgb(255 255 255 / 0.95),
+			inset 0 -1px 1px rgb(0 0 0 / 0.04),
+			0 1px 3px rgb(0 0 0 / 0.06);
+		border-radius: 999px;
+		transition:
+			color 0.2s,
+			background 0.2s,
+			box-shadow 0.2s,
+			transform 0.2s;
+	}
+
+	.bento-tech:hover {
+		color: #171717;
+		background: rgb(255 255 255 / 0.75);
+		border-color: rgb(0 0 0 / 0.14);
+		box-shadow:
+			inset 0 1px 1px rgb(255 255 255 / 1),
+			inset 0 -1px 1px rgb(0 0 0 / 0.04),
+			0 4px 10px rgb(0 0 0 / 0.1);
+		transform: translateY(-1px);
+	}
+
+	@container tile (max-width: 360px) {
+		.bento-tech {
+			padding: 0.4rem 0.75rem;
+			font-size: 0.71875rem;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.tile-shot {
+			transition: none;
+		}
+
+		.tile-link:hover .tile-shot {
+			transform: none;
+		}
+
+		.bento-track--a,
+		.bento-track--b {
+			animation: none;
+			flex-wrap: wrap;
+			width: 100%;
+		}
+
+		.bento-marquee {
+			overflow: visible;
+			-webkit-mask-image: none;
+			mask-image: none;
+		}
+
+		.bento-stack {
+			overflow: visible;
+			padding: 1.1rem;
+		}
+	}
+</style>
