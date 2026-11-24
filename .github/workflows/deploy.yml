@@ -61,10 +61,8 @@ jobs:
       - name: Deploy to Cloudflare Workers
         id: deploy
         if: ${{ github.event_name != 'pull_request' || github.event.pull_request.user.login != 'dependabot[bot]' }}
-        uses: cloudflare/wrangler-action@v4
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: deploy apps/web --project-name=helmyl-com --branch=${{ github.ref_name == 'master' && 'main' || github.head_ref || github.ref_name }}
-          packageManager: pnpm
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+        working-directory: apps/web
+        run: npx wrangler deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
